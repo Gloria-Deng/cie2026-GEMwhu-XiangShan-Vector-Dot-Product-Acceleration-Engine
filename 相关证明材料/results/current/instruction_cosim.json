@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "compare_bits": 128,
+  "expected_cases": 939,
+  "inputs": {
+    "nemu/cosim/cosim_baseline.c": "86e9b48a7ba59b29c1863340807c312ddf519f1d99c3b91ca42f9cadaed6eba4",
+    "nemu/apply_nemu_patch.py": "49445e0647f65b83b41024fd9fe7f5ef8c4e9a95ac1b65c727d8b22aee2fa511",
+    "tools/run_instruction_cosim.py": "26ad02fe3721f3bcdcd43c3107c02c7243e9af2a326f936d5ea86e0e5cfbf7e5",
+    "nemu/cosim/rtl_vectors_to_cosim.py": "2500f58cb52cf7a7c5d673b3158b6e6a13cbb8d5f824278f12f625863876ed9f",
+    "tests\\cases_bound.txt": "9b7fea55d2a1928496d831cc78fa97089ff5efa990034b6c60a6774eb924700d",
+    "tests\\cases_neg.txt": "ea21f5348fde94ba022cb33226603614840ded48a4549e587668b876bb7983de",
+    "tests\\cases_pos.txt": "198f611a3a6167cbdb28e0f0754b4b025156b05259165c73a23619eb1ac2b8b9",
+    "tests\\cases_rand.txt": "781d86fcf4687827727b33ab1901a4f5b65b6e89034e3f5bf5f27d16539da2a8",
+    "tests\\cases_vadd.txt": "32e1191c36fd74215f7a8866698fc45dd66fef70eb9d04ef0b69acfacaf503e6"
+  },
+  "arms": {
+    "patched_vwred": {
+      "cases": 939,
+      "mismatches": 0,
+      "variant": "vwred",
+      "instructions": 4,
+      "upper_bytes": 0,
+      "low_mismatches": 0,
+      "tail_mismatches": 0,
+      "compare_bits": 128,
+      "rc": 0,
+      "pass_check": true,
+      "library_sha256": "12543af6cb6babbf63cfd319a8126e56d7c573a6d6f3d3efdcd4dfb7cf357577"
+    },
+    "patched_vwred-g": {
+      "cases": 939,
+      "mismatches": 0,
+      "variant": "vwred-g",
+      "instructions": 4,
+      "upper_bytes": 0,
+      "low_mismatches": 0,
+      "tail_mismatches": 0,
+      "compare_bits": 128,
+      "rc": 0,
+      "pass_check": true,
+      "library_sha256": "12543af6cb6babbf63cfd319a8126e56d7c573a6d6f3d3efdcd4dfb7cf357577"
+    },
+    "patched_legacy-tail": {
+      "cases": 939,
+      "mismatches": 939,
+      "variant": "legacy-tail",
+      "instructions": 4,
+      "upper_bytes": 11268,
+      "low_mismatches": 0,
+      "tail_mismatches": 939,
+      "compare_bits": 128,
+      "rc": 1,
+      "pass_check": true,
+      "library_sha256": "12543af6cb6babbf63cfd319a8126e56d7c573a6d6f3d3efdcd4dfb7cf357577"
+    },
+    "patched_vdot": {
+      "cases": 939,
+      "mismatches": 0,
+      "variant": "vdot",
+      "instructions": 1,
+      "upper_bytes": 0,
+      "low_mismatches": 0,
+      "tail_mismatches": 0,
+      "compare_bits": 128,
+      "rc": 0,
+      "pass_check": true,
+      "library_sha256": "12543af6cb6babbf63cfd319a8126e56d7c573a6d6f3d3efdcd4dfb7cf357577"
+    },
+    "control_vwred": {
+      "cases": 939,
+      "mismatches": 0,
+      "variant": "vwred",
+      "instructions": 4,
+      "upper_bytes": 0,
+      "low_mismatches": 0,
+      "tail_mismatches": 0,
+      "compare_bits": 128,
+      "rc": 0,
+      "pass_check": true,
+      "library_sha256": "eef92669fb6e01349e1d33353aa74ec9cc60917d6e48ed76dfb26514220eb3b6"
+    },
+    "control_vwred-g": {
+      "cases": 939,
+      "mismatches": 0,
+      "variant": "vwred-g",
+      "instructions": 4,
+      "upper_bytes": 0,
+      "low_mismatches": 0,
+      "tail_mismatches": 0,
+      "compare_bits": 128,
+      "rc": 0,
+      "pass_check": true,
+      "library_sha256": "eef92669fb6e01349e1d33353aa74ec9cc60917d6e48ed76dfb26514220eb3b6"
+    },
+    "control_legacy-tail": {
+      "cases": 939,
+      "mismatches": 939,
+      "variant": "legacy-tail",
+      "instructions": 4,
+      "upper_bytes": 11268,
+      "low_mismatches": 0,
+      "tail_mismatches": 939,
+      "compare_bits": 128,
+      "rc": 1,
+      "pass_check": true,
+      "library_sha256": "eef92669fb6e01349e1d33353aa74ec9cc60917d6e48ed76dfb26514220eb3b6"
+    }
+  },
+  "logs": {
+    "layout_compile": {
+      "rc": 0,
+      "path": "results\\current\\layout_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "layout_probe": {
+      "rc": 0,
+      "path": "results\\current\\layout_probe.log",
+      "sha256": "f8e49a30b2e18793cee2bfe471964217a18ca44305853a9bfc1e8c10ee2c683f"
+    },
+    "case_bridge": {
+      "rc": 0,
+      "path": "results\\current\\case_bridge.log",
+      "sha256": "a059a3fa06729f793052df6bedaa0bc336ba9238a6fa8e9f0959e82c329acd29"
+    },
+    "baseline_compile": {
+      "rc": 0,
+      "path": "results\\current\\baseline_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "patched_vwred": {
+      "rc": 0,
+      "path": "results\\current\\patched_vwred.log",
+      "sha256": "5c209cc91aa4ce65330f6403caf7fe91189b3e205ab3d73b8c1d9e5ab2ccd26d"
+    },
+    "patched_vwred-g": {
+      "rc": 0,
+      "path": "results\\current\\patched_vwred-g.log",
+      "sha256": "caea93aa16401c949322040e62e471677dfc8692857b245a9532f8590f7799cf"
+    },
+    "patched_legacy-tail": {
+      "rc": 1,
+      "path": "results\\current\\patched_legacy-tail.log",
+      "sha256": "82d759220da9e336701aba91d306d55ec0e5ea3b1f6bf524c8a7fff6eb2211f9"
+    },
+    "patched_vdot": {
+      "rc": 0,
+      "path": "results\\current\\patched_vdot.log",
+      "sha256": "7a52e21cb9569d99525a7e76c87fb9a75b74cb4fcdd2fd24dd61926c9025b3ac"
+    },
+    "control_vwred": {
+      "rc": 0,
+      "path": "results\\current\\control_vwred.log",
+      "sha256": "5c209cc91aa4ce65330f6403caf7fe91189b3e205ab3d73b8c1d9e5ab2ccd26d"
+    },
+    "control_vwred-g": {
+      "rc": 0,
+      "path": "results\\current\\control_vwred-g.log",
+      "sha256": "caea93aa16401c949322040e62e471677dfc8692857b245a9532f8590f7799cf"
+    },
+    "control_legacy-tail": {
+      "rc": 1,
+      "path": "results\\current\\control_legacy-tail.log",
+      "sha256": "82d759220da9e336701aba91d306d55ec0e5ea3b1f6bf524c8a7fff6eb2211f9"
+    }
+  },
+  "all_ok": true,
+  "control_available": true,
+  "nemu_header_sha256": "b2f122cf9d4b3e6cdc9ee7048349c4a19836773ab816a9cffb6721d2d3c75e7c",
+  "nemu_helper_source_sha256": "262f13332f169fdb6cc3f25e503e7012cc315836f72d66c630b349d64ada3533"
+}

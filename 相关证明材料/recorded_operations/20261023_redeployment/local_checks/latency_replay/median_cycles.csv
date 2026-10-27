@@ -1,0 +1,17 @@
+﻿dependency,implementation,iterations,repeats,lower_median,cycle_midpoint,upper_median,repeat_range
+independent,vdot,16,3,144,147.5,151,0
+independent,vdot,64,3,216,219.5,223,0
+independent,vdot,256,3,504,507.5,511,0
+independent,vdot,1024,3,1656,1659.5,1663,0
+independent,baseline,16,3,208,211.5,215,0
+independent,baseline,64,3,472,475.5,479,0
+independent,baseline,256,3,1528,1531.5,1535,0
+independent,baseline,1024,3,5752,5755.5,5759,0
+dependent,vdot,16,3,280,283.5,287,0
+dependent,vdot,64,3,952,955.5,959,0
+dependent,vdot,256,3,3640,3643.5,3647,0
+dependent,vdot,1024,3,14392,14395.5,14399,0
+dependent,baseline,16,3,496,499.5,503,0
+dependent,baseline,64,3,1840,1843.5,1847,0
+dependent,baseline,256,3,7216,7219.5,7223,0
+dependent,baseline,1024,3,28720,28723.5,28727,0

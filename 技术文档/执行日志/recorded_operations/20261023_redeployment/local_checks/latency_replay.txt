@@ -1,0 +1,3 @@
+independent: baseline 5.500000 cycles, vdot 1.500000 cycles, speedup 3.666667x, reduction 72.7273%
+dependent: baseline 28.000000 cycles, vdot 14.000000 cycles, speedup 2.000000x, reduction 50.0000%
+COMPLETE 48 successful measurements; tables: /root/gemwhu-stage1-20261023/checks/latency_replay

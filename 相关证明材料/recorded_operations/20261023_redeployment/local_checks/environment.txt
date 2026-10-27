@@ -1,0 +1,5 @@
+Recorded functional results PASS
+Recorded full-core executions PASS 64
+Raw FST PASS 11 executions 176 byte results
+hello xiangshan, I am GEMwhu, IP address 172.25.54.204
+ENVIRONMENT_PACKAGE_PASS

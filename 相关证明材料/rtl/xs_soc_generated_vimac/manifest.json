@@ -1,0 +1,73 @@
+{
+  "root_module": "VIMacU",
+  "generated_from": "XiangShan kunminghu-v2 @ 42f87803d10b (+ local vdot patch), elaborated with the package's config; firtool-generated SV",
+  "source_dir": "D:/xs-vdot/build/probe_rtl_full",
+  "copy_note": "verbatim byte-for-byte copies; no edits, no newline translation",
+  "file_count": 9,
+  "total_bytes": 214587,
+  "files": [
+    {
+      "file": "ByteMaskTailGen.sv",
+      "module": "ByteMaskTailGen",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/ByteMaskTailGen.sv",
+      "bytes": 6877,
+      "sha256": "ef8bb3087c7977a315c43bec0c4e0292fe7cd20314054145c65ab7a8ca206be6"
+    },
+    {
+      "file": "MaskExtractor.sv",
+      "module": "MaskExtractor",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/MaskExtractor.sv",
+      "bytes": 3181,
+      "sha256": "a2abe2e67bd042e6788dc605b55d104f1643a5d5f9b73a4aa9b297391e54e28d"
+    },
+    {
+      "file": "Mgu.sv",
+      "module": "Mgu",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/Mgu.sv",
+      "bytes": 23842,
+      "sha256": "ab310fc3da7844812300be3b173c46f489b2b1de709da6cdca2f6cb6e7c47df7"
+    },
+    {
+      "file": "UIntToContLow0s.sv",
+      "module": "UIntToContLow0s",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/UIntToContLow0s.sv",
+      "bytes": 18849,
+      "sha256": "3e7eb0e30270563924354bf0675253bca997c6b0622327d8978b2d432c8cd030"
+    },
+    {
+      "file": "UIntToContLow1s.sv",
+      "module": "UIntToContLow1s",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/UIntToContLow1s.sv",
+      "bytes": 20245,
+      "sha256": "cd97eadc1671c6e328887505159380e3dee5b9931aba0dd9f9bbe69b9616b160"
+    },
+    {
+      "file": "VIMac64b.sv",
+      "module": "VIMac64b",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIMac64b.sv",
+      "bytes": 119502,
+      "sha256": "a670bf51fd59e1d718453daeea92b57e8050705906f78be1d0bae1535eff3d70"
+    },
+    {
+      "file": "VIMacSrcTypeModule.sv",
+      "module": "VIMacSrcTypeModule",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIMacSrcTypeModule.sv",
+      "bytes": 2740,
+      "sha256": "e1bc5aa535375f474758ef073601bf2d983d4816a242fb0fd90c578a3a532af4"
+    },
+    {
+      "file": "VIMacU.sv",
+      "module": "VIMacU",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIMacU.sv",
+      "bytes": 14444,
+      "sha256": "1cc0c5a8a2f78e62a924acfb78de44c0aa2b51007ef7102da38174130c1c5c57"
+    },
+    {
+      "file": "VecDataSplitModule.sv",
+      "module": "VecDataSplitModule",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VecDataSplitModule.sv",
+      "bytes": 4907,
+      "sha256": "a921018c4d287181e52fe42284e7b41b4a6dda8e6eff4bb07419080369d916cf"
+    }
+  ]
+}

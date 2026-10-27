@@ -1,0 +1,6 @@
+RECORDED_NEMU_PASS cases=939 compare_bits=128 mismatches=0
+RECORDED_NEMU_PROGRAMS_PASS programs=32
+RECORDED_WRAPPER_PASS scenarios=96
+RECORDED_FULL_SOC_PASS programs=32 executions=64 source_files=19
+RECORDED_RESULTS_PASS
+This command checks supplied completed results. It does not execute a new RTL simulation.

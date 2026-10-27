@@ -1,0 +1,1052 @@
+{
+  "schema": 1,
+  "inputs": {
+    "rtl/xiangshan-patch/VDotU.scala": "2c96a528be443391acc85b764e6eadad6cec33ea8e423fc2a28daf3071942de0",
+    "rtl/xiangshan-patch/VDotWrapperMain.scala": "17979553a8fb4b3b8d285e15cbd973ccbc0493c00034ed0a1d9029c821133154",
+    "rtl/chisel/vdot/vdot/src/vdot/VDotUnit.scala": "8e5d2ce8a2a058ebd1693c4f49d73848dd20fa38ca55863df5c2d695475de087",
+    "rtl/xiangshan-patch/apply.sh": "4b15ed4a615172c6993e5c13b83982d309b675c59103ee07311e93c148b4ee61",
+    "rtl/xs_wrapper_generated/VDotU.sv": "ea142c9ad200f7f07ec73c49c7875ac9aa6140871eb9dbf280e0de9a0bdd2054",
+    "sim/check_fixed_wrapper.py": "479ff63b72fabf76b9cb935f8452470dd9c2e102aa521da80a38a9298bcd209a",
+    "tests\\cases_bound.txt": "9b7fea55d2a1928496d831cc78fa97089ff5efa990034b6c60a6774eb924700d",
+    "tests\\cases_neg.txt": "ea21f5348fde94ba022cb33226603614840ded48a4549e587668b876bb7983de",
+    "tests\\cases_pos.txt": "198f611a3a6167cbdb28e0f0754b4b025156b05259165c73a23619eb1ac2b8b9",
+    "tests\\cases_rand.txt": "781d86fcf4687827727b33ab1901a4f5b65b6e89034e3f5bf5f27d16539da2a8",
+    "tests\\cases_vadd.txt": "32e1191c36fd74215f7a8866698fc45dd66fef70eb9d04ef0b69acfacaf503e6"
+  },
+  "scope": "Actual XiangShan VDotU FU wrapper; no full-SoC claim.",
+  "scenarios": {
+    "vl0_ta0_ma0_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl0_ta0_ma0_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl0_ta0_ma0_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl0_ta0_ma0_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl0_ta1_ma1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl0_ta1_ma1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl0_ta1_ma1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl0_ta1_ma1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 0,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl1_ta0_ma0_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl1_ta0_ma0_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl1_ta0_ma0_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl1_ta0_ma0_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl1_ta1_ma1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl1_ta1_ma1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl1_ta1_ma1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl1_ta1_ma1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 1,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl4_ta0_ma0_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl4_ta0_ma0_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl4_ta0_ma0_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl4_ta0_ma0_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl4_ta1_ma1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl4_ta1_ma1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl4_ta1_ma1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl4_ta1_ma1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 4,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl8_ta0_ma0_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl8_ta0_ma0_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl8_ta0_ma0_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl8_ta0_ma0_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl8_ta1_ma1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl8_ta1_ma1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl8_ta1_ma1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl8_ta1_ma1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 8,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl16_ta0_ma0_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl16_ta0_ma0_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl16_ta0_ma0_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl16_ta0_ma0_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 0,
+        "ma": 0
+      }
+    },
+    "vl16_ta1_ma1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl16_ta1_ma1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl16_ta1_ma1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "vl16_ta1_ma1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vl": 16,
+        "ta": 1,
+        "ma": 1
+      }
+    },
+    "sew1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 1
+      }
+    },
+    "sew1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 1
+      }
+    },
+    "sew1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 1
+      }
+    },
+    "sew1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 1
+      }
+    },
+    "sew2_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 2
+      }
+    },
+    "sew2_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 2
+      }
+    },
+    "sew2_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 2
+      }
+    },
+    "sew2_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 2
+      }
+    },
+    "sew3_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 3
+      }
+    },
+    "sew3_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 3
+      }
+    },
+    "sew3_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 3
+      }
+    },
+    "sew3_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "sew": 3
+      }
+    },
+    "lmul1_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 1
+      }
+    },
+    "lmul1_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 1
+      }
+    },
+    "lmul1_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 1
+      }
+    },
+    "lmul1_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 1
+      }
+    },
+    "lmul2_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 2
+      }
+    },
+    "lmul2_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 2
+      }
+    },
+    "lmul2_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 2
+      }
+    },
+    "lmul2_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 2
+      }
+    },
+    "lmul3_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 3
+      }
+    },
+    "lmul3_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 3
+      }
+    },
+    "lmul3_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 3
+      }
+    },
+    "lmul3_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 3
+      }
+    },
+    "lmul4_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 4
+      }
+    },
+    "lmul4_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 4
+      }
+    },
+    "lmul4_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 4
+      }
+    },
+    "lmul4_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 4
+      }
+    },
+    "lmul5_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 5
+      }
+    },
+    "lmul5_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 5
+      }
+    },
+    "lmul5_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 5
+      }
+    },
+    "lmul5_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 5
+      }
+    },
+    "lmul6_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 6
+      }
+    },
+    "lmul6_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 6
+      }
+    },
+    "lmul6_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 6
+      }
+    },
+    "lmul6_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 6
+      }
+    },
+    "lmul7_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 7
+      }
+    },
+    "lmul7_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 7
+      }
+    },
+    "lmul7_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 7
+      }
+    },
+    "lmul7_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "lmul": 7
+      }
+    },
+    "masked_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vm": 0
+      }
+    },
+    "masked_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vm": 0
+      }
+    },
+    "masked_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vm": 0
+      }
+    },
+    "masked_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vm": 0
+      }
+    },
+    "restart_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "start": 4
+      }
+    },
+    "restart_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "start": 4
+      }
+    },
+    "restart_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "start": 4
+      }
+    },
+    "restart_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "start": 4
+      }
+    },
+    "vill_pos": {
+      "total": 46,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vill": 1
+      }
+    },
+    "vill_neg": {
+      "total": 48,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vill": 1
+      }
+    },
+    "vill_bound": {
+      "total": 45,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vill": 1
+      }
+    },
+    "vill_rand": {
+      "total": 800,
+      "bad": 0,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {
+        "vill": 1
+      }
+    },
+    "wrong_tail_control_pos": {
+      "total": 46,
+      "bad": 46,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {}
+    },
+    "wrong_tail_control_neg": {
+      "total": 48,
+      "bad": 48,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {}
+    },
+    "wrong_tail_control_bound": {
+      "total": 45,
+      "bad": 45,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {}
+    },
+    "wrong_tail_control_rand": {
+      "total": 800,
+      "bad": 800,
+      "bad_latency": 0,
+      "bad_exception": 0,
+      "ok": true,
+      "knobs": {}
+    }
+  },
+  "all_ok": true
+}

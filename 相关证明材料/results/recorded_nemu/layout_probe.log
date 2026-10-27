@@ -1,0 +1,29 @@
+sizeof(riscv64_CPU_state) = 1752
+VLEN = 128
+sizeof(vr[0]) = 16  arrlen = 32
+vr                              800
+vl                             1344
+vtype                          1352
+vstart                         1312
+vxsat                          1320
+vxrm                           1328
+gpr                               0
+pc                              656
+mstatus                         520
+mode                            512
+satp                            600
+difftest_state_end             1376
+sizeof(gpr[0])=8  ELEN64 per reg: VENUM64=2 VENUM8=16
+LAYOUT_BEGIN
+OFF_GPR 0
+OFF_PC 656
+OFF_MODE 512
+OFF_MSTATUS 520
+OFF_VR 800
+VR_STRIDE 16
+OFF_VSTART 1312
+OFF_VTYPE 1352
+OFF_VL 1344
+OFF_END 1376
+STATE_SIZE 1752
+LAYOUT_END

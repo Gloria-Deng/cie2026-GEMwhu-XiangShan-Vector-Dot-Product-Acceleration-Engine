@@ -1,0 +1,61 @@
+{
+  "jobs": [
+    {
+      "job_id": "3732028",
+      "job_name": "vdot-gemm-cycles-opt",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "02:15:44",
+      "node": "n0369"
+    },
+    {
+      "job_id": "3736507",
+      "job_name": "vdot-gemm-cycles-opt",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "06:47:21",
+      "node": "n0375"
+    }
+  ],
+  "job_ids": [
+    "3732028",
+    "3736507"
+  ],
+  "emu": "/project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu",
+  "emu_sha256": "a13197d9519a7546e4c6bcae3e4890161f6c07404b57e0288783f27bf5bb7485",
+  "library": "/project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so",
+  "library_sha256": "fcf124d533eb0459a5861717b63c2db4aea608f46cff49edf933500d0cc633ff",
+  "stages": [
+    {
+      "size": 16,
+      "stage": "D:\\Desktop\\RSIC-V\u9999\u5c71\\submission\\build\\collect\\16",
+      "summary_sha256": "f1ca8de1b72f060ad8d1332f889a0b303667d22d3c09883b39543a4de398b6cf",
+      "runner_manifest": "D:\\Desktop\\RSIC-V\u9999\u5c71\\submission\\build\\collect\\16\\gemm_cycles_manifest.json"
+    },
+    {
+      "size": 32,
+      "stage": "D:\\Desktop\\RSIC-V\u9999\u5c71\\submission\\build\\collect\\32",
+      "summary_sha256": "91e101fc7083aca052cb0b40a89afb9c0b0e439f1b94b64e57e7d67610905d52",
+      "runner_manifest": "D:\\Desktop\\RSIC-V\u9999\u5c71\\submission\\build\\collect\\32\\gemm_cycles_manifest.json"
+    }
+  ],
+  "sizes_measured": [
+    16,
+    32
+  ],
+  "sizes_not_measured": [
+    64,
+    128
+  ],
+  "repeats": {
+    "16": 3,
+    "32": 1
+  },
+  "limitations": [
+    "GEMM kernel+pack window; startup, verification and landing self-loop are excluded",
+    "1024-cycle grid",
+    "64/128 NOT_MEASURED; no extrapolation",
+    "NEMU retired instructions are explanatory only, not cycles",
+    "no RTL/ISA change and no full-program end-to-end speedup"
+  ]
+}

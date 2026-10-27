@@ -1,0 +1,28 @@
+[*] VDot module simulation - input, products and output
+[timestart] 0
+[size] 1600 900
+[sst_width] 280
+[signals_width] 350
+[sst_expanded] 1
+@28
+tb_vdot.clock
+tb_vdot.reset
+tb_vdot.fire
+@22
+tb_vdot.vs1[127:0]
+tb_vdot.vs2[127:0]
+@28
+tb_vdot.dut.fireS1
+@22
+tb_vdot.dut.prod_0[18:0]
+tb_vdot.dut.prod_1[18:0]
+tb_vdot.dut.prod_2[18:0]
+tb_vdot.dut.prod_3[18:0]
+tb_vdot.dut.prod_4[18:0]
+tb_vdot.dut.prod_5[18:0]
+tb_vdot.dut.prod_6[18:0]
+tb_vdot.dut.prod_7[18:0]
+@28
+tb_vdot.valid
+@22
+tb_vdot.vd[127:0]

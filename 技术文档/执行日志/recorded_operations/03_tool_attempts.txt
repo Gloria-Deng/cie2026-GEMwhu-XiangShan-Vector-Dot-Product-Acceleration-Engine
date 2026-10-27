@@ -1,0 +1,176 @@
+# 在 SoC 生成流程产出的那份 RTL 上做仿真：本机试过什么、卡在哪、哪一条已被翻案
+
+## 0. 先说结论，再说历史
+
+**这一节被实测翻过一次案。** 它原来写着包装层 `VDotU` 在本机跑不起来（原文见下面
+第 1 段，逐字保留，没有删）。实际情况是：两条"拦路石"里只有一条是真的，
+另一条是我自己的命令行少了一个 `-std`。包装层现在跑通了，度量臂全部一致，
+读数在 `results/xs_soc/wrapper.txt`（由 `sim/run_xs_soc_wrapper.py` 现算打印）。
+
+## 1. 原来那段话（保留在原位，作为被否证的记录）
+
+> 测试台已经写好并收在 `tb/tb_vdotu_soc.sv`，但**它在本机没有跑起来过**，
+> 所以包内所有"逐用例一致"的说法只覆盖数据通路那一级 ……
+> ⇒ 结论边界：**这是本机 C++ 工具链的问题，不是这份 RTL 的问题**。
+
+那句"本机 C++ 工具链的问题"是**在没有做对照的情况下写下的**：当时只看到链接失败，
+没有把"链接失败"与"缺 `-std=gnu++17`"之间做一次可控对照。补了对照之后是否证：
+
+| 臂 | 命令（其余逐字相同，同一份 `--Mdir` 产物） | 结果 |
+|---|---|---|
+| 负臂 | `make -C <mdir> -f Vtb_vdotu_soc.mk -j 4` | 链接失败，`ld.exe: verilated.o:(.text+0x127f): undefined reference to std::__cxx11::basic_string<...>::basic_string(basic_string&&)`（若干行 undefined reference + `Error 1`。条数由 `grep -c "undefined reference" nostd_link_ab.txt` 现算，这里不抄） |
+| 正臂 | `make -C <mdir> -f Vtb_vdotu_soc.mk CXXFLAGS='-std=gnu++17 -Os' -j 4` | 链接成功，度量臂全部一致（`wrapper.txt` 末行给判决） |
+
+负臂的完整原始输出逐字收在 `results/xs_soc/nostd_link_ab.txt`。原因形状：Verilator
+生成的那条 `g++` 命令行里**根本没有 `-std=`**（本机 GCC 16.2.0），于是
+`verilated.cpp` 与头文件对 `std::string` 移动构造的取舍不一致 ⇒ 符号在链接期找不到。
+"缺符号"这一半的观察是对的，"工具链不行、要换仿真器"那一半是推断。
+
+## 2. 仍然真实存在的那条：Icarus Verilog 13.0 编不了 `Mgu.sv`
+
+翻案之后这条没有被推翻，刚才又复跑了一次（`iverilog -g2012` 喂整个闭包 7 个 `.sv` 加
+`tb/tb_vdotu_soc.sv`）：**退出码 48，48 条 `error:`，全部落在
+`rtl/xs_soc_generated/Mgu.sv` 一个文件里**，形状是
+
+```
+rtl/xs_soc_generated/Mgu.sv:258: error: A reference to a net or variable (`vdIdx') is not allowed in a constant expression.
+rtl/xs_soc_generated/Mgu.sv:258: error: Array index expressions must be constant here.
+rtl/xs_soc_generated/Mgu.sv:257: error: Unable to elaborate r-value: (_GEN_16[vdIdx]['sd0])?(io_in_vd['sd0]):...
+```
+
+`vdIdx` 是 `Mgu` 的端口（net），firtool 用它做数组下标；Icarus 要求在连续赋值里是常量。
+这不是本包能改的：改了就等于不在测那份生成的 RTL。**⇒ 包装层这一级只有 Verilator 一条路。**
+
+## 3. 复跑这一级需要的六条环境配方（缺一条就跑不起来，都是撞出来的）
+
+1. `verilator_bin.exe`，不要用 `verilator` 那个 perl 包装器（本机它缺 `Pod::Usage`，
+   报完错退 0）。
+2. `make CXXFLAGS='-std=gnu++17 -Os'`（见第 1 段）。
+3. 整条命令必须在 `E:\msys64\msys2_shell.cmd -ucrt64 -defterm -no-start -here` 里跑：
+   从 msys 层直接调 `make` 会先撞
+   `Cannot create temporary file in C:\Windows\: Permission denied`。
+4. `-D` 值里有单引号（`128'haaaa…`），必须按 POSIX 单引号规则转义后再传，
+   否则 bash 把后面当引号串吃掉 —— 头一轮就是这么让两个场景报成 BROKEN 的。
+5. 这个 Verilator **不接受 `$display("abc" "def", …)` 那种相邻字符串拼接**
+   （SystemVerilog 里有，它这里报 `syntax error, unexpected STRING`），长格式串要写成一行。
+   同理，`-Wno-*` 之外还有一类会被当错误：拿 `(1'b0 | \`EXPECT_LAT)` 这种"扩位"写法
+   去和 integer 比会触发 `WIDTHEXPAND` 并直接退出 —— 位宽只在一位宽的端口比较里用那招。
+6. 旋钮（都写在 `tb/tb_vdotu_soc.sv` 文件头）：`VL_V` `VM_V` `SEW_V` `LMUL_V` `VUOP_V`
+   `OLDVD_V` `MASK_V` `EXPECT_EXC` `EXPECT_LAT` `VTA_V` `VMA_V`，外加开关 `VALID_PIPE_ZERO`。
+   `EXPECT_LAT` 与 `VALID_PIPE_ZERO` 不是为了"跑通"加的，是为了让 `out_valid` 那两句
+   结论有反例臂：前者把 bench 的期望深度钉错、后者把与门的一路输入钉成 0。
+
+被测闭包（`rtl/xs_soc_generated/` 那 7 个文件）在跑之前逐个核过
+`results/xs_soc/summary.json` 的 `generated_rtl` 指纹；被改过就拒绝开跑，
+`--selftest` 里有一条用例专门把 `Mgu.sv` 动一行来验证这条会点名拦住。
+
+## 4. 这一级量到了什么、没量到什么
+
+`wrapper.txt` 那张表现在分三节，因为三种臂的"健康"定义不一样：**度量臂**要与模型一致，
+**正对照臂**必须以指名的方式报红（它不给用例条数——"预测的坏果然发生了"不是一条一致），
+**观察臂**成对出现、要求恰好一侧匹配。
+
+度量到的：数据通路结果原样交付；`vl` 覆盖整寄存器时同样一致；`vl=0` 时结果被 tail 规则
+整体盖掉；交替掩码下逐元素合并与一份独立写的合并模型一致（⇒ 共享的 `Mgu` 那一级确实在
+按元素施加掩码）；`SEW!=8` 与 `LMUL!=1` 时 `exceptionVec[2]` 由 RTL 自己拉起来，
+不是只靠 NEMU 挡；`io_out_valid` 相对 `io_in_valid` 被捕获那一拍的深度。
+观察到的：`vta=1` 时 agnostic tail 写成什么 —— RVV 只给两种合法答案（保留旧值 / 全 1），
+这对臂给出的是前者（`vta=0` 那一档本来就是保留旧值，两档同结论）。
+正对照证明的：把期望深度改成别的值，报回来的仍是量到的那个；把 `out_valid` 与门的
+一路输入钉成 0，全部用例立刻不通过（⇒ 那句"valid 由 DUT 产生"不是被测试台的常量喂出来的）。
+
+**没量到的那一格仍然是空的**：在这份 SoC 上**执行**一条 vdot.vv——那是"整颗 SoC 跑起来、
+把指令喂进流水线、和参考机逐周期比对"，需要 SoC 顶层的可执行镜像与 difftest 环境。
+本包做到的是指令级协同仿真（`docs/05` §7），两者不是同一格，不互相顶替。
+`vma=1`（掩码策略）与 `vstart != 0` 也没有进场景表，那两句在 SoC 侧没有读数。
+
+## 5. 长档 `--cc`：把 2 MB 栈预留换掉之后走到哪一站
+
+第 1 段翻的是"链接"那一案，本节量的是剩下的那一档：**`--cc` 走完代码生成**。本轮共发三次，
+分两档，两档的签名不同，所以分开记。
+
+短档（装机件，`SizeOfStackReserve` 仍是 2 MB）：`sim/xs_soc_silence_bracket.py` 的 CC 臂，
+约 10 秒静默终止，原始终止状态与 `--lint-only` 那一档同为 `0xC00000FD`（栈耗尽）。
+逐臂读数与判决在 `results/xs_soc/xs_soc_silence_bracket.txt`，本节不抄那些数。
+
+长档（被试镜像换成 `sim/xs_soc_stack_swap.py` 打出来的那份 512 MB 栈预留的拷贝，版本行与
+装机件相同；被试输入是同一棵生成树的全量清单 1903 支 `.sv`；argv 为
+`--cc --exe --main --timing --top-module XSTop -Wno-TIMESCALEMOD --Mdir <mdir> -f <flist>`）：
+两次独立发臂**自己**返回 rc=1，墙钟 2011 s 与 2286 s，`--Mdir` 里 `.cpp`/`.h`/`.mk` **各 0 个**，
+捕获到的 stdout+stderr **0 字节**，`%Error` **0 条**。两次采集件的末行都是
+`CHAIN_CC_DONE step2_rc=1`（驱动与逐分钟监控住在包外，见本节最后一条）。
+
+配套的逐分钟监控（同一窗口内 32 条数值样本）：进程 CPU 累计秒数 355 → 2140，窗口 1879 s，
+即占空比约 95%；工作集 2490 MB → 84 MB；全机空闲内存最低 1064 MB、终止那一拍 2904 MB；
+`--Mdir` 文件数在每一条样本上都是 0。
+
+两档合起来**说到**的：换掉那 2 MB 预留确实拆掉了 10 秒那一站——同一条 argv 不再以栈耗尽终止，
+而同一支镜像、同一份清单在 `--lint-only` 那一档能详化到干净（rc=0、`%Error` 0 条，见
+`results/xs_soc/xs_soc_stack_swap.txt`）；再往下的代码生成那一站仍然没走到，一个 `.cpp` 都没落。
+
+两档合起来**没说**的，三条都写明免得被读成别的东西：
+
+1. 不支撑"内存不够"。空闲内存全程在 GB 量级；工作集被压到 84 MB 是系统回收的读数，
+   本包不拿它做任何归因。
+2. 不支撑"再给它一点时间就成了"。rc=1 是被试自己返回的退出码，本包的超时设在 5400 s
+   且没有触发，所以这两发是**跑完并失败**，不是被掐断。
+3. 不支撑"这一档在本机不可能"。零输出意味着"它究竟终止在哪一站"没有证据，
+   本包因此不给这一格任何结论。要翻它需要能拿到 stderr 的那一档（换宿主，或把代码生成
+   拆到能报出第一支 `.cpp` 的那一站），做成之后本节跟着改。
+
+采集件（包外，因为它们记的是本机负载过程而不是任何一条判决，所以不进 `results/`）：
+`chain_cc_build.py` 与它的 `chain_cc_wrapper.log`、`chain_cc_wrapper2.log`、`cc_progress.txt`，
+以及补丁镜像的产出脚本 `sim/xs_soc_stack_swap.py`（这一支在包内，判决行
+`XS-SOC-STACKSWAP PASS`）。
+
+## 6. 用 --debug 把同一发长档再走一遍（站名由阶段消息给出）
+
+本节与第 5 节合起来是本机 `--cc` 的全部四发（短档一发、普通长档两发、`--debug` 长档一发）。第 5 节那两发是**零输出**的：一个 rc=1、0 支 `.cpp`、stdout+stderr 0 字节，所以它们
+只能说明「没走到代码生成」，说不出它走到了哪一站。这一节把同一串 argv 加上 `--debug` 重发一次，
+让工具自己把逐阶段消息打出来。仪器先自证再读结论，两条都写在采集件里：
+
+- 旗标形状先量过：这支 `verilator_bin` 不认 `--verbose`（`Invalid option`，rc=1），
+  认 `--debug`、`--debugi <阶段>`、`--dump-tree`、`--no-dump-tree`；`--help` 也不在它那里
+  （帮助文本在 perl 包装器里）。
+- `--debug` 不写 `debug.log`：本机构建把阶段消息打在 stdout。把「没有 debug.log」当成
+  仪器死是我的路径假设错，同一臂实际印出了 2192 条阶段行。
+- `--debug` 会顺带打开逐阶段 AST dump：对照臂 18 秒写了 412 个 `.tree`、855 MB（这两个数是我当时用 ls 与 du 现读的，那份目录在第二发之前被探针删掉了，所以采集件里没有它们；第二发的 `tree=0` 才是有采集件的那个数），
+  所以本探针在 `--debug` 之后紧跟 `--no-dump-tree`，只留消息、不留体积。
+- `--debug` **不中性**：对照闭包平时以 rc=1 加大声 `%Error` 结束，在它下面改成
+  `%Error: Aborting since under --debug` 加 `0xC0000409`。因此下面这个退出码**不可**与
+  第 5 节那两发普通运行相比，这一臂只读阶段序列。
+
+对照臂（已知会大声报错的那棵小闭包，同一串 argv 加 `--debug`）先跑并且必须给得出阶段消息：
+本包把这条当成整发实验的准入闸，阶段行数低于 5 就拒绝发长臂。实测 INSTRUMENT_ALIVE stage_lines=2192。
+
+长臂读数（全部由采集件那一行搬过来，本包不手打这些数）：
+
+    镜像 sha256=2b015309b490a802eaa7264294104f1917653126aa4614e0c08f2a4c0280c41d
+    清单=flist_full.txt 共 1903 支；超时预算 4200 s
+    原始终止状态=0xFFFFFFFF（十进制 4294967295）；墙钟 3769 s
+    阶段消息行数=13254；捕获输出 1184710 字节
+    `--Mdir`：`.cpp`=0 `.h`=0 `.mk`=0，`.tree`=0；同目录里有 1906 支 `.vpp`（现数，166.8 MB） —— 那不是空目录，而是**过了预处理**的正见证：每一支输入都有一份预处理件，停在写 C++ 之前
+    判决=NOT_COMPILED
+    终止者是**本包**：18:52:53 用 Get-Process 读到该 PID 21984 仍在（起始时刻 17:50:30），我对它调了
+    Stop-Process -Force，14 秒后本采集件的 END 行才出现 —— 所以这一发的终止状态 `0xFFFFFFFF` 是终止
+    调用留下的，**不是** Verilator 给的状态，也不与第 5 节两发普通运行的 rc=1 同类。
+    另须记一句我自己的纪律错：这一发事先声明的预算是 4200 s（起表 17:50:30，到期 19:00:30），我把
+    到期时刻读成了 18:50:30，于是在第 3769 s 就动了手，比自己的判据早 431 s。本节的这一句原先是由
+    「墙钟 < 预算」这个不等式自动生成的，而那条不等式**证明不了是谁终止的**（被试早退也会满足它）；
+    判据要换成上面那条进程存活读数加时刻先后，生成规则已按此作废。
+
+最后三条阶段消息（决定「走到哪一站」这句能不能写、以及写到哪一站）：
+
+    - V3Table.cpp:239:     Table Optimize spacetime=0.50695 ALWAYS 0x1a6c7859f90 {cif65945be} [cont_assign] | - V3Table.cpp:239:     Table Optimize spacetime=0.50695 ALWAYS 0x1a6c785a460 {cif65951be} [cont_assign] | - V3Table.cpp:239:     Table Optimize spacetime=0.50695 ALWAYS 0x1a6c785a670 {cif65957b
+
+阶段消息的刷出本身在最后 42 分钟是停的（采集件 mtime 18:11:04 对 END 行时刻 18:53:19）；
+所以终止前那一段时间里它在哪一段，没有消息可依据——这一段是**沉默**，与第 5 节那两发的沉默
+不是同一件事（那两发全程零字节，这一发是刷出 1.18 MB 之后停住）。
+顺带记一处自己的仪器错：这一句在本节首次落盘时印反了，成了「直到终止前仍在刷出」。生成它的
+那行把当天的时刻当纪元秒算，差值成了一个大负数，于是走了另一个分支；判据是文件 mtime 与日志
+时刻之差，而代码比较的是两个不同原点的数——形状对、语义错，回读才抓到。
+
+这一节说的是**在 `--debug` 下**它走到哪、停在哪；第 5 节那两发的零输出仍然是本机
+普通 `--cc` 的读数，两者不许互相顶替。采集件（`cc_verbose_probe.py`、`cc_verbose_run.log`、
+`cc_debug_run/LONG_stdout.txt`）按设计留在包外——它们记的是本机过程，不是判决。
+

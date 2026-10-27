@@ -1,0 +1,6 @@
+﻿tool,location
+as,E:\msys64\ucrt64\bin\riscv64-unknown-elf-as.exe
+ld,E:\msys64\ucrt64\bin\riscv64-unknown-elf-ld.exe
+objcopy,E:\msys64\ucrt64\bin\riscv64-unknown-elf-objcopy.exe
+objdump,E:\msys64\ucrt64\bin\riscv64-unknown-elf-objdump.exe
+nm,E:\msys64\ucrt64\bin\riscv64-unknown-elf-nm.exe

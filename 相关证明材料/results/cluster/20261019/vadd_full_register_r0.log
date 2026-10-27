@@ -1,0 +1,10 @@
+# PUBLIC_EXCERPT: full raw log is in vdot-evidence.tar.gz
+# The SHA256 in summary.json refers to the external raw file, not this excerpt.
+[PERF ][time=               32205] SimTop.cpu.l_soc.core_with_l2.l2top.inner.l2cache.slices_3.mshrCtl: mshr_emu compiled at Oct 17 2026, 18:16:09
+Core  0's Commit SHA is: c8cb78cd0f, dirty: 1
+The image is <RUN_ROOT>/programs/vadd_full_register.bin
+The reference model is <RUN_ROOT>/NEMU/build/riscv64-nemu-interpreter-so
+The first instruction of core 0 has commited. Difftest enabled. 
+Core 0: [33mEXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000088
+[0m[35mCore-0 instrCnt = 27,304, cycleCnt = 32,200, IPC = 0.847950
+[0m[34mSeed=1 Guest cycle spent: 32,206 (this will be different from cycleCnt if emu loads a snapshot)

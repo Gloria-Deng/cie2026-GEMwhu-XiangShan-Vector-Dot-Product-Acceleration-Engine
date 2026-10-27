@@ -1,0 +1,121 @@
+EMU-GLUE-LINUX v1
+question: results/xs_soc/emu_glue_probe.txt 把 C++ 胶水那一半的量到
+          `snapshot.cpp:20:10: fatal error: VSimTop.h: No such file or directory`。
+          那个头文件在 Linux 上补出来之后，这个翻译单元还编不编得过？
+answer: 编得过。本文件记的是把那条错误链逐层拆掉的过程与最后那一发。
+scope: 这一份回答两件事：`snapshot.cpp` 这一支能不能过（第 5 节），以及整条
+       Verilator emu 构建所要的那批 C++ 能不能过（第 5b 节）。**它不是链接、
+       不是运行、更没有接参考机**；整层 difftest 仍然是未做。
+
+host_kind: Linux/glibc，x86-64
+relation_to_the_windows_reading: 与 results/xs_soc/emu_glue_probe.txt 那份**不同宿主**。
+       那一份量的是 Windows 上「补两个头之后能走到哪」，本份量的是 Linux 上
+       「VSimTop.h 补出来之后能走到哪」。两份的主题不同，不互相顶替。
+
+=== 1. 前置：先把顶换成 difftest 要的那个 ===
+why: 本包此前生成的树顶是 XSTop，而 difftest/verilator.mk 用的是
+     `--top-module $(EMU_TOP)`，EMU_TOP = SimTop，产出的是 VSimTop.h。
+     树里没有 SimTop.sv，所以那个头文件根本无从产生——这是第一层。
+how: 照上游 `make sim-verilog` 的 argv 重新生成一次
+     （`mill ... xiangshan.test.runMain top.XiangShanSim`，带
+     `--enable-difftest` 与 `--firtool-opt "--repl-seq-mem ..."`）
+result: MILL_RC=0，产出 SimTop.sv（1222710 B）、XSTop.sv、filelist.f（2037 行）
+top_ports_exposed: difftest_exit / difftest_step / perfCtrl / logCtrl / uart
+                   —— 就是 DifftestEndpoint 那一组面
+
+=== 2. 生成后必须补的两样（上游 Makefile 里本来就有，容易漏） ===
+a) memory 黑盒：`--repl-seq-mem` 把存储换成了 array_*_ext 黑盒，定义由
+   `scripts/gen_sep_mem.sh` + `scripts/vlsi_mem_gen` 从 SimTop.sv.conf 生成。
+   不跑它，Verilator 报 `Cannot find file containing module: 'array_15_ext'` 一族。
+   本包在生成侧跑完，得到 26 个 `_ext.v`。
+b) 外部模块 SimJTAG：把 extern_modules.sv 列的 59 个外部模块逐个与树内文件比对，
+   **只有 SimJTAG 一个没有定义**（FlashHelper / SDCardHelper / Mem1R1WHelper 与
+   全部 DiffExt* 都在树里）。它来自 difftest 的 `src/test/vsrc/common/SimJTAG.v`。
+   filelist 由 2037 行补到 2064 行。
+
+=== 3. lint 与代码生成 ===
+lint_command: verilator_bin --lint-only -Wno-TIMESCALEMOD --top-module SimTop -f filelist.f
+lint_verdict: rc=0，无 %Error
+cc_command: verilator_bin --output-split 30000 --output-split-cfuncs 30000 --cc --exe
+            --main --timing --top-module SimTop -Wno-TIMESCALEMOD
+            +define+DISABLE_SIMJTAG_DPIC --Mdir obj_dir -f filelist.f
+            （同样先 ulimit -s unlimited，理由见 results/xs_soc/xsoc_verilator_linux.txt 第 5 节）
+verilator_report: 2065 modules -> 1213.508 MB，落在 951 支 C++ 文件里
+walltime_s: 426.362   (elab 36.768 / cvt 357.994)
+alloced_mb: 8803.754
+the_dpi_define: SimJTAG.v 里有一个 DPI 导入 jtag_tick，实现体在 difftest 的 C++ 侧。
+            这条裸编路径没有它，所以按上游同样的开关把它关掉
+            （上游 Makefile 也有 `+define+DISABLE_SIMJTAG_DPIC`）。
+            真去链 difftest 的 emu 时，这一条要换回真实实现。
+
+=== 4. 生成出来的那个头文件 ===
+path_in_package: 不在包内（集群上的 $HOME/simtop/obj_dir/VSimTop.h）
+bytes_before_fixups: 117784
+fixups: 上游 verilator.mk 在生成后要跑三行 sed，本包照做：
+        `private`->`public`、`const vlSymsp`->`vlSymsp`（作用在 VSimTop.h），
+        `VlThreadPool* const`->`VlThreadPool*`（作用在 VSimTop__Syms.h）。
+        实测替换数 4 与 0；VSimTop.h 由 117784 变 117775，少 9 字节，
+        与「3 处 private->public 各减 1、1 处 const vlSymsp->vlSymsp 减 6」对得上。
+
+=== 5. 那一发：snapshot.cpp ===
+command: g++ -fsyntax-only -std=c++17 -DVERILATOR -I obj_dir
+         -I $VERILATOR_ROOT/include -I $VERILATOR_ROOT/include/vltstd
+         -I <difftest>/src/test/csrc/common -I <difftest>/src/test/csrc/verilator
+         -I <difftest>/config -I <difftest>/build/generated-src
+         <difftest>/src/test/csrc/verilator/snapshot.cpp
+verdict: rc=0，无输出
+meaning: emu_glue_probe.txt 记的那一行 `fatal error: VSimTop.h: No such file or
+         directory` 在这一档不再出现；该编译单元整体通过（不只是那一个 include）
+
+=== 5b. 整个 C++ 面（不只是那一支） ===
+method: 照上游 Makefile 的变量取文件集，不是自己 glob。上游的编译集是
+        VERILATOR_CXXFILES = EMU_CXXFILES + verilator/*.cpp
+        EMU_CXXFILES       = SIM_CXXFILES + emu/*.cpp
+        SIM_CXXFILES       = common/*.cpp + config/*.cpp
+                             + build/generated-src/*.cpp + difftest/**/*.cpp
+        于是 fpga/ vcs/ gsim/ plugin/xspdb/ 这些**别的后端各自的 main 不在其中**
+        ——它们本来就该编不过（各自要自己的工具链与宏），扫进去只会得到噪声。
+        第一版探针就是这么扫的，报出 28 个失败，其中多数属于这一类。
+include_set: -I obj_dir
+        -I $VERILATOR_ROOT/include -I $VERILATOR_ROOT/include/vltstd
+        -I <difftest>/src/test/csrc/common -I <difftest>/config
+        -I <difftest>/build/generated-src -I <difftest>/src/test/csrc/difftest
+        -I <difftest>/src/test/csrc/emu -I <difftest>/src/test/csrc/verilator
+        -I <difftest>/src/test/csrc/plugin/{spikedasm,runahead,simfrontend,topdown}
+        （后三组的 -I 与 -I difftest 分别对应上游 Makefile:106 的
+         `SIM_CXXFLAGS += -I$(DIFFTEST_CSRC_DIR)` 与 emu.mk:30 的 `-I$(EMU_CSRC_DIR)`）
+defines: -DVERILATOR -DNUM_CORES=1 -DREF_PROXY=NemuProxy
+        REF_PROXY 是上游按参考机类型生成的**类名**宏：Makefile:197-206 在
+        `REF ?= Nemu` 且 $(REF) 不是一个存在的路径时给出 `-DREF_PROXY=$(REF)Proxy`，
+        于是是 NemuProxy（声明在 refproxy.h:485）；difftest.cpp:490 那行是
+        `proxy = new REF_PROXY(coreid, ram_size);`，宏缺了编译器就认不出类型名。
+verdict: 47 支全过（ok=47 bad=0）。逐支读数由复跑脚本现算，本节不抄第二份。
+meaning: difftest 的 C++ 面对这棵 Verilated SoC **编译干净**。
+
+=== 6. 这一层是怎么一层层拆开的（四层，全是 include 路径） ===
+VSimTop.h: No such file           <- emu_glue_probe.txt 记的原始卡点
+  -> 生成带 SimTop 的树之后
+verilated.h: No such file         <- 缺 Verilator 自己的 include 目录
+  -> -I $VERILATOR_ROOT/include
+config.h: No such file            <- 缺 difftest/config
+  -> -I <difftest>/config
+difftest-state.h: No such file    <- 缺 difftest 自己生成的头
+  -> -I <difftest>/build/generated-src
+rc=0
+note: 这四层与 emu_glue_probe.txt 在 Windows 上撞到的那一族**不是同一类**。
+      那一族是 LM_ID_NEWLM / RTLD_DEEPBIND / dlmopen —— glibc 独有的接口，
+      非 glibc 宿主上缺的是接口本身。这四层缺的是路径，补上即可。
+      所以「Windows 上过不去」不能读成「这一层过不去」。
+
+=== 7. 这一份不主张什么 ===
+not_a_link: 这是 `-fsyntax-only`，只编一个翻译单元，没有链接、没有生成可执行件
+not_a_run: 没有参考机、没有程序、没有退休任何一条指令
+not_a_link_2: 第 5b 节那 47 支是 `-fsyntax-only`。**没有链接**：没有生成
+      `emu` 可执行件，没有编 `difftest-dpic.cpp` 的真实现，也没有接参考机的
+      `.so`（缺 `REF`/`LINKED_REFPROXY_LIB` 那一组链接输入）
+what_5b_does_not_cover: 第 5b 节用的是上游默认配置（未开 FPGA / VCS / gsim /
+      DRAMsim3 / CHISELDB / 各 plugin 开关）。开了这些开关之后各自还要加
+      `-D` 与 `-I`，本节不覆盖那些组合
+nemu_unattached: 参考机库、ready-to-run 镜像、difftest 的运行时都没有接上；
+      整层 3.1.2 仍是未做
+single_host: 全部读数来自一台 Linux 宿主；换宿主能否复现不给结论

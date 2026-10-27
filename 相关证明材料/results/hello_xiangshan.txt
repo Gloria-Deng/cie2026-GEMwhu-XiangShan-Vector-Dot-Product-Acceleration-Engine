@@ -1,0 +1,223 @@
+# 阶段一 1.1 环境部署验证输出
+
+这一份是 1.1 那一格的权威归档。正文（README、`docs/01`、`docs/07` 表）只指回这里，
+不再抄下面的身份行，所以改身份只改这一份。
+
+下面四段带 `<!-- AUTO:BEGIN … -->` 标记的内容由 **`sim/capture_hello_identity.py`**
+生成（`--write` 重跑一遍再装配，`--check` 只比对不写），标记之间的散文由人写、
+由 `sim/hello_identity_proof.py` 核。写入者与判读者分开是有意的：判读者如果自己去
+跑一遍测量再对着测量结果打分，那还是自我复述；现在判读者 import 写入者那批函数，
+所以「虚拟网卡怎么判」这件事在包里只有一份实现。
+
+## 判决
+
+<!-- AUTO:BEGIN verdict -->
+```
+hello xiangshan, I am GEMwhu, IP address 10.131.157.62
+```
+<!-- AUTO:END verdict -->
+
+这一行是**程序自己打印的**：`sim/hello_identity_proof.py` 的 J2 每次核对时重跑
+`stage1/hello_xiangshan.exe`，把**整段 stdout 的字节**与下面各臂的十六进制逐字比过，
+所以「判决」块里的这一行不是手抄、也不是别的工具补出来的。身份位由 `TEAM_ID`
+环境变量在运行时给，源码里不硬编。
+
+身份位取的是**个人标识 `GEMwhu`**：官方目录里那份赛题原文的 1.1 写的是
+「xxx 替换为团队或个人标识，将 xxx 替换为 GEMwhu，即输出 hello xiangshan, I am GEMwhu,
+IP address」——也就是说这一格要的是个人标识，不是团队名。团队名「等一个棋迹」与
+ASCII 写法仍然是臂读数，它们证明的是「同一个可执行件换不同标识都能正确落地」，
+而提交用的那一行是 `personal_id` 这一条。
+
+## IP 的来历（口径 + 三条独立通道）
+
+本轮改的就是这一格。原先的口径是「非回环 IPv4 里取 IfIndex 最小的那个」，
+实测取到的是 `192.168.17.1`，而 `ip_interfaces=` 这一行把网卡名字一起印出来之后
+看得很清楚：那个索引 11 的接口是 **VMware Virtual Ethernet Adapter for VMnet1**，
+一块 host-only 虚拟网卡，不是本机对外的地址。现在口径是（写在源码注释里，也印在
+屏幕上，且判读者的词表由它从 `stage1/hello_xiangshan.c` 现解）：
+
+1. 丢掉 loopback 与 0.0.0.0；
+2. 丢掉链路本地 `169.254/16`；
+3. 丢掉**虚拟网卡**：ifType 属于回环/PPP/隧道类，或网卡描述含 `virtual_desc_tokens=`
+   那一行里列出的任一标记；
+4. 丢掉操作状态没起来的接口；
+5. 剩下的取 IfIndex 最小的那个，即 `rule=lowest_ifindex_not_virtual`。
+
+三条互不遮蔽的通道：程序自印的候选与逐接口证据（`ip_candidates=` /
+`ip_interfaces=` / `ip_excluded=`，被丢掉的地址连**被丢的原因**和它自己的描述一起印，
+所以"为什么丢"可以从打印数据复推而不是只能信一句措辞）；系统工具
+`Get-NetIPAddress` + `Get-NetAdapter` 给的接口全集，按同一份词表过滤
+（`witness_ifindex_order=` / `witness_interfaces=`）；以及**默认路由走哪个接口索引**
+（`egress_index=`，由 `GetIpForwardTable` 读 0.0.0.0/0 那条路由的索引，它不参与选择，
+只是一条独立见证）。第四条通道是纯 Python 的 `stage1/hello_xiangshan_anyos.py`，
+它既不读 IP Helper 也不读词表，而是问内核「到 8.8.8.8 的出口用哪个地址」（建一个
+UDP 套接字再 `getsockname`，一个包都不发），由 J7 与前三条对撞。
+`rows_truncated=` 是分母守卫：三张表里任何一张在写满之前被截断就判红，
+因为一份「看起来更短但少了地址」的候选集比缺席更危险。
+
+<!-- AUTO:BEGIN ip_provenance -->
+```
+ip_candidates=10.131.157.62#idx13 selected_index=13 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.157.62#idx13#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx18#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=13 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+witness_ifindex_order=10.131.157.62#idx13
+witness_interfaces=192.168.17.1#idx11#VMware Network Adapter VMnet1;10.131.157.62#idx13#WLAN;192.168.248.1#idx18#VMware Network Adapter VMnet8
+virtual_desc_tokens=VMnet;VMware;VirtualBox;VBox;vEthernet;Hyper-V;Loopback;Tap;TAP;WAN Miniport;PPTP;Npcap;aTrust;Tunnelling;Virtual Adapter
+```
+<!-- AUTO:END ip_provenance -->
+
+核对方式：程序自印的候选集合必须等于过滤后的工具集合，判决行里的地址必须等于
+这两者共同选出的那一个，`egress_index=` 必须等于 `selected_index=`，且跨平台臂给的
+地址必须等于判决行里的地址。这四条都由 `sim/hello_identity_proof.py` 现算，
+不在这里手抄结论。IP 是机器属性，换网络这一格就会判红，那是有意的：判红就要重跑
+（`python sim/capture_hello_identity.py --write`），而不是让正文继续引用一个再也跑不
+出来的地址。
+
+## 逐臂原始读数（未加工，逐字节）
+
+同一份可执行文件、只差环境变量，四条 C 臂都跑过，退出码都是 0；
+最后一条 `arm=anyos_personal` 是纯 Python 跨平台臂。每行下面先给十六进制原始字节，
+再给按 GBK 解出来的样子——因为这台 MSYS2 ucrt64 上 CJK 实参到达进程时已经是 GBK 字节
+（见下一节）。
+
+<!-- AUTO:BEGIN arm_readings -->
+```
+arm=personal_id  rc=0  TEAM_ID=GEMwhu
+68656c6c6f207869616e677368616e2c204920616d2047454d7768752c20495020616464726573732031302e3133312e3135372e36320d0a69705f63616e646964617465733d31302e3133312e3135372e36322369647831332073656c65637465645f696e6465783d31332072756c653d6c6f776573745f6966696e6465785f6e6f745f7669727475616c0d0a69705f696e74657266616365733d31302e3133312e3135372e3632236964783133236966373123737435234d6564696154656b2057692d46692037204d543739323520576972656c657373204c414e20436172640d0a69705f6578636c756465643d3139322e3136382e31372e31236964783131236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657431237669727475616c5f616461707465725f646573633b3139322e3136382e3234382e31236964783138236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657438237669727475616c5f616461707465725f646573633b3132372e302e302e31236964783123696632342373743523536f667477617265204c6f6f706261636b20496e746572666163652031236c6f6f706261636b0d0a6567726573735f696e6465783d313320726f77735f7472756e63617465643d300d0a686f73743d4c4150544f502d524f564a4e30554320636f6d70696c65723d31362e322e300d0a
+hello xiangshan, I am GEMwhu, IP address 10.131.157.62
+ip_candidates=10.131.157.62#idx13 selected_index=13 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.157.62#idx13#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx18#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=13 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+```
+```
+arm=team_cjk     rc=0  TEAM_ID=等一个棋迹
+68656c6c6f207869616e677368616e2c204920616d20b5c8d2bbb8f6c6e5bca32c20495020616464726573732031302e3133312e3135372e36320d0a69705f63616e646964617465733d31302e3133312e3135372e36322369647831332073656c65637465645f696e6465783d31332072756c653d6c6f776573745f6966696e6465785f6e6f745f7669727475616c0d0a69705f696e74657266616365733d31302e3133312e3135372e3632236964783133236966373123737435234d6564696154656b2057692d46692037204d543739323520576972656c657373204c414e20436172640d0a69705f6578636c756465643d3139322e3136382e31372e31236964783131236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657431237669727475616c5f616461707465725f646573633b3139322e3136382e3234382e31236964783138236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657438237669727475616c5f616461707465725f646573633b3132372e302e302e31236964783123696632342373743523536f667477617265204c6f6f706261636b20496e746572666163652031236c6f6f706261636b0d0a6567726573735f696e6465783d313320726f77735f7472756e63617465643d300d0a686f73743d4c4150544f502d524f564a4e30554320636f6d70696c65723d31362e322e300d0a
+hello xiangshan, I am 等一个棋迹, IP address 10.131.157.62
+ip_candidates=10.131.157.62#idx13 selected_index=13 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.157.62#idx13#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx18#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=13 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+```
+```
+arm=team_ascii   rc=0  TEAM_ID=WHU-ICS-dengyiqi
+68656c6c6f207869616e677368616e2c204920616d205748552d4943532d64656e67796971692c20495020616464726573732031302e3133312e3135372e36320d0a69705f63616e646964617465733d31302e3133312e3135372e36322369647831332073656c65637465645f696e6465783d31332072756c653d6c6f776573745f6966696e6465785f6e6f745f7669727475616c0d0a69705f696e74657266616365733d31302e3133312e3135372e3632236964783133236966373123737435234d6564696154656b2057692d46692037204d543739323520576972656c657373204c414e20436172640d0a69705f6578636c756465643d3139322e3136382e31372e31236964783131236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657431237669727475616c5f616461707465725f646573633b3139322e3136382e3234382e31236964783138236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657438237669727475616c5f616461707465725f646573633b3132372e302e302e31236964783123696632342373743523536f667477617265204c6f6f706261636b20496e746572666163652031236c6f6f706261636b0d0a6567726573735f696e6465783d313320726f77735f7472756e63617465643d300d0a686f73743d4c4150544f502d524f564a4e30554320636f6d70696c65723d31362e322e300d0a
+hello xiangshan, I am WHU-ICS-dengyiqi, IP address 10.131.157.62
+ip_candidates=10.131.157.62#idx13 selected_index=13 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.157.62#idx13#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx18#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=13 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+```
+```
+arm=unset        rc=0  （TEAM_ID 不设）
+68656c6c6f207869616e677368616e2c204920616d205445414d5f49445f554e5345542c20495020616464726573732031302e3133312e3135372e36320d0a69705f63616e646964617465733d31302e3133312e3135372e36322369647831332073656c65637465645f696e6465783d31332072756c653d6c6f776573745f6966696e6465785f6e6f745f7669727475616c0d0a69705f696e74657266616365733d31302e3133312e3135372e3632236964783133236966373123737435234d6564696154656b2057692d46692037204d543739323520576972656c657373204c414e20436172640d0a69705f6578636c756465643d3139322e3136382e31372e31236964783131236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657431237669727475616c5f616461707465725f646573633b3139322e3136382e3234382e31236964783138236966362373743523564d77617265205669727475616c2045746865726e6574204164617074657220666f7220564d6e657438237669727475616c5f616461707465725f646573633b3132372e302e302e31236964783123696632342373743523536f667477617265204c6f6f706261636b20496e746572666163652031236c6f6f706261636b0d0a6567726573735f696e6465783d313320726f77735f7472756e63617465643d300d0a686f73743d4c4150544f502d524f564a4e30554320636f6d70696c65723d31362e322e300d0a
+hello xiangshan, I am TEAM_ID_UNSET, IP address 10.131.157.62
+ip_candidates=10.131.157.62#idx13 selected_index=13 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.157.62#idx13#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx18#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=13 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+```
+```
+arm=anyos_personal rc=0  python=3.14.7
+68656c6c6f207869616e677368616e2c204920616d2047454d7768752c20495020616464726573732031302e3133312e3135372e36320d0a69705f73656c656374696f6e5f6d6574686f643d7564705f6567726573735f6e6f5f7061636b6574735f73656e740d0a686f73743d4c4150544f502d524f564a4e30554320707974686f6e3d332e31342e3720706c6174666f726d3d77696e33320d0a48454c4c4f5f414e594f532069703d31302e3133312e3135372e36320d0a
+hello xiangshan, I am GEMwhu, IP address 10.131.157.62
+ip_selection_method=udp_egress_no_packets_sent
+host=LAPTOP-ROVJN0UC python=3.14.7 platform=win32
+HELLO_ANYOS ip=10.131.157.62
+```
+<!-- AUTO:END arm_readings -->
+
+`arm=unset` 这一条不是装饰：它是「忘记设置标识会怎样」的实测答案——程序打印
+`TEAM_ID_UNSET` 而不是留空，所以忘记设置会在输出里留下一个显眼的哨兵，
+不会被读成「这一栏填好了」。
+
+## 指纹与来历
+
+<!-- AUTO:BEGIN fingerprints -->
+| 件 | sha256 |
+|---|---|
+| `stage1/hello_xiangshan.c` sha256 | 33343cc2cf8250965a5cf50777eccb440af3f977619b421f8d7dc1076875762b |
+| `stage1/hello_xiangshan.exe` sha256 | b2266356639b9f2d857a3046a7dca40252ea859e57a36216f4875a5542b47fbb |
+| `stage1/hello_xiangshan_anyos.py` sha256 | 3bc31ce269587d001d9e4f9305d093e18c8bfd73436b4d28062f6d86b6b04475 |
+<!-- AUTO:END fingerprints -->
+
+构建式（本轮改过一次，两半都是承重的）：
+
+```
+gcc -O2 -o stage1/hello_xiangshan.exe stage1/hello_xiangshan.c -liphlpapi -lws2_32
+```
+
+两条口径限制，都不藏着：
+
+1. **构建必须经 MSYS2 shell 跑**：直接把绝对路径交给 `ld.exe` 会失败在
+   `cannot open output file D:\Desktop\RSIC-V香山\...: No such file or directory`
+   ——这条包内已记在 `docs/01`，非 ASCII 路径在本机是实测过的坑。
+2. **CJK 标识以 GBK 字节到达进程**：`TEAM_ID=等一个棋迹` 经 Python 子进程传进来时
+   已是 GBK 码，所以上面十六进制里是 `b5c8d2bb...`；换成 UTF-8 解码会失败
+   （`0xb5` 不是 UTF-8 起始字节）。这两条一起说明：这一行是**这台机器**跑出来的。
+
+另有一条本轮实测的坑，写在这是为了让换宿主的人不必再踩：mingw-w64 的
+`iptypes.h` 把 `IP_ADAPTER_ADDRESSES` 与 `GetAdaptersAddresses` 一起关在
+`_WIN32_WINNT >= 0x0600` 里，本机默认解析成 0，于是那一族的类型整个编不出来
+（实测：只 `#include <windows.h>` 与 `<iphlpapi.h>` 然后写
+`IP_ADAPTER_ADDRESSES *a = 0;` 就报 `unknown type name`，加
+`-D_WIN32_WINNT=0x0601` 仍然报）。所以本轮改用 `GetIpAddrTable` + `GetIfTable` +
+`GetIpForwardTable` 这三张老表——它们的结构体在 `iprtrmib.h` 里无条件可见，
+而 `MIB_IFROW` 恰好带着本口径需要的 `dwType` / `dwOperStatus` / `bDescr`。
+`stage1/hello_xiangshan_anyos.py` 那一臂不受这条影响，因为它不碰任何系统头文件。
+
+## 本轮的翻案（原先写的是「做不到」，那是编译期门造成的）
+
+本节这段是 2026-09-26 加的。原先这一份的来历记着「五种查询法在本机全部返回空，
+所以 IP 位由系统工具补全，不改程序让它凭空印一个地址」，`docs/01` 也照这个说法写。
+现测下来那两条查询法里 Windows 那一条**从来没被执行过**：
+
+- `gcc -dM -E` 显示本机预定义 `_WIN32` 与 `__MINGW32__`，**不**定义 `__unix__`；
+  而 `win_local_ip()` 与 `win_host_name()` 的调用点被写在
+  `#if defined(__unix__) || defined(__APPLE__)` 里面 ⇒ 出厂件里那是死代码，程序只能
+  打印 `IP address unavailable`（旧归档三臂的字节正是这样）。
+- 把调用点移出来之后仍链接不过：`undefined reference to __imp_ntohl`，
+  需要 `-lws2_32`；旧构建式只给了 `-liphlpapi`。所以「全部返回空」连一次真正的尝试
+  都不算。
+
+两条都补上之后，同一个程序自己打印出地址与真实主机名，`host=` 也不再是 `unknown`。
+旧的「做不到」说法不删，留在下面「历史」节里能被查；它被替换成的这句是实测结论。
+
+## 本轮第二次翻案（口径抓错了网卡）
+
+上面那句「程序自己打印出地址」在 2026-09-27 那一轮是真的，但它打印的**是哪个地址**
+没被问过：那一轮的判决行是 `IP address 192.168.17.1`，而本轮把网卡描述一起印出来
+之后实测到那个 IfIndex=11 的接口是 VMware 的 host-only 网卡。口径里只写着
+「非回环」，于是三块网卡里索引最小的那块虚拟网卡赢了。旧的读数原样留在「历史」一节。
+
+修法不是换一个地址写上去，而是把「什么才算本机地址」写成可复推的口径（上面那五条），
+并且加了两条本件自己说了算不了的独立见证：默认路由的接口索引，与一个不读 IP Helper、
+不读词表的纯 Python 出口查询。三条通道在本机给出同一个地址
+（`egress_index` 与 `selected_index` 相同、跨平台臂与判决行相同），
+这条一致性是 J7 每次现算的，不是抄在这里的。
+
+## 历史
+（撤回的原句留在原位）
+
+原先这一份的判决行是 `hello xiangshan, I am CIE2026-vdot, IP address 10.131.128.149`，
+其中 `CIE2026-vdot` 是占位串。占位不是造假——那一轮没有任何参赛者标识可填，
+所以文档明写了「当前形态不能直接提交，须重跑」。这句话现在作废，
+作废的原因是这一轮真的拿到了标识并真的重跑了。
+
+第二次作废：上面那句话说得太早了。它把判决行的身份位填成了团队名
+（`I am 等一个棋迹`，2026-09-25 到 2026-09-27 上午那一段时间的判决行就是这个），
+而官方目录那份原文点名的是个人标识 `GEMwhu`。口径由参赛者本人确认
+（团队名与个人标识是两个东西，1.1 要的是后者），于是把团队名那条降为其中一臂、
+把 `personal_id` 提为判决行。没重编译：标识是运行期变量，exe 与 .c 的 sha256 不变。
+
+第三次作废（本轮）：身份位没错，错的是地址。那一轮之后到本轮之前的判决行是
+`hello xiangshan, I am GEMwhu, IP address 192.168.17.1`，而这一行现在由口径判为
+不可选——那个接口是 VMware Virtual Ethernet Adapter for VMnet1。撤下来的原句留在
+这一节，不删；它同时说明为什么 `ip_excluded=` 那一行必须把原因印出来：
+一条被丢掉的地址如果只写「丢了」而不写「为什么丢」，下一次口径改动就没有对象可查。

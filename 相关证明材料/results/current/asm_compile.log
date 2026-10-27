@@ -1,0 +1,16 @@
+COMMAND ['E:\\msys64\\ucrt64\\bin/riscv64-unknown-elf-gcc.EXE', '-O2', '-ffreestanding', '-march=rv64gcv', '-mabi=lp64d', '-Wall', '-Werror', '-c', 'software/asm_compile_probe.c', '-o', 'D:/Desktop/RSIC-V香山/submission/build/asm_probe/probe.o']
+
+D:/Desktop/RSIC-V香山/submission/build/asm_probe/probe.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <vdot_compile_probe>:
+   0:	cc047fd7          	vsetivli	t6,8,e8,m1,ta,ma
+   4:	02050c07          	vle8.v	v24,(a0)
+   8:	02058c87          	vle8.v	v25,(a1)
+   c:	b38cad57          	.word	0xb38cad57
+  10:	cd00ffd7          	vsetivli	t6,1,e32,m1,ta,ma
+  14:	43a02557          	vmv.x.s	a0,v26
+  18:	2501                	sext.w	a0,a0
+  1a:	8082                	ret

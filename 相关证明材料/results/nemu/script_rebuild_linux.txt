@@ -1,0 +1,90 @@
+SCRIPT-REBUILD-LINUX v1
+question: 那一行 difftest 闭合修法连同全部构建适配折入 `nemu/apply_nemu_patch.py` 之后
+          （提交 bf34c61、90e6428、ba93750）：
+          从**钉住的上游干净副本**出发、只靠包内脚本与构建配方，能不能在目标宿主
+          （集群）上重编出参考机，并**复现认证 difftest 读数**？这是
+          `vsetvl_divergence_reread.txt` §5 not_applied 与 `vdot_corpus_difftest.txt`
+          §7 留下的最后一个缺口：读数不能只出自一棵交付脚本之外的树。
+answer: 能，且读数逐位复现。2026-10-01，集群 node15：
+        包内脚本（sha256 daf461f6370f1b35e517b22f54a2406037fc2cb13e6d3970bf51c0d9971f8b64，
+        12,470 B）施加到钉住上游 `NEMU-3d9f9fb8c05095ba84b6f9b4125234140b3de035` 的干净副本
+        （tar 包 620,124 B，sha256 10126e52fc72164fc686fa550bd4761a41646af4b641eafa1ad4f765bd267f96）
+        → `10` 处 ok（8 锚点编辑 + 2 派生 defconfig）→ `make riscv64-xs-vdot_sdtrig_defconfig`
+        + `make -j1` **0 error** → `riscv64-nemu-interpreter-so` **705,392 B——与认证 .so
+        （c47ede4e…，705392 B）尺寸一致**（链接哈希 e8b2b2e098fcc3ddf0ad950a3dd73f7a3ec98fff6
+        ed62c2d793b7b6a1db28098 ≠ c47ede4e…：同源重编链接哈希必变，本包量过的性质，
+        `results/nemu_build.txt` 与 `docs/05` §4.4）→ 接上 `emu` 跑两发认证语料：
+          probeS_e8m1：      `EXCEEDING … pc = 0x80000024`，instrCnt = **3,752**，零 mismatch
+                             （与认证 j2_probeS_after 读数逐位相同）
+          vdot_corpus_vlmax：`EXCEEDING … pc = 0x80000048`，instrCnt = **3,703**，
+                             cycleCnt = 8,000，IPC = **0.462875**，零 mismatch
+                             （与认证 j4_corpus_vlmax 读数逐位相同）
+        ⇒ 交付脚本 → 钉住上游 → 目标宿主重编 → 复现认证 difftest 读数，整条链闭合；
+        「读数出自交付脚本之外的修改」的缺口就此关闭。
+scope: 这一份回答「脚本可复现参考机并复现认证读数」。它不改变 3.1.2 的一致性口径
+        （仍是 vl=VLMAX 作用域），不重测短 vl，也不把 from-script `.so` 说成与
+        c47ede4e 逐位相同——链接哈希不同是测量过的性质，判据是行为（两发探针）与尺寸。
+
+=== 1. 输入侧对账：脚本产出 ≡ 认证树（先行一轮，node25，全部通过） ===
+在 from-pristine 构建之前，先用 8 文件 manifest 对账（认证树 `$HOME/nemu-vdot` vs
+脚本产出树）：6 个同名文件 sha256 逐一相等（Kconfig / isa-all-instr.h / decode.h /
+vcompute.h / vcommon.c / ref_defconfig）；defconfig 按内容对上——认证树
+`riscv64-xs-vdot_defconfig` 与 `.bak-sdtrig` 都等于脚本产物 `riscv64-xs-vdot_sdtrig_defconfig`
+（c1131e1b1a363daacb1af866542addb3ca38ab6dbd8a67b50d9d930e9b6b622，63+1 位截断显示）。
+`scripts/build.mk` 在脚本折入两处适配后 `BUILD_MK_IDENTICAL`（逐字节）。
+
+=== 2. from-pristine 构建逐层逼出的三个手工依赖（全部折入或入档） ===
+(a) `scripts/build.mk` CFLAGS 行 `-Werror` → `-Wno-error`（第 7 处锚点编辑）：两棵认证树
+    都手工带着它；钉住树上没有，补丁里 `Log("…%lu", vtype->vsew)` 的 `-Wformat` 警告在
+    `-Wall -Werror` 下升错误（node25 实测 3 条 error 全是它）。`%lu` 按字节等价原则保留。
+(b) `scripts/build.mk` LDFLAGS 行删 `-static-libstdc++`（第 8 处锚点编辑）：集群宿主无静态
+    libstdc++（node15 实测 `cannot find -lstdc++`）。**两棵认证树在这一行互不相同**
+    （集群删、本机留）——emu/difftest 证据链在集群侧，脚本对齐集群臂，本机分歧如实记档
+    于 `docs/05` §1 表。
+(c) `resource/softfloat/repo` 子仓：解释器浮点路径需要它，钉住上游不含（独立子仓）。
+    归 **构建配方** 而非补丁：`docs/05` §6 的复跑序列须含「子仓就位」。本轮最终配置路径
+    未消费它（见第 3 节 note），先前一轮的 fatal 发生在子仓存在但路径错位的状态下。
+三条全部是**从未入档的手工状态**，由 from-pristine 构建逐层实测逼出——这正是这一轮
+除了对账之外的第二层价值。
+
+=== 3. 最终一发（node15，判定行逐字） ===
+command: python3 apply_nemu_patch.py $HOME/NEMU-3d9f9fb8c050 $HOME/nemu-script   # 10 ok
+         make NEMU_HOME=$PWD riscv64-xs-vdot_sdtrig_defconfig                    # cfg_rc=0
+         make NEMU_HOME=$PWD -j1                                                 # build_rc=0
+stdout:  build_rc=0  errors=0
+         -rwxr-xr-x … 705392 … build/riscv64-nemu-interpreter-so
+         e8b2b2e098fcc3ddf0ad950a3dd73f7a3ec98fff6ed62c2d793b7b6a1db28098  build/riscv64-nemu-interpreter-so
+         diff scripts/build.mk $HOME/nemu-vdot/scripts/build.mk && echo BUILD_MK_IDENTICAL
+         → BUILD_MK_IDENTICAL
+difftest: cd $HOME/difftest && ulimit -s unlimited
+          ./build/emu -i $HOME/probeS_e8m1.bin      --diff <script-built .so> -C 8000
+          → The first instruction of core 0 has commited. Difftest enabled.
+          → Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000024
+          → Core-0 instrCnt = 3,752, cycleCnt = 8,000, IPC = 0.469000
+          ./build/emu -i $HOME/vdot_corpus_vlmax.bin --diff <script-built .so> -C 8000
+          → Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000048
+          → Core-0 instrCnt = 3,703, cycleCnt = 8,000, IPC = 0.462875
+          两发 `different at pc` 计数均为 0；instrCnt/IPC 与认证读数逐位相同
+          （`vdot_corpus_difftest.txt` §3/§5）。
+note_softfloat: 最终一发在**无** `resource/softfloat/repo` 的树上 0 error 编过——浮点解释
+  路径是配置门控的，from-script 树的 `.config` 在子仓缺席时生成，将该路径编出；difftest
+  状态配对不受影响（两发零分歧、`Difftest enabled` 正常为证）。认证树的 `.config` 在子仓
+  在场时生成，两树 `.config` 在这一符号上可能有别——如需逐位复刻认证 `.config`，配方中
+  先就位子仓再 defconfig。此前一轮的 `softfloat.h` fatal 是「子仓存在但解压路径错位」的
+  中间状态所致，非最终状态。
+oddity_registered: 单核节点上 wall/CPU 比异常（如 4m2s wall / 0.7s CPU、9m wall / 13s CPU）
+  ——NFS 家目录的元数据同步为主因嫌疑，不影响判定；编译本体 CPU 时间约 22–27 s。
+
+=== 4. 这一份不主张什么 ===
+not_bit_identical: from-script `.so` 与认证 `.so` **链接哈希不同**（e8b2b2e0… vs c47ede4e…）。
+  本包测过同源三饮重编哈希互异（`docs/05` §4.4），判据从来是 manifest + 行为，不是链接哈希。
+not_a_new_semantics_claim: 两发探针复现的是**已有**读数（probeS 与 vlmax 语料），不新增
+  一致性边界；短 vl 与 `vstart≠0` 的边界维持原档位。
+recipe_note: 完整配方 = 包内脚本 + 钉住上游 tar + 「`make riscv64-xs-vdot_sdtrig_defconfig`
+  （emu 臂）或 `riscv64-xs-vdot_defconfig`（本机臂）+ softfloat 子仓就位（如需浮点路径）」；
+  本机 MinGW 臂另有 §4.2 的既有适配（output.h 的 stdout/stderr 宏是 **BUILD-COPY ONLY**，
+  其文件内注释写明刻意不属于交付补丁）。
+logs_live_on_the_cluster: $HOME/j6_probeS_scriptso.log、$HOME/j6_corpus_scriptso.log、
+  $HOME/nemu_script_build.log、$HOME/nemu_script_cfg.log 为读数原件，别删。
+
+SCRIPT-REBUILD-LINUX VERDICT PASS - package script on pinned pristine rebuilt the reference on the target host, 705392 B, both certified probes reproduced with instruction-count-identical readings, zero mismatch

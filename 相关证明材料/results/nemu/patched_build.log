@@ -1,0 +1,148 @@
+Makefile:40: You have set CONFIG_FLASH_IMG_PATH option, but the specified path '""' does not exist!
++ CC src/nemu-main.c
++ CC src/device/device.c
++ CC src/device/alarm.c
++ CC src/device/intr.c
++ CC src/device/flash.c
++ CC src/cpu/cpu-exec.c
++ CC src/cpu/difftest/ame/amuctrl.c
++ CC src/cpu/difftest/ame/msync.c
+In file included from /d/nemu-vdot/include/debug.h:22,
+                 from /d/nemu-vdot/include/common.h:51,
+                 from /d/nemu-vdot/include/cpu/cpu.h:19,
+                 from src/cpu/cpu-exec.c:18:
+D:/nemu-vdot/src/isa/riscv64/include/../instr/rvv/vcompute.h: In function 'exec_vdot':
+/d/nemu-vdot/include/debug.h:30:10: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'int' [-Wformat=]
+   30 |     _Log("\33[1;34m[%s:%d,%s] " format "\33[0m\n", \
+      |          ^~~~~~~~~~~~~~~~~~~~~~
+/d/nemu-vdot/include/utils.h:99:94: note: in definition of macro 'log_write'
+   99 |         snprintf(log_filebuf + record_row_number * SMALL_LOG_ROW_BYTES, SMALL_LOG_ROW_BYTES, __VA_ARGS__);\
+      |                                                                                              ^~~~~~~~~~~
+/d/nemu-vdot/include/debug.h:30:5: note: in expansion of macro '_Log'
+   30 |     _Log("\33[1;34m[%s:%d,%s] " format "\33[0m\n", \
+      |     ^~~~
+D:/nemu-vdot/src/isa/riscv64/include/../instr/rvv/vcompute.h:279:5: note: in expansion of macro 'Log'
+  279 |     Log("vdot.vv requires SEW=8, vtype.vsew=%lu", vtype->vsew);
+      |     ^~~
+/d/nemu-vdot/include/debug.h:30:10: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'int' [-Wformat=]
+   30 |     _Log("\33[1;34m[%s:%d,%s] " format "\33[0m\n", \
+      |          ^~~~~~~~~~~~~~~~~~~~~~
+/d/nemu-vdot/include/utils.h:102:25: note: in definition of macro 'log_write'
+  102 |         fprintf(log_fp, __VA_ARGS__); \
+      |                         ^~~~~~~~~~~
+/d/nemu-vdot/include/debug.h:30:5: note: in expansion of macro '_Log'
+   30 |     _Log("\33[1;34m[%s:%d,%s] " format "\33[0m\n", \
+      |     ^~~~
+D:/nemu-vdot/src/isa/riscv64/include/../instr/rvv/vcompute.h:279:5: note: in expansion of macro 'Log'
+  279 |     Log("vdot.vv requires SEW=8, vtype.vsew=%lu", vtype->vsew);
+      |     ^~~
+/d/nemu-vdot/include/debug.h:30:10: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'int' [-Wformat=]
+   30 |     _Log("\33[1;34m[%s:%d,%s] " format "\33[0m\n", \
+      |          ^~~~~~~~~~~~~~~~~~~~~~
+/d/nemu-vdot/include/utils.h:106:14: note: in definition of macro 'log_write'
+  106 |       printf(__VA_ARGS__); \
+      |              ^~~~~~~~~~~
+/d/nemu-vdot/include/debug.h:30:5: note: in expansion of macro '_Log'
+   30 |     _Log("\33[1;34m[%s:%d,%s] " format "\33[0m\n", \
+      |     ^~~~
+D:/nemu-vdot/src/isa/riscv64/include/../instr/rvv/vcompute.h:279:5: note: in expansion of macro 'Log'
+  279 |     Log("vdot.vv requires SEW=8, vtype.vsew=%lu", vtype->vsew);
+      |     ^~~
++ CC src/cpu/difftest/dut.c
++ CC src/cpu/difftest/ref.c
++ CC src/cpu/instr_stat.c
++ CC src/cpu/tcache.c
++ CC src/monitor/aligncheck.c
++ CC src/monitor/fdt_rng_seed.c
++ CC src/monitor/image_loader.c
++ CC src/monitor/monitor.c
++ CC src/monitor/ui.c
++ CC src/monitor/watchpoint.c
++ CC src/utils/br_log.c
++ CC src/utils/dynamic-config.c
++ CC src/utils/expr.c
++ CC src/utils/filename.c
++ CC src/utils/iqueue.c
++ CC src/utils/log.c
++ CC src/utils/state.c
++ CC src/utils/timer.c
++ CC src/memory/host-tlb.c
++ CC src/memory/paddr.c
++ CC src/memory/vaddr.c
++ CC src/isa/riscv64/ame/raw_fp4_memory.c
++ CC src/isa/riscv64/clint.c
++ CC src/isa/riscv64/difftest/dut.c
++ CC src/isa/riscv64/difftest/ref.c
++ CC src/isa/riscv64/init.c
++ CC src/isa/riscv64/instr/ame/mcompute_impl.c
++ CC src/isa/riscv64/instr/ame/mldst_fast.c
++ CC src/isa/riscv64/instr/ame/mldst_impl.c
++ CC src/isa/riscv64/instr/ame/mldst_transpose_fast.c
++ CC src/isa/riscv64/instr/ame/mreg.c
++ CC src/isa/riscv64/instr/decode.c
++ CC src/isa/riscv64/instr/fp.c
++ CC src/isa/riscv64/instr/mp.c
++ CC src/isa/riscv64/instr/priv/system.c
++ CC src/isa/riscv64/instr/rva/amo.c
++ CC src/isa/riscv64/instr/rvb/rvintrin.c
++ CC src/isa/riscv64/instr/rvcbo/cbo_impl.c
++ CC src/isa/riscv64/instr/rvk/aes_common.c
++ CC src/isa/riscv64/instr/rvk/crypto_impl.c
++ CC src/isa/riscv64/instr/rvt/conv2d.c
++ CC src/isa/riscv64/instr/rvt/convert.c
++ CC src/isa/riscv64/instr/rvt/element_wise.c
++ CC src/isa/riscv64/instr/rvt/matmul.c
++ CC src/isa/riscv64/instr/rvt/matmul_subfloat.c
++ CC src/isa/riscv64/instr/rvt/pooling.c
++ CC src/isa/riscv64/instr/rvt/register.c
++ CC src/isa/riscv64/instr/rvt/sfu.c
++ CC src/isa/riscv64/instr/rvt/tensor_copy.c
++ CC src/isa/riscv64/instr/rvt/tensor_init.c
++ CC src/isa/riscv64/instr/rvt/type.c
++ CC src/isa/riscv64/instr/rvv/vcommon.c
++ CC src/isa/riscv64/instr/rvv/vcompute_impl.c
++ CC src/isa/riscv64/instr/rvv/vfexp2.c
++ CC src/isa/riscv64/instr/rvv/vldst_impl.c
++ CC src/isa/riscv64/instr/rvv/vreg_impl.c
++ CC src/isa/riscv64/instr/vp.c
++ CC src/isa/riscv64/logo.c
++ CC src/isa/riscv64/reg.c
++ CC src/isa/riscv64/system/aia.c
++ CC src/isa/riscv64/system/intr.c
++ CC src/isa/riscv64/system/mmu.c
++ CC src/isa/riscv64/system/priv.c
++ CC src/isa/riscv64/system/timer.c
++ CC src/isa/riscv64/system/trigger.c
++ CC src/engine/interpreter/fp.c
++ CC src/engine/interpreter/hostcall.c
++ CC src/engine/interpreter/init.c
++ CC src/device/io/map.c
++ CC src/device/io/mmio.c
++ CC src/device/io/port-io.c
++ CC src/profiling/profiling_control.c
++ CC src/checkpoint/cpt_env.c
++ CXX src/checkpoint/path_manager.cpp
++ CXX src/checkpoint/semantic_point.cpp
++ CXX src/checkpoint/serializer.cpp
++ CXX src/checkpoint/simpoint.cpp
++ CXX src/base/output.cpp
++ CXX src/iostream3/zfstream.cpp
++ CXX src/cpu/difftest/ame/amu_ctrl_queue_wrapper.cpp
++ CXX src/cpu/difftest/ame/msync_queue_wrapper.cpp
++ CXX src/memory/store_queue_wrapper.cpp
++ CXX src/memory/elfloader.cpp
++ g++ -include /d/nemu_shim.hpp /d/nemu-vdot/build/riscv64-nemu-interpreter-so
+
+
+patched CFG_RC=0
+patched BUILD_RC=0
+
+patched objects=91
+patched product_bytes=3560008
+patched product_sha256=aa1f5d8b25e7b7ed4e3ceeca6bde13f6a83dd69ea26eb6fedf92751a17a541cf
+patched config_sha256=243ecd2a0b51f5618980b52dfcdbf6fc9675f372aa7e39ca0e982a0d403344c8
+patched source_manifest_sha256=953ad9054462f5188e672d109b83778a1cc7eac657cf637e3bec1455721ab71e
+patched vdot_exports=1
+patched vdot_export_line=exec_vdot.lto_priv.0
+patched total_exports=1843
+patched alt_link_hashes=3560008B:12f503ef(pre-edit)-aa1f5d8b(with-markdirty,same.size,2cleanbuilds)

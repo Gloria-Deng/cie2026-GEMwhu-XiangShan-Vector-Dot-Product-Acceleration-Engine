@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+
+
+
+
+
+
+
+
+
+
+
+from __future__ import annotations
+
+import glob
+import io
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.normpath(os.path.join(HERE, os.pardir, os.pardir))
+TESTS = os.path.join(ROOT, "tests")
+
+
+def reg_bytes(hexstr):
+
+    if len(hexstr) != 32 or any(c not in "0123456789abcdefABCDEF" for c in hexstr):
+        raise SystemExit("unexpected register field: %r" % hexstr)
+    return bytes(int(hexstr[i:i + 2], 16)
+                 for i in range(30, -1, -2))
+
+
+def case_rows(path):
+
+
+
+
+    for ln in io.open(path, encoding="utf-8"):
+        f = ln.split()
+        if len(f) != 4:
+            continue
+        _idx, vs1, vs2, vd = f
+        b1, b2, bvd = reg_bytes(vs1), reg_bytes(vs2), reg_bytes(vd)
+
+        want = bvd[0] | (bvd[1] << 8) | (bvd[2] << 16) | (bvd[3] << 24)
+
+        if any(bvd[i] for i in range(4, 16)):
+            raise SystemExit("%s: expected vd bits 31..127 nonzero -- %s"
+                             % (os.path.basename(path), vd))
+        yield (b1.hex(), b2.hex(), "%08x" % want)
+
+
+def input_counts(tests_dir=None):
+
+
+    tests_dir = tests_dir or TESTS
+    out = {}
+    for path in sorted(glob.glob(os.path.join(tests_dir, "cases_*.txt"))):
+        out[os.path.basename(path)] = sum(1 for _ in case_rows(path))
+    if not out:
+        raise SystemExit("no tests/cases_*.txt under %s -- refusing to report a "
+                         "case composition from an empty corpus" % tests_dir)
+    return out
+
+
+def read_dump(path):
+
+
+
+
+
+
+
+
+    if not os.path.isfile(path):
+        raise SystemExit("--expectations-from: no such file %s" % path)
+    out = {}
+    for ln in io.open(path, encoding="utf-8"):
+        f = ln.split()
+        if not f or f[0] != "DUMP":
+            continue
+        if len(f) != 4:
+            raise SystemExit("--expectations-from: malformed DUMP row: %r" % ln.strip())
+        _tag, grp, idx, vdhex = f
+        if len(vdhex) != 32 or any(c not in "0123456789abcdef" for c in vdhex.lower()):
+            raise SystemExit("--expectations-from: DUMP value is not 32 hex chars: %r"
+                             % vdhex)
+
+
+
+
+        if any(b != "0" for b in vdhex[:24]):
+            raise SystemExit("--expectations-from: %s %s has nonzero vd[1..127]: %s"
+                             % (grp, idx, vdhex))
+        key = (grp, int(idx))
+        if key in out:
+            raise SystemExit("--expectations-from: duplicate DUMP row for %s %s"
+                             % (grp, idx))
+        out[key] = vdhex
+    if not out:
+        raise SystemExit("--expectations-from: %s contains no DUMP rows -- refusing to "
+                         "substitute expectations from an empty set" % path)
+    return out
+
+
+def main():
+
+
+    if len(sys.argv) > 1 and sys.argv[1] == "--composition":
+        counts = input_counts()
+        parts = ["%s=%d" % kv for kv in sorted(counts.items())]
+        parts.append("total=%d" % sum(counts.values()))
+        sys.stdout.write(",".join(parts) + "\n")
+        return 0
+
+
+
+
+
+    dump = None
+    dump_path = None
+    args = list(sys.argv[1:])
+    if "--expectations-from" in args:
+        i = args.index("--expectations-from")
+        if i + 1 >= len(args):
+            raise SystemExit("--expectations-from needs a path")
+        dump_path = args[i + 1]
+        dump = read_dump(dump_path)
+        args = args[:i] + args[i + 2:]
+    out_path = args[0] if args else None
+    lines, per_file = [], {}
+    used = set()
+    differ = 0
+    first_differ = 0
+    ordinal = 0
+    for path in sorted(glob.glob(os.path.join(TESTS, "cases_*.txt"))):
+        grp = os.path.basename(path)[len("cases_"):-len(".txt")]
+        n_here = 0
+        for i, row in enumerate(case_rows(path)):
+            ordinal += 1
+            n_here += 1
+            if dump is not None:
+                key = (grp, i)
+                if key not in dump:
+                    raise SystemExit("the RTL dump has no row for %s case %d -- the dump "
+                                     "and tests/ do not cover the same vectors" % key)
+                used.add(key)
+                bvd = reg_bytes(dump[key])
+                vd0 = bvd[0] | (bvd[1] << 8) | (bvd[2] << 16) | (bvd[3] << 24)
+                new = (row[0], row[1], "%08x" % vd0)
+                if new[2] != row[2]:
+                    differ += 1
+                    if not first_differ:
+                        first_differ = ordinal
+                row = new
+            lines.append("%s %s %s" % row)
+        per_file[os.path.basename(path)] = n_here
+    if dump is not None:
+
+
+        unused = sorted(set(dump) - used)
+        if unused:
+            raise SystemExit("%d DUMP row(s) were never used, e.g. %s %s -- the dump does "
+                             "not match the corpus in tests/" % (len(unused), unused[0][0],
+                                                                 unused[0][1]))
+    head = ("# generated by nemu/cosim/rtl_vectors_to_cosim.py from tests/cases_*.txt\n"
+            "# same input bytes and same expected vd[0] the RTL matrix was checked with\n")
+    src = ""
+    if dump is not None:
+        src = ("# expectations_from_rtl_dump=%s rows=%d substituted=%d differ_from_golden=%d"
+               " first_differing_line=%d\n"
+               % (dump_path.replace("\\", "/"), len(dump), len(lines), differ,
+                  first_differ))
+    body = head + src + "\n".join(lines) + "\n"
+    if out_path:
+        io.open(out_path, "w", encoding="utf-8", newline="\n").write(body)
+    for k in sorted(per_file):
+        print("  %-22s %d cases" % (k, per_file[k]))
+    print("rtl_vectors_to_cosim: total=%d -> %s"
+          % (len(lines), out_path or "stdout"))
+    if dump is not None:
+        print("BRIDGE_EXPECTATIONS_FROM_RTL rows=%d substituted=%d differ=%d "
+              "first_differing_line=%d"
+              % (len(dump), len(lines), differ, first_differ))
+
+    if len(lines) < 900:
+        raise SystemExit("only %d vectors converted; tests/ moved?" % len(lines))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

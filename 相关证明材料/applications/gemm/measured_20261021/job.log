@@ -1,0 +1,166 @@
+===== build\collect\16\sbatch.log =====
+== job 3732028 on n0369 ==
+== submission /project/chensiyuan/vdot/submission_20261019 ==
+== sizes=16 impls=0,1,2,3,4,5,6 repeats=16:3 ==
+== out /project/chensiyuan/vdot/run_20261016_m/gemm_cycles_opt/16 ==
+a13197d9519a7546e4c6bcae3e4890161f6c07404b57e0288783f27bf5bb7485  /project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu
+fcf124d533eb0459a5861717b63c2db4aea608f46cff49edf933500d0cc633ff  /project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so
+JobID           JobName      State ExitCode    Elapsed  AllocTRES 
+------------ ---------- ---------- -------- ---------- ---------- 
+3732028      vdot-gemm+    RUNNING      0:0   00:00:01 billing=1+ 
+3732028.bat+      batch    RUNNING      0:0   00:00:01 cpu=16,me+ 
+3732028.ext+     extern    RUNNING      0:0   00:00:01 billing=1+ 
+== generate ==
+gemm_scalar_16x16x16 18789
+gemm_vector_16x16x16 18789
+gemm_vector_packed_16x16x16 18789
+gemm_vdot_16x16x16 18789
+gemm_vdot_packed_16x16x16 18789
+gemm_vdot_movx_16x16x16 18789
+gemm_vdot_movx_packed_16x16x16 18789
+gemm_vdot_vecacc_16x16x16 18789
+gemm_vdot_vecacc_packed_16x16x16 18789
+gemm_vdot_unroll4_16x16x16 18789
+gemm_vdot_unroll4_packed_16x16x16 18789
+gemm_vdot_vecacc_unroll_16x16x16 18789
+gemm_vdot_vecacc_unroll_packed_16x16x16 18789
+== compile ==
+compiled gemm_scalar_16x16x16 266240 bytes
+compiled gemm_vdot_16x16x16 266240 bytes
+compiled gemm_vdot_movx_16x16x16 266240 bytes
+compiled gemm_vdot_movx_packed_16x16x16 266240 bytes
+compiled gemm_vdot_packed_16x16x16 266240 bytes
+compiled gemm_vdot_unroll4_16x16x16 266240 bytes
+compiled gemm_vdot_unroll4_packed_16x16x16 266240 bytes
+compiled gemm_vdot_vecacc_16x16x16 266240 bytes
+compiled gemm_vdot_vecacc_packed_16x16x16 266240 bytes
+compiled gemm_vdot_vecacc_unroll_16x16x16 266240 bytes
+compiled gemm_vdot_vecacc_unroll_packed_16x16x16 266240 bytes
+compiled gemm_vector_16x16x16 266240 bytes
+compiled gemm_vector_packed_16x16x16 266240 bytes
+== static variant preflight ==
+name,impl,impl_name,packed,vdot26,vdot27,vdot28,vdot29,vdot4,vdot5,vdot6,vdot7,vs1r,vmv_x_s,vadd,status
+gemm_vdot_16x16x16,2,vdot,0,2,0,0,0,0,0,0,0,2,0,0,OK
+gemm_vdot_packed_16x16x16,2,vdot,1,2,0,0,0,0,0,0,0,2,0,0,OK
+gemm_vdot_movx_16x16x16,3,vdot_movx,0,2,0,0,0,0,0,0,0,0,2,0,OK
+gemm_vdot_movx_packed_16x16x16,3,vdot_movx,1,2,0,0,0,0,0,0,0,0,2,0,OK
+gemm_vdot_vecacc_16x16x16,4,vdot_vecacc,0,0,0,0,0,1,1,0,0,0,1,2,OK
+gemm_vdot_vecacc_packed_16x16x16,4,vdot_vecacc,1,0,0,0,0,1,1,0,0,0,1,2,OK
+gemm_vdot_unroll4_16x16x16,5,vdot_unroll4,0,1,1,1,1,0,0,0,0,4,0,0,OK
+gemm_vdot_unroll4_packed_16x16x16,5,vdot_unroll4,1,1,1,1,1,0,0,0,0,4,0,0,OK
+gemm_vdot_vecacc_unroll_16x16x16,6,vdot_vecacc_unroll,0,0,0,0,0,1,1,1,1,0,4,4,OK
+gemm_vdot_vecacc_unroll_packed_16x16x16,6,vdot_vecacc_unroll,1,0,0,0,0,1,1,1,1,0,4,4,OK
+GEMM_VARIANT_PREFLIGHT PASS checked 10
+== run ==
+gemm_scalar_16x16x16 repeat 1 PASS 6144
+gemm_scalar_16x16x16 repeat 2 PASS 6144
+gemm_scalar_16x16x16 repeat 3 PASS 6144
+gemm_vector_16x16x16 repeat 1 PASS 6144
+gemm_vector_16x16x16 repeat 2 PASS 6144
+gemm_vector_16x16x16 repeat 3 PASS 6144
+gemm_vector_packed_16x16x16 repeat 1 PASS 5120
+gemm_vector_packed_16x16x16 repeat 2 PASS 5120
+gemm_vector_packed_16x16x16 repeat 3 PASS 5120
+gemm_vdot_16x16x16 repeat 1 PASS 33792
+gemm_vdot_16x16x16 repeat 2 PASS 33792
+gemm_vdot_16x16x16 repeat 3 PASS 33792
+gemm_vdot_packed_16x16x16 repeat 1 PASS 29696
+gemm_vdot_packed_16x16x16 repeat 2 PASS 29696
+gemm_vdot_packed_16x16x16 repeat 3 PASS 29696
+gemm_vdot_movx_16x16x16 repeat 1 PASS 5120
+gemm_vdot_movx_16x16x16 repeat 2 PASS 5120
+gemm_vdot_movx_16x16x16 repeat 3 PASS 5120
+gemm_vdot_movx_packed_16x16x16 repeat 1 PASS 4096
+gemm_vdot_movx_packed_16x16x16 repeat 2 PASS 4096
+gemm_vdot_movx_packed_16x16x16 repeat 3 PASS 4096
+gemm_vdot_vecacc_16x16x16 repeat 1 PASS 6144
+gemm_vdot_vecacc_16x16x16 repeat 2 PASS 6144
+gemm_vdot_vecacc_16x16x16 repeat 3 PASS 6144
+gemm_vdot_vecacc_packed_16x16x16 repeat 1 PASS 4096
+gemm_vdot_vecacc_packed_16x16x16 repeat 2 PASS 4096
+gemm_vdot_vecacc_packed_16x16x16 repeat 3 PASS 4096
+gemm_vdot_unroll4_16x16x16 repeat 1 PASS 11264
+gemm_vdot_unroll4_16x16x16 repeat 2 PASS 11264
+gemm_vdot_unroll4_16x16x16 repeat 3 PASS 11264
+gemm_vdot_unroll4_packed_16x16x16 repeat 1 PASS 8192
+gemm_vdot_unroll4_packed_16x16x16 repeat 2 PASS 8192
+gemm_vdot_unroll4_packed_16x16x16 repeat 3 PASS 8192
+gemm_vdot_vecacc_unroll_16x16x16 repeat 1 PASS 5120
+gemm_vdot_vecacc_unroll_16x16x16 repeat 2 PASS 5120
+gemm_vdot_vecacc_unroll_16x16x16 repeat 3 PASS 5120
+gemm_vdot_vecacc_unroll_packed_16x16x16 repeat 1 PASS 3072
+gemm_vdot_vecacc_unroll_packed_16x16x16 repeat 2 PASS 3072
+gemm_vdot_vecacc_unroll_packed_16x16x16 repeat 3 PASS 3072
+GEMM_CYCLES_DONE 39 / 39 program-repeats; rows 41 FAIL_rows 2
+GEMM_CYCLES_PASS /project/chensiyuan/vdot/run_20261016_m/gemm_cycles_opt/16/gemm_cycles_summary.csv
+
+===== build\collect\32\sbatch.log =====
+== job 3736507 on n0375 ==
+== submission /project/chensiyuan/vdot/submission_20261019 ==
+== sizes=32 impls=0,1,2,3,4,5,6 repeats=32:1 ==
+== out /project/chensiyuan/vdot/run_20261016_m/gemm_cycles_opt/32 ==
+a13197d9519a7546e4c6bcae3e4890161f6c07404b57e0288783f27bf5bb7485  /project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu
+fcf124d533eb0459a5861717b63c2db4aea608f46cff49edf933500d0cc633ff  /project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so
+JobID           JobName      State ExitCode    Elapsed  AllocTRES 
+------------ ---------- ---------- -------- ---------- ---------- 
+3736507      vdot-gemm+    RUNNING      0:0   00:00:01 billing=1+ 
+3736507.bat+      batch    RUNNING      0:0   00:00:01 cpu=16,me+ 
+3736507.ext+     extern    RUNNING      0:0   00:00:01 billing=1+ 
+== generate ==
+gemm_scalar_32x32x32 29160
+gemm_vector_32x32x32 29160
+gemm_vector_packed_32x32x32 29160
+gemm_vdot_32x32x32 29160
+gemm_vdot_packed_32x32x32 29160
+gemm_vdot_movx_32x32x32 29160
+gemm_vdot_movx_packed_32x32x32 29160
+gemm_vdot_vecacc_32x32x32 29160
+gemm_vdot_vecacc_packed_32x32x32 29160
+gemm_vdot_unroll4_32x32x32 29160
+gemm_vdot_unroll4_packed_32x32x32 29160
+gemm_vdot_vecacc_unroll_32x32x32 29160
+gemm_vdot_vecacc_unroll_packed_32x32x32 29160
+== compile ==
+compiled gemm_scalar_32x32x32 270336 bytes
+compiled gemm_vdot_32x32x32 270336 bytes
+compiled gemm_vdot_movx_32x32x32 270336 bytes
+compiled gemm_vdot_movx_packed_32x32x32 270336 bytes
+compiled gemm_vdot_packed_32x32x32 270336 bytes
+compiled gemm_vdot_unroll4_32x32x32 270336 bytes
+compiled gemm_vdot_unroll4_packed_32x32x32 270336 bytes
+compiled gemm_vdot_vecacc_32x32x32 270336 bytes
+compiled gemm_vdot_vecacc_packed_32x32x32 270336 bytes
+compiled gemm_vdot_vecacc_unroll_32x32x32 270336 bytes
+compiled gemm_vdot_vecacc_unroll_packed_32x32x32 270336 bytes
+compiled gemm_vector_32x32x32 270336 bytes
+compiled gemm_vector_packed_32x32x32 270336 bytes
+== static variant preflight ==
+name,impl,impl_name,packed,vdot26,vdot27,vdot28,vdot29,vdot4,vdot5,vdot6,vdot7,vs1r,vmv_x_s,vadd,status
+gemm_vdot_32x32x32,2,vdot,0,1,0,0,0,0,0,0,0,1,0,0,OK
+gemm_vdot_packed_32x32x32,2,vdot,1,1,0,0,0,0,0,0,0,1,0,0,OK
+gemm_vdot_movx_32x32x32,3,vdot_movx,0,1,0,0,0,0,0,0,0,0,1,0,OK
+gemm_vdot_movx_packed_32x32x32,3,vdot_movx,1,1,0,0,0,0,0,0,0,0,1,0,OK
+gemm_vdot_vecacc_32x32x32,4,vdot_vecacc,0,0,0,0,0,1,1,1,1,0,1,4,OK
+gemm_vdot_vecacc_packed_32x32x32,4,vdot_vecacc,1,0,0,0,0,1,1,1,1,0,1,4,OK
+gemm_vdot_unroll4_32x32x32,5,vdot_unroll4,0,1,1,1,1,0,0,0,0,4,0,0,OK
+gemm_vdot_unroll4_packed_32x32x32,5,vdot_unroll4,1,1,1,1,1,0,0,0,0,4,0,0,OK
+gemm_vdot_vecacc_unroll_32x32x32,6,vdot_vecacc_unroll,0,0,0,0,0,1,1,1,1,0,4,4,OK
+gemm_vdot_vecacc_unroll_packed_32x32x32,6,vdot_vecacc_unroll,1,0,0,0,0,1,1,1,1,0,4,4,OK
+GEMM_VARIANT_PREFLIGHT PASS checked 10
+== run ==
+gemm_scalar_32x32x32 repeat 1 PASS 55296
+gemm_vector_32x32x32 repeat 1 PASS 49152
+gemm_vector_packed_32x32x32 repeat 1 PASS 41984
+gemm_vdot_32x32x32 repeat 1 PASS 268288
+gemm_vdot_packed_32x32x32 repeat 1 PASS 237568
+gemm_vdot_movx_32x32x32 repeat 1 PASS 40960
+gemm_vdot_movx_packed_32x32x32 repeat 1 PASS 31744
+gemm_vdot_vecacc_32x32x32 repeat 1 PASS 49152
+gemm_vdot_vecacc_packed_32x32x32 repeat 1 PASS 27648
+gemm_vdot_unroll4_32x32x32 repeat 1 PASS 94208
+gemm_vdot_unroll4_packed_32x32x32 repeat 1 PASS 63488
+gemm_vdot_vecacc_unroll_32x32x32 repeat 1 PASS 46080
+gemm_vdot_vecacc_unroll_packed_32x32x32 repeat 1 PASS 22528
+GEMM_CYCLES_DONE 13 / 13 program-repeats; rows 18 FAIL_rows 5
+GEMM_CYCLES_PASS /project/chensiyuan/vdot/run_20261016_m/gemm_cycles_opt/32/gemm_cycles_summary.csv
+

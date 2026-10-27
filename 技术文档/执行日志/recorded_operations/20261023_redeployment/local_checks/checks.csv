@@ -1,0 +1,13 @@
+﻿check,status,exit_code,seconds,details
+environment,PASS,0,15.09,/root/gemwhu-stage1-20261023/checks/environment.txt
+inputs,PASS,0,0.22,/root/gemwhu-stage1-20261023/checks/inputs.txt
+recorded_results,PASS,0,11.94,/root/gemwhu-stage1-20261023/checks/recorded_results.txt
+reference_model,PASS,0,0.01,/root/gemwhu-stage1-20261023/checks/reference_model.txt
+basic_rtl,PASS,0,0.90,/root/gemwhu-stage1-20261023/checks/basic_rtl.txt
+latency_replay,PASS,0,8.96,/root/gemwhu-stage1-20261023/checks/latency_replay.txt
+vadd_original_wave,PASS,0,1.85,/root/gemwhu-stage1-20261023/checks/vadd_original_wave.txt
+vadd_invalid_inputs,PASS,0,0.44,/root/gemwhu-stage1-20261023/checks/vadd_invalid_inputs.txt
+full_suite_parser,PASS,0,0.03,/root/gemwhu-stage1-20261023/checks/full_suite_parser.txt
+cluster_parser,PASS,0,0.03,/root/gemwhu-stage1-20261023/checks/cluster_parser.txt
+vadd_rebuild,PASS,0,0.07,/root/gemwhu-stage1-20261023/checks/vadd_rebuild.txt
+basic_program_build,PASS,0,0.04,/root/gemwhu-stage1-20261023/checks/basic_program_build.txt

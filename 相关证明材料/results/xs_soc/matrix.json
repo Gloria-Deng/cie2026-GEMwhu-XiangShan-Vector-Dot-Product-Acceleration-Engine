@@ -1,0 +1,43 @@
+{
+  "all_ok": true,
+  "dut": "rtl/xs_soc_generated/VDotUnit.sv",
+  "dut_sha256": "aef7ffabe2e6a840973590d743213eb7f15e70472f39038eb350f1f0c05b985f",
+  "fail": 0,
+  "groups": {
+    "bound": {
+      "fail": 0,
+      "pass": 45,
+      "rc": 0,
+      "total": 45,
+      "unstable": 0,
+      "verdict": "PASS"
+    },
+    "neg": {
+      "fail": 0,
+      "pass": 48,
+      "rc": 0,
+      "total": 48,
+      "unstable": 0,
+      "verdict": "PASS"
+    },
+    "pos": {
+      "fail": 0,
+      "pass": 46,
+      "rc": 0,
+      "total": 46,
+      "unstable": 0,
+      "verdict": "PASS"
+    },
+    "rand": {
+      "fail": 0,
+      "pass": 800,
+      "rc": 0,
+      "total": 800,
+      "unstable": 0,
+      "verdict": "PASS"
+    }
+  },
+  "pass": 939,
+  "total": 939,
+  "unstable": 0
+}

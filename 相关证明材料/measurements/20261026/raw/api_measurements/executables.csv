@@ -1,0 +1,3 @@
+role,path,content
+emu,/project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu,a13197d9519a7546e4c6bcae3e4890161f6c07404b57e0288783f27bf5bb7485
+NEMU,/project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so,fcf124d533eb0459a5861717b63c2db4aea608f46cff49edf933500d0cc633ff

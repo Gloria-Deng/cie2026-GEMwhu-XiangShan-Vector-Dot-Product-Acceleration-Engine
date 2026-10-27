@@ -1,0 +1,15 @@
+golden model PASS
+RTL configuration and mutation matrix PASS
+Chisel datapath comparison PASS
+current XiangShan FU wrapper PASS
+vadd demonstration model and waveform PASS
+software host functional checks PASS
+RISC-V C inline assembly compile FAIL
+
+
+full-SoC log parser negative checks PASS
+fresh evidence results/current/fixed_wrapper.json PASS
+fresh evidence results/current/instruction_cosim.json PASS
+fresh evidence results/current/programs_nemu.json PASS
+fresh evidence results/current/patch_export.json PASS
+LOCAL_FAIL FULL_SOC_PASS

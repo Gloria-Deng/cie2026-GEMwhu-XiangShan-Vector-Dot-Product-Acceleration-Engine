@@ -1,0 +1,2 @@
+INSTALL_CHECK_PASS files=10
+Installation script and supplied patch produce identical source text.

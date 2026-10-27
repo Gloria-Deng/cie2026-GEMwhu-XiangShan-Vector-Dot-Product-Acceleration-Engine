@@ -1,0 +1,21 @@
+before: marker_present=False anchor_hits=1
+after : marker_present=True undef_stdout=1 undef_stderr=1 bytes=10337->11042
+OUTPUT_H_PATCH OK
+PATCH_RC=0
+BUILD_RC=2
+== error count ==
+3
+== first errors ==
+6:<command-line>: fatal error: D:/nemu_shim.hpp: No such file or directory
+8:<command-line>: fatal error: D:/nemu_shim.hpp: No such file or directory
+13:<command-line>: fatal error: D:/nemu_shim.hpp: No such file or directory
+== objects ==
+81
+== products ==
+== tail of log ==
+make: *** [D:/nemu-vdot/scripts/build.mk:73: /d/nemu-vdot/build/obj-riscv64-nemu-interpreter-so/src/base/output.opp] Error 1
+<command-line>: fatal error: D:/nemu_shim.hpp: No such file or directory
+compilation terminated.
+make: *** [D:/nemu-vdot/scripts/build.mk:73: /d/nemu-vdot/build/obj-riscv64-nemu-interpreter-so/src/checkpoint/simpoint.opp] Error 1
+mkdir -p resource/softfloat/build
+ln -sf /d/nemu-vdot/resource/softfloat/repo/build/Linux-x86_64-GCC/softfloat.a resource/softfloat/build/softfloat.a

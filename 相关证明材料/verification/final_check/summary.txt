@@ -1,0 +1,8 @@
+POSITION_CHECK_PASS cases=48 implementations=2
+REFERENCE_PAIR_PASS cases=48
+ERROR_DETECTION_PASS variants=41
+EQUIVALENCE_PASS variants=28
+INSTRUCTION_READER_PASS cases=13 supplied_elf=1
+RTL_COMPARISONS total=3408
+scope=module_arithmetic_and_full_128_bit_output
+alias_and_illegal_states=existing_full_processor_results_only

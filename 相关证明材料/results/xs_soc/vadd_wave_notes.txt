@@ -1,0 +1,115 @@
+vadd_wave.vcd 逐相位读法 —— 香山生成 RTL 里 `VIAluFix` 执行 vadd.vv 的那一拍
+================================================================
+
+被放大的对象（DUT）：`tb_vialu_soc.dut` = 模块 `VIAluFix`，文件
+`rtl/xs_soc_generated_vadd/VIAluFix.sv`（sha256 见 `results/xs_soc/vadd.txt` 的
+`FILE` 行），即香山 kunminghu-v2 树 elaborate + firtool 生成的那颗实现 RVV `vadd.vv`
+的功能单元，一个字节都没有改。全部 18 个闭包文件的运行期指纹也在那份 txt 里。
+
+这一条波形是 `+DUMP +ONLYCASE=0` 那一臂跑出来的，对应
+`tests/cases_vadd.txt` 第 1 行：sew=0（SEW=8）、vl=16、vm=1、vta=0、vma=0、
+vs1=0x03030303030303030303030303030303、vs2=0x05050505050505050505050505050505、
+old_vd=0、期望 vd=0x08080808080808080808080808080808。
+
+时间单位：VCD 头写 `$timescale 1ps`；台架 `always #1 clock = ~clock` ⇒ 时钟周期
+2000 个单位，上升沿落在 #11000 / #13000 / #15000。下面每个数都是从
+`results/xs_soc/vadd_wave.vcd` 里读到的原始 dump 行，二进制按每 4 位换成 1 个
+十六进制位（等值换算，没有舍入、没有截断）；括注的 `decl_line` 是该信号在 VCD
+声明表里的行号，同一个码字（如 `V`）在台架网络与 DUT 端口之间被 Verilator 合并
+成一条变化记录，所以两个名字会同时成立。判决行与统计数字不在这里，在
+`results/xs_soc/vadd.txt`。
+
+相位 1 —— t=9000，$dumpvars 生效的第一拍（操作数还没交出去，全 0）
+  tb_vialu_soc.dut.io_in_valid                            0      （decl_line=57）
+  tb_vialu_soc.dut.io_in_bits_ctrl_fuOpType               b001000000 S
+        = 9'h040。这就是 `VialuFixType.vadd_vv`：
+        yunsuan/package.scala:113 `LiteralCat(FMT.VVV=2'b00, SINT=1'b1, VialuOpcode.vadd=6'd0)`
+        按 yunsuan/util/LiteralCat.scala 的"左起依次拼接"得到 {00,1,000000} = 9'h040。
+        这个读数整段波形里没再变化（VCD 里 #9000 之后没有它的第二次变化）。
+  tb_vialu_soc.dut.io_in_bits_data_src_0                  128 位全 0（decl_line=87）
+  tb_vialu_soc.dut.io_in_bits_data_src_1                  128 位全 0（decl_line=86）
+  tb_vialu_soc.dut.io_in_bits_validPipe_1                 0      （decl_line=83）
+  tb_vialu_soc.dut.validVecThisFu_1                       0      （decl_line=100）
+  tb_vialu_soc.dut.io_out_valid                           0      （decl_line=91）
+  tb_vialu_soc.dut.io_out_bits_res_data                   128 位全 0（decl_line=97）
+  tb_vialu_soc.dut.io_out_bits_res_vxsat                  0      （decl_line=98，整段没再变化）
+  tb_vialu_soc.dut.io_in_bits_dataPipe_1_src_4            b00010000 = 8'h10 = vl 的 16
+        （decl_line=88；同值也出现在 mgu 的 io_in_info_vl = b00010000，decl_line=134，
+         与 mgtu.io_in_vl = b00010000）
+  tb_vialu_soc.dut.mgu.io_in_mask                         128 位全 1（decl_line=131）
+        = vm=1 ⇒ VIAluFix.sv:893-905 那个掩码 mux 直接给 128'hFFFF…FFFF，不取 v0
+  tb_vialu_soc.dut.mgu.io_out_active                      b1111111111111111 = 16 个元素
+        全部处于"要写"状态（decl_line=141）
+  tb_vialu_soc.dut.outVd                                  128 位全 0（decl_line=118）
+  tb_vialu_soc.dut.reset                                  0（复位在更早的 #5000 释放）
+
+相位 2 —— t=11000，第一个上升沿（操作数进单元：vs1/vs2 落到 src_0/src_1）
+  tb_vialu_soc.clock                                      1（0→1，#10000 之后）
+  tb_vialu_soc.dut.io_in_valid                            0→1（decl_line=57）
+  tb_vialu_soc.dut.io_in_bits_data_src_0                  b00000011 ×16
+        = 128'h03030303030303030303030303030303 = vs1，16 个 8 位元组，每道 3
+  tb_vialu_soc.dut.io_in_bits_data_src_1                  b00000101 ×16
+        = 128'h05050505050505050505050505050505 = vs2，每道 5
+  同一时间戳上，两组 64 位加法阵列的输出立刻跟着变（组合传播，没有寄存器插在里面）：
+  tb_vialu_soc.dut.vIntFixpAlus_0.vIntAdder64b.io_vd      b00001000 ×8
+        = 64'h0808080808080808，每个字节道 3+5 = 8（decl_line=425）
+  tb_vialu_soc.dut.vIntFixpAlus_1.vIntAdder64b.io_vd      b00001000 ×8
+        = 64'h0808080808080808（decl_line=1079）
+  这两组与 16 个字节的对应关系取自 RTL 而不是取自波形（本例 16 道数值全相同，
+  波形分不出上下半）：VIAluFix.sv:512-514 `outVd = … ? {_vIntFixpAlus_1_io_vd,
+  _vIntFixpAlus_0_io_vd} …` ⇒ vIntFixpAlus_0 那 8 道是 vd[63:0]（元素 0..7），
+  vIntFixpAlus_1 那 8 道是 vd[127:64]（元素 8..15）。
+  此沿上 `io_out_valid` 仍是 0：结果还没被"标为可用"。
+
+相位 3 —— t=13000，第二个上升沿（那一拍流水 + 结果写出）
+  tb_vialu_soc.dut.io_in_valid                            1→0（单拍脉冲）
+  tb_vialu_soc.dut.io_in_bits_validPipe_1                 0→1（decl_line=83）
+  tb_vialu_soc.dut.validVecThisFu_1                       0→1（decl_line=100）
+        这是模块里唯一参与本指令状态演化的寄存器：VIAluFix.sv:604-609
+        `validVecThisFu_1 <= io_in_valid`。
+  tb_vialu_soc.dut.outVd                                  b00001000 ×16
+        = 128'h08080808080808080808080808080808（decl_line=118）
+  tb_vialu_soc.dut.mgu.io_in_vd                           同上 128'h0808…08（decl_line=129）
+        它和 outVd 在 VCD 里共用同一个码字 `>,`（同表 118/124/129 三行：outVd、
+        mgtu.io_in_vd、mgu.io_in_vd 都是 `>,），即 Verilator 把它们当成同一条网线，
+        所以整段只有 118 行那一处打印得出来，读数一致。
+  tb_vialu_soc.dut.mgu.io_out_vd                          同上 128'h0808…08（decl_line=140）
+        ⇒ 掩码合并级（Mgu）在这条 vm=1 / vl=16 的通道上把 16 道原样放行
+        （io_in_mask 全 1、io_out_active 全 1，所以合并没有改变任何一道）。
+  tb_vialu_soc.dut.io_out_valid                           0→1（decl_line=91）
+        = VIAluFix.sv:930 `io_in_bits_validPipe_1 & validVecThisFu_1`。
+  tb_vialu_soc.dut.io_out_bits_res_data                   b00001000 ×16
+        = 128'h08080808080808080808080808080808（decl_line=97）
+        与 tests/cases_vadd.txt 第 1 行的期望列逐位相同。
+  ⇒ #11000 是"把操作数交出去"的那个沿，io_in_valid 在 #11000→#13000 这一拍有效，
+    被 #13000 那个沿捕获进 validVecThisFu_1，io_out_valid 也从 #13000 起拉高：
+    即"捕获沿 → 出 valid"之间隔 1 个时钟周期，与 FuConfig.scala:532-544 给 vialuF
+    声明的 `CertainLatency(1)` 一致；台架对 11 条用例逐一数沿（口径同样是"驱动沿
+    之后的第 1 个沿出 valid ⇒ 延迟 1"），读数在
+    `results/xs_soc/vadd.txt` 的 `lat_min=1 lat_max=1` 与 `bad_lat=0`。
+
+相位 4 —— t=15000，第三个上升沿（valid 落下，数据保持）
+  tb_vialu_soc.dut.io_in_bits_validPipe_1                 1→0
+  tb_vialu_soc.dut.validVecThisFu_1                       1→0
+  tb_vialu_soc.dut.io_out_valid                           1→0
+  `io_out_bits_res_data` 没有变化记录 ⇒ 自 #13000 起一直保持
+  128'h08080808080808080808080808080808（写回端在 io_out_valid 有效的那一拍取样）。
+
+一处如实记录的读数差异（不影响上面的判决，但必须写明）
+  `outVd` / `mgu.io_in_vd` / `mgtu.io_in_vd`（共用码字 `>,`）与 `mgu.io_out_vd`
+  （码字 `0+`）在 VCD 里的变化记录落在 #13000，比它们的来源
+  `_vIntFixpAlus_*_io_vd`（#11000）晚一个时间戳。这不是数据通路里多了一级流水：
+  1) 生成 RTL 里 `outVd` 是 `wire`（VIAluFix.sv:512），模块内不存在驱动它的寄存器
+     （全文件只有 512 一处声明与 891、926 两处使用）；
+  2) 那个 mux 的选择位 `outIsVwsll / outIsVwsllEewVdIs64 / …` 在 dump 里是
+     `tb_vialu_soc.dut.outIsVwsll` = 0（decl_line=113）、
+     `…outIsVwsllEewVdIs64` = 0（114）、`…Is32` = 0（115）、`…Is16` = 0（116），
+     并且整段 dump 里这四个信号都没有第二次变化记录 ⇒ VIAluFix.sv:512-514 的
+     第一支 `(outIsVwsllEewVdIs64 | ~outIsVwsll) ? {…_1_io_vd, …_0_io_vd} : 128'h0`
+     全程选通两组加法半字，`outVd` 的语义值在 #11000 就应当已经是 128'h0808…08；
+  3) 因此差的那一个时间戳属于 Verilator 对"128 位拼接式 / 被多处共用的同一条网线"
+     做追踪时的物化时刻。我把机制查到这里为止：波形本身能证明的只有
+     "两个时间戳的读数分别是什么"，第 3 点是排除法后的归属，不是从波形量出来的。
+  判决用的 11/11 逐用例比对与这条差异无关：台架是在 #15000 那个沿上取
+  `io_out_bits_res_data`（读取的是它 #13000→#15000 这一拍的值，VCD 里该行在
+  #13000 变化、之后没有回落记录）。

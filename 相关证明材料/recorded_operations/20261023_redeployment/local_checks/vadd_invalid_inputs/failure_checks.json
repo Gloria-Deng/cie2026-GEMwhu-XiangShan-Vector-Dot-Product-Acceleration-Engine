@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "case": "missing_target",
+      "returncode": 1,
+      "expected_failure": true,
+      "reason": "target FU input count 0 != 11"
+    },
+    {
+      "case": "wrong_result",
+      "returncode": 1,
+      "expected_failure": true,
+      "reason": "case 1 128-bit result mismatch"
+    },
+    {
+      "case": "not_ready",
+      "returncode": 1,
+      "expected_failure": true,
+      "reason": "target FU input count 0 != 11"
+    },
+    {
+      "case": "wrong_cycle",
+      "returncode": 1,
+      "expected_failure": true,
+      "reason": "cycle calibration failed at 4314"
+    }
+  ]
+}

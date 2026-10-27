@@ -1,0 +1,5 @@
+single vadd execution on host: n0361
+program=vadd_full_register backend=emu
+expected_OK=0x80000088 BAD=0x80000080
+output=/project/chensiyuan/vdot/video_vadd_20261027_oLekMF/single_program_results/vadd_full_register_emu.txt
+SINGLE_PROGRAM_PASS

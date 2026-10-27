@@ -1,0 +1,2 @@
+[1;34m[/d/vdot-current-nemu/src/isa/riscv64/include/../instr/rvv/vcompute.h:279,exec_vdot] vdot.vv requires SEW=8, vtype.vsew=1[0m
+IMAGE PASS pc=0x8000005c instructions=20

@@ -1,0 +1,4 @@
+﻿tool,location,version
+gcc,D:/msys64/ucrt64/bin/gcc.exe,"gcc.exe (Rev6, Built by MSYS2 project) 16.2.0"
+iverilog,E:\iverilog\bin\iverilog.EXE,Icarus Verilog version 12.0 (devel) (s20150603-1539-g2693dd32b)
+vvp,E:\iverilog\bin\vvp.EXE,Icarus Verilog runtime version 12.0 (devel) (s20150603-1539-g2693dd32b)

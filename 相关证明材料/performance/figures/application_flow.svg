@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="835.2pt" height="388.8pt" viewBox="0 0 835.2 388.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-25T17:19:58.199325</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 388.8 
+L 835.2 388.8 
+L 835.2 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 39.154176 183.949056 
+L 198.710784 183.949056 
+Q 210.737664 183.949056 210.737664 178.350336 
+L 210.737664 89.144064 
+Q 210.737664 83.545344 198.710784 83.545344 
+L 39.154176 83.545344 
+Q 27.127296 83.545344 27.127296 89.144064 
+L 27.127296 178.350336 
+Q 27.127296 183.949056 39.154176 183.949056 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #eff5f7; stroke: #c1cdd4; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 208.726333 133.933824 
+Q 217.149923 133.933824 224.45548 133.933824 
+" clip-path="url(#pb8bce7d7e3)" style="fill: none; stroke: #526570; stroke-linecap: round"/>
+    <path d="M 218.85548 131.133824 
+L 224.45548 133.933824 
+L 218.85548 136.733824 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #526570; stroke: #526570; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 237.1968 183.949056 
+L 396.753408 183.949056 
+Q 408.780288 183.949056 408.780288 178.350336 
+L 408.780288 89.144064 
+Q 408.780288 83.545344 396.753408 83.545344 
+L 237.1968 83.545344 
+Q 225.16992 83.545344 225.16992 89.144064 
+L 225.16992 178.350336 
+Q 225.16992 183.949056 237.1968 183.949056 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #eff5f7; stroke: #c1cdd4; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 406.768957 133.933824 
+Q 415.192547 133.933824 422.498104 133.933824 
+" clip-path="url(#pb8bce7d7e3)" style="fill: none; stroke: #526570; stroke-linecap: round"/>
+    <path d="M 416.898104 131.133824 
+L 422.498104 133.933824 
+L 416.898104 136.733824 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #526570; stroke: #526570; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 435.239424 183.949056 
+L 594.796032 183.949056 
+Q 606.822912 183.949056 606.822912 178.350336 
+L 606.822912 89.144064 
+Q 606.822912 83.545344 594.796032 83.545344 
+L 435.239424 83.545344 
+Q 423.212544 83.545344 423.212544 89.144064 
+L 423.212544 178.350336 
+Q 423.212544 183.949056 435.239424 183.949056 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #e9f3ed; stroke: #c1cdd4; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 604.811581 133.933824 
+Q 613.235171 133.933824 620.540728 133.933824 
+" clip-path="url(#pb8bce7d7e3)" style="fill: none; stroke: #526570; stroke-linecap: round"/>
+    <path d="M 614.940728 131.133824 
+L 620.540728 133.933824 
+L 614.940728 136.733824 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #526570; stroke: #526570; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 633.282048 183.949056 
+L 792.838656 183.949056 
+Q 804.865536 183.949056 804.865536 178.350336 
+L 804.865536 89.144064 
+Q 804.865536 83.545344 792.838656 83.545344 
+L 633.282048 83.545344 
+Q 621.255168 83.545344 621.255168 89.144064 
+L 621.255168 178.350336 
+Q 621.255168 183.949056 633.282048 183.949056 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #e9f3ed; stroke: #c1cdd4; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 43.163136 344.445696 
+L 383.122944 344.445696 
+Q 395.149824 344.445696 395.149824 338.846976 
+L 395.149824 249.640704 
+Q 395.149824 244.041984 383.122944 244.041984 
+L 43.163136 244.041984 
+Q 31.136256 244.041984 31.136256 249.640704 
+L 31.136256 338.846976 
+Q 31.136256 344.445696 43.163136 344.445696 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #f5f6f8; stroke: #c1cdd4; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 436.041216 344.445696 
+L 776.001024 344.445696 
+Q 788.027904 344.445696 788.027904 338.846976 
+L 788.027904 249.640704 
+Q 788.027904 244.041984 776.001024 244.041984 
+L 436.041216 244.041984 
+Q 424.014336 244.041984 424.014336 249.640704 
+L 424.014336 338.846976 
+Q 424.014336 344.445696 436.041216 344.445696 
+z
+" clip-path="url(#pb8bce7d7e3)" style="fill: #f5f6f8; stroke: #c1cdd4; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 36.7488 201.86496 
+L 794.44224 201.86496 
+" clip-path="url(#pb8bce7d7e3)" style="fill: none; stroke: #21654b; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start" x="32.73984" y="36.295295" transform="rotate(-0 32.73984 36.295295)">应用如何调用点积指令，以及时间花在哪里</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: start" x="32.73984" y="60.03072" transform="rotate(-0 32.73984 60.03072)">计算前：检查尺寸与输出空间，明确选择 C_REFERENCE 或 CUSTOM_VDOT。</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle" x="118.93248" y="118.487345" transform="rotate(-0 118.93248 118.487345)">连续输入</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(93.934824 143.494459)">A 为行连续</text>
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(84.315292 158.770397)">B 转置为连续列</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle" x="316.975104" y="118.487345" transform="rotate(-0 316.975104 118.487345)">共享装载</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(291.977448 143.494459)">四列共用 A</text>
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(292.357916 158.770397)">分别装入 B</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle" x="515.017728" y="118.487345" transform="rotate(-0 515.017728 118.487345)">指令计算</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(472.717728 143.494459)">每八字节一次 vdot</text>
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(470.017728 158.770397)">结果留在向量寄存器</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle" x="713.060352" y="118.487345" transform="rotate(-0 713.060352 118.487345)">累加与写回</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(686.400196 143.494459)">按 e32 累加</text>
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(673.060352 158.770397)">每个输出末尾取出</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #21654b" x="417.6" y="214.92864" transform="rotate(-0 417.6 214.92864)">矩阵计时区间：数据整理＋装载＋点积＋累加＋输出</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle" x="213.14304" y="278.983985" transform="rotate(-0 213.14304 278.983985)">取回结果的两种实现</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(140.183665 303.991099)">旧路径：向量存内存 → 标量读回</text>
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(130.98679 319.267037)">改进路径：vmv.x.s 直接取出低 32 位</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle" x="606.02112" y="278.983985" transform="rotate(-0 606.02112 278.983985)">独立点积数量比较</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(520.469557 303.991099)">每次循环放入 1、2、4、8、16 个点积</text>
+    <text style="font-size: 10px; font-family: 'Microsoft YaHei'" transform="translate(526.02112 319.267037)">先确认完整结果，再比较处理器周期</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb8bce7d7e3">
+   <rect x="16.704" y="7.776" width="801.792" height="373.248"/>
+  </clipPath>
+ </defs>
+</svg>

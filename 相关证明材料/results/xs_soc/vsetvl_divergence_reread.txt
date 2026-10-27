@@ -1,0 +1,163 @@
+VSETVL-DIVERGENCE-REREAD v1
+question: results/xs_soc/vsetvl_divergence_linux.txt 把这条分歧记成「这份 RTL 的 `vsetvl` 没
+          生效」。本文件问的是同一件事的下一格：difftest 打出来的那两列（`right` / `wrong`）
+          分别是哪一侧？按真实列序把那条原始读数重读一遍，结论会不会翻过来？
+answer: 会。`right = 参考机（NEMU）`、`wrong = 被测（这份 RTL）`。按这个列序，原始读数说的是
+          **参考机 `vl=0` / `vtype=0x8000000000000000`、这份 RTL `vl=16` / `vtype=0xC0`** ——
+          也就是说**这份 RTL 的 `vsetvl` 是生效的**，停在复位值上不动的是**参考机向 difftest
+          导出的那一份镜像**。根因在 NEMU 侧的一行：`vsetvl` 系指令直接写 `vl` / `vtype` /
+          `vstart` 三个 CSR 变量，绕过了 `csr_write()` 里的 `csr_difftest_mark_dirty()`，而
+          参考机→被测的拷贝走的是 `csr_prepare_if_dirty()`，于是这三个字段永远停在上一次刷新
+          时的值。
+scope: 这是一次**重读 + 源码定位**，没有新跑一发仿真。它推翻的是
+          `vsetvl_divergence_linux.txt` 第 3 节末「结论」那段与第 5 节 `honest_state` 一行的
+          **方向**，以及 `docs/05` §4.3、`docs/07` 3.1.2 行里引它的同一句话；**不推翻**那份
+          文件里的原始读数本身——原始读数一个字没动，换掉的只是「哪一列是谁」。
+upstream_pins: NEMU-3d9f9fb8c05095ba84b6f9b4125234140b3de035（
+          src/isa/riscv64/instr/rvv/vcommon.c、src/isa/riscv64/difftest/ref.c、
+          src/isa/riscv64/system/priv.c、src/isa/riscv64/instr/vp.c）与
+          XiangShan-42f87803d10bc21bbc5df2807a2fc07db6c9dc89（difftest/ 子模块）。以下行号
+          都相对这两棵树。
+
+=== 1. 那两列到底是谁：四处代码，逐处给出 ===
+refproxy.h:551      #define REPORT_DIFFERENCE(name, pc_val, right_val, wrong_val) \
+                      Info("%7s different at pc = 0x%010lx, right = 0x%016lx, wrong = 0x%016lx\n", \
+                           name, pc_val, right_val, wrong_val);
+                    ⇒ 打那行的就是这条宏（`%7s` 正好解释「vl」前面那几位对齐空格）
+refproxy.cpp:235-245  PROXY_COMPARE_AND_DISPLAY(field, field_names) 展开成：
+                      _ptr_dut = (uint64_t*)&((dut)->regs.<field>);
+                      _ptr_ref = (uint64_t*)&(state.<field>);
+                      if (_ptr_dut[i] != _ptr_ref[i])
+                        REPORT_DIFFERENCE(field_names[i], diff_pc, _ptr_ref[i], _ptr_dut[i]);
+                    ⇒ `right_val` 的实参是 `_ptr_ref[i]`，`wrong_val` 的实参是 `_ptr_dut[i]`
+refproxy.h:252      inline void sync(bool is_from_dut = false) {
+                      ref_regcpy(&state.xrf, is_from_dut, is_from_dut);
+                    }
+difftest.cpp:685    proxy->sync();          ← 比较之前先把参考机灌进 `state`
+difftest.cpp:697    if (proxy->compare(dut) || pc_mismatch) return …STATE_DIFF;
+isa/riscv64/difftest/ref.c:246-264
+                    if (direction == DIFFTEST_TO_REF) { memcpy(&cpu, dut, DIFFTEST_REG_SIZE);
+                                                        csr_writeback(); csr_difftest_mark_clean(); … }
+                    else                            { csr_prepare_if_dirty();
+                                                      memcpy(dut, &cpu, DIFFTEST_REG_SIZE); }
+                    ⇒ `direction=false`（`REF_TO_DUT`）这一支就是「NEMU 的 `cpu` → 传入的缓冲区」
+verdict: `sync()` 之后 `state` 里装的是**参考机**，`display()` 把 `state` 打在 `right`、把被测
+         打在 `wrong`。所以 **right = NEMU，wrong = 这份 RTL**。这一列的命名不是本文件推的，
+         是宏的形参与两处实参顺序合起来定死的。
+
+=== 2. 按真实列序重读那条原始读数 ===
+（下面两行从 vsetvl_divergence_linux.txt 第 3 节原样搬来，一个字没改）
+  vl    different at pc=..., right = 0x0000000000000000, wrong = 0x...0010   (16)
+  vtype different at pc=..., right = 0x8000000000000000, wrong = 0x...00c0   (0xC0 = e8/m1/ta/ma)
+reading: 参考机 = {vl 0, vtype 0x8000000000000000}；被测（这份 RTL）= {vl 16, vtype 0xC0}
+why_this_settles_it: `0xC0` 是 `vsetvli …, e8, m1, ta, ma` 的**请求值**，只有真把这条指令执行
+          进去的一侧才可能给出它；`{vl 0, vtype 0x8000000000000000}` 正是这两个 CSR 的
+          **复位值**。原始读数里持请求值的一侧是 `wrong` 列 ⇒ 被测（这份 RTL）；持复位值的一侧
+          是 `right` 列 ⇒ 参考机。**「这份 RTL 的 `vsetvl` 没生效」这句被它自己引的原始读数否掉。**
+consistency: 同一份归档还记「probeN / probeP / probeS 三者一致」——三条探针的差别只在编码写法
+          上，被测侧三次都给出请求值、参考机侧三次都给出复位值，与上面的读法一致。
+
+=== 3. 参考机为什么停在复位值：一行根因 ===
+mechanism: 参考机的导出不是「每问一次就读一次 NEMU 的 CSR」，而是「一份镜像 + 一个脏位」：
+  priv.c:2134        static void csr_write(uint32_t csrid, word_t src) {
+                       word_t *dest = csr_decode(csrid);
+                       IFDEF(CONFIG_SHARE, csr_difftest_mark_dirty());   ← 真 CSR 写都标脏
+  vcommon.c:112-129  void set_vtype_vl(Decode *s, int mode) {
+                       …
+                       vtype->val = id_src2->val;   vl->val = vl_num;    ← 直写，不走 csr_write
+                       rtl_sr(s, id_dest->reg, &vl->val, 8);
+                       vstart->val = 0;                                  ← 直写
+                     }
+  vp.c:39            void vp_set_dirty() { mstatus->vs = EXT_CONTEXT_DIRTY; … }  ← 也直写 mstatus->vs
+  isa/riscv64/difftest/ref.c:135-139
+                     static inline void csr_prepare_if_dirty() {
+                       if (csr_difftest_dirty) csr_prepare();
+                     }
+  isa/riscv64/difftest/ref.c:132   `csr_prepare()` 结尾自己就调 `csr_difftest_mark_clean()`
+          （v1 曾把这两处写成 ref.c:135-137 与 :131，行号偏了一位：131 是
+          `csr_prepare()` 尾上的 `#endif`，`csr_difftest_mark_clean();` 在 132；
+          `csr_prepare_if_dirty()` 的函数体到 139 行的 `}`。已核正确的引文：
+          priv.c:2134、priv.c:2136/3663/3733、csr.h:2080、vcommon.c:112-129、vp.c:39、
+          ref.c:47-55、ref.c:57-86。）
+consequence: `vsetvli` / `vsetivli` 走完全程都没把脏位立起来 ⇒ 参考机→被测那一支的
+          `csr_prepare_if_dirty()` 是空操作 ⇒ 导出的 `vl` / `vtype` / `vstart` 停在上次刷新
+          （那条语料里就是复位值），而被测这两列是真的。**这不是这份 RTL 的问题，是参考机导出
+          面的问题。**
+prediction_it_makes: 这条机制预言了两件事，归档里的原始读数两件都中：
+          (a) 不同的列恰是 `vl` 与 `vtype` 两列（`vstart` 本来就是 0；那条探针没动别的 CSR）；
+          (b) `right` 列正好是这两个 CSR 的**复位值** `{0, 0x8000000000000000}`。
+why_mstatus_VS_was_fine: 同一个探针里 `mstatus.VS` 读回去是对的——它那一格是 `csrs mstatus, x10`
+          写进去的，走的是 `csr_write()`，标脏了。这一格反而是本机制的正对照。
+
+=== 4. 一条独立的旁证（包内早就有，先前被读成探针瑕疵） ===
+artifact: 工作区/probe_vtype.out.txt（**非交付件**，在工作区里，由 工作区/run_vtype_probe.sh 生成，
+          驱动源 工作区/probe_vtype.c）：把参考机 `.so` 直接 dlopen 起来、往 blob 里种
+          `vtype=3, vl=1`，让参考机执行一条编码正确的 `vsetivli zero,8,e16,m1,ta,ma`，再回读。
+reading: 两颗能跑的树都判 `verdict=ECHO_OF_SEED`（回读 3 / 1，不是请求的 0xC8 / 8）。当时那句
+          「either the column is an echo of the seed, or the offset aliases some other field」
+          没有分开；本节把它分开：**是 echo**，机制就是第 3 节那一条——同一份读数里 pc 从
+          `0x80000200` 走到 `0x80000204`，说明参考机确实执行了这条指令，是它的导出镜像没被标脏。
+          偏移不是替罪羊：同一份读数里 `size=1376` 与 `cosim_layout.h` 的 `OFF_END=1376` 一致。
+why_it_is_independent: 它不经过 `emu`，也不经过那两条裸机探针；它直连 `.so`，出现的是同一种
+          「参考机的 `vtype`/`vl` 不跟着走」的签名。两条路各自撞上同一行根因。
+
+=== 5. 修法与复跑判据（档位 2026-10-01 整体推进：已在集群真树打上、参考机已重建、
+          probeS 零 mismatch；本文件 v1 写下时的「未落盘、未编译、未重跑」档位被它取代） ===
+fix: 在 `set_vtype_vl()` 里补一行，写法与 `priv.c` 里那四处相同：
+       IFDEF(CONFIG_SHARE, csr_difftest_mark_dirty());
+     位置：`vtype->val` / `vl->val` / `vstart->val` 三处赋值之后、函数返回之前。同一处缺陷也覆盖
+     `vp_set_dirty()` 直写的 `mstatus->vs`（那一处可以顺手一起治）。
+anchor: 目标作用域取 `src/isa/riscv64/instr/rvv/vcommon.c` 的 `set_vtype_vl()`；要替换的锚点就是
+     那一段连续的
+       `    vtype->val = id_src2->val;\n    vl->val = vl_num;\n  }\n`（该文件里只出现一次），
+     替换成同一段后面接上 `IFDEF(CONFIG_SHARE, csr_difftest_mark_dirty());`。
+include_is_safe: `csr_difftest_mark_dirty()` 在 `src/isa/riscv64/local-include/csr.h:2080` 里是
+     **无保护声明**，而 `vcommon.c` 经 `vcommon.h` 已经 include 了那份头；用 `IFDEF(CONFIG_SHARE, …)`
+     与 `priv.c` 那四处逐字同形，非 SHARE 构建下展开为空，不会牵进只有参考机侧才编的
+     `isa/riscv64/difftest/ref.c`。
+not_applied: **这条改动本轮没有落进 `nemu/apply_nemu_patch.py`**（该脚本的锚点数是包内四处文档
+     现算并对齐的一个受门禁盯着的数：加一处就要同步 `docs/01`/`docs/05`/`docs/08`/`README.md`
+     里的编辑数）。所以对包内补丁脚本而言它仍是**一条待落盘的修法**，不是一个已生效的补丁；
+     但它**已经在集群真树上手打生效**（原文备份
+     `src/isa/riscv64/instr/rvv/vcommon.c.bak-round7`，改后 `.so` 指纹
+     c47ede4e064f598db473f08a2eddcbe616fb6ecfe31a9e08e80f78b29ea5625e，705392 B；改前那份
+     只有指纹前 16 位 7ee1025391629923 与字节数留存，完整指纹重编后取不回来）——
+     实测读数见 `results/xs_soc/vdot_corpus_difftest.txt` §2/§3。
+applied_and_measured（2026-10-01，集群 node46）: 修法前那发探针 `vl`/`vtype` 两行分歧 +
+     ABORT（`instrCnt = 10, cycleCnt = 4,208`）；同一发探针在重编后的 `.so` 上零 mismatch、
+     停在 `vl==16` 自旋地址 `0x80000024`（`instrCnt = 3,792, cycleCnt = 8,000`）。本文件
+     第 1 节钉的列序、第 3 节的根因机制、第 4 节的独立旁证，与该轮读数全部对上。
+     赛题语料两发（vl=8 撞 `v1_high` 短 vl 尾部差异、vl=VLMAX 零 mismatch 跑进 OK 环
+     `0x80000048`）与作用域口径也都在 `results/xs_soc/vdot_corpus_difftest.txt`。
+not_yet_run: ~~**这条改动没有被编译过、也没有被运行过。**~~（2026-10-01 撤回：已被集群
+     实测取代，见上面 applied_and_measured 与 `results/xs_soc/vdot_corpus_difftest.txt`。
+     原文照录：本包手上没有能跑那颗 `emu` 的宿主，所以本文件主张的是「根因被源码定位 +
+     修法精确到锚点」，**不是**「修完就一致了」。）
+repro_to_close_it（集群上，形状）：
+     cd <difftest> && ulimit -s unlimited
+     make -C <nemu-vdot> riscv64-xs-vdot_defconfig && make -C <nemu-vdot> -j32      # 重建参考机 .so
+     ./build/emu -i <probeS_e8m1.bin> --diff <nemu-vdot>/build/riscv64-nemu-interpreter-so -C 8000
+     期望：这一类 `vl` / `vtype different` 行消失，探针稳定停在 `vl==16` 那个自旋地址上；然后再把
+     那条含 `vdot.vv` 的语料喂进去。
+
+=== 6. 这一份不主张什么 ===
+not_a_new_run: 没有新跑任何仿真；结论来自包内 pin 住的两棵树 + 两份已有读数
+not_a_verdict_on_vdot: `vdot.vv` 的语义、RTL 实现与它和黄金模型的一致性由前两级负责，本文件不碰
+not_a_verdict_on_nemu_upstream: 这条缺陷在**上面 pin 住的这份 NEMU 提交**上成立；上游是否已修、
+          别的提交是否也有，本文件没有查，不给结论
+not_yet_measured: 第 5 节那一行是**修法**，不是读数；「改完就一致」这句话本文件一个字都没说
+withdrawn_text: `vsetvl_divergence_linux.txt` 第 3 节末「结论」那段与第 5 节 `honest_state` 一行的
+          方向已按本文件更正（原文留在原处、加撤回标记），`docs/05` §4.3 与 `docs/07` 的 3.1.2 行
+          同步改口径。
+
+=== 7. 2026-10-01 的增量（这一节 v1 没有） ===
+status_now: 第 5 节的修法已在集群真树上手打生效、参考机已重建并实测：probeS 修法前
+          `vl`/`vtype` 分歧 + ABORT，修法后零 mismatch 停在 `0x80000024`；赛题语料
+          vl=VLMAX 那发零 mismatch 跑进 OK 环 `0x80000048`——3.1.2 的 SoC 级那半在
+          **vl=VLMAX** 作用域下闭合（短 vl 的 `v1_high` 尾部差异是既定设计行为，
+          读数与机制见 `results/xs_soc/vdot_corpus_difftest.txt`）。2026-10-01 收尾：
+          修法已折入 `nemu/apply_nemu_patch.py`（第 6 处锚点编辑，连带 `build.mk` 两条
+          构建适配与双臂 defconfig，共 10 处编辑/9 文件），且 from-pristine、from-script
+          的参考机已在集群重建并**逐位复现**两发认证读数（705392 B，两发探针零分歧，
+          `results/nemu/script_rebuild_linux.txt`）——§5 not_applied 的「待落盘」档位
+          就此全部关闭。

@@ -1,0 +1,10 @@
+ok  Kconfig CUSTOM_VDOT
+ok  isa-all-instr.h name macro
+ok  isa-all-instr.h INSTR_LIST wiring
+ok  rvv/decode.h vopmvv row (scoped to def_THelper(vopmvv))
+ok  rvv/vcompute.h def_EHelper(vdot)
+ok  rvv/vcommon.c set_vtype_vl mark_dirty
+ok  scripts/build.mk -Wall -Wno-error
+ok  scripts/build.mk LDFLAGS -static-libstdc++
+ok  configs/riscv64-xs-vdot_sdtrig_defconfig (RV_SDTRIG=y, emu arm)
+ok  configs/riscv64-xs-vdot_defconfig (RV_SDTRIG off, local arm)

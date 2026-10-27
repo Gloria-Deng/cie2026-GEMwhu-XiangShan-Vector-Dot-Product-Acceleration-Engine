@@ -1,0 +1,15 @@
+# 由 sim/probe_emu_layers.py 生成：本机各 MSYS2 子系统能否同时满足 emu 的两半。
+# emu = Verilator 编出来的仿真二进制 + 一个 dlopen 参考机库的 C++ 端；
+# 后者的前提不是猜的：下面按 difftest 自己的源码数它 include 了哪些 POSIX 头。
+
+| 子系统 | gcc.exe | verilator* | dlfcn.h | sys/mman.h |
+|---|---|---|---|---|
+| usr | 有 | 无 | 有 | 有 |
+| ucrt64 | 有 | 有 | 无 | 无 |
+| mingw64 | 无 | 无 | 无 | 无 |
+| clang64 | 无 | 无 | 无 | 无 |
+
+difftest 源码 119 个文件里，#include <dlfcn.h> 的有 2 个，#include <sys/mman.h> 的有 5 个（按 `#include <...>` 形式数，不认相对路径写法）。
+
+同时满足「有 gcc + 有 verilator + 两个头都在」的子系统数：0
+EMU_LAYER_PROBE done

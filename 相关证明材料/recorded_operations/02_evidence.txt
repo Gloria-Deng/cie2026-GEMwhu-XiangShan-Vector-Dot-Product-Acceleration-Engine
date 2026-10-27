@@ -1,0 +1,33 @@
+config=KunminghuV2Config
+fir=XSTop.fir bytes=1439172022 sha256=d773d0989c342ccf9548ea8ae0e644c16ba221953b79e58e80138f415fa1da0b
+modules=15152 insts=15494
+DECL module VDotU : @[D:\\xs-vdot\\src\\main\\scala\\xiangshan\\backend\\fu\\wrapper\\VDotU.scala 94:7]
+DECL module VDotUnit : @[D:\\xs-vdot\\src\\main\\scala\\vdot\\VDotUnit.scala 59:7]
+PATH VDotU: XSTop -> XSTile -> XSCore -> Backend -> BackendInlined -> ExuBlock_2 -> ExeUnit_13 -> VDotU
+PATH VDotUnit: XSTop -> XSTile -> XSCore -> Backend -> BackendInlined -> ExuBlock_2 -> ExeUnit_13 -> VDotU -> VDotUnit
+SV VDotU.sv lines=190 bytes=6716 sha256=16674c1b9bc12c2278daacc4548bd69f3de12066a57576435dd9a26d925f3094
+SV VDotUnit.sv lines=181 bytes=6048 sha256=aef7ffabe2e6a840973590d743213eb7f15e70472f39038eb350f1f0c05b985f
+CLOSURE ByteMaskTailGen.sv bytes=6877 sha256=ef8bb3087c7977a315c43bec0c4e0292fe7cd20314054145c65ab7a8ca206be6
+CLOSURE MaskExtractor.sv bytes=3181 sha256=a2abe2e67bd042e6788dc605b55d104f1643a5d5f9b73a4aa9b297391e54e28d
+CLOSURE Mgu.sv bytes=23842 sha256=ab310fc3da7844812300be3b173c46f489b2b1de709da6cdca2f6cb6e7c47df7
+CLOSURE UIntToContLow0s.sv bytes=18849 sha256=3e7eb0e30270563924354bf0675253bca997c6b0622327d8978b2d432c8cd030
+CLOSURE UIntToContLow1s.sv bytes=20245 sha256=cd97eadc1671c6e328887505159380e3dee5b9931aba0dd9f9bbe69b9616b160
+CLOSURE VDotU.sv bytes=6716 sha256=16674c1b9bc12c2278daacc4548bd69f3de12066a57576435dd9a26d925f3094
+CLOSURE VDotUnit.sv bytes=6048 sha256=aef7ffabe2e6a840973590d743213eb7f15e70472f39038eb350f1f0c05b985f
+INST ExeUnit_13.sv:756  VDotU Vdot (
+INST VDotU.sv:155  VDotUnit VDotDatapath (
+LOG commit_id [769] [CommitIDModule] SHA=68a4cdc2a9
+LOG commit_id [769] [CommitIDModule] dirty=0
+LOG espresso_fallback_count 0
+LOG firtool =============== xiangshan.runMain top.TopMain --.../firtool-1.62.1/bin/firtool.exe ===============
+LOG firtool [769/769] =============== xiangshan.runMain top.Top...l-1.62.1/bin/firtool.exe =============== 60s
+LOG firtool [769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 120s
+LOG firtool [769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 180s
+LOG firtool [769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 240s
+LOG firtool [769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 300s
+LOG runMain_elapsed [769] xiangshan.runMain 51s
+LOG runMain_elapsed [769] xiangshan.runMain 111s
+LOG runMain_elapsed [769] xiangshan.runMain 171s
+LOG runMain_elapsed [769] xiangshan.runMain 231s
+LOG runMain_elapsed [769] xiangshan.runMain 291s
+LOG runMain_elapsed [769] xiangshan.runMain 351s

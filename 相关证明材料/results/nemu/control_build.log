@@ -1,0 +1,107 @@
+Makefile:40: You have set CONFIG_FLASH_IMG_PATH option, but the specified path '""' does not exist!
++ CC src/nemu-main.c
++ CC src/device/device.c
++ CC src/device/alarm.c
++ CC src/device/intr.c
++ CC src/device/flash.c
++ CC src/cpu/cpu-exec.c
++ CC src/cpu/difftest/ame/amuctrl.c
++ CC src/cpu/difftest/ame/msync.c
++ CC src/cpu/difftest/dut.c
++ CC src/cpu/difftest/ref.c
++ CC src/cpu/instr_stat.c
++ CC src/cpu/tcache.c
++ CC src/monitor/aligncheck.c
++ CC src/monitor/fdt_rng_seed.c
++ CC src/monitor/image_loader.c
++ CC src/monitor/monitor.c
++ CC src/monitor/ui.c
++ CC src/monitor/watchpoint.c
++ CC src/utils/br_log.c
++ CC src/utils/dynamic-config.c
++ CC src/utils/expr.c
++ CC src/utils/filename.c
++ CC src/utils/iqueue.c
++ CC src/utils/log.c
++ CC src/utils/state.c
++ CC src/utils/timer.c
++ CC src/memory/host-tlb.c
++ CC src/memory/paddr.c
++ CC src/memory/vaddr.c
++ CC src/isa/riscv64/ame/raw_fp4_memory.c
++ CC src/isa/riscv64/clint.c
++ CC src/isa/riscv64/difftest/dut.c
++ CC src/isa/riscv64/difftest/ref.c
++ CC src/isa/riscv64/init.c
++ CC src/isa/riscv64/instr/ame/mcompute_impl.c
++ CC src/isa/riscv64/instr/ame/mldst_fast.c
++ CC src/isa/riscv64/instr/ame/mldst_impl.c
++ CC src/isa/riscv64/instr/ame/mldst_transpose_fast.c
++ CC src/isa/riscv64/instr/ame/mreg.c
++ CC src/isa/riscv64/instr/decode.c
++ CC src/isa/riscv64/instr/fp.c
++ CC src/isa/riscv64/instr/mp.c
++ CC src/isa/riscv64/instr/priv/system.c
++ CC src/isa/riscv64/instr/rva/amo.c
++ CC src/isa/riscv64/instr/rvb/rvintrin.c
++ CC src/isa/riscv64/instr/rvcbo/cbo_impl.c
++ CC src/isa/riscv64/instr/rvk/aes_common.c
++ CC src/isa/riscv64/instr/rvk/crypto_impl.c
++ CC src/isa/riscv64/instr/rvt/conv2d.c
++ CC src/isa/riscv64/instr/rvt/convert.c
++ CC src/isa/riscv64/instr/rvt/element_wise.c
++ CC src/isa/riscv64/instr/rvt/matmul.c
++ CC src/isa/riscv64/instr/rvt/matmul_subfloat.c
++ CC src/isa/riscv64/instr/rvt/pooling.c
++ CC src/isa/riscv64/instr/rvt/register.c
++ CC src/isa/riscv64/instr/rvt/sfu.c
++ CC src/isa/riscv64/instr/rvt/tensor_copy.c
++ CC src/isa/riscv64/instr/rvt/tensor_init.c
++ CC src/isa/riscv64/instr/rvt/type.c
++ CC src/isa/riscv64/instr/rvv/vcommon.c
++ CC src/isa/riscv64/instr/rvv/vcompute_impl.c
++ CC src/isa/riscv64/instr/rvv/vfexp2.c
++ CC src/isa/riscv64/instr/rvv/vldst_impl.c
++ CC src/isa/riscv64/instr/rvv/vreg_impl.c
++ CC src/isa/riscv64/instr/vp.c
++ CC src/isa/riscv64/logo.c
++ CC src/isa/riscv64/reg.c
++ CC src/isa/riscv64/system/aia.c
++ CC src/isa/riscv64/system/intr.c
++ CC src/isa/riscv64/system/mmu.c
++ CC src/isa/riscv64/system/priv.c
++ CC src/isa/riscv64/system/timer.c
++ CC src/isa/riscv64/system/trigger.c
++ CC src/engine/interpreter/fp.c
++ CC src/engine/interpreter/hostcall.c
++ CC src/engine/interpreter/init.c
++ CC src/device/io/map.c
++ CC src/device/io/mmio.c
++ CC src/device/io/port-io.c
++ CC src/profiling/profiling_control.c
++ CC src/checkpoint/cpt_env.c
++ CXX src/checkpoint/path_manager.cpp
++ CXX src/checkpoint/semantic_point.cpp
++ CXX src/checkpoint/serializer.cpp
++ CXX src/checkpoint/simpoint.cpp
++ CXX src/base/output.cpp
++ CXX src/iostream3/zfstream.cpp
++ CXX src/cpu/difftest/ame/amu_ctrl_queue_wrapper.cpp
++ CXX src/cpu/difftest/ame/msync_queue_wrapper.cpp
++ CXX src/memory/store_queue_wrapper.cpp
++ CXX src/memory/elfloader.cpp
++ g++ -include /d/nemu_shim.hpp /d/nemu-vanilla/build/riscv64-nemu-interpreter-so
+
+
+control CFG_RC=0
+control BUILD_RC=0
+
+control objects=91
+control product_bytes=3558472
+control product_sha256=900d69542d10719a6caa66a0e4bff3668e5d6532a1e4acf9eccac3ee00c825c9
+control config_sha256=f655cd13ab0733932c8007fb3bb2e4e2a3f3d9af28c126816b9c829e0bbad486
+control source_manifest_sha256=d8f059ef45a0acbfd72240801c8ad498db824fca2cc5da755b363c7163defb64
+control vdot_exports=0
+control vdot_export_line=NONE
+control total_exports=1849
+control alt_link_hashes=3558472B:84abbc4e-5057cec5-79493beb-900d6954(4cleanbuilds,same.config)

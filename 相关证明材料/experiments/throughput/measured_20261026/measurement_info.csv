@@ -1,0 +1,12 @@
+﻿setting,value
+job_id,3772882
+programs,72
+expected_repeats,3
+iterations,0;64;256;1024
+widths,1;2;4;8;16
+workers,16
+cycle_limit,250000
+seconds_limit,7200
+remote_directory,/project/chensiyuan/vdot/new_measurements_20261025_2100/throughput_measurements
+raw_outputs_included,0
+local_review_date,2026-10-26

@@ -1,0 +1,61 @@
+allocated_cpus=16
+MemTotal:       98316728 kB
+MemFree:        89608532 kB
+MemAvailable:   95431728 kB
+Buffers:          414436 kB
+Cached:          3170052 kB
+SwapCached:         6692 kB
+Active:           879704 kB
+Inactive:        2751428 kB
+Active(anon):      68272 kB
+Inactive(anon):    20216 kB
+Active(file):     811432 kB
+Inactive(file):  2731212 kB
+Unevictable:        3072 kB
+Mlocked:               0 kB
+SwapTotal:       1048572 kB
+SwapFree:         930812 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:                88 kB
+Writeback:             0 kB
+AnonPages:         48100 kB
+Mapped:            93876 kB
+Shmem:             41768 kB
+KReclaimable:    2993044 kB
+Slab:            4499416 kB
+SReclaimable:    2993044 kB
+SUnreclaim:      1506372 kB
+KernelStack:        8304 kB
+PageTables:         3956 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    50206936 kB
+Committed_AS:     600272 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      236752 kB
+VmallocChunk:          0 kB
+Percpu:            13568 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:      4096 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+Unaccepted:            0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:      296956 kB
+DirectMap2M:    24737792 kB
+DirectMap1G:    77594624 kB
+
+Filesystem                 Size  Used Avail Use% Mounted on
+14.2.15.10@o2ib:/project3  1.4P  323T  1.1P  24% /project

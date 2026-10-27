@@ -1,0 +1,135 @@
+{
+  "insts_parsed": 15494,
+  "kids": {
+    "Backend": [
+      "BackendInlined"
+    ],
+    "BackendInlined": [
+      "BypassNetwork",
+      "CtrlBlock",
+      "DataPath",
+      "DelayN_217",
+      "DelayN_218",
+      "DelayN_219",
+      "ExuBlock",
+      "ExuBlock_1",
+      "ExuBlock_2",
+      "HPerfMonitor_2",
+      "NewPipelineConnectPipe",
+      "NewPipelineConnectPipe_1",
+      "NewPipelineConnectPipe_10",
+      "NewPipelineConnectPipe_11",
+      "NewPipelineConnectPipe_12",
+      "NewPipelineConnectPipe_13",
+      "NewPipelineConnectPipe_14",
+      "NewPipelineConnectPipe_15",
+      "NewPipelineConnectPipe_16",
+      "NewPipelineConnectPipe_17",
+      "NewPipelineConnectPipe_18",
+      "NewPipelineConnectPipe_19",
+      "NewPipelineConnectPipe_2",
+      "NewPipelineConnectPipe_20",
+      "NewPipelineConnectPipe_21",
+      "NewPipelineConnectPipe_22",
+      "NewPipelineConnectPipe_23",
+      "NewPipelineConnectPipe_24",
+      "NewPipelineConnectPipe_25",
+      "NewPipelineConnectPipe_26",
+      "NewPipelineConnectPipe_3",
+      "NewPipelineConnectPipe_4",
+      "NewPipelineConnectPipe_5",
+      "NewPipelineConnectPipe_6",
+      "NewPipelineConnectPipe_7",
+      "NewPipelineConnectPipe_8",
+      "NewPipelineConnectPipe_9",
+      "Og2ForVector",
+      "PFEvent_1",
+      "Scheduler",
+      "Scheduler_1",
+      "Scheduler_2",
+      "Scheduler_3",
+      "VecExcpDataMergeModule",
+      "WbDataPath",
+      "WbFuBusyTable"
+    ],
+    "ExeUnit_13": [
+      "ClockGate_69",
+      "ClockGate_70",
+      "ClockGate_71",
+      "ClockGate_72",
+      "ClockGate_73",
+      "Dispatcher_13",
+      "VDotU",
+      "VFMA",
+      "VIAluFix",
+      "VIMacU",
+      "VPPU"
+    ],
+    "ExuBlock_2": [
+      "ExeUnit_13",
+      "ExeUnit_14",
+      "ExeUnit_15",
+      "ExeUnit_16",
+      "ExeUnit_17"
+    ],
+    "VDotU": [
+      "Mgu_3",
+      "VDotUnit"
+    ],
+    "VDotUnit": [],
+    "XSCore": [
+      "Backend",
+      "Frontend",
+      "MemBlock"
+    ],
+    "XSTile": [
+      "IntBuffer_1",
+      "IntBuffer_2",
+      "IntBuffer_3",
+      "IntBuffer_4",
+      "L2Top",
+      "XSCore"
+    ],
+    "XSTop": [
+      "AXI4Buffer_8",
+      "AXI4Map",
+      "AXI4UserYanker_4",
+      "AsyncQueueSink_3",
+      "CHILogger",
+      "CHILogger_1",
+      "CHILogger_2",
+      "FastArbiter_76",
+      "FastArbiter_77",
+      "FastArbiter_78",
+      "IntBuffer_5",
+      "MemMisc",
+      "OpenLLC",
+      "OpenNCB",
+      "OpenNCB_1",
+      "ReceiverLinkMonitor",
+      "ResetGen",
+      "ResetGen_1",
+      "ResetGen_2",
+      "TLFragmenter_1",
+      "TLToAXI4_2",
+      "TLWidthWidget_2",
+      "TransmitterLinkMonitor",
+      "TransmitterLinkMonitor_1",
+      "XSTile",
+      "imsic_bus_top"
+    ]
+  },
+  "modules_parsed": 15152,
+  "parents": {
+    "VDotU": [
+      "ExeUnit_13"
+    ],
+    "VDotUnit": [
+      "VDotU"
+    ]
+  },
+  "paths": {
+    "VDotU": "XSTop -> XSTile -> XSCore -> Backend -> BackendInlined -> ExuBlock_2 -> ExeUnit_13 -> VDotU",
+    "VDotUnit": "XSTop -> XSTile -> XSCore -> Backend -> BackendInlined -> ExuBlock_2 -> ExeUnit_13 -> VDotU -> VDotUnit"
+  }
+}

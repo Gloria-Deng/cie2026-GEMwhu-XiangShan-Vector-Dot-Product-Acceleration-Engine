@@ -1,0 +1,16 @@
+library DIFFTEST_REG_SIZE=1376, header OFF_END=1376, g_nr_guest_instr=resolved
+  [0] @0x80000200 0x5e003257 readback 0x5e003257
+  [1] @0x80000204 0xee20a357 readback 0xee20a357
+  [2] @0x80000208 0xcc847057 readback 0xcc847057
+  [3] @0x8000020c 0xc6620457 readback 0xc6620457
+variant=legacy-tail instructions=4 result=v8 seed=garbage-0xa5
+STEP_INSTR arm=legacy-tail i=0 word=0x5e003257 retired=1 pc=0x80000200->0x80000204
+STEP_INSTR arm=legacy-tail i=1 word=0xee20a357 retired=1 pc=0x80000204->0x80000208
+STEP_INSTR arm=legacy-tail i=2 word=0xcc847057 retired=1 pc=0x80000208->0x8000020c
+STEP_INSTR arm=legacy-tail i=3 word=0xc6620457 retired=1 pc=0x8000020c->0x80000210
+MISMATCH case 1: vs1=80808080808080800000000000000000 vs2=80808080808080800000000000000000 want=00020000 got=00020000 pc_ok=1 npc=0x80000210
+cases=939 mismatches=939 variant=legacy-tail n_inst=4 nonzero_upper_lanes=11268 low_mismatches=0 tail_mismatches=939 compare_bits=128
+first difference: want 0x00020000 got 0x00020000 (delta as int32 0)
+ICOUNT arm=legacy-tail declared=4 counter=g_nr_guest_instr per_seq=4 total=3756 cases=939 uniform=1
+BASELINE legacy-tail FAIL
+EXIT-CALLBACK during phase [mem_cpy readback]

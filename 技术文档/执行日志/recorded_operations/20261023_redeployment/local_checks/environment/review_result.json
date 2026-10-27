@@ -1,0 +1,79 @@
+{
+  "ok": true,
+  "checks": {
+    "current": {
+      "captures": 4
+    },
+    "full_core": {
+      "inputs": 19,
+      "programs": 32,
+      "executions": 64
+    },
+    "wave": {
+      "mode": "original_fst_read",
+      "signals": 260,
+      "changes": 81378,
+      "executions": 11,
+      "bytes_checked": 176,
+      "invalid_inputs": [
+        {
+          "case": "missing_target",
+          "returncode": 1,
+          "expected_failure": true,
+          "reason": "target FU input count 0 != 11"
+        },
+        {
+          "case": "wrong_result",
+          "returncode": 1,
+          "expected_failure": true,
+          "reason": "case 1 128-bit result mismatch"
+        },
+        {
+          "case": "not_ready",
+          "returncode": 1,
+          "expected_failure": true,
+          "reason": "target FU input count 0 != 11"
+        },
+        {
+          "case": "wrong_cycle",
+          "returncode": 1,
+          "expected_failure": true,
+          "reason": "cycle calibration failed at 4314"
+        }
+      ],
+      "first_execution": {
+        "iteration": 1,
+        "fu_input_t": 4314,
+        "fu_input_cycle": 4312,
+        "result_t": 4315,
+        "result_cycle": 4313,
+        "write_control_t": 4316,
+        "write_control_cycle": 4314,
+        "commit_t": 4317,
+        "commit_cycle": 4315,
+        "store_t": 4332,
+        "store_cycle": 4330,
+        "rob_flag": 0,
+        "rob_index": 25,
+        "pdest": 53,
+        "vs1_v9": "0x01010101010101010101010101010101",
+        "vs2_v8": "0x01010101010101010101010101010101",
+        "expected": "0x02020202020202020202020202020202",
+        "actual": "0x02020202020202020202020202020202",
+        "match": true
+      },
+      "fst_info": {
+        "start_time": 0,
+        "end_time": 10004,
+        "timescale_exp": -12,
+        "var_count": 1052808,
+        "alias_count": 490501,
+        "max_handle": 562307
+      }
+    },
+    "identity": [
+      "hello xiangshan, I am GEMwhu, IP address 172.25.54.204"
+    ]
+  },
+  "errors": []
+}

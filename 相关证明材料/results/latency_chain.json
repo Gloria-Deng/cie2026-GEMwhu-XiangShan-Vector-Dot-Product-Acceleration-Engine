@@ -1,0 +1,130 @@
+{
+  "xiangshan_tree": "D:\\xs-vdot",
+  "kind": "declared latency (source read), not measured",
+  "fuconfig": "D:\\xs-vdot\\src\\main\\scala\\xiangshan\\backend\\fu\\FuConfig.scala",
+  "vecdecoder": "D:\\xs-vdot\\src\\main\\scala\\xiangshan\\backend\\decode\\VecDecoder.scala",
+  "baseline": [
+    {
+      "key": "vmv",
+      "mnemonic": "vmv.v.i vd,0",
+      "futype": "vialuF",
+      "decoder_src": "VecDecoder.scala:338",
+      "decoder_line": 338,
+      "decoder_text": "VMV_V_I       -> OPIVI(FuType.vialuF, VialuFixType.vmv_v_v, T, F, F, src2 = SrcType.no), // vd[i] = imm, vs2 = v0",
+      "fucfg_name": "vialuFix",
+      "fucfg_name_line": 533,
+      "futype_src_line": 534,
+      "latency_decl": "CertainLatency(1)",
+      "latency": 1,
+      "latency_line": 544,
+      "latency_src": "FuConfig.scala:544",
+      "configs_sharing_futype": [
+        "vialuFix"
+      ],
+      "depends_on": [],
+      "dep_why": "clears the accumulator operand v4; reads nothing the sequence produces"
+    },
+    {
+      "key": "vwmul",
+      "mnemonic": "vwmul.vv vtmp,vs2,vs1",
+      "futype": "vimac",
+      "decoder_src": "VecDecoder.scala:429",
+      "decoder_line": 429,
+      "decoder_text": "VWMUL_VV     -> OPMVV(T, FuType.vimac, VimacType.vwmul, F, T, F, UopSplitType.VEC_VVW),",
+      "fucfg_name": "vimac",
+      "fucfg_name_line": 552,
+      "futype_src_line": 553,
+      "latency_decl": "CertainLatency(2)",
+      "latency": 2,
+      "latency_line": 563,
+      "latency_src": "FuConfig.scala:563",
+      "configs_sharing_futype": [
+        "vimac"
+      ],
+      "depends_on": [],
+      "dep_why": "products into v6; reads the two seeded source registers"
+    },
+    {
+      "key": "vset",
+      "mnemonic": "vsetivli zero,8,e16,m1,ta,ma",
+      "futype": "vsetiwf",
+      "decoder_src": "VecDecoder.scala:751 (row 751) -> class VSET at :162",
+      "decoder_line": 162,
+      "decoder_text": "XSDecode(src1, src2, SrcType.X, FuType.vsetiwf, fuOp, selImm, uopSplitType,",
+      "fucfg_name": "vsetriwvf",
+      "fucfg_name_line": 393,
+      "futype_src_line": 394,
+      "latency_decl": "CertainLatency(0)",
+      "latency": 0,
+      "latency_line": 402,
+      "latency_src": "FuConfig.scala:402",
+      "configs_sharing_futype": [
+        "vsetriwvf"
+      ],
+      "depends_on": [],
+      "dep_why": "reconfigures vtype; reads nothing"
+    },
+    {
+      "key": "vwred",
+      "mnemonic": "vwredsum.vs vd,vtmp,vz",
+      "futype": "vipu",
+      "decoder_src": "VecDecoder.scala:245",
+      "decoder_line": 245,
+      "decoder_text": "VWREDSUM_VS     -> OPIVV(FuType.vipu, VipuType.vwredsum_vs, T, F, F, UopSplitType.VEC_VWW),",
+      "fucfg_name": "vipu",
+      "fucfg_name_line": 621,
+      "futype_src_line": 622,
+      "latency_decl": "CertainLatency(2)",
+      "latency": 2,
+      "latency_line": 631,
+      "latency_src": "FuConfig.scala:631",
+      "configs_sharing_futype": [
+        "vipu"
+      ],
+      "depends_on": [
+        0,
+        1,
+        2
+      ],
+      "dep_why": "vwredsum.vs v8,v6,v4 reads v6 (row 1), v4 (row 0) and the vtype row 2 installed"
+    }
+  ],
+  "vdot": {
+    "cfg": "vdot",
+    "futype": "vdot",
+    "latency_decl": "CertainLatency(2)",
+    "latency": 2,
+    "name_line": 571,
+    "latency_line": 579
+  },
+  "declared_sum": 5,
+  "declared_critical_path": 4,
+  "dependency_edges": {
+    "0": [],
+    "1": [],
+    "2": [],
+    "3": [
+      0,
+      1,
+      2
+    ]
+  },
+  "ratio_sum": 2.5,
+  "ratio_critical_path": 2.0,
+  "measured_crossrefs": {
+    "instr": [
+      "1",
+      "4",
+      "4.00"
+    ],
+    "rtl_lat": [
+      2
+    ]
+  },
+  "model_json_agreement": {
+    "sum": 5,
+    "vdot": 2,
+    "discrepancy": null
+  },
+  "source": "sim/latency_chain.py"
+}

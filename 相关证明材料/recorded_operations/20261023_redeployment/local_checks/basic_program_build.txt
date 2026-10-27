@@ -1,0 +1,4 @@
+PROGRAM_BUILT group=pos cases=46 OK=0x80000088
+PROGRAM_BUILT group=neg cases=48 OK=0x80000088
+PROGRAM_BUILT group=bound cases=45 OK=0x80000088
+BUILD_PASS pos=46 neg=48 bound=45

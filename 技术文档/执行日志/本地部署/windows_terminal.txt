@@ -1,0 +1,46 @@
+﻿**********************
+Windows PowerShell 脚本开始
+开始时间: 20261023163031
+用户名: LAPTOP-ROVJN0UC\lenovo
+RunAs 用户: LAPTOP-ROVJN0UC\lenovo
+配置名称: 
+计算机: LAPTOP-ROVJN0UC (Microsoft Windows NT 10.0.26200.0)
+主机应用程序: C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell.exe -NoLogo -NoExit
+进程 ID: 6844
+PSVersion: 5.1.26100.9711
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9711
+BuildVersion: 10.0.26100.9711
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+已启动脚本，输出文件为 D:\Desktop\全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道\香山向量点积加速引擎-官网提交\相关证明材料\recorded_operations\20261023_redeployment\windows_terminal.txt
+2026-10-23T16:30:31.5089834+08:00
+GEMwhu real local redevelopment; full processor builds are on the supercomputer.
+
+  NAME            STATE           VERSION
+* Ubuntu-24.04    Stopped         2
+hello xiangshan, I am GEMwhu, IP address 10.131.150.141
+ip_selection_method=udp_egress_no_packets_sent
+host=LAPTOP-ROVJN0UC python=3.11.9 platform=win32
+HELLO_ANYOS ip=10.131.150.141
+hello xiangshan, I am GEMwhu, IP address 10.131.150.141
+ip_candidates=10.131.150.141#idx14 selected_index=14 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.150.141#idx14#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx20#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtu
+al_adapter_desc;172.25.48.1#idx49#if6#st5#Hyper-V Virtual Ethernet Adapter#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=14 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+GEMwhu stage1 /mnt/c/Users/lenovo # date --iso-8601=seconds; exit
+2026-10-23T19:00:14+08:00
+exit
+Caption                            Version    OSArchitecture
+-------                            -------    --------------
+Microsoft Windows 11 家庭版 中文版 10.0.26200 64 位
+2026-10-23T19:00:15.1046696+08:00
+**********************
+Windows PowerShell 脚本结束
+结束时间: 20261023190015
+**********************

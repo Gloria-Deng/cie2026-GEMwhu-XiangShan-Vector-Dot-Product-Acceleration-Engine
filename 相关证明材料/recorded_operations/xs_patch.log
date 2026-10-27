@@ -1,0 +1,82 @@
+[vdot-patch] XS_ROOT = /project/chensiyuan/vdot/run_20261016_m/XiangShan
+[vdot-patch] mode    = dry=0 check=0 copy=1
+[vdot-patch] pre-flight per-patch state audit
+  ready            S1a FuType.vdot                  (FuType.scala)
+  ready            S1b vecOPI                       (FuType.scala)
+  ready            S1c functionNameMap              (FuType.scala)
+  ready            S2a VdotCfg                      (FuConfig.scala)
+  ready            S2b VecArithFuCfgs               (FuConfig.scala)
+  ready            S2c needVecCtrl                  (FuConfig.scala)
+  ready            S2d isVecArith                   (FuConfig.scala)
+  ready            S3a VFEX0                        (Parameters.scala)
+  ready            D1 VecDecoder import             (VecDecoder.scala)
+  ready            D2 opmvv row                     (VecDecoder.scala)
+  ready            D3 object XVdot                  (Instructions.scala)
+  ready            D4 opmvx row                     (VecDecoder.scala)
+  ready            D5 VDOT_VX def                   (Instructions.scala)
+  ready            D6 no old vd operand             (DecodeUnit.scala)
+  ready            D7 VecExceptionGen vdot legality (VecExceptionGen.scala)
+[vdot-patch] pre-flight ok: every patch is either ready or already applied
+[vdot-patch] drift check against the delivery docs
+[vdot-patch] drift   ok: payloads found verbatim in VdotCfg.scala
+[vdot-patch] drift   ok: payloads found verbatim in decode-snippets.md
+[vdot-patch] copied  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala
+[vdot-patch] copied  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
+[vdot-patch] copied  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/vdot/VDotUnit.scala
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/fu/FuType.scala.vdotbak
+[vdot-patch] applied S1a FuType.vdot addType
+[vdot-patch] applied S1b FuType.vecOPI += vdot
+[vdot-patch] applied S1c functionNameMap += vdot
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/fu/FuConfig.scala.vdotbak
+[vdot-patch] applied S2a FuConfig.VdotCfg
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala.vdotbak
+[vdot-patch] applied D6 no old vd operand
+[vdot-patch] applied S2b VecArithFuConfigs += VdotCfg
+[vdot-patch] applied S2c needVecCtrl += vdot
+[vdot-patch] applied S2d isVecArith += vdot
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/decode/VecExceptionGen.scala.vdotbak
+[vdot-patch] applied D7a VecExceptionGen vdot predicate
+[vdot-patch] applied D7b VecExceptionGen vdot legality
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/Parameters.scala.vdotbak
+[vdot-patch] applied S3a VFEX0 += VdotCfg
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/decode/VecDecoder.scala.vdotbak
+[vdot-patch] applied D1 VecDecoder imports
+[vdot-patch] applied D2 VecDecoder opmvv row
+[vdot-patch] backup  -> /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/decode/Instructions.scala.vdotbak
+[vdot-patch] applied D3 Instructions.scala object XVdot
+[vdot-patch] applied D4 VecDecoder opmvx row
+[vdot-patch] applied D5 Instructions.scala VDOT_VX
+[vdot-patch] post-conditions
+  OK   S1a FuType.vdot                    FuType.scala x1
+  OK   S1b vecOPI                         FuType.scala x1
+  OK   S1c functionNameMap                FuType.scala x1
+  OK   S2a VdotCfg                        FuConfig.scala x1
+  OK   S2b VecArithFuConfigs              FuConfig.scala x1
+  OK   S2c needVecCtrl                    FuConfig.scala x1
+  OK   S2d isVecArith                     FuConfig.scala x1
+  OK   S3a VFEX0                          Parameters.scala x1
+  OK   D6 no old vd operand               DecodeUnit.scala x1
+  OK   D7 vdot legality predicate         VecExceptionGen.scala x1
+  OK   D7 vdot legality output            VecExceptionGen.scala x1
+  OK   D1 import XVdot                    VecDecoder.scala x1
+  OK   D1 import VdotType                 VecDecoder.scala x1
+  OK   D2 opmvv row                       VecDecoder.scala x1
+  OK   D3 BitPat                          Instructions.scala x1
+  OK   D4 opmvx row                       VecDecoder.scala x1
+  OK   D5 VX BitPat                       Instructions.scala x1
+  OK   copied /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala
+  OK   copied /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
+  OK   copied /project/chensiyuan/vdot/run_20261016_m/XiangShan/src/main/scala/vdot/VDotUnit.scala
+[vdot-patch] all post-conditions hold.
+
+Next steps (NOT run by this script, and NOT verified by it):
+  cd /project/chensiyuan/vdot/run_20261016_m/XiangShan
+  make verilog CONFIG=KunminghuV2Config        # needs the xs-env mill/JDK toolchain
+
+Two things outside this tree still have to happen before vdot.vv can be *executed*
+end to end -- see README.md:
+  * the toolchain must be able to assemble funct6=101100 funct3=010 (either patch
+    the assembler's opcode table, or emit the word with .insn/.word in the test)
+  * NEMU's vopmvv table (src/isa/riscv64/instr/rvv/decode.h) must gain a vdot entry,
+    otherwise difftest flags the instruction as invalid on the first execution
+

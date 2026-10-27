@@ -1,0 +1,83 @@
+EMU-BUILD-LINUX v1
+question: results/xs_soc/emu_glue_linux.txt 记到「difftest 的 C++ 面对这棵 Verilated
+          SoC 编译干净」（47/47，`-fsyntax-only`）为止。再往下——**链接成一个可执行件**
+          ——能不能过？
+answer: 能。产出一个 174781280 B 的 ELF 可执行件（`MAKE_RC=0`）。
+scope: 这一份只回答「emu 建不建得成」。它不是运行：没有参考机、没有镜像、
+       没有退休任何一条指令。整层 3.1.2 仍是未做。
+
+host_kind: Linux/glibc，x86-64，32 核 / 100 GB 的批处理节点
+toolchain: GCC 11.5.0 20240719 (Red Hat 11.5.0-14)；Verilator 5.026（本机源码编出）
+driver: 直接驱动 difftest 自己的 Makefile（`make emu`），不手抄 verilator.mk 的旗标 ——
+        上游的 VERILATOR_FLAGS_ALL 有 --exe/--cc/--top-module/+define+*/-CFLAGS/-LDFLAGS
+        两组十来项，抄漏一项就要重跑一轮
+argv: VERILATOR=<verilator_bin>  NUM_CORES=1  REF=Nemu  WITH_CHISELDB=0
+      OPT_FAST="-O0"  BUILD_DIR=<difftest>/build
+
+=== 1. 输入 ===
+rtl: <difftest>/build/rtl 放的是本包生成的那棵树（2006 支 .sv + 58 支 .v + filelist.f）
+     注意 58 支 .v 里含 26 个 `_ext` 存储黑盒与 4 个 difftest 侧文件
+gensrc: <difftest>/build/generated-src（difftest-state.h 等 6 个，见 emu_glue_linux.txt）
+verilate: 一次过（2065 模块）
+objects: 699 个 .o
+
+=== 2. 五个障碍与各自的修法（都是撞出来的，按出现顺序） ===
+a) SIGSEGV / Exit 139，verilator.mk:113，0 个目标文件
+   真因：栈。与 results/xs_soc/xsoc_verilator_linux.txt 第 5 节同一个病。
+   修法：在**脚本最前面** `ulimit -s unlimited`。make 会用子 shell 跑 Verilator，
+         所以限制必须在 make 继承的那个 shell 里设。
+   （这一条本包自己踩了两次：第一次忘了写，第二次写了但写晚了一步。）
+
+b) g++: unrecognized command-line option '-fno-slp-vectorize'
+   真因：`-fslp-vectorize` 是 **LLVM/Clang** 的拼法，GCC 要的是 `-ftree-slp-vectorize`。
+         上游 `verilator.mk` 的默认 `OPT_FAST ?= -O3 -fno-slp-vectorize` 在任何 GCC
+         上都不成立。实测两边：GCC 11.5.0（集群）与 GCC 16.2.0（另一台）都判它
+         unrecognized 并建议 -ftree-slp-vectorize。
+   修法：显式传 `OPT_FAST="-O0"`（不传的话 make 会退回那个默认值，照样撞）。
+
+c) No rule to make target '<build>/chisel_db.cpp'
+   真因：`WITH_CHISELDB ?= 1` 与 `WITH_CONSTANTIN ?= 1` 各要一个 Chisel 生成的源文件，
+         它们生成时落在 **XiangShan 的 BUILD_DIR**，而 difftest 自己的 BUILD_DIR 是另一个目录。
+   修法：把 chisel_db.{cpp,h}、constantin.{cpp,hpp,txt}、perfCCT.{cpp,h} 补到
+         difftest 的 build/ 下（时间戳与 SimTop 那趟生成一致，是同一批产物）。
+
+d) fatal error: sqlite3.h: No such file or directory（chisel_db.h / perfCCT.h）
+   真因：集群装了 sqlite3 的**运行库**（/usr/lib64/libsqlite3.so.0）但没装 -devel 头。
+   修法：`WITH_CHISELDB=0`。它同时去掉 chisel_db.cpp 与 perfCCT.cpp —— 经核对，
+         这两个是该树里**唯一**引 <sqlite3.h> 的地方（query.h 的那一处要
+         CONFIG_DIFFTEST_QUERY，本构建没开；constantin 里 sqlite3 出现 0 次，
+         所以 constantin 保留）。
+   另注：`-lsqlite3` 需要链接期符号链接 libsqlite3.so，集群只有 .so.0；
+         本包在 $HOME/syslibs 里做了一个指向 .so.0 的 .so 并把该目录加进 LIBRARY_PATH。
+         关掉 WITH_CHISELDB 之后这条不再必要。
+
+e) `WITH_CHISELDB=0` **不生效**：chisel_db.o / perfCCT.o 照旧被构建，emu.o 照旧引
+   chisel_db.h。
+   真因：编译旗标（含 -DENABLE_CHISEL_DB 与整个 -D/-I 集）**烤进了 Verilator 生成的
+         <build>/verilator-compile/VSimTop.mk**，改 make 变量不会重写那个文件。
+   修法：检测到 .mk 里含 chisel_db 就删掉它，逼 make 重新 verilate 一次、用新旗标
+         重新生成。这是一次性的，重新生成之后 .mk 里不再有它。
+
+=== 3. 复用已编目标文件是否安全 ===
+checked: `ENABLE_CHISEL_DB` 与 `ENABLE_CONSTANTIN` 在**任何头文件里都不出现**，
+        只出现在 .cpp 的 #ifdef 里 ⇒ 去掉这两个宏不改变任何结构体布局，
+        已编好的 .o 与新编的可以混用。本包据此保留了跨轮次累积的目标文件
+        （54 -> 187 -> ... -> 699）。
+
+=== 4. 产物 ===
+path_in_package: 不在包内（集群上的 <difftest>/build/verilator-compile/emu）
+bytes: 174781280
+file_identity: ELF 64-bit LSB executable, x86-64, GNU/Linux, dynamically linked,
+               not stripped, interpreter /lib64/ld-linux-x86-64.so.2
+build_id: 715eac32b169b9e92a70c00487e1db86764893f1
+the_other_symlink: <difftest>/build/emu 是指向它的符号链接（Makefile 的 emu 目标）
+
+=== 5. 这一份不主张什么 ===
+not_run: 没有执行过。参考机库（NEMU）没接，`ready-to-run/linux.bin` 没上，
+        一条指令都没退休
+nemu_side_open: 集群上那份参考机是 Windows 侧编出来的 .exe（PE），Linux 要的是 .so，
+        这一半要在目标宿主上重新编一次
+with_chiseldb_off: 本构建关了 ChiselDB（性能数据库）与上一条所述的 sqlite3 依赖；
+        也就是说**这不是上游默认配置的 emu**，是一个为了绕开缺头文件而裁剪过的配置。
+        裁剪面已在第 2 节 d) 写清：只影响 profiling 数据，不影响 difftest 的比对逻辑
+single_host: 全部读数来自一台 Linux 宿主；换宿主能否复现不给结论

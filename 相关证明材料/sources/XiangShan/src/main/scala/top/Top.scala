@@ -1,0 +1,681 @@
+/***************************************************************************************
+* Copyright (c) 2024 Beijing Institute of Open Source Chip (BOSC)
+* Copyright (c) 2020-2024 Institute of Computing Technology, Chinese Academy of Sciences
+* Copyright (c) 2020-2021 Peng Cheng Laboratory
+*
+* XiangShan is licensed under Mulan PSL v2.
+* You can use this software according to the terms and conditions of the Mulan PSL v2.
+* You may obtain a copy of Mulan PSL v2 at:
+*          http://license.coscl.org.cn/MulanPSL2
+*
+* THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+* EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+* MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+*
+* See the Mulan PSL v2 for more details.
+***************************************************************************************/
+
+package top
+
+import chisel3._
+import chisel3.util._
+import chisel3.experimental.dataview._
+import difftest.{DifftestMemIO, DifftestModule, HasDiffTestInterfaces}
+import xiangshan._
+import utils._
+import utility._
+import utility.sram.SramBroadcastBundle
+import huancun.{HCCacheParameters, HCCacheParamsKey, HuanCun, PrefetchRecv, TPmetaResp}
+import coupledL2.EnableCHI
+import coupledL2.tl2chi.CHILogger
+import openLLC.{OpenLLC, OpenLLCParamKey, OpenNCB}
+import openLLC.TargetBinder._
+import cc.xiangshan.openncb._
+import system._
+import device._
+import chisel3.stage.ChiselGeneratorAnnotation
+import org.chipsalliance.cde.config._
+import freechips.rocketchip.devices.debug.DebugModuleKey
+import freechips.rocketchip.diplomacy._
+import freechips.rocketchip.tile._
+import freechips.rocketchip.tilelink._
+import freechips.rocketchip.interrupts._
+import freechips.rocketchip.amba.axi4._
+import freechips.rocketchip.jtag.JTAGIO
+import freechips.rocketchip.util.{AsyncQueueParams, AsyncQueueSink}
+import chisel3.experimental.annotate
+import sifive.enterprise.firrtl.NestedPrefixModulesAnnotation
+
+import scala.collection.mutable.Map
+import difftest.gateway.Gateway
+
+abstract class BaseXSSoc()(implicit p: Parameters) extends LazyModule
+  with HasSoCParameter
+  with BindingScope
+{
+  lazy val tlManagers: List[TLNexusNode] = List()
+  lazy val dts = DTS(bindingTree)
+  lazy val json = JSON(bindingTree)
+
+  // collect info for DTS
+  ResourceBinding {
+    val width = ResourceInt(2)
+    val model = "xiangshan," + os.read(os.resource / "publishVersion")
+    val compatible = "freechips,rocketchip-unknown"
+    Resource(ResourceAnchors.root, "model").bind(ResourceString(model))
+    Resource(ResourceAnchors.root, "compat").bind(ResourceString(compatible + "-dev"))
+    Resource(ResourceAnchors.soc, "compat").bind(ResourceString(compatible + "-soc"))
+    Resource(ResourceAnchors.root, "width").bind(width)
+    Resource(ResourceAnchors.soc, "width").bind(width)
+    Resource(ResourceAnchors.cpus, "width").bind(ResourceInt(1))
+    def bindManagers(xbar: TLNexusNode) = {
+      ManagerUnification(xbar.edges.in.head.manager.managers).foreach{ manager =>
+        manager.resources.foreach(r => r.bind(manager.toResource))
+      }
+    }
+    tlManagers.foreach(xbar => bindManagers(xbar))
+  }
+}
+
+trait HasDTSImp[+L <: BaseXSSoc] { this: LazyRawModuleImp =>
+  val dtsLM = wrapper.asInstanceOf[L]
+  FileRegisters.add("dts", dtsLM.dts)
+  FileRegisters.add("graphml", dtsLM.graphML)
+  FileRegisters.add("json", dtsLM.json)
+  FileRegisters.add("plusArgs", freechips.rocketchip.util.PlusArgArtefacts.serialize_cHeader())
+}
+
+class XSTop()(implicit p: Parameters) extends BaseXSSoc()
+{
+  private val useExternalLLC = p(UseExternalLLCKey)
+  require(!useExternalLLC || enableCHI, "External LLC requires CHI")
+
+  val nocMisc = if (enableCHI) Some(LazyModule(new MemMisc())) else None
+  val socMisc = if (!enableCHI) Some(LazyModule(new SoCMisc())) else None
+  val misc: MemMisc = if (enableCHI) nocMisc.get else socMisc.get
+
+  override lazy val tlManagers = List(
+    misc.l3_xbar.map(_.asInstanceOf[TLNexusNode]),
+    misc.peripheralXbar.map(_.asInstanceOf[TLNexusNode])
+  ).flatten
+
+  println(s"FPGASoC cores: $NumCores banks: $L3NBanks block size: $L3BlockSize bus size: $L3OuterBusWidth")
+
+  val core_with_l2 = tiles.map(coreParams =>
+    LazyModule(new XSTile()(p.alter((site, here, up) => {
+      case XSCoreParamsKey => coreParams
+      case PerfCounterOptionsKey => up(PerfCounterOptionsKey).copy(perfDBHartID = coreParams.HartId)
+    })))
+  )
+
+  val l3cacheOpt = soc.L3CacheParamsOpt.map(l3param =>
+    LazyModule(new HuanCun()(new Config((_, _, _) => {
+      case HCCacheParamsKey => l3param.copy(
+        hartIds = tiles.map(_.HartId),
+        FPGAPlatform = debugOpts.FPGAPlatform
+      )
+      case MaxHartIdBits => p(MaxHartIdBits)
+      case LogUtilsOptionsKey => p(LogUtilsOptionsKey)
+      case PerfCounterOptionsKey => p(PerfCounterOptionsKey)
+    })))
+  )
+
+  val chi_llcBridge_opt = Option.when(enableCHI && !useExternalLLC)(
+    LazyModule(new OpenNCB()(p.alter((site, here, up) => {
+      case NCBParametersKey => new NCBParameters(
+        outstandingDepth    = 64,
+        axiMasterOrder      = EnumAXIMasterOrder.WriteAddress,
+        readCompDMT         = false,
+        writeCancelable     = false,
+        writeNoError        = true,
+        axiBurstAlwaysIncr  = true,
+        chiDataCheck        = EnumCHIDataCheck.OddParity
+      )
+    })))
+  )
+  val chi_extllc_opt = Option.when(useExternalLLC) {
+    require(NumCores <= 2, s"External LLC wrapper currently supports up to two RNs, got $NumCores")
+    LazyModule(new ExternalLLC())
+  }
+
+  val chi_mmioBridge_opt = Seq.fill(NumCores)(Option.when(enableCHI && !useExternalLLC)(
+    LazyModule(new OpenNCB()(p.alter((site, here, up) => {
+      case NCBParametersKey => new NCBParameters(
+        outstandingDepth            = 32,
+        axiMasterOrder              = EnumAXIMasterOrder.None,
+        readCompDMT                 = false,
+        writeCancelable             = false,
+        writeNoError                = true,
+        asEndpoint                  = false,
+        acceptOrderEndpoint         = true,
+        acceptMemAttrDevice         = true,
+        readReceiptAfterAcception   = true,
+        axiBurstAlwaysIncr          = true,
+        chiDataCheck                = EnumCHIDataCheck.OddParity
+      )
+    })))
+  ))
+
+  // receive all prefetch req from cores
+  val memblock_pf_recv_nodes: Seq[Option[BundleBridgeSink[PrefetchRecv]]] = core_with_l2.map(_.core_l3_pf_port).map{
+    x => x.map(_ => BundleBridgeSink(Some(() => new PrefetchRecv)))
+  }
+
+  val l3_pf_sender_opt = soc.L3CacheParamsOpt.getOrElse(HCCacheParameters()).prefetch match {
+    case Some(pf) => Some(BundleBridgeSource(() => new PrefetchRecv))
+    case None => None
+  }
+  val nmiIntNode = IntSourceNode(IntSourcePortSimple(1, NumCores, (new NonmaskableInterruptIO).elements.size))
+  val nmi = InModuleBody(nmiIntNode.makeIOs())
+  private def imsicParamsForHart(hartIndex: Int): aia.IMSICParams = {
+    val params = soc.IMSICParams
+    params.copy(
+      mAddr = params.mAddr + (hartIndex.toLong << params.intFileMemWidth),
+      sgAddr = params.sgAddr + (hartIndex.toLong << (params.intFileMemWidth + log2Ceil(1 + params.geilen)))
+    )
+  }
+  val imsic_bus_tops = Seq.tabulate(NumCores) { i =>
+    LazyModule(new imsic_bus_top()(p.alter((_, _, up) => {
+      case SoCParamsKey => up(SoCParamsKey).copy(IMSICParams = imsicParamsForHart(i))
+    })))
+  }
+  imsic_bus_tops.zipWithIndex.foreach { case (imsic_bus_top, i) =>
+    imsic_bus_top.aplic_axi4.foreach { aplic_axi4 =>
+      val hartImsicParams = imsicParamsForHart(i)
+      aplic_axi4 := aia.AXI4Map { addrSet =>
+        val base = addrSet.base.toLong
+        val (groupID, memberID) = soc.APLICParams.hartIndex_to_gh(i)
+        val mOffset = (groupID.toLong << soc.APLICParams.groupStrideWidth) +
+          (memberID.toLong << soc.APLICParams.mStrideWidth)
+        val sgOffset = (groupID.toLong << soc.APLICParams.groupStrideWidth) +
+          (memberID.toLong << soc.APLICParams.sgStrideWidth)
+        if (base == hartImsicParams.mAddr) {
+          soc.APLICParams.mBaseAddr + mOffset
+        } else if (base == hartImsicParams.sgAddr) {
+          soc.APLICParams.sgBaseAddr + sgOffset
+        } else if (base == hartImsicParams.tee_mAddr) {
+          soc.APLICParams.mBaseAddr + mOffset
+        } else if (base == hartImsicParams.tee_sgAddr) {
+          soc.APLICParams.sgBaseAddr + sgOffset
+        } else {
+          base
+        }
+      } := misc.aplic.toIMSIC
+    }
+    imsic_bus_top.axi_mem_xbar.foreach { imsicXbar =>
+      if (enableCHI) {
+        imsicXbar :=
+          AXI4Buffer() :=
+          AXI4UserYanker() :=
+          TLToAXI4() :=
+          TLFragmenter(4, 8, holdFirstDeny = true) :=
+          TLWidthWidget(8) :=
+          misc.device_xbar.get
+      } else {
+        imsicXbar :=
+          AXI4Buffer() :=
+          AXI4UserYanker() :=
+          TLToAXI4() :=
+          TLFragmenter(4, 8, holdFirstDeny = true) :=
+          TLWidthWidget(8) :=
+          misc.peripheralXbar.get
+      }
+    }
+  }
+
+  for (i <- 0 until NumCores) {
+    core_with_l2(i).clint_int_node := misc.timer.intnode
+    core_with_l2(i).plic_int_node :*= misc.plic.intnode
+    core_with_l2(i).debug_int_node := misc.debugModule.debug.dmOuter.dmOuter.intnode
+    core_with_l2(i).nmi_int_node := nmiIntNode
+    misc.plic.intnode := IntBuffer() := core_with_l2(i).beu_int_source
+    if (!enableCHI) {
+      misc.peripheral_ports.get(i) := core_with_l2(i).tl_uncache
+    }
+    core_with_l2(i).memory_port.foreach(port => (misc.core_to_l3_ports.get)(i) :=* port)
+    memblock_pf_recv_nodes(i).map(recv => {
+      println(s"Connecting Core_${i}'s L1 pf source to L3!")
+      recv := core_with_l2(i).core_l3_pf_port.get
+    })
+    misc.SepTLXbarOpt.foreach { SepTLXbarOpt =>
+      // SeperateBus can only be connected to DebugModule now in non-XSNoCTop environment
+      println(s"SeparateDM: ${SeperateDM}")
+      println(s"misc.SepTLXbarOpt: ${misc.SepTLXbarOpt}")
+      require(core_with_l2(i).sep_tl_opt.isDefined)
+      require(SeperateBusRanges.size >= 1)
+      require(SeperateBusRanges.head.base <= p(DebugModuleKey).get.address.base)
+      require(SeperateBusRanges.head.base <= p(SoCParamsKey).TIMERRange.base)
+      SepTLXbarOpt := core_with_l2(i).sep_tl_opt.get
+    }
+  }
+  l3cacheOpt.map(_.ctlnode.map(_ := misc.peripheralXbar.get))
+  l3cacheOpt.map(_.intnode.map(int => {
+    misc.plic.intnode := IntBuffer() := int
+  }))
+
+  val core_rst_nodes = if(l3cacheOpt.nonEmpty && l3cacheOpt.get.rst_nodes.nonEmpty){
+    l3cacheOpt.get.rst_nodes.get
+  } else {
+    core_with_l2.map(_ => BundleBridgeSource(() => Reset()))
+  }
+
+  core_rst_nodes.zip(core_with_l2.map(_.core_reset_sink)).foreach({
+    case (source, sink) =>  sink := source
+  })
+
+  l3cacheOpt match {
+    case Some(l3) =>
+      misc.l3_out :*= l3.node :*= misc.l3_banked_xbar.get
+      l3.pf_recv_node.map(recv => {
+        println("Connecting L1 prefetcher to L3!")
+        recv := l3_pf_sender_opt.get
+      })
+      l3.tpmeta_recv_node.foreach(recv => {
+        for ((core, i) <- core_with_l2.zipWithIndex) {
+          println(s"Connecting core_$i\'s L2 TPmeta request to L3!")
+          recv := core.core_l3_tpmeta_source_port.get
+        }
+      })
+      l3.tpmeta_send_node.foreach(send => {
+        val broadcast = LazyModule(new ValidIOBroadcast[TPmetaResp]())
+        broadcast.node := send
+        for ((core, i) <- core_with_l2.zipWithIndex) {
+          println(s"Connecting core_$i\'s L2 TPmeta response to L3!")
+          core.core_l3_tpmeta_sink_port.get := broadcast.node
+        }
+      })
+    case None =>
+  }
+
+  chi_llcBridge_opt match {
+    case Some(ncb) =>
+      misc.soc_xbar.get := ncb.axi4node
+    case None =>
+  }
+
+  chi_extllc_opt.foreach { externalLLC =>
+    misc.soc_xbar.get := externalLLC.axi4node
+    misc.soc_xbar.get := externalLLC.periAXI4Node
+  }
+
+  chi_mmioBridge_opt.foreach { e =>
+    e match {
+      case Some(ncb) =>
+        misc.soc_xbar.get := ncb.axi4node
+      case None =>
+    }
+  }
+
+  class XSTopImp(wrapper: XSTop) extends LazyRawModuleImp(wrapper)
+    with HasDTSImp[XSTop]
+  {
+    soc.XSTopPrefix.foreach { prefix =>
+      val mod = this.toNamed
+      annotate(this)(Seq(NestedPrefixModulesAnnotation(mod, prefix, true)))
+    }
+
+    val dma = socMisc.map(m => IO(Flipped(new VerilogAXI4Record(m.dma.elts.head.params))))
+    val peripheral = IO(new VerilogAXI4Record(misc.peripheral.elts.head.params))
+    val memory = IO(new VerilogAXI4Record(misc.memory.elts.head.params))
+
+    socMisc match {
+      case Some(m) =>
+        m.dma.elements.head._2 <> dma.get.viewAs[AXI4Bundle]
+        dontTouch(dma.get)
+      case None =>
+    }
+
+    peripheral.viewAs[AXI4Bundle] <> misc.peripheral.elements.head._2
+
+    val io = IO(new Bundle {
+      val clock = Input(Clock())
+      val reset = Input(AsyncReset())
+      val sram_config = Input(UInt(16.W))
+      val extIntrs = Input(UInt(NrExtIntr.W))
+      val pll0_lock = Input(Bool())
+      val pll0_ctrl = Output(Vec(6, UInt(32.W)))
+      val systemjtag = new Bundle {
+        val jtag = Flipped(new JTAGIO(hasTRSTn = false))
+        val reset = Input(AsyncReset()) // No reset allowed on top
+        val mfr_id = Input(UInt(11.W))
+        val part_number = Input(UInt(16.W))
+        val version = Input(UInt(4.W))
+      }
+      val debug_reset = Output(Bool())
+      val rtc_clock = Input(Clock())
+      val cacheable_check = new TLPMAIO()
+      val riscv_halt = Output(Vec(NumCores, Bool()))
+      val riscv_critical_error = Output(Vec(NumCores, Bool()))
+      val riscv_rst_vec = Input(Vec(NumCores, UInt(soc.PAddrBits.W)))
+      val riscv_rst_mtvec = Option.when(tiles.exists(_.enableResetMtvec))(Input(Vec(NumCores, UInt(soc.PAddrBits.W))))
+      val traceCoreInterface = Vec(NumCores, new Bundle {
+        val fromEncoder = Input(new Bundle {
+          val enable = Bool()
+          val stall  = Bool()
+        })
+        val toEncoder   = Output(new Bundle {
+          val cause     = UInt(TraceCauseWidth.W)
+          val tval      = UInt(TraceTvalWidth.W)
+          val priv      = UInt(TracePrivWidth.W)
+          val mstatus   = UInt(TraceStatusWidth.W)
+          val valid     = UInt(TraceGrpNum.W)
+          val iaddr     = UInt((TraceGrpNum * TraceIaddrWidth).W)
+          val itype     = UInt((TraceGrpNum * TraceItypeWidth).W)
+          val iretire   = UInt((TraceGrpNum * TraceIretireWidthCompressed).W)
+          val ilastsize = UInt((TraceGrpNum * TraceIlastsizeWidth).W)
+        })
+      })
+    })
+
+    val reset_sync = withClockAndReset(io.clock, io.reset) { ResetGen() }
+    val jtag_reset_sync = withClockAndReset(io.systemjtag.jtag.TCK, io.systemjtag.reset) { ResetGen() }
+    val chi_openllc_opt = Option.when(enableCHI && !useExternalLLC) {
+      withClockAndReset(io.clock, io.reset) {
+        Module(new OpenLLC()(p.alter((site, here, up) => {
+          case OpenLLCParamKey => soc.OpenLLCParamsOpt.get.copy(
+            hartIds = tiles.map(_.HartId),
+            FPGAPlatform = debugOpts.FPGAPlatform
+          )
+        })))
+      }
+    }
+    chi_extllc_opt.foreach { externalLLC =>
+      externalLLC.module.io.clock := io.clock
+      externalLLC.module.io.reset := io.reset.asBool
+    }
+    memory.viewAs[AXI4Bundle] <> misc.memory.elements.head._2
+
+    // override LazyRawModuleImp's clock and reset
+    childClock := io.clock
+    childReset := reset_sync
+
+    // output
+    io.debug_reset := misc.module.debug_module_io.debugIO.ndreset
+
+    // input
+    dontTouch(io)
+    dontTouch(memory)
+    misc.module.ext_intrs := io.extIntrs
+    misc.module.pll0_lock := io.pll0_lock
+    misc.module.cacheable_check <> io.cacheable_check
+
+    io.pll0_ctrl <> misc.module.pll0_ctrl
+
+    val imsic_axi4 = Option.when(!useExternalLLC && NumCores == 1)(imsic_bus_tops.head.axi4.map { x =>
+      IO(Flipped(new VerilogAXI4Record(x.elts.head.params.copy(addrBits = 32))))
+    }).flatten
+    val imsic_axi4s = Option.when(!useExternalLLC && NumCores > 1)(imsic_bus_tops.head.axi4.map { x =>
+      IO(Vec(NumCores, Flipped(new VerilogAXI4Record(x.elts.head.params.copy(addrBits = 32)))))
+    }).flatten
+    imsic_bus_tops.zipWithIndex.foreach { case (imsic_bus_top, i) =>
+      imsic_bus_top.axi4.foreach { x =>
+        chi_extllc_opt match {
+          case Some(externalLLC) =>
+            externalLLC.module.io.imsic(i).viewAs[AXI4Bundle] <> x.elements.head._2
+          case None =>
+            val imsic_axi4_port = if (NumCores == 1) imsic_axi4.get else imsic_axi4s.get(i)
+            imsic_axi4_port.viewAs[AXI4Bundle] <> x.elements.head._2
+        }
+      }
+      imsic_bus_top.tl_m.foreach { x =>
+        val imsic_m_tl = IO(chiselTypeOf(x.getWrappedValue))
+        imsic_m_tl.suggestName(if (NumCores == 1) "imsic_m_tl" else s"imsic_${i}_m_tl")
+        x <> imsic_m_tl
+      }
+      imsic_bus_top.tl_s.foreach { x =>
+        val imsic_s_tl = IO(chiselTypeOf(x.getWrappedValue))
+        imsic_s_tl.suggestName(if (NumCores == 1) "imsic_s_tl" else s"imsic_${i}_s_tl")
+        x <> imsic_s_tl
+      }
+      imsic_bus_top.module.msi.foreach { x =>
+        val imsic = IO(chiselTypeOf(x))
+        imsic.suggestName(if (NumCores == 1) "imsic" else s"imsic_${i}")
+        x <> imsic
+      }
+      imsic_bus_top.module.teemsi.foreach { x =>
+        val teemsi = IO(chiselTypeOf(x))
+        teemsi.suggestName(if (NumCores == 1) "teemsi" else s"teemsi_${i}")
+        x <> teemsi
+      }
+    }
+    // syscnt io input descrip
+    val ref_reset_sync = withClockAndReset(io.rtc_clock, io.reset) { ResetGen() }
+    misc.module.scntIO.update_en := false.B
+    misc.module.scntIO.update_value := 0.U
+    misc.module.scntIO.stop_en := false.B
+    misc.module.rtc_clock := io.rtc_clock // syscnt clock
+    misc.module.rtc_reset := ref_reset_sync.asAsyncReset
+    misc.module.bus_clock := io.clock
+    misc.module.bus_reset := io.reset
+
+    val clintTime = WireInit(0.U.asTypeOf(ValidIO(UInt(64.W))))
+    EnableClintAsyncBridge match {
+      case Some(param) =>
+        val time_sink = withClockAndReset(core_with_l2.head.module.clock, core_with_l2.head.module.reset)(Module(new AsyncQueueSink(UInt(64.W), param)))
+        time_sink.io.async <> misc.module.clintTime
+        time_sink.io.deq.ready := true.B
+        clintTime.valid := time_sink.io.deq.valid
+        clintTime.bits  := time_sink.io.deq.bits
+      case None =>
+       clintTime := misc.module.clintTime
+    }
+
+    for ((core, i) <- core_with_l2.zipWithIndex) {
+      core.module.io.hartId := i.U
+      core.module.io.msiInfo.valid := imsic_bus_tops(i).module.msiio.vld_req
+      core.module.io.msiInfo.bits := imsic_bus_tops(i).module.msiio.data
+      imsic_bus_tops(i).module.msiio.vld_ack := core.module.io.msiAck
+      imsic_bus_tops(i).module.teemsiio zip core.module.io.teemsiInfo foreach { case (teemsiio, teemsiInfo) =>
+        teemsiInfo.valid := teemsiio.vld_req
+        teemsiInfo.bits := teemsiio.data
+      }
+      imsic_bus_tops(i).module.teemsiio zip core.module.io.teemsiAck foreach { case (teemsiio, teemsiAck) =>
+        teemsiio.vld_ack := teemsiAck
+      }
+      core.module.io.clintTime := clintTime
+      io.riscv_halt(i) := core.module.io.cpu_halt
+      io.riscv_critical_error(i) := core.module.io.cpu_crtical_error
+      // trace Interface
+      val traceInterface = core.module.io.traceCoreInterface
+      traceInterface.fromEncoder := io.traceCoreInterface(i).fromEncoder
+      io.traceCoreInterface(i).toEncoder.priv := traceInterface.toEncoder.priv
+      io.traceCoreInterface(i).toEncoder.cause := traceInterface.toEncoder.trap.cause
+      io.traceCoreInterface(i).toEncoder.tval := traceInterface.toEncoder.trap.tval
+      io.traceCoreInterface(i).toEncoder.mstatus := traceInterface.toEncoder.mstatus
+      io.traceCoreInterface(i).toEncoder.valid := VecInit(traceInterface.toEncoder.groups.map(_.valid)).asUInt
+      io.traceCoreInterface(i).toEncoder.iaddr := VecInit(traceInterface.toEncoder.groups.map(_.bits.iaddr)).asUInt
+      io.traceCoreInterface(i).toEncoder.itype := VecInit(traceInterface.toEncoder.groups.map(_.bits.itype)).asUInt
+      io.traceCoreInterface(i).toEncoder.iretire := VecInit(traceInterface.toEncoder.groups.map(_.bits.iretire)).asUInt
+      io.traceCoreInterface(i).toEncoder.ilastsize := VecInit(traceInterface.toEncoder.groups.map(_.bits.ilastsize)).asUInt
+
+      core.module.io.dft.foreach(dontTouch(_) := DontCare)
+      core.module.io.dft_reset.foreach(dontTouch(_) := DontCare)
+      core.module.io.reset_vector := io.riscv_rst_vec(i)
+      core.module.io.reset_mtvec.foreach(_ := io.riscv_rst_mtvec.get(i))
+      core.module.io.lcrdy.foreach { lcrdy =>
+        lcrdy.req.rdy := true.B
+        lcrdy.dat.rdy := true.B
+        lcrdy.rsp.rdy := true.B
+        lcrdy.empty := true.B
+      }
+    }
+
+    withClockAndReset(io.clock, io.reset) {
+      if (enableCHI && useExternalLLC) {
+        for ((core, i) <- core_with_l2.zipWithIndex) {
+          val coreCHI = core.module.io.chi.get
+          val extLLCLogger = CHILogger(s"L2[${i}]_ExtLLC", true)
+          val extLLCRN = chi_extllc_opt.get.module.io.rn(i)
+          dontTouch(coreCHI)
+          coreCHI <> extLLCLogger.io.up
+          extLLCRN <> extLLCLogger.io.down
+          require(coreCHI.getWidth == extLLCRN.getWidth)
+        }
+      } else if (enableCHI) {
+        val llcRouteId = NumCores * 2
+        for ((core, i) <- core_with_l2.zipWithIndex) {
+          val coreCHI = core.module.io.chi.get
+          val mmioLogger = CHILogger(s"L2[${i}]_MMIO", true)
+          val llcLogger = CHILogger(s"L2[${i}]_LLC", true)
+          val mmioRouteId = NumCores + i
+          val lowAddressRange = AddressSet(0x0L, 0x00007fffffffL)
+          val chiRouteMap = Map[AddressSet, Int]() ++
+            Seq(lowAddressRange -> mmioRouteId) ++
+            AddressSet(0x0L, 0xffffffffffffL).subtract(lowAddressRange).map(_ -> llcRouteId)
+          dontTouch(coreCHI)
+          bind(
+            route(coreCHI, chiRouteMap),
+            Map(mmioRouteId -> mmioLogger.io.up, llcRouteId -> llcLogger.io.up)
+          )
+          chi_mmioBridge_opt(i).get.module.io.chi.connect(mmioLogger.io.down)
+          val llcRN = chi_openllc_opt.get.io.rn(i)
+          llcRN <> llcLogger.io.down
+          require(llcLogger.io.down.getWidth == llcRN.getWidth)
+          require(coreCHI.getWidth == llcLogger.io.up.getWidth)
+        }
+        chi_openllc_opt.foreach { openLLC =>
+          val memLogger = CHILogger(s"LLC_MEM", true)
+          openLLC.io.sn.connect(memLogger.io.up)
+          chi_llcBridge_opt.get.module.io.chi.connect(memLogger.io.down)
+          openLLC.io.nodeID := llcRouteId.U
+          openLLC.io.debugTopDown.robHeadPaddr := core_with_l2.map(_.module.io.debugTopDown.robHeadPaddr)
+          core_with_l2.zip(openLLC.io.debugTopDown.addrMatch).foreach { case (tile, l3Match) =>
+            tile.module.io.debugTopDown.l3MissMatch := l3Match
+          }
+          core_with_l2.foreach(_.module.io.l3Miss := openLLC.io.l3Miss)
+        }
+      }
+    }
+
+    if(l3cacheOpt.isEmpty || l3cacheOpt.get.rst_nodes.isEmpty){
+      // tie off core soft reset
+      for(node <- core_rst_nodes){
+        node.out.head._1 := false.B.asAsyncReset
+      }
+    }
+
+    l3cacheOpt match {
+      case Some(l3) =>
+        l3.pf_recv_node match {
+          case Some(recv) =>
+            l3_pf_sender_opt.get.out.head._1.addr_valid := VecInit(memblock_pf_recv_nodes.map(_.get.in.head._1.addr_valid)).asUInt.orR
+            for (i <- 0 until NumCores) {
+              when(memblock_pf_recv_nodes(i).get.in.head._1.addr_valid) {
+                l3_pf_sender_opt.get.out.head._1.addr := memblock_pf_recv_nodes(i).get.in.head._1.addr
+                l3_pf_sender_opt.get.out.head._1.l2_pf_en := memblock_pf_recv_nodes(i).get.in.head._1.l2_pf_en
+              }
+            }
+          case None =>
+        }
+        l3.module.io.debugTopDown.robHeadPaddr := core_with_l2.map(_.module.io.debugTopDown.robHeadPaddr)
+        core_with_l2.zip(l3.module.io.debugTopDown.addrMatch).foreach { case (tile, l3Match) => tile.module.io.debugTopDown.l3MissMatch := l3Match }
+        core_with_l2.foreach(_.module.io.l3Miss := l3.module.io.l3Miss)
+      case None =>
+    }
+
+    (chi_openllc_opt, l3cacheOpt) match {
+      case (None, None) =>
+        core_with_l2.foreach(_.module.io.debugTopDown.l3MissMatch := false.B)
+        core_with_l2.foreach(_.module.io.l3Miss := false.B)
+      case _ =>
+    }
+
+    core_with_l2.zipWithIndex.foreach { case (tile, i) =>
+      tile.module.io.nodeID.foreach { case nodeID =>
+        if (useExternalLLC) {
+          nodeID := chi_extllc_opt.get.module.io.rnNodeId(i)
+        } else {
+          nodeID := i.U
+        }
+        dontTouch(nodeID)
+      }
+    }
+
+    misc.module.debug_module_io.resetCtrl.hartIsInReset := core_with_l2.map(_.module.io.hartIsInReset)
+    misc.module.debug_module_io.clock := io.clock
+    misc.module.debug_module_io.reset := reset_sync
+
+    misc.module.debug_module_io.debugIO.reset := misc.module.reset
+    misc.module.debug_module_io.debugIO.clock := io.clock
+    // TODO: delay 3 cycles?
+    misc.module.debug_module_io.debugIO.dmactiveAck := misc.module.debug_module_io.debugIO.dmactive
+    // jtag connector
+    misc.module.debug_module_io.debugIO.systemjtag.foreach { x =>
+      x.jtag        <> io.systemjtag.jtag
+      x.reset       := jtag_reset_sync
+      x.mfr_id      := io.systemjtag.mfr_id
+      x.part_number := io.systemjtag.part_number
+      x.version     := io.systemjtag.version
+    }
+
+    withClockAndReset(io.clock, reset_sync) {
+      // Modules are reset one by one
+      // reset ----> SYNC --> {SoCMisc, L3 Cache, Cores}
+      val resetChain = Seq(Seq(misc.module) ++ l3cacheOpt.map(_.module))
+      ResetGen(resetChain, reset_sync, !debugOpts.ResetGen)
+      // Ensure that cores could be reset when DM disable `hartReset` or l3cacheOpt.isEmpty.
+      val dmResetReqVec = misc.module.debug_module_io.resetCtrl.hartResetReq.getOrElse(0.U.asTypeOf(Vec(core_with_l2.map(_.module).length, Bool())))
+      val syncResetCores = if(l3cacheOpt.nonEmpty) l3cacheOpt.map(_.module).get.reset.asBool else misc.module.reset.asBool
+      (core_with_l2.map(_.module)).zip(dmResetReqVec).map { case(core, dmResetReq) =>
+        ResetGen(Seq(Seq(core)), (syncResetCores || dmResetReq).asAsyncReset, !debugOpts.ResetGen)
+      }
+    }
+
+  }
+
+  lazy val module = new XSTopImp(this)
+}
+
+class XSTileDiffTop(implicit p: Parameters) extends XSTop {
+  //TODO: need to keep the same module name as XSNoCDiffTop
+  override lazy val desiredName: String = "XSTop"
+
+  class XSTileDiffTopImp(wrapper: XSTop) extends XSTopImp(wrapper) with HasDiffTestInterfaces {
+    override def cpuName: Option[String] = Some("XIANGSHAN_KMHV2")
+    override protected def implicitClock: Clock = io.clock
+    override protected def implicitReset: Reset = io.reset
+    override def difftestMemIO: Option[DifftestMemIO] = Some(DifftestMemIO(memory))
+  }
+  override lazy val module = new XSTileDiffTopImp(this)
+}
+
+object TopMain extends App {
+  val (config, firrtlOpts, firtoolOpts) = ArgParser.parse(args)
+
+  // tools: init to close dpi-c when in fpga
+  val envInFPGA = config(DebugOptionsKey).FPGAPlatform
+  val enableDifftest = config(DebugOptionsKey).EnableDifftest || config(DebugOptionsKey).AlwaysBasicDiff
+  val enableChiselDB = config(DebugOptionsKey).EnableChiselDB
+  val enableConstantin = config(DebugOptionsKey).EnableConstantin
+  Constantin.init(enableConstantin && !envInFPGA)
+  ChiselDB.init(enableChiselDB && !envInFPGA)
+
+  val topPrefix = config(SoCParamsKey).XSTopPrefix
+  if (config(SoCParamsKey).UseXSNoCDiffTop) {
+    if (enableDifftest) Gateway.setConfig("H") // use XMR to avoid extra topIO
+    val soc = DisableMonitors(p => LazyModule(new XSNoCDiffTop()(p)))(config)
+    Generator.execute(firrtlOpts, DifftestModule.top(soc.module, topPrefix), firtoolOpts)
+  } else if (config(SoCParamsKey).UseXSTileDiffTop) {
+    val soc = DisableMonitors(p => LazyModule(new XSTileDiffTop()(p)))(config)
+    Generator.execute(firrtlOpts, DifftestModule.top(soc.module, topPrefix), firtoolOpts)
+  } else {
+    if (enableDifftest) {
+      // TODO: Temporarily force XSTop to use internal DPI-C; will later split Top and Difftest like DiffTop
+      Gateway.setConfig("U")
+    }
+
+    val soc = if (config(SoCParamsKey).UseXSNoCTop)
+      DisableMonitors(p => LazyModule(new XSNoCTop()(p)))(config)
+    else
+      DisableMonitors(p => LazyModule(new XSTop()(p)))(config)
+
+    Generator.execute(firrtlOpts, soc.module, firtoolOpts)
+
+    // generate difftest bundles (w/o DifftestTopIO)
+    if (enableDifftest) {
+      DifftestModule.collect("XIANGSHAN_KMHV2")
+    }
+  }
+
+  FileRegisters.write(fileDir = "./build", filePrefix = "XSTop.")
+}

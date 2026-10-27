@@ -1,0 +1,26 @@
+.direnv
+# for scala build system
+.metals
+out
+.bloop
+
+# for chisel generated files
+*.fir
+gen*
+
+# for cocotb
+__pycache__
+*.xml
+sim_build*
+
+# for gtkwave
+*.fst
+*.gtkw
+*.vcd
+
+# for docs
+*_py.dot
+*.bkp
+book
+*_scala.md
+*.drawio

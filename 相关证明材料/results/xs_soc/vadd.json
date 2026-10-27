@@ -1,0 +1,170 @@
+{
+  "arm_real": {
+    "total": 11,
+    "run": 11,
+    "pass": 11,
+    "fail": 0,
+    "bad_valid": 0,
+    "lat_expect": 1,
+    "lat_min": 1,
+    "lat_max": 1,
+    "bad_lat": 0,
+    "lat_never": 0,
+    "file": "tests/cases_vadd.txt",
+    "tb_pass": true,
+    "case_fails": []
+  },
+  "arm_wrongop": {
+    "total": 11,
+    "run": 11,
+    "pass": 1,
+    "fail": 10,
+    "bad_valid": 0,
+    "lat_expect": 1,
+    "lat_min": 1,
+    "lat_max": 1,
+    "bad_lat": 0,
+    "lat_never": 0,
+    "file": "tests/cases_vadd.txt",
+    "tb_pass": false
+  },
+  "arm_wave": {
+    "total": 11,
+    "run": 1,
+    "pass": 1,
+    "fail": 0,
+    "bad_valid": 0,
+    "lat_expect": 1,
+    "lat_min": 1,
+    "lat_max": 1,
+    "bad_lat": 0,
+    "lat_never": 0,
+    "file": "tests/cases_vadd.txt",
+    "tb_pass": true,
+    "case_fails": []
+  },
+  "verilator": "Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260702",
+  "declared_latency": 1,
+  "cases": 11,
+  "mismatches": 0,
+  "lat_min": 1,
+  "lat_max": 1,
+  "real_ok": true,
+  "fixture_caught": true,
+  "wave_ok": true,
+  "latency_agrees": true,
+  "closure": [
+    {
+      "file": "rtl/xs_soc_generated_vadd/Adder_chain_rnd.sv",
+      "bytes": 5839,
+      "sha256": "6e445c83d6fb28a319c66984db84a3b1d9da285c35a1bb1ac358fb0994b8474f",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/Adder_chain_rnd.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/ByteMaskTailGen.sv",
+      "bytes": 6877,
+      "sha256": "ef8bb3087c7977a315c43bec0c4e0292fe7cd20314054145c65ab7a8ca206be6",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/ByteMaskTailGen.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/CLZ_11.sv",
+      "bytes": 2835,
+      "sha256": "802f32429b980477f75e9bbfdd15b5421485e7e9cbf79e85da40455e77a2c91d",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/CLZ_11.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/CLZ_6.sv",
+      "bytes": 20703,
+      "sha256": "26c7333ddf875ccdac906f8a6247e5eb7457fc445bcc667d35b70aac1ea9f5d5",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/CLZ_6.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/CLZ_7.sv",
+      "bytes": 3867,
+      "sha256": "656446301f72274383f95c33a3bc527ec73177dec9d15ce224cbc2fe97e73377",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/CLZ_7.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/CLZ_9.sv",
+      "bytes": 7519,
+      "sha256": "f0d34c7daea41cb5b9cae0fa3e43d850515cb252e12688271b4f1ace12f5dd57",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/CLZ_9.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/MaskExtractor.sv",
+      "bytes": 3181,
+      "sha256": "a2abe2e67bd042e6788dc605b55d104f1643a5d5f9b73a4aa9b297391e54e28d",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/MaskExtractor.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/Mgtu.sv",
+      "bytes": 7479,
+      "sha256": "e6a02a7b4605399085e3e2aeee14abe7ebad2fe059f75f5386c58bceba887ad2",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/Mgtu.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/Mgu.sv",
+      "bytes": 23842,
+      "sha256": "ab310fc3da7844812300be3b173c46f489b2b1de709da6cdca2f6cb6e7c47df7",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/Mgu.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/UIntToContLow0s.sv",
+      "bytes": 18849,
+      "sha256": "3e7eb0e30270563924354bf0675253bca997c6b0622327d8978b2d432c8cd030",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/UIntToContLow0s.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/UIntToContLow1s.sv",
+      "bytes": 20245,
+      "sha256": "cd97eadc1671c6e328887505159380e3dee5b9931aba0dd9f9bbe69b9616b160",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/UIntToContLow1s.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VFixPoint64b.sv",
+      "bytes": 29736,
+      "sha256": "e1319a91e0c1e89e1aefccc18bb689b04e9f90d6125c03fd9870ed65ab5cc497",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VFixPoint64b.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VIAluFix.sv",
+      "bytes": 40687,
+      "sha256": "ff90a6407b980989904e09dea9ae533732704d728876d863f33cee37e4a2c0f2",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIAluFix.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VIAluSrcTypeModule.sv",
+      "bytes": 4863,
+      "sha256": "b1fd8a0633912e11b785cf3cc6e2b6e5a16fcfa6067d5010050de0611731a085",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIAluSrcTypeModule.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VIntAdder64b.sv",
+      "bytes": 16788,
+      "sha256": "f5d03628317b35cf09ddc0c2dc9f6739fe1d03df986c16723636cfd779f9e9a4",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIntAdder64b.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VIntFixpAlu64b.sv",
+      "bytes": 20114,
+      "sha256": "8e77e48172ac53e10cd0da9e82b43bfde235d90c171671128462d24a9d8ba203",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIntFixpAlu64b.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VIntMisc64b.sv",
+      "bytes": 174080,
+      "sha256": "7eca6d8226300e14cd3cd54797e374c28bc05600c5bfb91bb58d64dac3023df8",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VIntMisc64b.sv"
+    },
+    {
+      "file": "rtl/xs_soc_generated_vadd/VecDataSplitModule.sv",
+      "bytes": 4907,
+      "sha256": "a921018c4d287181e52fe42284e7b41b4a6dda8e6eff4bb07419080369d916cf",
+      "source_path": "D:/xs-vdot/build/probe_rtl_full/VecDataSplitModule.sv"
+    }
+  ],
+  "closure_source_mode": "external_generating_tree",
+  "generating_tree_on_this_host": "D:/xs-vdot/build/probe_rtl_full",
+  "manifest_rewritten_by_this_run": true,
+  "vcd_case": 0
+}

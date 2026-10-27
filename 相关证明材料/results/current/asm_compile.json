@@ -1,0 +1,16 @@
+{
+  "all_ok": true,
+  "scope": "Real RISC-V GCC target compile and opcode check; target execution not measured",
+  "inputs": {
+    "software/include/vdot_vv.h": "677e098e8a2f0bdc96f13ea405cd5347e6486696e327ea6cfa5dcd0b17b4163a",
+    "software/asm_compile_probe.c": "07377b5da682cd7add7f2cb536222f44dc06bd6a9f0fa5b36faf11276f776593",
+    "tools/compile_asm_probe.py": "4805146443cb83057d9a66d18849ab0a81e424a88c27445dc7a7736fb5fefe4a"
+  },
+  "logs": {
+    "compile": {
+      "path": "results/current/asm_compile.log",
+      "sha256": "da5832e22ec1d6b11dc4ae5361481fc3e7062146acd33a919ee0d415725bd0b0"
+    }
+  },
+  "compiler_version": "riscv64-unknown-elf-gcc.EXE (GCC) 16.1.0"
+}

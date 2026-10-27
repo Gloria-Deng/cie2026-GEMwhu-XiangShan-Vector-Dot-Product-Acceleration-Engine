@@ -1,0 +1,35 @@
+== generate 16 32 ==
+gemm_scalar_16x16x16 8171
+gemm_vector_16x16x16 8171
+gemm_vector_packed_16x16x16 8171
+gemm_vdot_16x16x16 8171
+gemm_vdot_packed_16x16x16 8171
+gemm_scalar_32x32x32 18542
+gemm_vector_32x32x32 18542
+gemm_vector_packed_32x32x32 18542
+gemm_vdot_32x32x32 18542
+gemm_vdot_packed_32x32x32 18542
+== compile ==
+compiled gemm_scalar_16x16x16 266240 bytes
+compiled gemm_scalar_32x32x32 270336 bytes
+compiled gemm_vdot_16x16x16 266240 bytes
+compiled gemm_vdot_32x32x32 270336 bytes
+compiled gemm_vdot_packed_16x16x16 266240 bytes
+compiled gemm_vdot_packed_32x32x32 270336 bytes
+compiled gemm_vector_16x16x16 266240 bytes
+compiled gemm_vector_32x32x32 270336 bytes
+compiled gemm_vector_packed_16x16x16 266240 bytes
+compiled gemm_vector_packed_32x32x32 270336 bytes
+== run ==
+gemm_scalar_16x16x16 PASS 6144
+gemm_vector_16x16x16 PASS 6144
+gemm_vector_packed_16x16x16 PASS 5120
+gemm_vdot_16x16x16 PASS 33792
+gemm_vdot_packed_16x16x16 PASS 29696
+gemm_scalar_32x32x32 PASS 55296
+gemm_vector_32x32x32 PASS 49152
+gemm_vector_packed_32x32x32 PASS 41984
+gemm_vdot_32x32x32 PASS 268288
+gemm_vdot_packed_32x32x32 PASS 237568
+GEMM_CYCLES_DONE 10 / 10
+GEMM_CYCLES_PASS /project/chensiyuan/vdot/run_20261016_m/gemm_cycles/gemm_cycles_summary.csv

@@ -1,0 +1,114 @@
+JOB5-E2E-CYCLES v1
+question: docs/06 §6 那张边界表里「端到端加速比 | 未测」这一格，卡点写的是「需要把整批
+          生成 RTL 编成 emu 并配镜像」——那一半在 2026-09-29 之前已经补齐（difftest 机制
+          建起并跑通赛题语料）。缺的从来是**读数本身**：在同核、同启动序列下，vdot 一条
+          指令与它的等价 RVV 组合基线（vmv.v.i + vwmul.vv + vsetivli e16 + vwredsum.vs）
+          各自跑到「结果核验通过」，周期数差多少？这一发把它量出来。
+answer: 量出来了。2026-10-01，整颗 SoC（Verilator emu + difftest）上同口两发：
+        vdot 臂终点 pc = 0x80000870，基线臂终点 pc = 0x80000878；换算（第 1 节的落地垫
+        口径）**vdot 臂 4,320 周期、基线臂 4,336 周期（8 周期网格）——vdot 早 16±8 个
+        周期完成到「结果核验通过」**。两发全程零 mismatch（各自 ~3.6k/3.5k 条指令，
+        含 vdot/vwmul/vwredsum/vle/vse 全部向量操作），即 vl=VLMAX 下两臂又各添一层
+        SoC 级 difftest 证据；beq 比较通过还意味着两臂在 SoC 上算出并核实了**同一个**
+        0xFFFE0400——vdot.vv 与四条标准指令组合在整颗核上的等价性第一次有了执行级见证。
+scope: 这是**单语料**读数：一条 8 通道 int8 点积 vs 它的四指令基线，启动主导（~4.2e3
+        周期），所以它支撑的是「同核端到端差值实测 = 16±8 周期」与「方向为正」，**不**
+        支撑任何百分比加速比（分母是启动不是载荷），也**不**取代退休指令数 1:4（那是
+        NEMU 侧指令流口径）与声明延迟 5:2（那是 FU 口径）。三层各是各的，见 docs/06 §2.1。
+method_seed: 语料四代（v1→v4），每一代缺陷都留在记录里：
+  v1（2026-09-30 备好，未跑）：`_cycle` 臂的 beq 直接跳到 OK 自旋，**csrr 探针两条路
+    都到不了**——汇编交叉核对只对字、不对控制流，所以没拦住；在纸上复核控制流时抓出，
+    未消耗任何集群发数。
+  v2（修 beq，2026-10-01 node19 三发，日志 j5_*.log）：三发读数都有价值但都不是周期——
+    见第 2 节；其中「造 difftest 分歧读周期」的整个设计被 (c) 否证。
+  v3（落地垫方案首发，node15 两发）：RV64 `lui` **符号扩展**——`lui x5,0x80001` 给出
+    0xFFFFFFFF80001000，访存地址全成 0xFFFFFFFF80000A00；NEMU 侧 `isa pma check failed`
+    先死，difftest 报 `HIT GOOD TRAP at pc = 0xe` 且 **rc=0**（参考机先死会被当正常
+    收场——这条 difftest 行为本身是本轮钉死的），两臂相同地停在 instrCnt=12,
+    cycleCnt=4,274。修复 = 两处各插一对 `slli x?,x?,32; srli x?,x?,32` 零扩展。
+  v4（2026-10-01 node46 两发）：全部判据命中，读数见第 3 节。
+  全过程机器字级核对：GNU as 2.47 逐字回产（`ASM-CROSSCHECK PASS`，自定编码 `vdot.vv`
+  一词除外，由与已发货语料的字节等价钉住）；两处编码器缺陷（移位量字段丢失、`srli`
+  误用 SRAI 的 funct6 标记）都被这条核对在本地拦下，没上过集群。
+
+=== 1. 方法：落地垫读周期（以及为什么不能用分歧读） ===
+why_not_divergence: v2 的设计是「csrr x11,cycle 造一条标注清晰的 difftest 分歧，从分歧行
+  的被测列读 DUT 周期」。实测否证：基线 `_cycle` 臂真的执行了 csrr 却**零分歧**——
+  **cycle CSR 在 difftest 两侧是一致的**（NEMU 的 cycle==instret 是 CPI=1 的指令计数，
+  DUT 侧计数会同步进来；这与 docs/06 §2.1 第 1 条「NEMU 自己那两个是同一个表达式」
+  不矛盾——现在连两侧之间都一致了）。所以「读 cycle」必须让程序自己把值**编码进可观测
+  终点**。
+landing_pad: 程序自核 0xFFFE0400 通过后：`csrr x11,cycle` → `srli x11,3` → `slli x11,2`
+  → `lui x12,0x80000`+`add`+零扩展 → `jr x12`。落点是自旋垫（`jal x0,.` 填满
+  代码尾到 DATA=0xA00 之间）里的一个字，两侧算出同一落点（cycle 一致）、在合法指令上
+  自旋到周期上限，终点行 `EXCEEDING … at pc = 0x80000000+off`——这条 pc 打印路径已被
+  probeS 与 vlmax 语料两次验证可靠。换算：**cycle = ((pc-0x80000000)>>2)<<3**（8 周期
+  网格）；合法窗口 0x80000070–0x80000A00（v4 代码 31 字后），覆盖 cycle 448–5120。
+image_sha256: 两发镜像各 3,072 B。
+  job5_vdot_vlmax_cycle.bin     6b0aa41b0dd41abfff11e051714f0d3f53db1af122d4ee1ca70ef347e7f18e5a
+  job5_baseline_vlmax_cycle.bin 4e6a2c18ea6678110b5490e6ea42dc4210f66872ad318f318cadac0e9ccd3e9a
+word_listing: 两臂机器字全表（自包含，可据此重建；`vdot.vv` 一词 0xB29420D7 与
+  docs/05 §7.1 的编码逐位相同）：
+  两臂共用：0 lui x10,6 / 1 addi x10,x10,0x600 / 2 csrs mstatus,x10 /
+  3 lui x5,0x80001 / 4 addi x5,x5,-0x600 / 5 slli x5,x5,32 / 6 srli x5,x5,32（零扩展） /
+  7 vsetivli zero,16,e8,m1,ta,ma（=0xCC087057，VLMAX） / 8 vle8.v v8,(x5) /
+  9 addi x6,x5,16 / 10 vle8.v v9,(x6)
+  vdot 臂 11 vdot.vv v1,v8,v9（=0xB29420D7）
+  基线臂 11 vmv.v.i v4,0（=0x5E003257） / 12 vwmul.vv v6,v9,v8（=0xEE942357） /
+  13 vsetivli zero,8,e16,m1,ta,ma（=0xCC847057） / 14 vwredsum.vs v1,v6,v4（=0xC66200D7）
+  两臂收尾：vsetivli zero,1,e32,m1,ta,ma（=0xCD00F057）/ addi x7,x5,48 / vse32.v v1,(x7) /
+  lw x8,0(x7) / lui x9,0xfffe0 / addi x9,x9,0x400 / beq x8,x9,.Lok / jal x0,.（BAD 自旋）/
+  csrr x11,cycle / srli x11,x11,3 / slli x11,x11,2 / lui x12,0x80000 / add x12,x12,x11 /
+  slli x12,x12,32 / srli x12,x12,32 / jr x12（.Lok 在 csrr 上）
+  全部字值与 GNU as 2.47 回产逐字核对（工作区 round7/gen_job5v3.out.txt，`ASM-CROSSCHECK
+  PASS mismatches=0`；生成器与字表同在 工作区/round7/，非交付件）。
+
+=== 2. v2 三发（node19，镜像 sha256：基线 89174da3dd8ae56e01027c76aaef880d206984cbc3bffd9f8d6d227321d2560a、
+            vdot_cycle 871ad813b3ae27e0a61c501ac0734b3eb0cb19fe9deaff7088a3dc4f555ff76a、
+            基线_cycle 95c7d22b269bf7e14e4889a0a47a4333646050e194570826aaf03e3801285f12） ===
+(a) job5_baseline（vl=8，无探针）：零 mismatch，`EXCEEDING … pc = 0x80000054`，
+    instrCnt = 3,693, cycleCnt = 8,000 —— **等价 RVV 组合基线第一次在整颗 SoC 上跑通**：
+    值（同一 0xFFFE0400）、存取路径、程序内比较全对。3.2 那格在 SoC 级的第一条腿。
+(b) job5_vdot_cycle（vl=8，带探针）：`v1_high different at pc = 0x0080000044 …` +
+    `ABORT`，instrCnt = 18, cycleCnt = 4,244 —— 与 j4_corpus.log（2026-09-30）**逐位
+    相同**：短 vl `v1_high` 差异的第二发独立复现（该臂继承 vl=8 语料，vdot 在第 18 条
+    指令处分歧，探针根本到不了——这正是 vdot_corpus_vlmax.bin 存在的理由）。
+(c) job5_baseline_cycle（vl=8，带探针）：零 mismatch，`EXCEEDING … pc = 0x80000058`，
+    instrCnt = 3,686 —— csrr **真的执行了**却没有产生 x11 分歧 ⇒ **cycle CSR 两侧一致**
+    （第 1 节）。「分歧读周期」设计由此作废，落地垫方案接位。
+
+=== 3. v4 两发（node46，判定行逐字） ===
+command: cd $HOME/difftest && ulimit -s unlimited
+         stdbuf -oL -eL ./build/emu -i $HOME/<arm>.bin \
+           --diff $HOME/nemu-vdot/build/riscv64-nemu-interpreter-so -C 8000
+job5_vdot_vlmax_cycle:
+  Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000870
+  Core-0 instrCnt = 3,597, cycleCnt = 8,000, IPC = 0.449625
+  different at pc 计数 = 0；无 pma 行、无 GOOD TRAP 行；host 1m16.8s
+job5_baseline_vlmax_cycle:
+  Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000878
+  Core-0 instrCnt = 3,582, cycleCnt = 8,000, IPC = 0.447750
+  different at pc 计数 = 0；无 pma 行、无 GOOD TRAP 行；host 1m15.5s
+conversion:
+  vdot   pc 0x80000870 → off 0x870 = 2160 → cycle = (2160>>2)<<3 = **4,320**
+  基线   pc 0x80000878 → off 0x878 = 2168 → cycle = (2168>>2)<<3 = **4,336**
+  差     基线 − vdot = 16（网格 8 ⇒ 真差落在 [9,23]；两落点相差 2 格）
+consistency: vdot 臂落点更早（读数早 16 周期）而 instrCnt 更大（3,597 vs 3,582）——
+  自旋是 1 条指令/约 1.02 周期，早停 16 周期 ⇒ 多转约 15 圈，两数自洽。
+meaning: 同核、同启动（前 10 条指令逐字相同）、同存取路径，把「vdot 一条 vs 标准组合
+  四条」的端到端代价差隔离成 **16±8 周期，方向：vdot 快**。同时两臂全程零分歧给
+  vl=VLMAX 下 vdot 与四指令组合各自的 SoC 级 difftest 又添一层；beq 通过 = 两条路在
+  整颗核上算出并核实了同一个 0xFFFE0400。
+
+=== 4. 这一份不主张什么 ===
+not_a_benchmark: 单语料、8 元素点积；不是基准扫描，不给百分比（启动 ~4.2e3 周期主导分母）。
+not_the_declared_ratio: 不取代声明延迟 5:2（FU 口径）与退休指令数 1:4（指令流口径）；
+  三层口径的关系见 docs/06 §2.1 与 §6。
+not_a_claim_about_other_vl: 读数在 vl=VLMAX 下成立；短 vl 的 `v1_high` 差异已在
+  `vdot_corpus_difftest.txt` §4 登记，本测量绕开它（两臂载荷路径都取 VLMAX）。
+logs_live_on_the_cluster: j5_*.log 六份（v2 三发 + v3 两发 + v4 两发，v3 已被 v4 取代但
+  日志仍在 $HOME）是读数原件，别删。
+defect_ledger: v1 beq 跳探针（纸上抓出）、v3 RV64 lui 符号扩展（集群读数抓出）、
+  两处自定编码器缺陷（汇编回产抓出）——四条全部留在记录里，没有一条靠「没跑所以没暴露」。
+
+JOB5-E2E-CYCLES VERDICT PASS - soc e2e cycles vdot=4320 baseline=4336 grid=8 vdot_faster_by=16pm8 both arms zero mismatch at vl=VLMAX

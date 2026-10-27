@@ -1,0 +1,1562 @@
+{
+  "timer": {
+    "path": "TOP.SimTop.timer [63:0]",
+    "handle": 16,
+    "width": 64,
+    "alias": 0
+  },
+  "ibuf_in_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_valid",
+    "handle": 315883,
+    "width": 1,
+    "alias": 0
+  },
+  "ibuf_instrs_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_bits_instrs_0 [31:0]",
+    "handle": 315884,
+    "width": 32,
+    "alias": 0
+  },
+  "ibuf_instrs_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_bits_instrs_1 [31:0]",
+    "handle": 315885,
+    "width": 32,
+    "alias": 0
+  },
+  "ibuf_instrs_2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_bits_instrs_2 [31:0]",
+    "handle": 315886,
+    "width": 32,
+    "alias": 0
+  },
+  "ibuf_instrs_3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_bits_instrs_3 [31:0]",
+    "handle": 315887,
+    "width": 32,
+    "alias": 0
+  },
+  "ibuf_instrs_4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_bits_instrs_4 [31:0]",
+    "handle": 315888,
+    "width": 32,
+    "alias": 0
+  },
+  "ibuf_instrs_5": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.frontend.inner_ibuffer.io_in_bits_instrs_5 [31:0]",
+    "handle": 315889,
+    "width": 32,
+    "alias": 0
+  },
+  "disp0_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_valid",
+    "handle": 48551,
+    "width": 1,
+    "alias": 0
+  },
+  "disp0_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_pc [49:0]",
+    "handle": 48553,
+    "width": 50,
+    "alias": 0
+  },
+  "disp0_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_instr [31:0]",
+    "handle": 48552,
+    "width": 32,
+    "alias": 0
+  },
+  "vfIQ_1_0_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_valid",
+    "handle": 95349,
+    "width": 1,
+    "alias": 0
+  },
+  "vfIQ_1_0_rf0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_bits_rf_0_0_addr [6:0]",
+    "handle": 95354,
+    "width": 7,
+    "alias": 0
+  },
+  "vfIQ_1_0_rf1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_bits_rf_1_0_addr [6:0]",
+    "handle": 95353,
+    "width": 7,
+    "alias": 0
+  },
+  "exu2_in_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_valid",
+    "handle": 37564,
+    "width": 1,
+    "alias": 1
+  },
+  "exu2_in_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_ready",
+    "handle": 78,
+    "width": 1,
+    "alias": 1
+  },
+  "exu2_fuop": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_fuOpType [8:0]",
+    "handle": 37566,
+    "width": 9,
+    "alias": 1
+  },
+  "exu2_src0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_src_0 [127:0]",
+    "handle": 37567,
+    "width": 128,
+    "alias": 1
+  },
+  "exu2_src1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_src_1 [127:0]",
+    "handle": 37568,
+    "width": 128,
+    "alias": 1
+  },
+  "exu2_src2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_src_2 [127:0]",
+    "handle": 37569,
+    "width": 128,
+    "alias": 1
+  },
+  "exu2_src4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_src_4 [127:0]",
+    "handle": 37571,
+    "width": 128,
+    "alias": 1
+  },
+  "exu2_robidx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_robIdx_value [7:0]",
+    "handle": 37573,
+    "width": 8,
+    "alias": 1
+  },
+  "exu2_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_pdest [6:0]",
+    "handle": 37574,
+    "width": 7,
+    "alias": 1
+  },
+  "exu2_vecwen": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vecWen",
+    "handle": 37575,
+    "width": 1,
+    "alias": 1
+  },
+  "exu2_vm": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vm",
+    "handle": 37583,
+    "width": 1,
+    "alias": 1
+  },
+  "exu2_vsew": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vsew [1:0]",
+    "handle": 37581,
+    "width": 2,
+    "alias": 1
+  },
+  "exu2_vlmul": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vlmul [2:0]",
+    "handle": 37582,
+    "width": 3,
+    "alias": 1
+  },
+  "exu2_vstart": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vstart [7:0]",
+    "handle": 37584,
+    "width": 8,
+    "alias": 1
+  },
+  "exu2_vta": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vta",
+    "handle": 37580,
+    "width": 1,
+    "alias": 1
+  },
+  "exu2_vma": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vma",
+    "handle": 37579,
+    "width": 1,
+    "alias": 1
+  },
+  "exu1_in_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus.io_in_valid",
+    "handle": 37479,
+    "width": 1,
+    "alias": 1
+  },
+  "fu_in_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_in_valid",
+    "handle": 267477,
+    "width": 1,
+    "alias": 0
+  },
+  "fu_validvec1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.validVecThisFu_1",
+    "handle": 267495,
+    "width": 1,
+    "alias": 0
+  },
+  "fu_out_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_valid",
+    "handle": 267480,
+    "width": 1,
+    "alias": 0
+  },
+  "fu_res_data": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_bits_res_data [127:0]",
+    "handle": 267481,
+    "width": 128,
+    "alias": 0
+  },
+  "fu_outvd": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.outVd [127:0]",
+    "handle": 267511,
+    "width": 128,
+    "alias": 0
+  },
+  "fu_vxsat": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_bits_res_vxsat",
+    "handle": 267482,
+    "width": 1,
+    "alias": 0
+  },
+  "inpipe1_fuop": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.inPipe_1_1_fuOpType [8:0]",
+    "handle": 265210,
+    "width": 9,
+    "alias": 0
+  },
+  "inpipe2_fuop": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.inPipe_1_2_fuOpType [8:0]",
+    "handle": 265231,
+    "width": 9,
+    "alias": 0
+  },
+  "inpipe3_fuop": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.inPipe_1_3_fuOpType [8:0]",
+    "handle": 265250,
+    "width": 9,
+    "alias": 0
+  },
+  "rob_iscommit": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_isCommit",
+    "handle": 71933,
+    "width": 1,
+    "alias": 0
+  },
+  "rob_cvalid0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_0",
+    "handle": 71934,
+    "width": 1,
+    "alias": 0
+  },
+  "rob_pc0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_debug_pc [49:0]",
+    "handle": 71973,
+    "width": 50,
+    "alias": 0
+  },
+  "rob_instr0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_debug_instr [31:0]",
+    "handle": 71974,
+    "width": 32,
+    "alias": 0
+  },
+  "rob_vd0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_basicDebug_vd [5:0]",
+    "handle": 71977,
+    "width": 6,
+    "alias": 0
+  },
+  "rob_vecwen0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_basicDebug_vecWen",
+    "handle": 71979,
+    "width": 1,
+    "alias": 0
+  },
+  "rob_pdest0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_basicDebug_pdest [7:0]",
+    "handle": 71976,
+    "width": 8,
+    "alias": 0
+  },
+  "sbuf_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.memBlock.inner_sbuffer.io_in_0_valid",
+    "handle": 433861,
+    "width": 1,
+    "alias": 0
+  },
+  "sbuf_vaddr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.memBlock.inner_sbuffer.io_in_0_bits_vaddr [49:0]",
+    "handle": 433862,
+    "width": 50,
+    "alias": 0
+  },
+  "sbuf_data": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.memBlock.inner_sbuffer.io_in_0_bits_data [127:0]",
+    "handle": 433863,
+    "width": 128,
+    "alias": 0
+  },
+  "sbuf_mask": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.memBlock.inner_sbuffer.io_in_0_bits_mask [15:0]",
+    "handle": 433864,
+    "width": 16,
+    "alias": 0
+  },
+  "vrf_wen_p0w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_0_wen",
+    "handle": 96736,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p0w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_0_data [31:0]",
+    "handle": 103765,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p0w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_1_wen",
+    "handle": 103766,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p0w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_1_data [31:0]",
+    "handle": 103767,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p0w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_2_wen",
+    "handle": 96738,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p0w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_2_data [31:0]",
+    "handle": 103768,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p0w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_3_wen",
+    "handle": 103769,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p0w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_3_data [31:0]",
+    "handle": 103770,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p0w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_4_wen",
+    "handle": 103771,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p0w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_4_data [31:0]",
+    "handle": 103772,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p1w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_0_wen",
+    "handle": 96742,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p1w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_0_data [31:0]",
+    "handle": 104695,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p1w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_1_wen",
+    "handle": 104696,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p1w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_1_data [31:0]",
+    "handle": 104697,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p1w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_2_wen",
+    "handle": 96744,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p1w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_2_data [31:0]",
+    "handle": 104698,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p1w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_3_wen",
+    "handle": 104699,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p1w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_3_data [31:0]",
+    "handle": 104700,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p1w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_4_wen",
+    "handle": 104701,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p1w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_4_data [31:0]",
+    "handle": 104702,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p2w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_0_wen",
+    "handle": 96748,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p2w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_0_data [31:0]",
+    "handle": 105625,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p2w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_1_wen",
+    "handle": 105626,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p2w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_1_data [31:0]",
+    "handle": 105627,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p2w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_2_wen",
+    "handle": 96750,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p2w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_2_data [31:0]",
+    "handle": 105628,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p2w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_3_wen",
+    "handle": 105629,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p2w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_3_data [31:0]",
+    "handle": 105630,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p2w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_4_wen",
+    "handle": 105631,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p2w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_4_data [31:0]",
+    "handle": 105632,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p3w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_0_wen",
+    "handle": 96754,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p3w0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_0_data [31:0]",
+    "handle": 106555,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p3w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_1_wen",
+    "handle": 106556,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p3w1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_1_data [31:0]",
+    "handle": 106557,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p3w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_2_wen",
+    "handle": 96756,
+    "width": 1,
+    "alias": 1
+  },
+  "vrf_wdata_p3w2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_2_data [31:0]",
+    "handle": 106558,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p3w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_3_wen",
+    "handle": 106559,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p3w3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_3_data [31:0]",
+    "handle": 106560,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_wen_p3w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_4_wen",
+    "handle": 106561,
+    "width": 1,
+    "alias": 0
+  },
+  "vrf_wdata_p3w4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_4_data [31:0]",
+    "handle": 106562,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p0r50": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_debug_all_rdata_50 [31:0]",
+    "handle": 103825,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p0r52": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_debug_all_rdata_52 [31:0]",
+    "handle": 103827,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p0r53": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_debug_all_rdata_53 [31:0]",
+    "handle": 103828,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p1r50": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_debug_all_rdata_50 [31:0]",
+    "handle": 104755,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p1r52": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_debug_all_rdata_52 [31:0]",
+    "handle": 104757,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p1r53": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_debug_all_rdata_53 [31:0]",
+    "handle": 104758,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p2r50": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_debug_all_rdata_50 [31:0]",
+    "handle": 105685,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p2r52": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_debug_all_rdata_52 [31:0]",
+    "handle": 105687,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p2r53": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_debug_all_rdata_53 [31:0]",
+    "handle": 105688,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p3r50": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_debug_all_rdata_50 [31:0]",
+    "handle": 106615,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p3r52": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_debug_all_rdata_52 [31:0]",
+    "handle": 106617,
+    "width": 32,
+    "alias": 0
+  },
+  "vrf_rdata_p3r53": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_debug_all_rdata_53 [31:0]",
+    "handle": 106618,
+    "width": 32,
+    "alias": 0
+  },
+  "clock": {
+    "path": "TOP.SimTop.clock",
+    "handle": 1,
+    "width": 1,
+    "alias": 1
+  },
+  "reset": {
+    "path": "TOP.SimTop.reset",
+    "handle": 2,
+    "width": 1,
+    "alias": 1
+  },
+  "core_reset": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.reset",
+    "handle": 3590,
+    "width": 1,
+    "alias": 1
+  },
+  "cycleCnt": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.difftest_trap_cycleCnt [63:0]",
+    "handle": 78351,
+    "width": 64,
+    "alias": 1
+  },
+  "d0_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_valid",
+    "handle": 48551,
+    "width": 1,
+    "alias": 0
+  },
+  "d0_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_ready",
+    "handle": 48550,
+    "width": 1,
+    "alias": 0
+  },
+  "d0_bits_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_pc [49:0]",
+    "handle": 48553,
+    "width": 50,
+    "alias": 0
+  },
+  "d0_bits_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_instr [31:0]",
+    "handle": 48552,
+    "width": 32,
+    "alias": 0
+  },
+  "d0_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_pdest [7:0]",
+    "handle": 48669,
+    "width": 8,
+    "alias": 0
+  },
+  "d0_bits_psrc_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_psrc_0 [7:0]",
+    "handle": 48664,
+    "width": 8,
+    "alias": 0
+  },
+  "d0_bits_psrc_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_psrc_1 [7:0]",
+    "handle": 48665,
+    "width": 8,
+    "alias": 0
+  },
+  "d0_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_robIdx_flag",
+    "handle": 48670,
+    "width": 1,
+    "alias": 0
+  },
+  "d0_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_robIdx_value [7:0]",
+    "handle": 48671,
+    "width": 8,
+    "alias": 0
+  },
+  "d0_bits_numUops": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_numUops [6:0]",
+    "handle": 48661,
+    "width": 7,
+    "alias": 0
+  },
+  "d0_bits_uopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_0_bits_uopIdx [6:0]",
+    "handle": 48657,
+    "width": 7,
+    "alias": 0
+  },
+  "d1_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_valid",
+    "handle": 48687,
+    "width": 1,
+    "alias": 0
+  },
+  "d1_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_ready",
+    "handle": 48686,
+    "width": 1,
+    "alias": 0
+  },
+  "d1_bits_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_pc [49:0]",
+    "handle": 48689,
+    "width": 50,
+    "alias": 0
+  },
+  "d1_bits_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_instr [31:0]",
+    "handle": 48688,
+    "width": 32,
+    "alias": 0
+  },
+  "d1_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_pdest [7:0]",
+    "handle": 48805,
+    "width": 8,
+    "alias": 0
+  },
+  "d1_bits_psrc_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_psrc_0 [7:0]",
+    "handle": 48800,
+    "width": 8,
+    "alias": 0
+  },
+  "d1_bits_psrc_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_psrc_1 [7:0]",
+    "handle": 48801,
+    "width": 8,
+    "alias": 0
+  },
+  "d1_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_robIdx_flag",
+    "handle": 48806,
+    "width": 1,
+    "alias": 0
+  },
+  "d1_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_robIdx_value [7:0]",
+    "handle": 48807,
+    "width": 8,
+    "alias": 0
+  },
+  "d1_bits_numUops": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_numUops [6:0]",
+    "handle": 48797,
+    "width": 7,
+    "alias": 0
+  },
+  "d1_bits_uopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_1_bits_uopIdx [6:0]",
+    "handle": 48793,
+    "width": 7,
+    "alias": 0
+  },
+  "d2_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_valid",
+    "handle": 48822,
+    "width": 1,
+    "alias": 0
+  },
+  "d2_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_ready",
+    "handle": 48821,
+    "width": 1,
+    "alias": 0
+  },
+  "d2_bits_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_pc [49:0]",
+    "handle": 48824,
+    "width": 50,
+    "alias": 0
+  },
+  "d2_bits_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_instr [31:0]",
+    "handle": 48823,
+    "width": 32,
+    "alias": 0
+  },
+  "d2_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_pdest [7:0]",
+    "handle": 48940,
+    "width": 8,
+    "alias": 0
+  },
+  "d2_bits_psrc_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_psrc_0 [7:0]",
+    "handle": 48935,
+    "width": 8,
+    "alias": 0
+  },
+  "d2_bits_psrc_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_psrc_1 [7:0]",
+    "handle": 48936,
+    "width": 8,
+    "alias": 0
+  },
+  "d2_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_robIdx_flag",
+    "handle": 48941,
+    "width": 1,
+    "alias": 0
+  },
+  "d2_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_robIdx_value [7:0]",
+    "handle": 48942,
+    "width": 8,
+    "alias": 0
+  },
+  "d2_bits_numUops": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_numUops [6:0]",
+    "handle": 48932,
+    "width": 7,
+    "alias": 0
+  },
+  "d2_bits_uopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_2_bits_uopIdx [6:0]",
+    "handle": 48928,
+    "width": 7,
+    "alias": 0
+  },
+  "d3_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_valid",
+    "handle": 48957,
+    "width": 1,
+    "alias": 0
+  },
+  "d3_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_ready",
+    "handle": 48956,
+    "width": 1,
+    "alias": 0
+  },
+  "d3_bits_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_pc [49:0]",
+    "handle": 48959,
+    "width": 50,
+    "alias": 0
+  },
+  "d3_bits_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_instr [31:0]",
+    "handle": 48958,
+    "width": 32,
+    "alias": 0
+  },
+  "d3_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_pdest [7:0]",
+    "handle": 49075,
+    "width": 8,
+    "alias": 0
+  },
+  "d3_bits_psrc_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_psrc_0 [7:0]",
+    "handle": 49070,
+    "width": 8,
+    "alias": 0
+  },
+  "d3_bits_psrc_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_psrc_1 [7:0]",
+    "handle": 49071,
+    "width": 8,
+    "alias": 0
+  },
+  "d3_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_robIdx_flag",
+    "handle": 49076,
+    "width": 1,
+    "alias": 0
+  },
+  "d3_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_robIdx_value [7:0]",
+    "handle": 49077,
+    "width": 8,
+    "alias": 0
+  },
+  "d3_bits_numUops": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_numUops [6:0]",
+    "handle": 49067,
+    "width": 7,
+    "alias": 0
+  },
+  "d3_bits_uopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_3_bits_uopIdx [6:0]",
+    "handle": 49063,
+    "width": 7,
+    "alias": 0
+  },
+  "d4_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_valid",
+    "handle": 49092,
+    "width": 1,
+    "alias": 0
+  },
+  "d4_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_ready",
+    "handle": 49091,
+    "width": 1,
+    "alias": 0
+  },
+  "d4_bits_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_pc [49:0]",
+    "handle": 49094,
+    "width": 50,
+    "alias": 0
+  },
+  "d4_bits_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_instr [31:0]",
+    "handle": 49093,
+    "width": 32,
+    "alias": 0
+  },
+  "d4_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_pdest [7:0]",
+    "handle": 49210,
+    "width": 8,
+    "alias": 0
+  },
+  "d4_bits_psrc_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_psrc_0 [7:0]",
+    "handle": 49205,
+    "width": 8,
+    "alias": 0
+  },
+  "d4_bits_psrc_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_psrc_1 [7:0]",
+    "handle": 49206,
+    "width": 8,
+    "alias": 0
+  },
+  "d4_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_robIdx_flag",
+    "handle": 49211,
+    "width": 1,
+    "alias": 0
+  },
+  "d4_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_robIdx_value [7:0]",
+    "handle": 49212,
+    "width": 8,
+    "alias": 0
+  },
+  "d4_bits_numUops": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_numUops [6:0]",
+    "handle": 49202,
+    "width": 7,
+    "alias": 0
+  },
+  "d4_bits_uopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_4_bits_uopIdx [6:0]",
+    "handle": 49198,
+    "width": 7,
+    "alias": 0
+  },
+  "d5_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_valid",
+    "handle": 49227,
+    "width": 1,
+    "alias": 0
+  },
+  "d5_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_ready",
+    "handle": 49226,
+    "width": 1,
+    "alias": 0
+  },
+  "d5_bits_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_pc [49:0]",
+    "handle": 49229,
+    "width": 50,
+    "alias": 0
+  },
+  "d5_bits_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_instr [31:0]",
+    "handle": 49228,
+    "width": 32,
+    "alias": 0
+  },
+  "d5_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_pdest [7:0]",
+    "handle": 49345,
+    "width": 8,
+    "alias": 0
+  },
+  "d5_bits_psrc_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_psrc_0 [7:0]",
+    "handle": 49340,
+    "width": 8,
+    "alias": 0
+  },
+  "d5_bits_psrc_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_psrc_1 [7:0]",
+    "handle": 49341,
+    "width": 8,
+    "alias": 0
+  },
+  "d5_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_robIdx_flag",
+    "handle": 49346,
+    "width": 1,
+    "alias": 0
+  },
+  "d5_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_robIdx_value [7:0]",
+    "handle": 49347,
+    "width": 8,
+    "alias": 0
+  },
+  "d5_bits_numUops": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_numUops [6:0]",
+    "handle": 49337,
+    "width": 7,
+    "alias": 0
+  },
+  "d5_bits_uopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.dispatch.io_fromRename_5_bits_uopIdx [6:0]",
+    "handle": 49333,
+    "width": 7,
+    "alias": 0
+  },
+  "c0_io_commits_commitValid_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_0",
+    "handle": 71934,
+    "width": 1,
+    "alias": 0
+  },
+  "c0_io_commits_robIdx_0_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_0_flag",
+    "handle": 43469,
+    "width": 1,
+    "alias": 1
+  },
+  "c0_io_commits_robIdx_0_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_0_value [7:0]",
+    "handle": 43470,
+    "width": 8,
+    "alias": 1
+  },
+  "c0_io_commits_info_0_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_debug_pc [49:0]",
+    "handle": 71973,
+    "width": 50,
+    "alias": 0
+  },
+  "c0_io_commits_info_0_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_debug_instr [31:0]",
+    "handle": 71974,
+    "width": 32,
+    "alias": 0
+  },
+  "c0_io_commits_info_0_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_0_basicDebug_pdest [7:0]",
+    "handle": 71976,
+    "width": 8,
+    "alias": 0
+  },
+  "c1_io_commits_commitValid_1": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_1",
+    "handle": 71935,
+    "width": 1,
+    "alias": 0
+  },
+  "c1_io_commits_robIdx_1_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_1_flag",
+    "handle": 72308,
+    "width": 1,
+    "alias": 0
+  },
+  "c1_io_commits_robIdx_1_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_1_value [7:0]",
+    "handle": 72309,
+    "width": 8,
+    "alias": 0
+  },
+  "c1_io_commits_info_1_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_1_debug_pc [49:0]",
+    "handle": 72018,
+    "width": 50,
+    "alias": 0
+  },
+  "c1_io_commits_info_1_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_1_debug_instr [31:0]",
+    "handle": 72019,
+    "width": 32,
+    "alias": 0
+  },
+  "c1_io_commits_info_1_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_1_basicDebug_pdest [7:0]",
+    "handle": 72021,
+    "width": 8,
+    "alias": 0
+  },
+  "c2_io_commits_commitValid_2": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_2",
+    "handle": 71936,
+    "width": 1,
+    "alias": 0
+  },
+  "c2_io_commits_robIdx_2_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_2_flag",
+    "handle": 72310,
+    "width": 1,
+    "alias": 0
+  },
+  "c2_io_commits_robIdx_2_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_2_value [7:0]",
+    "handle": 72311,
+    "width": 8,
+    "alias": 0
+  },
+  "c2_io_commits_info_2_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_2_debug_pc [49:0]",
+    "handle": 72063,
+    "width": 50,
+    "alias": 0
+  },
+  "c2_io_commits_info_2_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_2_debug_instr [31:0]",
+    "handle": 72064,
+    "width": 32,
+    "alias": 0
+  },
+  "c2_io_commits_info_2_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_2_basicDebug_pdest [7:0]",
+    "handle": 72066,
+    "width": 8,
+    "alias": 0
+  },
+  "c3_io_commits_commitValid_3": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_3",
+    "handle": 71937,
+    "width": 1,
+    "alias": 0
+  },
+  "c3_io_commits_robIdx_3_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_3_flag",
+    "handle": 72312,
+    "width": 1,
+    "alias": 0
+  },
+  "c3_io_commits_robIdx_3_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_3_value [7:0]",
+    "handle": 72313,
+    "width": 8,
+    "alias": 0
+  },
+  "c3_io_commits_info_3_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_3_debug_pc [49:0]",
+    "handle": 72108,
+    "width": 50,
+    "alias": 0
+  },
+  "c3_io_commits_info_3_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_3_debug_instr [31:0]",
+    "handle": 72109,
+    "width": 32,
+    "alias": 0
+  },
+  "c3_io_commits_info_3_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_3_basicDebug_pdest [7:0]",
+    "handle": 72111,
+    "width": 8,
+    "alias": 0
+  },
+  "c4_io_commits_commitValid_4": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_4",
+    "handle": 71938,
+    "width": 1,
+    "alias": 0
+  },
+  "c4_io_commits_robIdx_4_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_4_flag",
+    "handle": 72314,
+    "width": 1,
+    "alias": 0
+  },
+  "c4_io_commits_robIdx_4_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_4_value [7:0]",
+    "handle": 72315,
+    "width": 8,
+    "alias": 0
+  },
+  "c4_io_commits_info_4_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_4_debug_pc [49:0]",
+    "handle": 72153,
+    "width": 50,
+    "alias": 0
+  },
+  "c4_io_commits_info_4_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_4_debug_instr [31:0]",
+    "handle": 72154,
+    "width": 32,
+    "alias": 0
+  },
+  "c4_io_commits_info_4_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_4_basicDebug_pdest [7:0]",
+    "handle": 72156,
+    "width": 8,
+    "alias": 0
+  },
+  "c5_io_commits_commitValid_5": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_5",
+    "handle": 71939,
+    "width": 1,
+    "alias": 0
+  },
+  "c5_io_commits_robIdx_5_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_5_flag",
+    "handle": 72316,
+    "width": 1,
+    "alias": 0
+  },
+  "c5_io_commits_robIdx_5_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_5_value [7:0]",
+    "handle": 72317,
+    "width": 8,
+    "alias": 0
+  },
+  "c5_io_commits_info_5_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_5_debug_pc [49:0]",
+    "handle": 72198,
+    "width": 50,
+    "alias": 0
+  },
+  "c5_io_commits_info_5_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_5_debug_instr [31:0]",
+    "handle": 72199,
+    "width": 32,
+    "alias": 0
+  },
+  "c5_io_commits_info_5_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_5_basicDebug_pdest [7:0]",
+    "handle": 72201,
+    "width": 8,
+    "alias": 0
+  },
+  "c6_io_commits_commitValid_6": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_6",
+    "handle": 71940,
+    "width": 1,
+    "alias": 0
+  },
+  "c6_io_commits_robIdx_6_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_6_flag",
+    "handle": 72318,
+    "width": 1,
+    "alias": 0
+  },
+  "c6_io_commits_robIdx_6_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_6_value [7:0]",
+    "handle": 72319,
+    "width": 8,
+    "alias": 0
+  },
+  "c6_io_commits_info_6_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_6_debug_pc [49:0]",
+    "handle": 72243,
+    "width": 50,
+    "alias": 0
+  },
+  "c6_io_commits_info_6_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_6_debug_instr [31:0]",
+    "handle": 72244,
+    "width": 32,
+    "alias": 0
+  },
+  "c6_io_commits_info_6_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_6_basicDebug_pdest [7:0]",
+    "handle": 72246,
+    "width": 8,
+    "alias": 0
+  },
+  "c7_io_commits_commitValid_7": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_commitValid_7",
+    "handle": 71941,
+    "width": 1,
+    "alias": 0
+  },
+  "c7_io_commits_robIdx_7_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_7_flag",
+    "handle": 72320,
+    "width": 1,
+    "alias": 0
+  },
+  "c7_io_commits_robIdx_7_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_robIdx_7_value [7:0]",
+    "handle": 72321,
+    "width": 8,
+    "alias": 0
+  },
+  "c7_io_commits_info_7_debug_pc": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_7_debug_pc [49:0]",
+    "handle": 72288,
+    "width": 50,
+    "alias": 0
+  },
+  "c7_io_commits_info_7_debug_instr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_7_debug_instr [31:0]",
+    "handle": 72289,
+    "width": 32,
+    "alias": 0
+  },
+  "c7_io_commits_info_7_basicDebug_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_ctrlBlock.rob.io_commits_info_7_basicDebug_pdest [7:0]",
+    "handle": 72291,
+    "width": 8,
+    "alias": 0
+  },
+  "iq_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_ready",
+    "handle": 95348,
+    "width": 1,
+    "alias": 0
+  },
+  "iq_bits_common_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_bits_common_robIdx_value [7:0]",
+    "handle": 95358,
+    "width": 8,
+    "alias": 0
+  },
+  "iq_bits_common_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_bits_common_robIdx_flag",
+    "handle": 95357,
+    "width": 1,
+    "alias": 0
+  },
+  "iq_bits_common_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_bits_common_pdest [6:0]",
+    "handle": 95359,
+    "width": 7,
+    "alias": 0
+  },
+  "iq_bits_common_fuOpType": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.io_fromVfIQ_1_0_bits_common_fuOpType [8:0]",
+    "handle": 95356,
+    "width": 9,
+    "alias": 0
+  },
+  "ei_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_robIdx_flag",
+    "handle": 37572,
+    "width": 1,
+    "alias": 1
+  },
+  "ei_bits_vpu_vuopIdx": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_in_bits_vpu_vuopIdx [6:0]",
+    "handle": 37585,
+    "width": 7,
+    "alias": 1
+  },
+  "fo_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_ready",
+    "handle": 78,
+    "width": 1,
+    "alias": 1
+  },
+  "fo_bits_ctrl_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_bits_ctrl_robIdx_value [7:0]",
+    "handle": 265215,
+    "width": 8,
+    "alias": 1
+  },
+  "fo_bits_ctrl_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_bits_ctrl_robIdx_flag",
+    "handle": 265214,
+    "width": 1,
+    "alias": 1
+  },
+  "fo_bits_ctrl_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.VialuFix.io_out_bits_ctrl_pdest [7:0]",
+    "handle": 267478,
+    "width": 8,
+    "alias": 1
+  },
+  "eo_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_out_ready",
+    "handle": 78,
+    "width": 1,
+    "alias": 1
+  },
+  "eo_valid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_out_valid",
+    "handle": 43174,
+    "width": 1,
+    "alias": 1
+  },
+  "eo_bits_robIdx_value": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_out_bits_robIdx_value [7:0]",
+    "handle": 43178,
+    "width": 8,
+    "alias": 1
+  },
+  "eo_bits_robIdx_flag": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_out_bits_robIdx_flag",
+    "handle": 43177,
+    "width": 1,
+    "alias": 1
+  },
+  "eo_bits_pdest": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_out_bits_pdest [6:0]",
+    "handle": 43176,
+    "width": 7,
+    "alias": 1
+  },
+  "eo_bits_data_0": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_vfExuBlock.exus_2.io_out_bits_data_0 [127:0]",
+    "handle": 43175,
+    "width": 128,
+    "alias": 1
+  },
+  "sb_ready": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.memBlock.inner_sbuffer.io_in_0_ready",
+    "handle": 367223,
+    "width": 1,
+    "alias": 1
+  },
+  "sb_bits_vecValid": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.memBlock.inner_sbuffer.io_in_0_bits_vecValid",
+    "handle": 433867,
+    "width": 1,
+    "alias": 0
+  },
+  "wp0_0_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_0_addr [6:0]",
+    "handle": 96726,
+    "width": 7,
+    "alias": 1
+  },
+  "wp0_1_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_1_addr [6:0]",
+    "handle": 96789,
+    "width": 7,
+    "alias": 1
+  },
+  "wp0_2_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_2_addr [6:0]",
+    "handle": 96728,
+    "width": 7,
+    "alias": 1
+  },
+  "wp0_3_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_3_addr [6:0]",
+    "handle": 96793,
+    "width": 7,
+    "alias": 1
+  },
+  "wp0_4_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart0.io_writePorts_4_addr [6:0]",
+    "handle": 96791,
+    "width": 7,
+    "alias": 1
+  },
+  "wp1_0_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_0_addr [6:0]",
+    "handle": 96726,
+    "width": 7,
+    "alias": 1
+  },
+  "wp1_1_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_1_addr [6:0]",
+    "handle": 96789,
+    "width": 7,
+    "alias": 1
+  },
+  "wp1_2_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_2_addr [6:0]",
+    "handle": 96728,
+    "width": 7,
+    "alias": 1
+  },
+  "wp1_3_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_3_addr [6:0]",
+    "handle": 96793,
+    "width": 7,
+    "alias": 1
+  },
+  "wp1_4_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart1.io_writePorts_4_addr [6:0]",
+    "handle": 96791,
+    "width": 7,
+    "alias": 1
+  },
+  "wp2_0_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_0_addr [6:0]",
+    "handle": 96726,
+    "width": 7,
+    "alias": 1
+  },
+  "wp2_1_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_1_addr [6:0]",
+    "handle": 96789,
+    "width": 7,
+    "alias": 1
+  },
+  "wp2_2_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_2_addr [6:0]",
+    "handle": 96728,
+    "width": 7,
+    "alias": 1
+  },
+  "wp2_3_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_3_addr [6:0]",
+    "handle": 96793,
+    "width": 7,
+    "alias": 1
+  },
+  "wp2_4_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart2.io_writePorts_4_addr [6:0]",
+    "handle": 96791,
+    "width": 7,
+    "alias": 1
+  },
+  "wp3_0_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_0_addr [6:0]",
+    "handle": 96726,
+    "width": 7,
+    "alias": 1
+  },
+  "wp3_1_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_1_addr [6:0]",
+    "handle": 96789,
+    "width": 7,
+    "alias": 1
+  },
+  "wp3_2_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_2_addr [6:0]",
+    "handle": 96728,
+    "width": 7,
+    "alias": 1
+  },
+  "wp3_3_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_3_addr [6:0]",
+    "handle": 96793,
+    "width": 7,
+    "alias": 1
+  },
+  "wp3_4_addr": {
+    "path": "TOP.SimTop.cpu.l_soc.core_with_l2.core.backend.inner_dataPath.vfRegFilePart3.io_writePorts_4_addr [6:0]",
+    "handle": 96791,
+    "width": 7,
+    "alias": 1
+  }
+}

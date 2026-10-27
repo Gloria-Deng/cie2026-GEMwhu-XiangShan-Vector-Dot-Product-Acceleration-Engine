@@ -1,0 +1,519 @@
+diff --git a/src/main/scala/vdot/VDotUnit.scala b/src/main/scala/vdot/VDotUnit.scala
+new file mode 100644
+index 0000000..31d2768
+--- /dev/null
++++ b/src/main/scala/vdot/VDotUnit.scala
+@@ -0,0 +1,151 @@
++// See LICENSE for license details.
++package vdot
++
++import chisel3._
++import chisel3.util._
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++case class VDotParams(
++    vlen:   Int = 128,
++    sew:    Int = 8,
++    nlanes: Int = 8,
++    lanes:  Int = 16,
++    accw:   Int = 19,
++    outw:   Int = 32,
++    tree:   Int = 0
++)
++
++object VDotAccWidth {
++
++
++
++
++
++
++
++  def range(nlanes: Int): (Int, Int) = {
++    val per = for {a <- Seq(-128, 127); b <- Seq(-128, 127)} yield a * b
++    (per.min * nlanes, per.max * nlanes)
++  }
++
++
++  def required(nlanes: Int): Int = {
++    val (lo, hi) = range(nlanes)
++    val mag = math.max(Integer.toBinaryString(hi).length, Integer.toBinaryString(-lo).length)
++    mag + 1
++  }
++
++  require(required(8) == 19, s"8-lane dot product should need 19 bits, got ${required(8)}")
++  require(required(16) == 20, s"16-lane dot product should need 20 bits, got ${required(16)}")
++}
++
++class VDotUnit(val p: VDotParams = VDotParams()) extends Module {
++  val io = IO(new Bundle {
++    val fire  = Input(Bool())
++    val vs1   = Input(UInt(p.vlen.W))
++    val vs2   = Input(UInt(p.vlen.W))
++    val vd    = Output(UInt(p.vlen.W))
++    val valid = Output(Bool())
++  })
++
++  private def lanesOf(u: UInt): Vec[UInt] = u.asTypeOf(Vec(p.vlen / 8, UInt(8.W)))
++  private val vs1L = lanesOf(io.vs1)
++  private val vs2L = lanesOf(io.vs2)
++
++
++
++
++  private val vs1g = VecInit(Seq.tabulate(p.lanes)(i =>
++    if (i < p.nlanes) vs1L(i) else 0.U(8.W)))
++  private val vs2g = VecInit(Seq.tabulate(p.lanes)(i =>
++    if (i < p.nlanes) vs2L(i) else 0.U(8.W)))
++
++
++
++
++  private val prodComb = VecInit(Seq.tabulate(p.lanes) { i =>
++    val prod = vs1g(i).asSInt * vs2g(i).asSInt
++    prod.pad(p.accw).asUInt
++  })
++
++  private val prod = RegInit(VecInit(Seq.fill(p.lanes)(0.U(p.accw.W))))
++  private val fireS1 = RegInit(false.B)
++  when(io.fire) { prod := prodComb }
++  fireS1 := io.fire
++
++
++
++
++
++
++  private def wrap(u: UInt): UInt = u(p.accw - 1, 0)
++
++  private def cpa(a: UInt, b: UInt): UInt = wrap(a + b)
++
++
++  private def csa(a: UInt, b: UInt, c: UInt): (UInt, UInt) = {
++    val sum = a ^ b ^ c
++    val maj = (a & b) | (b & c) | (a & c)
++    (sum, wrap(Cat(maj(p.accw - 2, 0), 0.U(1.W))))
++  }
++
++
++
++  private def balanced(ops: Seq[UInt]): UInt =
++    if (ops.size == 1) ops.head
++    else balanced(ops.grouped(2).map(g => if (g.size == 1) g.head else cpa(g(0), g(1))).toSeq)
++
++
++
++  private def wallace(ops: Seq[UInt]): Seq[UInt] = {
++    if (ops.size <= 2) ops
++    else {
++      val nTriples = ops.size / 3
++      val triples = ops.take(nTriples * 3).grouped(3).toSeq
++      val rest = ops.drop(nTriples * 3)
++      val out = triples.flatMap { t =>
++        val (s, c) = csa(t(0), t(1), t(2))
++        Seq(s, c)
++      }
++      wallace(out ++ rest)
++    }
++  }
++
++  private val redCpa = balanced(prod.toSeq)
++  private val redCsa = { val r = wallace(prod.toSeq); wrap(r(0) + r(1)) }
++  private val redComb = if (p.tree == 0) redCpa else redCsa
++
++  private val red = RegInit(0.U(p.accw.W))
++  private val validS1 = RegInit(false.B)
++  red := redComb
++  validS1 := fireS1
++
++
++
++
++  private val outField: UInt =
++    if (p.outw > p.accw)
++      Cat(Fill(p.outw - p.accw, red(p.accw - 1)), red).asUInt
++    else
++      red(p.outw - 1, 0)
++
++  io.vd := Cat(0.U((p.vlen - p.outw).W), outField).asUInt
++  io.valid := Mux(reset.asBool, false.B, validS1)
++}
+diff --git a/src/main/scala/xiangshan/Parameters.scala b/src/main/scala/xiangshan/Parameters.scala
+index c8c4de5..3b5eb53 100644
+--- a/src/main/scala/xiangshan/Parameters.scala
++++ b/src/main/scala/xiangshan/Parameters.scala
+@@ -446,7 +446,7 @@ case class XSCoreParameters
+     implicit val schdType: SchedulerType = VfScheduler()
+     SchdBlockParams(Seq(
+       IssueBlockParams(Seq(
+-        ExeUnitParams("VFEX0", Seq(VfmaCfg, VialuCfg, VimacCfg, VppuCfg), Seq(VfWB(port = 0, 0), V0WB(port = 0, 0)), Seq(Seq(VfRD(0, 0)), Seq(VfRD(1, 0)), Seq(VfRD(2, 0)), Seq(V0RD(0, 0)), Seq(VlRD(0, 0)))),
++        ExeUnitParams("VFEX0", Seq(VfmaCfg, VialuCfg, VimacCfg, VppuCfg, VdotCfg), Seq(VfWB(port = 0, 0), V0WB(port = 0, 0)), Seq(Seq(VfRD(0, 0)), Seq(VfRD(1, 0)), Seq(VfRD(2, 0)), Seq(V0RD(0, 0)), Seq(VlRD(0, 0)))),
+         ExeUnitParams("VFEX1", Seq(VfaluCfg, VfcvtCfg, VipuCfg, VSetRvfWvfCfg), Seq(VfWB(port = 0, 1), V0WB(port = 0, 1), VlWB(port = vfSchdVlWbPort, 0), IntWB(port = 1, 1), FpWB(port = 0, 1)), Seq(Seq(VfRD(0, 1)), Seq(VfRD(1, 1)), Seq(VfRD(2, 1)), Seq(V0RD(0, 1)), Seq(VlRD(0, 1)))),
+       ), numEntries = 16, numEnq = 2, numComp = 12),
+       IssueBlockParams(Seq(
+diff --git a/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala b/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala
+index 2285d69..3585e59 100644
+--- a/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala
++++ b/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala
+@@ -1076,6 +1076,12 @@ class DecodeUnit(implicit p: Parameters) extends XSModule with DecodeUnitConstan
+   decodedInst.vpu.specVsew := io.enq.vtype.vsew
+   decodedInst.vpu.specVlmul := io.enq.vtype.vlmul
+ 
++  when (decodedInst.fuType === FuType.vdot.U) {
++    decodedInst.srcType(2) := SrcType.no
++    decodedInst.vpu.isDependOldVd := false.B
++    decodedInst.vpu.isWritePartVd := false.B
++  }
++
+   decodedInst.vlsInstr := isVls
+ 
+   decodedInst.srcType(3) := Mux(inst.VM === 0.U, SrcType.vp, SrcType.DC) // mask src
+diff --git a/src/main/scala/xiangshan/backend/decode/Instructions.scala b/src/main/scala/xiangshan/backend/decode/Instructions.scala
+index 0b2f535..7db3391 100644
+--- a/src/main/scala/xiangshan/backend/decode/Instructions.scala
++++ b/src/main/scala/xiangshan/backend/decode/Instructions.scala
+@@ -25,3 +25,7 @@ object Zimop {
+   def MOP_R  = BitPat("b1?00??0111???????100?????1110011")
+   def MOP_RR = BitPat("b1?00??1??????????100?????1110011")
+ }
++
++object XVdot {
++  def VDOT_VV = BitPat("b101100???????????010?????1010111")
++}
+diff --git a/src/main/scala/xiangshan/backend/decode/VecDecoder.scala b/src/main/scala/xiangshan/backend/decode/VecDecoder.scala
+index 3764191..e28197d 100644
+--- a/src/main/scala/xiangshan/backend/decode/VecDecoder.scala
++++ b/src/main/scala/xiangshan/backend/decode/VecDecoder.scala
+@@ -12,6 +12,8 @@ import xiangshan.backend.fu.FuType
+ import xiangshan._
+ import yunsuan.{VfpuType, VipuType, VimacType, VpermType, VialuFixType, VfaluType, VfmaType, VfdivType, VfcvtType, VidivType}
+ import xiangshan.backend.decode.Zvbb._
++import xiangshan.backend.decode.XVdot._
++import xiangshan.backend.fu.wrapper.VdotType
+ 
+ abstract class VecDecode extends XSDecodeBase {
+   def generate() : List[BitPat]
+@@ -439,6 +441,7 @@ object VecDecoder extends DecodeConstants {
+     VCLZ_V       -> OPMVV(T, FuType.vialuF, VialuFixType.vclz_v,   F, T, F, UopSplitType.VEC_VVV, src1 = SrcType.no),
+     VCTZ_V       -> OPMVV(T, FuType.vialuF, VialuFixType.vctz_v,   F, T, F, UopSplitType.VEC_VVV, src1 = SrcType.no),
+     VCPOP_V      -> OPMVV(T, FuType.vialuF, VialuFixType.vcpop_v,  F, T, F, UopSplitType.VEC_VVV, src1 = SrcType.no),
++    VDOT_VV      -> OPMVV(T, FuType.vdot, VdotType.vdot_vv, F, T, F, UopSplitType.VEC_VVV),
+   )
+ 
+   val opmvx: Array[(BitPat, XSDecodeBase)] = Array(
+diff --git a/src/main/scala/xiangshan/backend/decode/VecExceptionGen.scala b/src/main/scala/xiangshan/backend/decode/VecExceptionGen.scala
+index b885c68..47f2f69 100644
+--- a/src/main/scala/xiangshan/backend/decode/VecExceptionGen.scala
++++ b/src/main/scala/xiangshan/backend/decode/VecExceptionGen.scala
+@@ -291,7 +291,8 @@ class VecExceptionGen(implicit p: Parameters) extends XSModule{
+ 
+   private val regOverlapIllegal = v0Overlap || vs1vdOverlap || vs2vdOverlap
+ 
+-  io.illegalInst := instIllegal || villIllegal || eewIllegal || emulIllegal || regNumIllegal || regOverlapIllegal || vstartIllegal
++  private val vdotIllegal = io.decodedInst.fuType === FuType.vdot.U && (io.vtype.illegal || io.vtype.vsew =/= 0.U || io.vtype.vlmul =/= 0.U || inst.VM === 0.U || io.vstart =/= 0.U)
++  io.illegalInst := instIllegal || villIllegal || eewIllegal || emulIllegal || regNumIllegal || regOverlapIllegal || vstartIllegal || vdotIllegal
+   dontTouch(instIllegal)
+   dontTouch(villIllegal)
+   dontTouch(eewIllegal)
+@@ -300,4 +301,4 @@ class VecExceptionGen(implicit p: Parameters) extends XSModule{
+   dontTouch(regOverlapIllegal)
+   dontTouch(notDependVtypeInst)
+   dontTouch(vstartIllegal)
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/scala/xiangshan/backend/fu/FuConfig.scala b/src/main/scala/xiangshan/backend/fu/FuConfig.scala
+index 3a97112..71c0b7f 100644
+--- a/src/main/scala/xiangshan/backend/fu/FuConfig.scala
++++ b/src/main/scala/xiangshan/backend/fu/FuConfig.scala
+@@ -164,7 +164,7 @@ case class FuConfig (
+ 
+   def needVecCtrl: Boolean = {
+     import FuType._
+-    Seq(vipu, vialuF, vimac, vidiv, vfpu, vppu, vfalu, vfma, vfdiv, vfcvt, vldu, vstu, vsetfwf).contains(fuType)
++    Seq(vipu, vialuF, vimac, vidiv, vfpu, vppu, vfalu, vfma, vfdiv, vfcvt, vdot, vldu, vstu, vsetfwf).contains(fuType)
+   }
+ 
+   def needCriticalErrors: Boolean = Seq(FuType.csr).contains(fuType)
+@@ -185,7 +185,7 @@ case class FuConfig (
+                             fuType == FuType.vppu || fuType == FuType.vipu ||
+                             fuType == FuType.vfalu || fuType == FuType.vfma ||
+                             fuType == FuType.vfdiv || fuType == FuType.vfcvt ||
+-                            fuType == FuType.vidiv
++                            fuType == FuType.vidiv || fuType == FuType.vdot
+ 
+   def isVecMem: Boolean = fuType == FuType.vldu || fuType == FuType.vstu ||
+                           fuType == FuType.vsegldu || fuType == FuType.vsegstu
+@@ -567,6 +567,23 @@ object FuConfig {
+     exceptionOut = Seq(illegalInstr),
+   )
+ 
++  val VdotCfg = FuConfig (
++    name = "vdot",
++    fuType = FuType.vdot,
++    fuGen = (p: Parameters, cfg: FuConfig) => Module(new VDotU(cfg)(p).suggestName("Vdot")),
++    srcData = Seq(
++      Seq(VecData(), VecData(), VecData(), V0Data(), VlData()),
++    ),
++    piped = true,
++    writeVecRf = true,
++    writeV0Rf = true,
++    latency = CertainLatency(2),
++    vconfigWakeUp = true,
++    maskWakeUp = true,
++    destDataBits = 128,
++    exceptionOut = Seq(illegalInstr),
++  )
++
+   val VidivCfg = FuConfig (
+     name = "vidiv",
+     fuType = FuType.vidiv,
+@@ -848,7 +865,7 @@ object FuConfig {
+   )
+ 
+   def VecArithFuConfigs = Seq(
+-    VialuCfg, VimacCfg, VppuCfg, VipuCfg, VfaluCfg, VfmaCfg, VfcvtCfg
++    VialuCfg, VimacCfg, VppuCfg, VipuCfg, VfaluCfg, VfmaCfg, VfcvtCfg, VdotCfg
+   )
+ }
+ 
+diff --git a/src/main/scala/xiangshan/backend/fu/FuType.scala b/src/main/scala/xiangshan/backend/fu/FuType.scala
+index 5172900..192ce96 100644
+--- a/src/main/scala/xiangshan/backend/fu/FuType.scala
++++ b/src/main/scala/xiangshan/backend/fu/FuType.scala
+@@ -70,6 +70,7 @@ object FuType extends OHEnumeration {
+   val vstu = addType(name = "vstu")
+   val vsegldu = addType(name = "vsegldu")
+   val vsegstu = addType(name = "vsegstu")
++  val vdot = addType(name = "vdot")
+ 
+   val intArithAll = Seq(jmp, brh, i2f, i2v, csr, alu, mul, div, fence, bku)
+   // dq0 includes int's iq0 and iq1
+@@ -124,7 +125,7 @@ object FuType extends OHEnumeration {
+   }
+   val fpArithAll = Seq(falu, fcvt, fmac, fDivSqrt, f2v)
+   val scalaMemAll = Seq(ldu, stu, mou)
+-  val vecOPI = Seq(vipu, vialuF, vppu, vimac, vidiv)
++  val vecOPI = Seq(vipu, vialuF, vppu, vimac, vidiv, vdot)
+   val vecOPF = Seq(vfpu, vfalu, vfma, vfdiv, vfcvt)
+   val vecVSET = Seq(vsetiwi, vsetiwf, vsetfwf)
+   val vecArith = vecOPI ++ vecOPF
+@@ -256,6 +257,7 @@ object FuType extends OHEnumeration {
+     vstu -> "vstu",
+     vppu -> "vppu",
+     vimac -> "vimac",
++    vdot -> "vdot",
+     vidiv -> "vidiv",
+     vfalu -> "vfalu",
+     vfma -> "vfma",
+diff --git a/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala b/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala
+new file mode 100644
+index 0000000..77d8a69
+--- /dev/null
++++ b/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala
+@@ -0,0 +1,166 @@
++/****************************************************************************************
++ * Copyright (c) 2020-2021 Institute of Computing Technology, Chinese Academy of Sciences
++ * Copyright (c) 2020-2021 Peng Cheng Laboratory
++ *
++ * XiangShan is licensed under Mulan PSL v2.
++ * You can use this software according to the terms and conditions of the Mulan PSL v2.
++ * You may obtain a copy of Mulan PSL v2 at:
++ *          http://license.coscl.org.cn/MulanPSL2
++ *
++ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
++ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
++ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
++ *
++ * See the Mulan PSL v2 for more details.
++ ****************************************************************************************
++ */
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++package xiangshan.backend.fu.wrapper
++
++import org.chipsalliance.cde.config.Parameters
++import chisel3._
++import chisel3.util._
++import utility.XSError
++import xiangshan.ExceptionNO
++import xiangshan.backend.fu.FuConfig
++import xiangshan.backend.fu.vector.Bundles.VSew
++import xiangshan.backend.fu.vector.VecPipedFuncUnit
++import vdot.{VDotParams, VDotUnit}
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++object VdotType {
++
++  def vdot_vv      = "b00_110_0_111".U
++  def getOpcode(fuOpType: UInt): UInt = fuOpType(2, 0)
++  def vdotOpcode: UInt = "b111".U(3.W)
++  def isVdot(fuOpType: UInt): Bool = getOpcode(fuOpType) === vdotOpcode
++}
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++class VDotU(cfg: FuConfig)(implicit p: Parameters) extends VecPipedFuncUnit(cfg) {
++  XSError(io.in.valid && !VdotType.isVdot(fuOpType), "VDotU OpType not supported")
++
++
++  private val dataWidth = cfg.destDataBits
++
++
++
++  require(dataWidth == VLEN, s"VDotU: destDataBits($dataWidth) must equal VLEN($VLEN)")
++
++
++  private val elementBits = 8
++  private val dotLanes    = 8
++  require(dotLanes * elementBits == 64, s"vdot.vv consumes the low 64 bits, got ${dotLanes * elementBits}")
++
++
++
++
++
++
++  private val vdotParams = VDotParams(
++    vlen   = dataWidth,
++    sew    = elementBits,
++    nlanes = dotLanes,
++    lanes  = dataWidth / elementBits,
++    accw   = 19,
++    outw   = 32,
++    tree   = 0
++  )
++
++
++  private val dot = Module(new VDotUnit(vdotParams).suggestName("VDotDatapath"))
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++  dot.io.fire := io.in.valid
++  dot.io.vs1  := vs1
++  dot.io.vs2  := vs2
++
++
++
++
++
++  io.out.bits.res.data := dot.io.vd
++
++
++
++
++  private val sewIllegal = outVecCtrl.vsew =/= VSew.e8
++  private val lmulIllegal = outVecCtrl.vlmul =/= 0.U
++  private val maskIllegal = !outVm
++  private val restartIllegal = outVstart =/= 0.U
++  io.out.bits.ctrl.exceptionVec.get(ExceptionNO.illegalInstr) :=
++    outVecCtrl.vill || sewIllegal || lmulIllegal || maskIllegal || restartIllegal
++}
+diff --git a/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala b/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
+new file mode 100644
+index 0000000..cf2a7ed
+--- /dev/null
++++ b/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
+@@ -0,0 +1,16 @@
++/****************************************************************************************
++ * Copyright (c) 2020-2021 Institute of Computing Technology, Chinese Academy of Sciences
++ * Copyright (c) 2020-2021 Peng Cheng Laboratory
++ *
++ * XiangShan is licensed under Mulan PSL v2.
++ * You can use this software according to the terms and conditions of the Mulan PSL v2.
++ * You may obtain a copy of Mulan PSL v2 at:
++ *          http://license.coscl.org.cn/MulanPSL2
++ *
++ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
++ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
++ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
++ *
++ * See the Mulan PSL v2 for more details.
++ ****************************************************************************************
++ */

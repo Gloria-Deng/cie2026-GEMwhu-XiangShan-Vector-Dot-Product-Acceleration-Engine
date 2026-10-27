@@ -1,0 +1,8 @@
+JobID|JobName|State|ExitCode|Elapsed|NodeList|AllocTRES
+3732028|vdot-gemm-cycles-opt|COMPLETED|0:0|02:15:44|n0369|billing=16,cpu=16,mem=90000M,node=1
+3732028.batch|batch|COMPLETED|0:0|02:15:44|n0369|cpu=16,mem=90000M,node=1
+3732028.extern|extern|COMPLETED|0:0|02:15:44|n0369|billing=16,cpu=16,mem=90000M,node=1
+JobID|JobName|State|ExitCode|Elapsed|NodeList|AllocTRES
+3736507|vdot-gemm-cycles-opt|COMPLETED|0:0|06:47:21|n0375|billing=16,cpu=16,mem=90000M,node=1
+3736507.batch|batch|COMPLETED|0:0|06:47:21|n0375|cpu=16,mem=90000M,node=1
+3736507.extern|extern|COMPLETED|0:0|06:47:21|n0375|billing=16,cpu=16,mem=90000M,node=1

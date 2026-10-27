@@ -1,0 +1,190 @@
+$date
+	Tue Oct 27 07:45:53 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_vdot $end
+$var wire 128 ! vd [127:0] $end
+$var wire 1 " valid $end
+$var parameter 32 # MAXC $end
+$var parameter 32 $ VLEN $end
+$var reg 1 % clock $end
+$var reg 1 & fire $end
+$var reg 1 ' reset $end
+$var reg 128 ( vs1 [127:0] $end
+$var reg 128 ) vs2 [127:0] $end
+$var integer 32 * fail_n [31:0] $end
+$var integer 32 + fd [31:0] $end
+$var integer 32 , k [31:0] $end
+$var integer 32 - more [31:0] $end
+$var integer 32 . nread [31:0] $end
+$var integer 32 / pass_n [31:0] $end
+$var integer 32 0 total [31:0] $end
+$scope module dut $end
+$var wire 1 % clock $end
+$var wire 1 & io_fire $end
+$var wire 1 " io_valid $end
+$var wire 128 1 io_vs1 [127:0] $end
+$var wire 128 2 io_vs2 [127:0] $end
+$var wire 1 ' reset $end
+$var wire 16 3 prodComb_prod_7 [15:0] $end
+$var wire 16 4 prodComb_prod_6 [15:0] $end
+$var wire 16 5 prodComb_prod_5 [15:0] $end
+$var wire 16 6 prodComb_prod_4 [15:0] $end
+$var wire 16 7 prodComb_prod_3 [15:0] $end
+$var wire 16 8 prodComb_prod_2 [15:0] $end
+$var wire 16 9 prodComb_prod_1 [15:0] $end
+$var wire 16 : prodComb_prod [15:0] $end
+$var wire 128 ; io_vd [127:0] $end
+$var reg 1 < fireS1 $end
+$var reg 19 = prod_0 [18:0] $end
+$var reg 19 > prod_1 [18:0] $end
+$var reg 19 ? prod_2 [18:0] $end
+$var reg 19 @ prod_3 [18:0] $end
+$var reg 19 A prod_4 [18:0] $end
+$var reg 19 B prod_5 [18:0] $end
+$var reg 19 C prod_6 [18:0] $end
+$var reg 19 D prod_7 [18:0] $end
+$var reg 19 E red [18:0] $end
+$var reg 1 F validS1 $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b10000000 $
+b10000000000000 #
+$end
+#0
+$dumpvars
+xF
+bx E
+bx D
+bx C
+bx B
+bx A
+bx @
+bx ?
+bx >
+bx =
+x<
+b0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ;
+b0 :
+b0 9
+b0 8
+b0 7
+b0 6
+b0 5
+b0 4
+b0 3
+b0 2
+b0 1
+b1 0
+bx /
+b0 .
+b0 -
+bx ,
+b10000000000000000000000000000011 +
+bx *
+b0 )
+b0 (
+0'
+0&
+0%
+x"
+b0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx !
+$end
+#1000
+0<
+1%
+#2000
+0%
+#3000
+0"
+0F
+1%
+#4000
+0%
+#5000
+b0 !
+b0 ;
+b0 E
+b0 D
+b0 C
+b0 B
+b0 A
+b0 @
+b0 ?
+b0 >
+b0 =
+1'
+1%
+#6000
+0%
+#7000
+1%
+#8000
+0%
+#9000
+b0 ,
+b0 *
+b0 /
+0'
+1%
+#10000
+0%
+#11000
+b1111111111111111 :
+b1111111111111111 9
+b1111111111111111 8
+b1111111111111111 7
+b1111111111111111 6
+b1111111111111111 5
+b1111111111111111 4
+b1111111111111111 3
+1&
+b100000001000000010000000100000001000000010000000100000001 )
+b100000001000000010000000100000001000000010000000100000001 2
+b1111111111111111111111111111111111111111111111111111111111111111 (
+b1111111111111111111111111111111111111111111111111111111111111111 1
+1%
+#12000
+0%
+#13000
+1<
+b1111111111111111111 D
+b1111111111111111111 C
+b1111111111111111111 B
+b1111111111111111111 A
+b1111111111111111111 @
+b1111111111111111111 ?
+b1111111111111111111 >
+b1111111111111111111 =
+0&
+1%
+#14000
+0%
+#15000
+1"
+1F
+b11111111111111111111111111111000 !
+b11111111111111111111111111111000 ;
+b1111111111111111000 E
+0<
+1%
+#16000
+0%
+#17000
+0"
+0F
+b1 /
+1%
+#18000
+0%
+#19000
+b1 ,
+1%

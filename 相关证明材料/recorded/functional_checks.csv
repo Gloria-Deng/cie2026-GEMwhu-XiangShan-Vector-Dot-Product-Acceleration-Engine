@@ -1,0 +1,4 @@
+﻿implementation,cases,compared_bits,result_differences,upper_bits_nonzero,success,source
+patched_vwred,939,128,0,0,True,submission/results/current/instruction_cosim.json
+patched_vwred-g,939,128,0,0,True,submission/results/current/instruction_cosim.json
+patched_vdot,939,128,0,0,True,submission/results/current/instruction_cosim.json

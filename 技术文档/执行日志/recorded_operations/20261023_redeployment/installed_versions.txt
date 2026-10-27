@@ -1,0 +1,9 @@
+Ubuntu 24.04 LTS in WSL2
+Mill 0.12.3
+firtool 1.62.1
+Verilator 5.052
+xPack RISC-V GCC 14.2.0-3
+Python 3.12.3
+JDK 17.0.20.1
+
+Actual tool output is retained in continuous_terminal.txt.

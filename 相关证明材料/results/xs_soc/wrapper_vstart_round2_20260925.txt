@@ -1,0 +1,26 @@
+# 留底：vstart 观察臂最早那一对（一问「报不报非法指令」、一问「是不是被忽略、照常算」）
+# 的那趟 sweep 输出。两个候选被硬件同时否证 —— 这正是互补观察臂设计的判红条件，
+# 也是本包把问题拆成「报不报异常」与「vd 里落下什么」两组的直接原因。
+# 来源：sim/run_xs_soc_wrapper.py 的标准输出（build/run_vstart_sweep.txt），
+#      落盘 2026-09-25 08:55:36 本地 = 2026-09-25 00:55:36 UTC，sha256 前 16 位 7bb3619cdaa2321d。
+# 这一趟的臂表与现在不同：vstart 只有下面两条臂，且两臂共用 tests/cases_pos.txt、
+# 都没有给 OLDVD_V（默认 0）。原始判决行逐字：
+#   obs_vstart4_exc NO-MATCH 46 46
+#   obs_vstart4_compute NO-MATCH 46 46
+# 末行（判红的那一行）原样：
+#   XS_SOC_WRAPPER FAIL measure=6/6 control=2/2 observe_groups=vstart4_policy(0 of 2 matched) bad=vstart4_policy(0 of 2 matched)
+pos_vl8_vm1            PASS     total=46 fail=0 lat=2..2  ȫ��һ�£�SoC ��װ��ԭ����������ͨ·���
+rand_vl16_vm1          PASS     total=800 fail=0 lat=2..2  vl �������Ĵ���ʱͬ��һ��
+pos_vl0_oldvd          PASS     total=46 fail=0 lat=2..2  vl=0������� tail ��������ǵ��������ɱ��ű��Ķ����ϲ�ģ�������
+pos_alta_mask          PASS     total=46 fail=0 lat=2..2  �������룺��Ԫ�غϲ������ģ��һ�£�˵������ Mgu ��һ������ڰ�Ԫ��ʩ�����룩
+pos_sew16_exception    PASS     total=46 fail=0 lat=2..2  SEW!=8��RTL �Լ��ͰѷǷ�ָ���쳣������������ֻ�� NEMU ����
+pos_lmul2_exception    PASS     total=46 fail=0 lat=2..2  LMUL!=1��ͬ�ϣ��쳣�� RTL ������
+ctl_valid_pipe_zero    PROVEN   total=46 fail=46 lat=-1..-1  �����գ��� validPipe_2 ���� 0��out_valid ����һ·Ϊ 0��bad_valid ����ȫ��������
+ctl_expect_lat3        PROVEN   total=46 fail=46 lat=2..2  �����գ���������ȶ��� 3��ʵ������Ա����Լ��������Ǹ���ȣ������Ǹ����������̣�
+obs_vta1_keep          MATCH    total=46 fail=0 lat=2..2  �۲�ۣ�vta=1 ʱ agnostic tail �Ƿ�����ֵ
+obs_vta1_ones          NO-MATCH total=46 fail=46 lat=2..2  �۲�ۣ�vta=1 ʱ agnostic tail �Ƿ�д��ȫ 1
+obs_vma1_keep          NO-MATCH total=46 fail=46 lat=2..2  �۲�ۣ�vma=1 ʱ���ڵ���Ԫ���Ƿ��Ա�����ֵ���� vma ����������ﲻ�����ã�
+obs_vma1_ones          MATCH    total=46 fail=0 lat=2..2  �۲�ۣ�vma=1 ʱ���ڵ���Ԫ���Ƿ�д��ȫ 1
+obs_vstart4_exc        NO-MATCH total=46 fail=46 lat=2..2  �۲�ۣ�vstart=4 ʱ����������Ƿ��������� exceptionVec[2]
+obs_vstart4_compute    NO-MATCH total=46 fail=46 lat=2..2  �۲�ۣ�vstart=4 �Ƿ񱻺��ԡ��ճ�������
+XS_SOC_WRAPPER FAIL measure=6/6 control=2/2 observe_groups=vstart4_policy(0 of 2 matched) bad=vstart4_policy(0 of 2 matched)

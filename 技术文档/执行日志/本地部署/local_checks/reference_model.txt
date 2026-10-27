@@ -1,0 +1,1 @@
+golden self-check OK  range=[-130048, 131072] acc_bits_min=19

@@ -1,0 +1,4 @@
+# Versions used for the Windows x64 verification (Python 3.11).
+cffi==2.0.0
+matplotlib==3.10.8
+Pillow==12.2.0

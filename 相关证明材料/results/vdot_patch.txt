@@ -1,0 +1,45 @@
+baseline: pristine FuType.scala has 0 'vdot' hits; every 'after' side is on disk
+FuType.scala           +3 lines, 3 hunk(s), after=patched tree
+FuConfig.scala         +19 lines, 4 hunk(s), after=patched tree
+Parameters.scala       +1 lines, 1 hunk(s), after=patched tree
+VecDecoder.scala       +6 lines, 3 hunk(s), after=patched tree
+Instructions.scala     +5 lines, 1 hunk(s), after=patched tree
+VDotUnit.scala         +151 lines, 1 hunk(s), after=package copy
+VDotU.scala            +224 lines, 1 hunk(s), after=package copy
+VdotCfg.scala          +178 lines, 1 hunk(s), after=package copy
+wrote D:\Desktop\RSIC-V香山\submission\rtl\xiangshan-patch\vdot.patch (35662 bytes, 587 added lines)
+P0 --stat rc=0 files_listed=8
+   P0| src/main/scala/xiangshan/backend/fu/FuType.scala   |    4
+   P0| src/main/scala/xiangshan/backend/fu/FuConfig.scala |   22 ++
+   P0| src/main/scala/xiangshan/Parameters.scala          |    2
+   P0| .../xiangshan/backend/decode/VecDecoder.scala      |    6 +
+   P0| .../xiangshan/backend/decode/Instructions.scala    |    5
+   P0| src/main/scala/vdot/VDotUnit.scala                 |  151 +++++++++++++
+   P0| .../scala/xiangshan/backend/fu/wrapper/VDotU.scala |  224 ++++++++++++++++++++
+   P0| .../xiangshan/backend/fu/wrapper/VdotCfg.scala     |  178 ++++++++++++++++
+   P0| 8 files changed, 587 insertions(+), 5 deletions(-)
+P1 --check rc=0 
+P2 apply rc=0 
+P2 ok: all 8 files byte-identical to their authoritative sides
+tree_agreement: 0 of 8 patched-tree files differ from the patch result :: none
+P2c plain `git apply` (no -c, host's core.autocrlf=true): rc=0 byte-damaged=8 :: FuType.scala CR=268, FuConfig.scala CR=870, Parameters.scala CR=930, VecDecoder.scala CR=830, Instructions.scala CR=32, VDotUnit.scala CR=151, VDotU.scala CR=224, VdotCfg.scala CR=178
+P3 reference: VdotCfg.scala=10247 bytes, decode-snippets.md=7900 bytes
+P3 FuType.scala           added=3 found_in_drift_docs=3 not_found=0
+P3 FuConfig.scala         added=18 found_in_drift_docs=17 not_found=1
+   P3-| Seq(vipu, vialuF, vimac, vidiv, vfpu, vppu, vfalu, vfma, vfdiv, vfcvt, vdot, vldu, vstu, vsetfwf).contains(fuT
+P3 Parameters.scala       added=1 found_in_drift_docs=0 not_found=1
+   P3-| ExeUnitParams("VFEX0", Seq(VfmaCfg, VialuCfg, VimacCfg, VppuCfg, VdotCfg), Seq(VfWB(port = 0, 0), V0WB(port = 
+P3 VecDecoder.scala       added=6 found_in_drift_docs=6 not_found=0
+P3 Instructions.scala     added=4 found_in_drift_docs=4 not_found=0
+P3 VDotUnit.scala         added=131 found_in_drift_docs=18 not_found=113
+   P3-| // See LICENSE for license details.
+   P3-| package vdot
+   P3-| import chisel3._
+P3 VDotU.scala            added=211 found_in_drift_docs=44 not_found=167
+   P3-| // Custom-instruction patch for XiangShan Kunminghu-V2 (upstream commit
+   P3-| // 42f87803d10bc21bbc5df2807a2fc07db6c9dc89): functional unit wrapper for
+   P3-| // vdot.vv, an 8-lane int8 signed dot product.
+P3 VdotCfg.scala          added=174 found_in_drift_docs=174 not_found=0
+P3 ok: 266 of 548 added lines are text apply.sh declares in its drift docs (the rest are the copied files' own source bodies, which those docs do not mirror)
+VDOT_PATCH OK files=8 added=587 skipped=0 byte_exact=8/8 sha256=f118fb6178b264ec8ef8ca9c45dec2777ee26368ae7e98eb3c6cfa5ab681bb1d
+VDOT_PATCH OK files=8 added=587 skipped=0 byte_exact=8/8 sha256=f118fb6178b264ec8ef8ca9c45dec2777ee26368ae7e98eb3c6cfa5ab681bb1d

@@ -1,0 +1,38 @@
+# 由 sim/patch_portability_proof.py 生成（补丁可移植性验证）。
+
+干净副本由 `git worktree add --detach` 从 HEAD 长出（不是 cp -r 工作树），所以被测的字节就是提交里的字节；它所在深度与本包不同。
+
+| 项 | 读数 |
+|---|---|
+| 被试 | `rtl/xiangshan-patch/apply.sh`（从提交长出的副本） |
+| 目标树 | `工作区/upstream/src/XiangShan-42f87803d10bc21bbc5df2807a2fc07db6c9dc89` |
+| 模式 | `--dry`（只打印计划，不写） |
+| 内层解释器（绝对路径，不走 PATH） | `/e/msys64/usr/bin/bash.exe` |
+| 子进程解析到的 mktemp（须与解释器同根） | `/usr/bin/mktemp` paired=yes |
+| 计划行数 | 26 |
+| 其中 S*/D* 编辑条目 / copy 条目 | 13 / 3 |
+| 副本里新增或改动的文件数 | 0 |
+| 不给 XS_ROOT 时的隐式定位 | miss（隐式回退按 `<包>/../../..` 找，换位置就找不到——这句话是本实验量出来的，不是推测） |
+
+```
+RSIC-V香山/工作区/upstream/src/XiangShan-42f87803d10bc21bbc5df2807a2fc07db6c9dc89/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
+[vdot-patch] plan    copy VDotUnit.scala -> /d/Desktop/RSIC-V香山/工作区/upstream/src/XiangShan-42f87803d10bc21bbc5df2807a2fc07db6c9dc89/src/main/scala/vdot/VDotUnit.scala
+[vdot-patch] plan    S1a FuType.vdot addType  (insert after 1 line)
+[vdot-patch] plan    S1b FuType.vecOPI += vdot  (replace 1 occurrence)
+[vdot-patch] plan    S1c functionNameMap += vdot  (insert after 1 line)
+[vdot-patch] plan    S2a FuConfig.VdotCfg  (insert before 1 line)
+[vdot-patch] plan    S2b VecArithFuConfigs += VdotCfg  (replace 1 occurrence)
+[vdot-patch] plan    S2c needVecCtrl += vdot  (replace 1 occurrence)
+[vdot-patch] plan    S2d isVecArith += vdot  (replace 1 occurrence)
+[vdot-patch] plan    S3a VFEX0 += VdotCfg  (replace 1 occurrence)
+[vdot-patch] plan    D1 VecDecoder imports  (insert after 1 line)
+[vdot-patch] plan    D2 VecDecoder opmvv row  (insert after 1 line)
+[vdot-patch] plan    D3 Instructions.scala object XVdot  (append to end)
+[vdot-patch] plan    D4 VecDecoder opmvx row  (insert after 1 line)
+[vdot-patch] plan    D5 Instructions.scala VDOT_VX  (insert after the line D3 appends in this same run)
+[vdot-patch] DRY RUN: nothing was written; post-conditions skipped.
+[vdot-patch] Positive control instead: run './apply.sh --check <UNPATCHED tree>' -- it reports
+[vdot-patch]   OK=0 with every check below BAD, and exits 1, so none of them is permanently green.
+```
+
+APPLY_DRY_PORTABILITY OK edits=13 copies=3 writes=0 impl_lookup=miss

@@ -1,0 +1,46 @@
+/***************************************************************************************
+* Copyright (c) 2014-2021 Zihao Yu, Nanjing University
+* Copyright (c) 2020-2022 Institute of Computing Technology, Chinese Academy of Sciences
+*
+* NEMU is licensed under Mulan PSL v2.
+* You can use this software according to the terms and conditions of the Mulan PSL v2.
+* You may obtain a copy of Mulan PSL v2 at:
+*          http://license.coscl.org.cn/MulanPSL2
+*
+* THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+* EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+* MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+*
+* See the Mulan PSL v2 for more details.
+***************************************************************************************/
+
+#ifndef __DIFFTEST_H__
+#define __DIFFTEST_H__
+
+#include <stdint.h>
+
+enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
+
+#define RV64_FULL_DIFF
+#define RV64_UARCH_SYNC
+
+#if defined(__ISA_x86__)
+# define DIFFTEST_REG_SIZE (sizeof(uint32_t) * 9) // GPRs + PC
+#elif defined(__ISA_mips32__)
+# define DIFFTEST_REG_SIZE (sizeof(uint32_t) * 38) // GRPs + status + lo + hi + badvaddr + cause + pc
+#elif defined(__ISA_riscv32__)
+# define DIFFTEST_REG_SIZE (sizeof(uint32_t) * 33) // GRPs + pc
+#elif defined(__ISA_riscv64__)
+extern const unsigned DIFFTEST_REG_SIZE;
+#else
+# error Unsupported ISA
+#endif
+
+#ifdef RV64_UARCH_SYNC
+struct SyncState {
+  uint64_t lrscValid;
+  uint64_t lrscAddr;
+};
+#endif
+
+#endif

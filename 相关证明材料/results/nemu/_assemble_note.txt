@@ -1,0 +1,2 @@
+patched: objects=91 exports=1843 vdot=['exec_vdot.lto_priv.0'] size=3560008
+control: objects=91 exports=1849 vdot=[] size=3558472

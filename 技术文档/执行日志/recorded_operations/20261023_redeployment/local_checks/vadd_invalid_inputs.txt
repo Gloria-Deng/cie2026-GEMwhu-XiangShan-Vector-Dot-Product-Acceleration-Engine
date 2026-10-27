@@ -1,0 +1,1 @@
+PASS: four invalid inputs were rejected

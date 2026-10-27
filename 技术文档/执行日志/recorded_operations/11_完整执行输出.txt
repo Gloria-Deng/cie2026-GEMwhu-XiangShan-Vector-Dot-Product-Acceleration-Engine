@@ -1,0 +1,28 @@
+hello xiangshan, I am GEMwhu, IP address 10.131.141.145
+
+Python
+hello xiangshan, I am GEMwhu, IP address 10.131.141.145
+ip_selection_method=udp_egress_no_packets_sent
+host=LAPTOP-ROVJN0UC python=3.11.9 platform=win32
+HELLO_ANYOS ip=10.131.141.145
+
+
+C
+hello xiangshan, I am GEMwhu, IP address 10.131.141.145
+ip_candidates=10.131.141.145#idx13 selected_index=13 rule=lowest_ifindex_not_virtual
+ip_interfaces=10.131.141.145#idx13#if71#st5#MediaTek Wi-Fi 7 MT7925 Wireless LAN Card
+ip_excluded=192.168.17.1#idx11#if6#st5#VMware Virtual Ethernet Adapter for VMnet1#virtual_adapter_desc;192.168.248.1#idx18#if6#st5#VMware Virtual Ethernet Adapter for VMnet8#virtual_adapter_desc;172.25.48.1#idx49#if6#st5#Hyper-V Virtual Ethernet Adapter#virtual_adapter_desc;127.0.0.1#idx1#if24#st5#Software Loopback Interface 1#loopback
+egress_index=13 rows_truncated=0
+host=LAPTOP-ROVJN0UC compiler=16.2.0
+
+
+IPAddress      InterfaceAlias                     AddressState
+---------      --------------                     ------------
+172.25.48.1    vEthernet (WSL (Hyper-V firewall))    Preferred
+192.168.248.1  VMware Network Adapter VMnet8         Preferred
+192.168.17.1   VMware Network Adapter VMnet1         Preferred
+169.254.193.3  WLAN 3                                Tentative
+169.254.223.34 WLAN 2                                Tentative
+10.131.141.145 WLAN                                  Preferred
+169.254.48.249 以太网                                   Tentative
+127.0.0.1      Loopback Pseudo-Interface 1           Preferred

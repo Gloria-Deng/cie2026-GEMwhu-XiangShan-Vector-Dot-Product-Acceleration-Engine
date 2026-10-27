@@ -1,0 +1,6 @@
+  cases_bound.txt        45 cases
+  cases_neg.txt          48 cases
+  cases_pos.txt          46 cases
+  cases_rand.txt         800 cases
+  cases_vadd.txt         0 cases
+rtl_vectors_to_cosim: total=939 -> <WORKTREE>/submission/build/instruction_cosim/cases.txt

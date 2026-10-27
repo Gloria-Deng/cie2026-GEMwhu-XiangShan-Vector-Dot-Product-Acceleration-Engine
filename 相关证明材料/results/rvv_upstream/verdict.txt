@@ -1,0 +1,58 @@
+RVV_UPSTREAM repo=riscvarchive/riscv-v-spec commit=3570f998903f00352552b670f1f7b7334f0a144a files=7
+RVV_UPSTREAM repo=riscv/riscv-opcodes commit=5783cf3bea312a48d28e3e2c8a2fcb55603e4bed tag=NONE
+OPMVV funct6_101100=FREE evidence=inst-table.adoc:75
+OPMVV occupied=50 free=14
+PROVENANCE tag=v1.0
+TODO_UNVERIFIED_CLOSABLE=yes
+
+-- the claim, as the originals read it --
+CLAIM funct3=010 maps to category OPMVV (v-spec.adoc line 2186 of the funct3 table)
+CLAIM inst-table.adoc middle column row 75 (funct6 101100) carries V-flag='' X-flag='' name=''
+CLAIM rv_v has no line with 31..26=0x2c and 14..12=0x2 and 6..0=0x57
+CLAIM bracketed by neighbours 101011 (rv_v line 395) and 101101 (rv_v line 396)
+
+-- OP-MVV free funct6 slots per the originals (14) --
+001100 001101 001110 001111 010001 010011 010101 010110 101000 101010 101100 101110 111001 111110
+
+-- files in this archive --
+FILE inst-table.adoc sha256=8238efb5f836ba645ad0b4b8483d12238f6d059c5cf492593dbce7b08129b336 bytes=7422 origin=riscvarchive/riscv-v-spec@3570f99890:inst-table.adoc tag=v1.0
+FILE rv_v sha256=a260265cf952fa0025382b97c125c47bd3f42fa167805da0ee97b09c16ba7cba bytes=26407 origin=riscv/riscv-opcodes@5783cf3bea:extensions/rv_v tag=NONE
+FILE rv_v_aliases sha256=6eca5cdeabbc8df2d7ed9855fd417199a93d6ef945cdf3dd8f56dd3b52964ec4 bytes=1146 origin=riscv/riscv-opcodes@5783cf3bea:extensions/rv_v_aliases tag=NONE
+FILE rv_zvkg sha256=8f36fca620062a72f4e58091f09d2f96ff8ba2aa69dc2e87a51c01ef110d1e99 bytes=239 origin=riscv/riscv-opcodes@5783cf3bea:extensions/rv_zvkg tag=NONE
+FILE unratified__rv_zvdot4a sha256=7b2a8fc12012a84a46e9d9c224cadfaa695c9764a7ddbc277d36a40bbd1c4539 bytes=455 origin=riscv/riscv-opcodes@5783cf3bea:extensions/unratified/rv_zvdot4a tag=NONE
+FILE v-spec.adoc sha256=bfe42bd33dc6abeef5362f475605dda3d229e722257a613b0691cee760f04a19 bytes=207611 origin=riscvarchive/riscv-v-spec@3570f99890:v-spec.adoc tag=v1.0
+FILE vector-op-base.csv sha256=6a534affca783601271cfb7aca86140354ddb88beb635b8024e06ab80dfa72c3 bytes=6117 origin=riscvarchive/riscv-v-spec@3570f99890:vector-op-base.csv tag=v1.0
+
+-- collision survey over the archived originals --
+COLLIDE SAME-OPCODE unratified__rv_zvdot4a:1 vdot4a.vv         31..26=0x2c vm vs2 vs1 14..12=0x2 vd 6..0=0x57
+COLLIDE OTHER-MAJOR-OPCODE rv_zvkg:7 vghsh.vv 31..26=0x2C 25=1 vs2 vs1 14..12=0x2 vd 6..0=0x77
+
+-- provenance, stated narrowly --
+PROVENANCE_NOTE riscv-v-spec tag v1.0 (3570f99890) release title: 'Vector Extension 1.0, frozen for public review', published 2021-09-20; repo archived at 2024-03-17. The ratified RVV 1.0 was published by RISC-V Intl from this frozen source, so this is the ratified table's own source text.
+PROVENANCE_NOTE riscv-opcodes has no tags and no releases (api /tags and /releases both returned []), so it is pinned by master SHA 5783cf3bea instead.
+PROVENANCE local reference/rvv-inst-table.adoc is NOT byte-identical to the original: see the diff below. Its OP-MVV column nevertheless agrees on all 64 slots.
+
+-- local reference/rvv-inst-table.adoc vs the downloaded original --
+ADOC rows local=64 upstream=64 (both must be 64 for a full matrix)
+ADOC sha256 local=6542ecdbf7b10d9da1821da7632817f5bf1b09d0f418bde3538b94edd55bc796 upstream=8238efb5f836ba645ad0b4b8483d12238f6d059c5cf492593dbce7b08129b336 identical=False
+ADOC OP-MVV occupied sets agree slot-for-slot over all 64 rows: True (local_only=[] upstream_only=[])
+ADOC textual differences: 4 line(s), none touching funct6 101100:
+  L48   LOCAL: | 011000 |V|X|I| vmseq      | 011000 |V| | vmandn      | 011000 |V|F| 
+  L48   UPST : | 011000 |V|X|I| vmseq      | 011000 |V| | vmandnot    | 011000 |V|F| 
+  L52   LOCAL: | 011100 |V|X|I| vmsleu     | 011100 |V| | vmorn       | 011100 |V|F| 
+  L52   UPST : | 011100 |V|X|I| vmsleu     | 011100 |V| | vmornot     | 011100 |V|F| 
+  L70   LOCAL: | 100111 | | |I| vmv<nr>r   |        | | |             |        | | |
+  L70   UPST : |        | | |I| vmv<nr>r   |        | | |             |        | | |
+  L119  LOCAL: | 10000 | vcpop
+  L119  UPST : | 10000 | vpopc
+PACKAGE results/rvv_spec_opm.txt free list n=11 agrees with the originals' OP-MVV-and-OP-MVX free set: True
+PACKAGE free-list (rvv_spec_opm.txt): 001100 001101 010001 010011 010101 010110 101000 101010 101100 101110 111001
+ORIGINALS free-in-OP-MVV-only (14): 001100 001101 001110 001111 010001 010011 010101 010110 101000 101010 101100 101110 111001 111110
+ORIGINALS free-in-OP-MVV-and-OP-MVX (11): 001100 001101 010001 010011 010101 010110 101000 101010 101100 101110 111001
+READ: the package's checker treats a middle cell as taken whenever the cell carries ANY name, which merges OP-MVV (V flag) and OP-MVX (X flag). That is conservative -- it can hide a free OP-MVV slot (3 of the 14 here: 001110, 001111, 111110 are OP-MVX-only) but can never invent one. 101100 is blank in BOTH flags, so the conclusion is unaffected.
+
+-- byte-exactness of the other kept reference --
+CSV reference/rvv-vector-op-base.csv == upstream v1.0 tag copy: True
+CSV sha256=6a534affca783601271cfb7aca86140354ddb88beb635b8024e06ab80dfa72c3
+
+CLOSING the marker: the claim is confirmed by the originals; the TODO can be retired.

@@ -1,0 +1,114 @@
+EMU-GLUE-PROBE v1
+generated_by: python sim/emu_glue_proof.py --run D:/xs-vdot/difftest
+compiler_layer: ucrt64 (the only MSYS2 layer with BOTH gcc and verilator)
+shim: nemu/emu_glue_shim/sys/mman.h and nemu/emu_glue_shim/dlfcn.h
+mode: g++ -fsyntax-only on difftest's own translation units; nothing is linked
+arms differ ONLY by what is on the include path and, in A2 and A3, one -D
+
+=== ARM S ===
+TU=(shim self-test)
+ARM_LABEL=shim self-test
+RC=0
+ERROR_LINES=0
+MISSING_HEADERS=0
+CMDLINE_ERRORS=0
+FIRST_ERROR=none
+ERROR_TAGS=none
+RUN_OUTPUT=mmap=ok_mprotect=ok_dlopen=ok_dlsym=ok
+EXE=yes
+
+=== ARM common_A0 ===
+TU=src/test/csrc/common/common.cpp
+ARM_LABEL=no shim
+RC=1
+ERROR_LINES=1
+MISSING_HEADERS=1
+CMDLINE_ERRORS=0
+FIRST_ERROR=src/test/csrc/common/common.h:31:10:_fatal_error:_sys/mman.h:_No_such_file_or_directory
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM common_A1 ===
+TU=src/test/csrc/common/common.cpp
+ARM_LABEL=shim
+RC=0
+ERROR_LINES=0
+MISSING_HEADERS=0
+CMDLINE_ERRORS=0
+FIRST_ERROR=none
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM refproxy_A0 ===
+TU=src/test/csrc/difftest/refproxy.cpp
+ARM_LABEL=no shim
+RC=1
+ERROR_LINES=1
+MISSING_HEADERS=1
+CMDLINE_ERRORS=0
+FIRST_ERROR=D:/xs-vdot/difftest/src/test/csrc/common/common.h:31:10:_fatal_error:_sys/mman.h:_No_such_file_or_directory
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM refproxy_A1 ===
+TU=src/test/csrc/difftest/refproxy.cpp
+ARM_LABEL=shim
+RC=1
+ERROR_LINES=3
+MISSING_HEADERS=0
+CMDLINE_ERRORS=0
+FIRST_ERROR=src/test/csrc/difftest/refproxy.cpp:130:26:_error:_'RTLD_DEEPBIND'_was_not_declared_in_this_scope
+ERROR_TAGS=LM_ID_NEWLM,RTLD_DEEPBIND,dlmopen
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM refproxy_A2 ===
+TU=src/test/csrc/difftest/refproxy.cpp
+ARM_LABEL=shim+dlmopen
+RC=0
+ERROR_LINES=0
+MISSING_HEADERS=0
+CMDLINE_ERRORS=0
+FIRST_ERROR=none
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM refproxy_A3 ===
+TU=src/test/csrc/difftest/refproxy.cpp
+ARM_LABEL=shim+apple
+RC=0
+ERROR_LINES=0
+MISSING_HEADERS=0
+CMDLINE_ERRORS=0
+FIRST_ERROR=none
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM snapshot_A0 ===
+TU=src/test/csrc/verilator/snapshot.cpp
+ARM_LABEL=no shim
+RC=1
+ERROR_LINES=1
+MISSING_HEADERS=1
+CMDLINE_ERRORS=0
+FIRST_ERROR=src/test/csrc/verilator/snapshot.h:20:10:_fatal_error:_VSimTop.h:_No_such_file_or_directory
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked
+
+=== ARM snapshot_A1 ===
+TU=src/test/csrc/verilator/snapshot.cpp
+ARM_LABEL=shim
+RC=1
+ERROR_LINES=1
+MISSING_HEADERS=1
+CMDLINE_ERRORS=0
+FIRST_ERROR=src/test/csrc/verilator/snapshot.h:20:10:_fatal_error:_VSimTop.h:_No_such_file_or_directory
+ERROR_TAGS=none
+RUN_OUTPUT=not-run
+EXE=not-linked

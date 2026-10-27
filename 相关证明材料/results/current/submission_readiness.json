@@ -1,0 +1,11 @@
+{
+  "ready": false,
+  "missing": [
+    "提交字段 repo-url",
+    "提交字段 github-username",
+    "有效 GitHub 仓库 URL",
+    "有效 GitHub 用户名",
+    "真实演示视频"
+  ],
+  "repo_visibility": "作者需确认公开仓库和实际上传内容；此脚本不联网验证"
+}

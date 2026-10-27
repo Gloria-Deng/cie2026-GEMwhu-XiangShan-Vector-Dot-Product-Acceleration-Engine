@@ -1,0 +1,12 @@
+name,impl,impl_name,packed,vdot26,vdot27,vdot28,vdot29,vdot4,vdot5,vdot6,vdot7,vs1r,vmv_x_s,vadd,status
+gemm_vdot_16x16x16,2,vdot,0,2,0,0,0,0,0,0,0,2,0,0,OK
+gemm_vdot_packed_16x16x16,2,vdot,1,2,0,0,0,0,0,0,0,2,0,0,OK
+gemm_vdot_movx_16x16x16,3,vdot_movx,0,2,0,0,0,0,0,0,0,0,2,0,OK
+gemm_vdot_movx_packed_16x16x16,3,vdot_movx,1,2,0,0,0,0,0,0,0,0,2,0,OK
+gemm_vdot_vecacc_16x16x16,4,vdot_vecacc,0,0,0,0,0,1,1,0,0,0,1,2,OK
+gemm_vdot_vecacc_packed_16x16x16,4,vdot_vecacc,1,0,0,0,0,1,1,0,0,0,1,2,OK
+gemm_vdot_unroll4_16x16x16,5,vdot_unroll4,0,1,1,1,1,0,0,0,0,4,0,0,OK
+gemm_vdot_unroll4_packed_16x16x16,5,vdot_unroll4,1,1,1,1,1,0,0,0,0,4,0,0,OK
+gemm_vdot_vecacc_unroll_16x16x16,6,vdot_vecacc_unroll,0,0,0,0,0,1,1,1,1,0,4,4,OK
+gemm_vdot_vecacc_unroll_packed_16x16x16,6,vdot_vecacc_unroll,1,0,0,0,0,1,1,1,1,0,4,4,OK
+GEMM_VARIANT_PREFLIGHT PASS checked 10

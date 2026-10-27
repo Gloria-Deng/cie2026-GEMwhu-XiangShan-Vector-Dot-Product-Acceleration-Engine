@@ -1,0 +1,29 @@
+JobId=3772882 JobName=vdot-new-measure
+   UserId=chensiyuan(59544) GroupId=chensiyuan(59544) MCS_label=N/A
+   Priority=30917 Nice=0 Account=chensiyuan QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:01 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2026-10-25T21:03:47 EligibleTime=2026-10-25T21:03:47
+   AccrueTime=2026-10-25T21:03:47
+   StartTime=2026-10-25T21:04:41 EndTime=2026-10-26T21:04:41 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-25T21:04:41 Scheduler=Main
+   Partition=hpxg AllocNode:Sid=swarm02:3702898
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=n0373
+   BatchHost=n0373
+   NumNodes=1 NumCPUs=16 NumTasks=1 CPUs/Task=16 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=16,mem=90000M,node=1,billing=16
+   AllocTRES=cpu=16,mem=90000M,node=1,billing=16
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=16 MinMemoryNode=90000M MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)
+   Command=/project/chensiyuan/vdot/new_measurements_20261025_2100/cluster/measure_new_16.sbatch
+   WorkDir=/project/chensiyuan/vdot/new_measurements_20261025_2100
+   StdErr=/project/chensiyuan/vdot/new_measurements_20261025_2100/measure-3772882.txt
+   StdIn=/dev/null
+   StdOut=/project/chensiyuan/vdot/new_measurements_20261025_2100/measure-3772882.txt
+   TresPerTask=cpu=16
+   
+

@@ -1,0 +1,31 @@
+XS-SOC-BRACKET v1
+subject: the tree generated from upstream's own KunminghuV2MinimalConfig -- a real SoC, not a shrunken invention
+tool: /e/msys64/ucrt64/bin/verilator_bin.exe (native Windows build: it resolves D:/... and not /d/...)
+meaning of SILENT: rc=127 with a 0-byte log and zero %Error lines -- the process ends before it can report anything; that is different from rc=1, which is a reported verdict
+the bracket is a statement about THIS tree on THIS host; it is not a claim about Verilator
+
+generated_by: python sim/xs_soc_silence_bracket.py --run 300
+tree: D:/xs-vdot/build/rtl_min3
+
+ARM P kind=control axis=one_small_file silent=no VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1 RC=0 SECS=0 LOGBYTES=307 ERROR_LINES=0 FIRST_ERROR=none DONE=yes FREE_MB=6225
+ARM N400 kind=count axis=XSTop_+_first_400 silent=no VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=401 RC=1 SECS=3 LOGBYTES=5525 ERROR_LINES=27 FIRST_ERROR=%Error-MODMISSING:_D:/xs-vdot/build/rtl_min3\AXI4UserYanker_4.sv:181:3:_Cannot_find_file_containing_module:_'Queue65540_BundleMap' DONE=yes FREE_MB=6262
+ARM N800 kind=count axis=XSTop_+_first_800 silent=no VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=801 RC=1 SECS=7 LOGBYTES=11010 ERROR_LINES=51 FIRST_ERROR=%Error-MODMISSING:_D:/xs-vdot/build/rtl_min3\Domain_1.sv:13567:3:_Cannot_find_file_containing_module:_'Queue1_RegMapperInput_1' DONE=yes FREE_MB=6236
+ARM N1200 kind=count axis=XSTop_+_first_1200 silent=no VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1201 RC=1 SECS=12 LOGBYTES=10941 ERROR_LINES=51 FIRST_ERROR=%Error-MODMISSING:_D:/xs-vdot/build/rtl_min3\Domain_1.sv:13567:3:_Cannot_find_file_containing_module:_'Queue1_RegMapperInput_1' DONE=yes FREE_MB=5839
+ARM N1600 kind=count axis=XSTop_+_first_1600 silent=yes VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1601 RC=127 SECS=9 LOGBYTES=0 ERROR_LINES=0 FIRST_ERROR=none DONE=yes FREE_MB=5884
+ARM TAIL200 kind=content axis=XSTop_+_last_200 silent=no VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=201 RC=1 SECS=1 LOGBYTES=6671 ERROR_LINES=36 FIRST_ERROR=%Error-MODMISSING:_D:/xs-vdot/build/rtl_min3\XSCore.sv:1566:3:_Cannot_find_file_containing_module:_'Frontend' DONE=yes FREE_MB=6116
+ARM NOTIME kind=flags axis=whole_list,_--timing_dropped silent=yes VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1903 RC=127 SECS=10 LOGBYTES=0 ERROR_LINES=0 FIRST_ERROR=none DONE=yes FREE_MB=6117
+ARM CC kind=flags axis=whole_list,_--cc_instead_of_--lint-only silent=yes VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1903 RC=127 SECS=10 LOGBYTES=0 ERROR_LINES=0 FIRST_ERROR=none DONE=yes FREE_MB=6185
+ARM NOTIME2 kind=repeat axis=no-timing_arm,_second_time silent=yes VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1903 RC=127 SECS=8 LOGBYTES=0 ERROR_LINES=0 FIRST_ERROR=none DONE=yes FREE_MB=5671
+ARM FULL2 kind=repeat axis=whole_list,_--lint-only_again silent=yes VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702 FILES=1903 RC=127 SECS=8 LOGBYTES=0 ERROR_LINES=0 FIRST_ERROR=none DONE=yes FREE_MB=5573
+
+RAW files=1903 rc=3221225725 unsigned=0xC00000FD mechanism=stack_overflow out_bytes=0 error_lines=0
+NOTE the shell arms report RC=127 for this death; 127 is what bash prints for STATUS_STACK_OVERFLOW, so no sentence in this package may attribute the silence to a missing command or to memory
+FINDING control                    alive
+FINDING bracket                    N1200 talks / N1600 silent
+FINDING count_axis_moves           yes
+FINDING mechanism                  stack_overflow (0xC00000FD, files=1903)
+FINDING tail200_is_silent          no
+FINDING timing_dropped_is_silent   yes
+FINDING cc_is_silent               yes
+FINDING repeat_is_silent           yes
+XS-SOC-BRACKET PASS arms=10/10 problems=0 control=alive bracket=N1200 talks / N1600 silent timing_dropped_silent=yes cc_silent=yes

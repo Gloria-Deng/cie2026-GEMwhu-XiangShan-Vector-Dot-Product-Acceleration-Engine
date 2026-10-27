@@ -1,0 +1,264 @@
+{
+ "derived": {
+  "adoc_matrix_rows": 64,
+  "adoc_named_count": 53,
+  "adoc_rvv_only": [],
+  "adoc_v_eq_rvv_opmvv": true,
+  "adoc_v_only": [],
+  "adoc_x_eq_rvv_opmvx": true,
+  "free_opmvv": [
+   "001100",
+   "001101",
+   "001110",
+   "001111",
+   "010001",
+   "010011",
+   "010101",
+   "010110",
+   "101000",
+   "101010",
+   "101100",
+   "101110",
+   "111001",
+   "111110"
+  ],
+  "free_opmvv_and_opmvx": [
+   "001100",
+   "001101",
+   "010001",
+   "010011",
+   "010101",
+   "010110",
+   "101000",
+   "101010",
+   "101100",
+   "101110",
+   "111001"
+  ],
+  "funct3_010_meaning": [
+   "OPMVV",
+   "vector-vector",
+   2186
+  ],
+  "funct3_legend_present": 8,
+  "funct6_101100_opmvv_free": true,
+  "funct6_101100_opmvx_free": true,
+  "neighbours": {
+   "free_above": "101101",
+   "free_above_line": 396,
+   "free_below": "101011",
+   "free_below_line": 395
+  },
+  "occupied_opmvv": [
+   "000000",
+   "000001",
+   "000010",
+   "000011",
+   "000100",
+   "000101",
+   "000110",
+   "000111",
+   "001000",
+   "001001",
+   "001010",
+   "001011",
+   "010000",
+   "010010",
+   "010100",
+   "010111",
+   "011000",
+   "011001",
+   "011010",
+   "011011",
+   "011100",
+   "011101",
+   "011110",
+   "011111",
+   "100000",
+   "100001",
+   "100010",
+   "100011",
+   "100100",
+   "100101",
+   "100110",
+   "100111",
+   "101001",
+   "101011",
+   "101101",
+   "101111",
+   "110000",
+   "110001",
+   "110010",
+   "110011",
+   "110100",
+   "110101",
+   "110110",
+   "110111",
+   "111000",
+   "111010",
+   "111011",
+   "111100",
+   "111101",
+   "111111"
+  ],
+  "occupied_opmvx": [
+   "001000",
+   "001001",
+   "001010",
+   "001011",
+   "001110",
+   "001111",
+   "010000",
+   "100000",
+   "100001",
+   "100010",
+   "100011",
+   "100100",
+   "100101",
+   "100110",
+   "100111",
+   "101001",
+   "101011",
+   "101101",
+   "101111",
+   "110000",
+   "110001",
+   "110010",
+   "110011",
+   "110100",
+   "110101",
+   "110110",
+   "110111",
+   "111000",
+   "111010",
+   "111011",
+   "111100",
+   "111101",
+   "111110",
+   "111111"
+  ],
+  "other_opcode_slot_claims": [
+   {
+    "file": "rv_zvkg",
+    "line": 7,
+    "raw": "vghsh.vv 31..26=0x2C 25=1 vs2 vs1 14..12=0x2 vd 6..0=0x77"
+   }
+  ],
+  "same_opcode_slot_claims": [
+   {
+    "file": "unratified__rv_zvdot4a",
+    "line": 1,
+    "raw": "vdot4a.vv         31..26=0x2c vm vs2 vs1 14..12=0x2 vd 6..0=0x57"
+   }
+  ],
+  "slot101100_adoc_flags": [
+   "",
+   ""
+  ],
+  "slot101100_row": 75
+ },
+ "files": [
+  {
+   "bytes": 7422,
+   "commit": "3570f998903f00352552b670f1f7b7334f0a144a",
+   "name": "inst-table.adoc",
+   "path": "inst-table.adoc",
+   "repo": "riscvarchive/riscv-v-spec",
+   "role": "the Vector Integer Arithmetic Instructions funct6 x funct3 matrix",
+   "sha256": "8238efb5f836ba645ad0b4b8483d12238f6d059c5cf492593dbce7b08129b336",
+   "tag": "v1.0",
+   "url": "https://api.github.com/repos/riscvarchive/riscv-v-spec/contents/inst-table.adoc?ref=3570f998903f00352552b670f1f7b7334f0a144a"
+  },
+  {
+   "bytes": 207611,
+   "commit": "3570f998903f00352552b670f1f7b7334f0a144a",
+   "name": "v-spec.adoc",
+   "path": "v-spec.adoc",
+   "repo": "riscvarchive/riscv-v-spec",
+   "role": "funct3 legend: which funct3 value is OP-MVV",
+   "sha256": "bfe42bd33dc6abeef5362f475605dda3d229e722257a613b0691cee760f04a19",
+   "tag": "v1.0",
+   "url": "https://api.github.com/repos/riscvarchive/riscv-v-spec/contents/v-spec.adoc?ref=3570f998903f00352552b670f1f7b7334f0a144a"
+  },
+  {
+   "bytes": 6117,
+   "commit": "3570f998903f00352552b670f1f7b7334f0a144a",
+   "name": "vector-op-base.csv",
+   "path": "vector-op-base.csv",
+   "repo": "riscvarchive/riscv-v-spec",
+   "role": "v1.0 tag op list; used as the byte-exactness anchor for reference/",
+   "sha256": "6a534affca783601271cfb7aca86140354ddb88beb635b8024e06ab80dfa72c3",
+   "tag": "v1.0",
+   "url": "https://api.github.com/repos/riscvarchive/riscv-v-spec/contents/vector-op-base.csv?ref=3570f998903f00352552b670f1f7b7334f0a144a"
+  },
+  {
+   "bytes": 26407,
+   "commit": "5783cf3bea312a48d28e3e2c8a2fcb55603e4bed",
+   "name": "rv_v",
+   "path": "extensions/rv_v",
+   "repo": "riscv/riscv-opcodes",
+   "role": "ratified V encodings, machine readable",
+   "sha256": "a260265cf952fa0025382b97c125c47bd3f42fa167805da0ee97b09c16ba7cba",
+   "tag": "NONE",
+   "url": "https://api.github.com/repos/riscv/riscv-opcodes/contents/extensions/rv_v?ref=5783cf3bea312a48d28e3e2c8a2fcb55603e4bed"
+  },
+  {
+   "bytes": 1146,
+   "commit": "5783cf3bea312a48d28e3e2c8a2fcb55603e4bed",
+   "name": "rv_v_aliases",
+   "path": "extensions/rv_v_aliases",
+   "repo": "riscv/riscv-opcodes",
+   "role": "assembler aliases, checked for extra claims on the slot",
+   "sha256": "6eca5cdeabbc8df2d7ed9855fd417199a93d6ef945cdf3dd8f56dd3b52964ec4",
+   "tag": "NONE",
+   "url": "https://api.github.com/repos/riscv/riscv-opcodes/contents/extensions/rv_v_aliases?ref=5783cf3bea312a48d28e3e2c8a2fcb55603e4bed"
+  },
+  {
+   "bytes": 239,
+   "commit": "5783cf3bea312a48d28e3e2c8a2fcb55603e4bed",
+   "name": "rv_zvkg",
+   "path": "extensions/rv_zvkg",
+   "repo": "riscv/riscv-opcodes",
+   "role": "ratified crypto ext: reuses funct6 101100 but on another major opcode",
+   "sha256": "8f36fca620062a72f4e58091f09d2f96ff8ba2aa69dc2e87a51c01ef110d1e99",
+   "tag": "NONE",
+   "url": "https://api.github.com/repos/riscv/riscv-opcodes/contents/extensions/rv_zvkg?ref=5783cf3bea312a48d28e3e2c8a2fcb55603e4bed"
+  },
+  {
+   "bytes": 455,
+   "commit": "5783cf3bea312a48d28e3e2c8a2fcb55603e4bed",
+   "name": "unratified__rv_zvdot4a",
+   "path": "extensions/unratified/rv_zvdot4a",
+   "repo": "riscv/riscv-opcodes",
+   "role": "UNRATIFIED draft that claims this exact slot",
+   "sha256": "7b2a8fc12012a84a46e9d9c224cadfaa695c9764a7ddbc277d36a40bbd1c4539",
+   "tag": "NONE",
+   "url": "https://api.github.com/repos/riscv/riscv-opcodes/contents/extensions/unratified/rv_zvdot4a?ref=5783cf3bea312a48d28e3e2c8a2fcb55603e4bed"
+  }
+ ],
+ "note": "Downloaded originals for the OP-MVV 101100 slot claim.",
+ "other_ext_on_same_slot": [
+  {
+   "file": "rv_zvkg",
+   "line": 7,
+   "raw": "vghsh.vv 31..26=0x2C 25=1 vs2 vs1 14..12=0x2 vd 6..0=0x77"
+  },
+  {
+   "file": "unratified__rv_zvdot4a",
+   "line": 1,
+   "raw": "vdot4a.vv         31..26=0x2c vm vs2 vs1 14..12=0x2 vd 6..0=0x57"
+  }
+ ],
+ "repos": {
+  "riscv/riscv-opcodes": {
+   "commit": "5783cf3bea312a48d28e3e2c8a2fcb55603e4bed",
+   "tag": "NONE",
+   "tag_note": "api /repos/riscv/riscv-opcodes/tags -> [] and /releases -> []; master SHA pinned"
+  },
+  "riscvarchive/riscv-v-spec": {
+   "commit": "3570f998903f00352552b670f1f7b7334f0a144a",
+   "tag": "v1.0",
+   "tag_object": "tags/v1.0 release 'Vector Extension 1.0, frozen for public review', repo archived"
+  }
+ }
+}

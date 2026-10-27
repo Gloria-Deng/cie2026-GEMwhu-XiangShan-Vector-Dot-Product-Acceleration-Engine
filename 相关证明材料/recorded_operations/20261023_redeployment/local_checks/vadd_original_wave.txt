@@ -1,0 +1,2 @@
+output: /root/gemwhu-stage1-20261023/checks/vadd_original_wave
+PASS: 11 executions; 176 byte results; original FST mode=True

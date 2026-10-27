@@ -1,0 +1,67 @@
+XiangShan-generated RTL vadd.vv -- VIAluFix closure simulation
+DUT: VIAluFix (module implementing RVV vadd.vv in the generated XiangShan SoC RTL)
+generated_rtl_source: D:/xs-vdot/build/probe_rtl_full
+closure_source_mode: external_generating_tree
+generating_tree_on_this_host: D:/xs-vdot/build/probe_rtl_full
+manifest_rewritten_by_this_run: 1
+closure_manifest_sha256=b9e8b0835696e1b95d5f26912e566f442c918f33b2ee418c5d46cd7af0b59888
+closure_files=18 closure_bytes=412411
+fuOpType=9'h040 (VialuFixType.vadd_vv = {FMT.VVV=2'b00, SINT=1'b1, VialuOpcode.vadd=6'd0})
+wrongop_arm_fuOpType=9'h041 (VialuFixType.vsub_vv), expectations unchanged
+testbench: tb/tb_vialu_soc.sv
+cases_file: tests/cases_vadd.txt
+toolchain: Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260702
+verilator_command: /e/msys64/ucrt64/bin/verilator_bin.exe --cc --exe --main --timing --trace --top-module tb_vialu_soc -Wno-TIMESCALEMOD --Mdir build/objvadd -DCASE_FILE='"tests/cases_vadd.txt"' -DASSERT_VERBOSE_COND_=0 -DSTOP_COND_=0 'rtl/xs_soc_generated_vadd/Adder_chain_rnd.sv' 'rtl/xs_soc_generated_vadd/ByteMaskTailGen.sv' 'rtl/xs_soc_generated_vadd/CLZ_11.sv' 'rtl/xs_soc_generated_vadd/CLZ_6.sv' 'rtl/xs_soc_generated_vadd/CLZ_7.sv' 'rtl/xs_soc_generated_vadd/CLZ_9.sv' 'rtl/xs_soc_generated_vadd/MaskExtractor.sv' 'rtl/xs_soc_generated_vadd/Mgtu.sv' 'rtl/xs_soc_generated_vadd/Mgu.sv' 'rtl/xs_soc_generated_vadd/UIntToContLow0s.sv' 'rtl/xs_soc_generated_vadd/UIntToContLow1s.sv' 'rtl/xs_soc_generated_vadd/VFixPoint64b.sv' 'rtl/xs_soc_generated_vadd/VIAluFix.sv' 'rtl/xs_soc_generated_vadd/VIAluSrcTypeModule.sv' 'rtl/xs_soc_generated_vadd/VIntAdder64b.sv' 'rtl/xs_soc_generated_vadd/VIntFixpAlu64b.sv' 'rtl/xs_soc_generated_vadd/VIntMisc64b.sv' 'rtl/xs_soc_generated_vadd/VecDataSplitModule.sv' 'tb/tb_vialu_soc.sv'
+make_command: make -C build/objvadd -f Vtb_vialu_soc.mk CXXFLAGS='-std=gnu++17 -Os' -j 4
+
+REAL ARM  file=tests/cases_vadd.txt total=11 run=11 pass=11 fail=0 bad_valid=0 bad_lat=0 lat_never=0
+WRONGOP ARM total=11 run=11 pass=1 fail=10 (expected nonzero fail: the ruler bites)
+  wrongop: CASE 0 FAIL got=02020202020202020202020202020202 exp=08080808080808080808080808080808
+  wrongop: CASE 1 FAIL got=edcdedcdedcdedcdedcdedcdedcdedcd exp=12351235123512351235123512351235
+  wrongop: CASE 2 FAIL got=0000018c00000129000000c600000063 exp=000001940000012f000000ca00000065
+WAVE ARM  total=11 run=1 pass=1 fail=0 only_case=0 -> results/xs_soc/vadd_wave.vcd
+
+XSVADD cases=11 mismatches=0
+lat_min=1 lat_max=1
+declared_latency=1 measured_min=1 measured_max=1 latency_agrees=1
+XSVADD-ARM real PASS
+XSVADD-ARM wrongop PASS
+XSVADD-ARM wave PASS
+
+Per-lane reference values recomputed from tests/cases_vadd.txt (independent of the RTL):
+  case 0 sew=0 vl=16 vm=1 vta=0 vma=0 py=08080808080808080808080808080808 rtl_expect=08080808080808080808080808080808 ok=1
+  case 1 sew=1 vl=8 vm=1 vta=0 vma=0 py=12351235123512351235123512351235 rtl_expect=12351235123512351235123512351235 ok=1
+  case 2 sew=2 vl=4 vm=1 vta=0 vma=0 py=000001940000012f000000ca00000065 rtl_expect=000001940000012f000000ca00000065 ok=1
+  case 3 sew=3 vl=2 vm=1 vta=0 vma=0 py=00000000000000000000000000000000 rtl_expect=00000000000000000000000000000000 ok=1
+  case 4 sew=0 vl=16 vm=1 vta=0 vma=0 py=04040404040404040404040404040404 rtl_expect=04040404040404040404040404040404 ok=1
+  case 5 sew=0 vl=4 vm=1 vta=0 vma=0 py=aaaaaaaaaaaaaaaaaaaaaaaa08080808 rtl_expect=aaaaaaaaaaaaaaaaaaaaaaaa08080808 ok=1
+  case 6 sew=0 vl=4 vm=1 vta=1 vma=0 py=ffffffffffffffffffffffff08080808 rtl_expect=ffffffffffffffffffffffff08080808 ok=1
+  case 7 sew=0 vl=16 vm=0 vta=0 vma=0 py=5a5a5a5a5a5a5a5a5a5a5a5a5a0a5a0a rtl_expect=5a5a5a5a5a5a5a5a5a5a5a5a5a0a5a0a ok=1
+  case 8 sew=0 vl=16 vm=0 vta=0 vma=1 py=ffffffffffffffffffffffffff0aff0a rtl_expect=ffffffffffffffffffffffffff0aff0a ok=1
+  case 9 sew=0 vl=16 vm=1 vta=0 vma=0 py=2e2c2a28262422201e1c1a1816141210 rtl_expect=2e2c2a28262422201e1c1a1816141210 ok=1
+  case 10 sew=0 vl=0 vm=1 vta=0 vma=0 py=33333333333333333333333333333333 rtl_expect=33333333333333333333333333333333 ok=1
+
+Closure fingerprints, recomputed at run time from the files that were compiled:
+FILE rtl/xs_soc_generated_vadd/Adder_chain_rnd.sv sha256=6e445c83d6fb28a319c66984db84a3b1d9da285c35a1bb1ac358fb0994b8474f
+FILE rtl/xs_soc_generated_vadd/ByteMaskTailGen.sv sha256=ef8bb3087c7977a315c43bec0c4e0292fe7cd20314054145c65ab7a8ca206be6
+FILE rtl/xs_soc_generated_vadd/CLZ_11.sv sha256=802f32429b980477f75e9bbfdd15b5421485e7e9cbf79e85da40455e77a2c91d
+FILE rtl/xs_soc_generated_vadd/CLZ_6.sv sha256=26c7333ddf875ccdac906f8a6247e5eb7457fc445bcc667d35b70aac1ea9f5d5
+FILE rtl/xs_soc_generated_vadd/CLZ_7.sv sha256=656446301f72274383f95c33a3bc527ec73177dec9d15ce224cbc2fe97e73377
+FILE rtl/xs_soc_generated_vadd/CLZ_9.sv sha256=f0d34c7daea41cb5b9cae0fa3e43d850515cb252e12688271b4f1ace12f5dd57
+FILE rtl/xs_soc_generated_vadd/MaskExtractor.sv sha256=a2abe2e67bd042e6788dc605b55d104f1643a5d5f9b73a4aa9b297391e54e28d
+FILE rtl/xs_soc_generated_vadd/Mgtu.sv sha256=e6a02a7b4605399085e3e2aeee14abe7ebad2fe059f75f5386c58bceba887ad2
+FILE rtl/xs_soc_generated_vadd/Mgu.sv sha256=ab310fc3da7844812300be3b173c46f489b2b1de709da6cdca2f6cb6e7c47df7
+FILE rtl/xs_soc_generated_vadd/UIntToContLow0s.sv sha256=3e7eb0e30270563924354bf0675253bca997c6b0622327d8978b2d432c8cd030
+FILE rtl/xs_soc_generated_vadd/UIntToContLow1s.sv sha256=cd97eadc1671c6e328887505159380e3dee5b9931aba0dd9f9bbe69b9616b160
+FILE rtl/xs_soc_generated_vadd/VFixPoint64b.sv sha256=e1319a91e0c1e89e1aefccc18bb689b04e9f90d6125c03fd9870ed65ab5cc497
+FILE rtl/xs_soc_generated_vadd/VIAluFix.sv sha256=ff90a6407b980989904e09dea9ae533732704d728876d863f33cee37e4a2c0f2
+FILE rtl/xs_soc_generated_vadd/VIAluSrcTypeModule.sv sha256=b1fd8a0633912e11b785cf3cc6e2b6e5a16fcfa6067d5010050de0611731a085
+FILE rtl/xs_soc_generated_vadd/VIntAdder64b.sv sha256=f5d03628317b35cf09ddc0c2dc9f6739fe1d03df986c16723636cfd779f9e9a4
+FILE rtl/xs_soc_generated_vadd/VIntFixpAlu64b.sv sha256=8e77e48172ac53e10cd0da9e82b43bfde235d90c171671128462d24a9d8ba203
+FILE rtl/xs_soc_generated_vadd/VIntMisc64b.sv sha256=7eca6d8226300e14cd3cd54797e374c28bc05600c5bfb91bb58d64dac3023df8
+FILE rtl/xs_soc_generated_vadd/VecDataSplitModule.sv sha256=a921018c4d287181e52fe42284e7b41b4a6dda8e6eff4bb07419080369d916cf
+FILE tb/tb_vialu_soc.sv sha256=05ebc6f9f4e228eaaec0857385f4f751d29d0a33fbb85b3ca93614caf6f13e71
+FILE tests/cases_vadd.txt sha256=32e1191c36fd74215f7a8866698fc45dd66fef70eb9d04ef0b69acfacaf503e6
+FILE rtl/xs_soc_generated_vadd/manifest.json sha256=b9e8b0835696e1b95d5f26912e566f442c918f33b2ee418c5d46cd7af0b59888
+FILE results/xs_soc/vadd_wave.vcd sha256=fd9815fd4cb7f9636a78eb3876b7f8f10815d697c3a353722722ba547f26340f
+FILE results/xs_soc/vadd_wave_notes.txt sha256=ce6b973bddcaef33de1e40c2fac3aef1c29cc954051f49a6a3f6b51c30a762e7

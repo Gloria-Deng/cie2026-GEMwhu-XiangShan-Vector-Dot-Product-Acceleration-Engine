@@ -1,0 +1,77 @@
+{
+  "source_files": {
+    "FuConfig.scala": "D:\\Desktop\\RSIC-V香山\\工作区\\upstream\\src\\XiangShan-42f87803d10bc21bbc5df2807a2fc07db6c9dc89\\src\\main\\scala\\xiangshan\\backend\\fu\\FuConfig.scala",
+    "UopInfoGen.scala": "D:\\Desktop\\RSIC-V香山\\工作区\\upstream\\src\\XiangShan-42f87803d10bc21bbc5df2807a2fc07db6c9dc89\\src\\main\\scala\\xiangshan\\backend\\decode\\UopInfoGen.scala"
+  },
+  "xiangshan_commit": "42f87803d10bc21bbc5df2807a2fc07db6c9dc89",
+  "vdot": {
+    "instructions": 1,
+    "latency_decl": "CertainLatency(2)",
+    "latency": 2,
+    "uop_split": "VEC_VVV",
+    "uop_count_expr": "lmul",
+    "uops_at_lmul1": 1,
+    "uops_rule": "lmul = 1"
+  },
+  "baseline": [
+    {
+      "mnemonic": "vmv.v.i vd, 0",
+      "why": "the statement clears vd[1..VLEN-1]; a reduction does not, so the destination must be zeroed first",
+      "fucfg_name": "vialuFix",
+      "fu_type": "vialuF",
+      "latency_decl": "CertainLatency(1)",
+      "latency": 1,
+      "uop_split": "VEC_VXV",
+      "uop_count_expr": "(lmul +& 1.U)",
+      "uops_at_lmul1": 2,
+      "uops_rule": "1 + 1"
+    },
+    {
+      "mnemonic": "vwmul.vv vtmp, vs2, vs1",
+      "why": "int8 x int8 must widen to int16 or the products truncate",
+      "fucfg_name": "vimac",
+      "fu_type": "vimac",
+      "latency_decl": "CertainLatency(2)",
+      "latency": 2,
+      "uop_split": "VEC_VVW",
+      "uop_count_expr": "numOfUopWV",
+      "uops_at_lmul1": 2,
+      "uops_rule": "2 * lmul = 2"
+    },
+    {
+      "mnemonic": "vsetivli zero, 8, e16, m1, ta, ma",
+      "why": "the reduction has to SEE the products as int16 lanes: vwmul wrote 2*SEW elements while vtype is still SEW=8, and a widening reduction reads SEW-wide inputs, so the only way to sum int16 into an int32 is to reconfigure vtype first",
+      "fucfg_name": "vsetriwvf",
+      "fu_type": "vsetiwf",
+      "latency_decl": "CertainLatency(0)",
+      "latency": 0,
+      "uop_split": "-",
+      "uop_count_expr": "n/a (vsetivli is not a vector-pipe uop)",
+      "uops_at_lmul1": 1,
+      "uops_rule": "one non-vector micro-op on the vset unit"
+    },
+    {
+      "mnemonic": "vwredsum.vs vd, vtmp, vz",
+      "why": "sums the widened int16 products down to element 0 at 2*SEW = 32 bits wide",
+      "fucfg_name": "vipu",
+      "fu_type": "vipu",
+      "latency_decl": "CertainLatency(2)",
+      "latency": 2,
+      "uop_split": "VEC_VWW",
+      "uop_count_expr": "Cat(lmul, 0.U(1.W))",
+      "uops_at_lmul1": 2,
+      "uops_rule": "append a zero bit == lmul << 1 = 2"
+    }
+  ],
+  "baseline_instructions": 4,
+  "baseline_fu_latency_sum_if_single_uop": 5,
+  "baseline_uops_at_lmul1": 7,
+  "vdot_uops_at_lmul1": 1,
+  "uop_rule_provenance": "STRUCTURAL read of UopInfoGen.scala, not a measurement: `val lmul = MuxLookup(vlmul, 1.U(4.W))` makes LMUL=1 mean 1, and numOfUopWV is documented there as 2*lmul for 1<=lmul<=4. Per-row rules are in uops_rule.",
+  "baseline_measured": "nemu/cosim/cosim_baseline.c -> results/nemu_cosim_baseline.txt (doc3 and e16 variants FAIL, vwred PASSES on both arms)",
+  "vsetivli_declared_latency_zero_on": {
+    "vsetriwvf": 0,
+    "vsetrvfwvf": 0
+  },
+  "note_uop_counts": "LMUL=1 only. The splits used here (VEC_VVV, VEC_VVW, VEC_VWW, VEC_VXV) ALL expand with lmul per UopInfoGen.scala -- vdot's own VEC_VVV is `lmul`, so at LMUL>1 both sides grow and this model deliberately publishes no ratio beyond LMUL=1 (the old note claimed vdot does not scale, which its own expression contradicts)"
+}

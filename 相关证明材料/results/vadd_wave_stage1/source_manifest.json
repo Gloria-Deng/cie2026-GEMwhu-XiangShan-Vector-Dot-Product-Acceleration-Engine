@@ -1,0 +1,71 @@
+{
+  "FuConfig.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/fu/FuConfig.scala",
+    "content_id": "c266470e8d7100078a27091dbea3ed5ea205780aafbaa575bd4179f7f724607c"
+  },
+  "ExeUnit.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/exu/ExeUnit.scala",
+    "content_id": "e28884e5d2a295b0c48e5e118ba1783f034118f902ecdf5b1a747042fcc66164",
+    "matches_fixed_upstream": true
+  },
+  "VIAluFix.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/fu/wrapper/VIAluFix.scala",
+    "content_id": "a9bab5d416ebefab0de34893a8cade1765d914c9b5f2649eec5f93424149f1e6",
+    "matches_fixed_upstream": true
+  },
+  "VecPipedFuncUnit.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/fu/vector/VecPipedFuncUnit.scala",
+    "content_id": "667d0568c0a8ac5087ab652534fa80aa39df0488bbe60b04389ffafe422a0ae8",
+    "matches_fixed_upstream": true
+  },
+  "FuncUnit.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/fu/FuncUnit.scala",
+    "content_id": "48ecf1db24de9a7a3b8511f49a082ae1517ffb16f20da90cb580fd486086ee1c",
+    "matches_fixed_upstream": true
+  },
+  "Regfile.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/regfile/Regfile.scala",
+    "content_id": "d90c298d823a61ff7f8e854509a632d7020724d325cc8037a45428f2128e1bb7",
+    "matches_fixed_upstream": true
+  },
+  "DataPath.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/datapath/DataPath.scala",
+    "content_id": "2cbd7054b2cf171ef2ca0f97173f45b7c7be4721d11ea43c6914381f1acded0b",
+    "matches_fixed_upstream": true
+  },
+  "NewDispatch.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/dispatch/NewDispatch.scala",
+    "content_id": "8bfe46e43ac9a238c1059d89fe80294958295637cb28559e0899a5ddb9a0e581",
+    "matches_fixed_upstream": true
+  },
+  "IBuffer.scala": {
+    "source_path": "src/main/scala/xiangshan/frontend/IBuffer.scala",
+    "content_id": "b33e5e26754cc4ecf53b0c73b8fdca6644d3719acb9b87ca297aababd0beed8e",
+    "matches_fixed_upstream": true
+  },
+  "Rob.scala": {
+    "source_path": "src/main/scala/xiangshan/backend/rob/Rob.scala",
+    "content_id": "6910ce3076a24a03212c5d09ad06e14f7ab6d5bca8eade9a4ee6196739c437c4",
+    "matches_fixed_upstream": true
+  },
+  "Sbuffer.scala": {
+    "source_path": "src/main/scala/xiangshan/mem/sbuffer/Sbuffer.scala",
+    "content_id": "9fa1260542b00b54de510035645b2ebfd8c2f7dbf2cbc8025967aac9a03c14cc",
+    "matches_fixed_upstream": true
+  },
+  "GTimer.scala": {
+    "source_path": "utility/src/main/scala/utility/GTimer.scala",
+    "content_id": "da03b5cc65fc683c473993b5ae0ec436b9acc2c3745b549cea1e2243a6df2dda",
+    "matches_fixed_submodule": "sm-utility-2f0743f1f3ee.tar.gz"
+  },
+  "emu.cpp": {
+    "source_path": "difftest/src/test/csrc/emu/emu.cpp",
+    "content_id": "a71eef1f72406803cfce348dd97a9ecff51ef725698eb85e35bdcb9cdfe5e495",
+    "matches_fixed_submodule": "sm-difftest-3729300ae233.tar.gz"
+  },
+  "waveform.cpp": {
+    "source_path": "difftest/src/test/csrc/verilator/waveform.cpp",
+    "content_id": "ba6039b79707bfa578c0ffc5487c79a2428feedb8be5400b61da3fac0836a6de",
+    "matches_fixed_submodule": "sm-difftest-3729300ae233.tar.gz"
+  }
+}

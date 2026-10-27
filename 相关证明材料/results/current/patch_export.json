@@ -1,0 +1,13 @@
+{
+  "all_ok": true,
+  "inputs": {
+    "rtl/xiangshan-patch/apply.sh": "4b15ed4a615172c6993e5c13b83982d309b675c59103ee07311e93c148b4ee61",
+    "rtl/xiangshan-patch/VDotU.scala": "2c96a528be443391acc85b764e6eadad6cec33ea8e423fc2a28daf3071942de0",
+    "rtl/xiangshan-patch/VdotCfg.scala": "9cd3b3b873b5284daaee592368a3955f4a2f49984034049abbf79274bdcabb47",
+    "rtl/chisel/vdot/vdot/src/vdot/VDotUnit.scala": "8e5d2ce8a2a058ebd1693c4f49d73848dd20fa38ca55863df5c2d695475de087",
+    "rtl/xiangshan-patch/vdot.patch": "ab8e7e2958d6ab052c814130d0e4759d138562d82018b1fcefd161546d95941b",
+    "tools/export_xiangshan_patch.py": "90b10d34848e8d3dacddcc109e257ac50d54da0265dae06e369eced908bb103d"
+  },
+  "files": 10,
+  "scope": "Fresh pinned source anchors and byte-equal git apply; compilation measured separately"
+}

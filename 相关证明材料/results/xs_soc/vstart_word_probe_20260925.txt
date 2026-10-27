@@ -1,0 +1,107 @@
+# 留底：vstart=4 那一档的逐用例字节读数（单臂重跑，不是整趟 sweep）。
+# 来源：bash build/objw_obs_vstart4_oldvd.sh "$PWD" —— 这条臂脚本由
+#      sim/run_xs_soc_wrapper.py 生成并执行；本文件的正文就是它的原始输出
+#      （build/probe_vstart4_oldvd.txt，落盘 2026-09-25 09:02:48 本地 = 2026-09-25 01:02:48 UTC，sha256 前 16 位 0a125c9da7e83c70）。
+# 这一档的旋钮（由它自己打印的 TB-INFO 行原样带上）：
+#   TB-INFO cases=46 VL=8 VM=1 SEW=0 LMUL=0 VUOP=0 EXPECT_EXC=0 VTA=0 VMA=0
+# ⚠ 那一趟的 TB-INFO 还没有打印 START_V/CHECK_DATA（这两个旋钮就是为这一档加的，
+# 现在 tb/tb_vdotu_soc.sv 的 TB-INFO 已经带上它们）。这一档编译期的完整旋钮是
+#   -DVL_V=8 -DVM_V=1 -DSTART_V=4 -DEXPECT_EXC=0 -DOLDVD_V=128'h11112222333344445555666677778888
+# —— 从 sim/run_xs_soc_wrapper.py 当轮的臂表转录。那份臂表现已改成字级判据
+# （组名 vstart4_word），所以这组旋钮的原始记录只剩这里，以及旁边那份
+# wrapper_vstart_round3_20260925.txt 里对应臂的名字与假设。
+# 它问的问题：vstart=4 时 vd 是不是整体保留 oldVd。OLDVD_V 这一档取的是
+# 0x11112222333344445555666677778888 这个非 0 模式 —— 若留着默认的 0，「写成全 0」与「保留 oldVd」
+# 就是同一串位，任何硬件都分不开。
+# 读数（全部由上面的正文现算）：逐用例 FAIL 46 行，出现的不同 vd 值 1 个，
+# SUMMARY 行原样：
+#   SUMMARY file=build/cases_vstart_oldvd.txt total=46 pass=0 fail=46 bad_valid=0 bad_exc=0 bad_ctrl=0 lat_expect=2 lat_min=2 lat_max=2 bad_lat=0 lat_never=0
+# 那唯一的 vd 读数 = 0x11112222333344440000000077778888
+# 这一档的 oldVd        = 0x11112222333344445555666677778888
+# 判据（本文件自己现算，不靠正文复述）：读数是不是「oldVd 只把元素 4..7 那
+# 一个 32 位字（bits 32..63）清成 0」？是。等价写法：读数 == oldVd & ~(32 位掩码
+# << 32)，即 0x11112222333344440000000077778888。
+- V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260702
+- Verilator: Built from 0.486 MB sources in 9 modules, into 0.190 MB in 11 C++ files needing 0.001 MB
+- Verilator: Walltime 0.105 s (elab=0.007, cvt=0.050, bld=0.000); cpu 0.000 s on 1 threads; allocated 20.625 MB
+make: Entering directory '/d/Desktop/RSIC-V香山/交付/build/objsoc/objw_obs_vstart4_oldvd'
+g++ -Os -std=gnu++17 -Os -I.  -MMD -IE:/msys64/ucrt64/share/verilator/include -IE:/msys64/ucrt64/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated.o E:/msys64/ucrt64/share/verilator/include/verilated.cpp
+g++ -Os -std=gnu++17 -Os -I.  -MMD -IE:/msys64/ucrt64/share/verilator/include -IE:/msys64/ucrt64/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_timing.o E:/msys64/ucrt64/share/verilator/include/verilated_timing.cpp
+g++ -Os -std=gnu++17 -Os -I.  -MMD -IE:/msys64/ucrt64/share/verilator/include -IE:/msys64/ucrt64/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_threads.o E:/msys64/ucrt64/share/verilator/include/verilated_threads.cpp
+python3 E:/msys64/ucrt64/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vtb_vdotu_soc.cpp Vtb_vdotu_soc___024root__0.cpp Vtb_vdotu_soc__main.cpp Vtb_vdotu_soc__ConstPool__0__Slow.cpp Vtb_vdotu_soc___024root__Slow.cpp Vtb_vdotu_soc___024root__0__Slow.cpp Vtb_vdotu_soc_UIntToContLow0s__Slow.cpp Vtb_vdotu_soc_UIntToContLow0s__0__Slow.cpp Vtb_vdotu_soc_UIntToContLow1s__Slow.cpp Vtb_vdotu_soc_UIntToContLow1s__0__Slow.cpp Vtb_vdotu_soc__Syms__Slow.cpp > Vtb_vdotu_soc__ALL.cpp
+g++ -Os -std=gnu++17 -Os -I.  -MMD -IE:/msys64/ucrt64/share/verilator/include -IE:/msys64/ucrt64/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=0 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o Vtb_vdotu_soc__ALL.o Vtb_vdotu_soc__ALL.cpp
+E:/msys64/ucrt64/share/verilator/include/verilated.cpp:78:10: warning: 'STDOUT_FILENO' redefined
+   78 | # define STDOUT_FILENO _fileno(stdout)
+      |          ^~~~~~~~~~~~~
+In file included from E:/msys64/ucrt64/include/locale.h:12,
+                 from E:/msys64/ucrt64/include/c++/16.2.0/clocale:47,
+                 from E:/msys64/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++locale.h:41,
+                 from E:/msys64/ucrt64/include/c++/16.2.0/bits/localefwd.h:42,
+                 from E:/msys64/ucrt64/include/c++/16.2.0/string:48,
+                 from E:/msys64/ucrt64/share/verilator/include/verilatedos.h:653,
+                 from E:/msys64/ucrt64/share/verilator/include/verilated.cpp:51:
+E:/msys64/ucrt64/include/stdio.h:56:9: note: this is the location of the previous definition
+   56 | #define STDOUT_FILENO   1
+      |         ^~~~~~~~~~~~~
+E:/msys64/ucrt64/share/verilator/include/verilated.cpp:79:10: warning: 'STDERR_FILENO' redefined
+   79 | # define STDERR_FILENO _fileno(stderr)
+      |          ^~~~~~~~~~~~~
+E:/msys64/ucrt64/include/stdio.h:57:9: note: this is the location of the previous definition
+   57 | #define STDERR_FILENO   2
+      |         ^~~~~~~~~~~~~
+g++    verilated.o verilated_timing.o verilated_threads.o Vtb_vdotu_soc__ALL.a    -pthread -lpthread -latomic   -o Vtb_vdotu_soc
+rm Vtb_vdotu_soc__ALL.verilator_deplist.tmp
+make: Leaving directory '/d/Desktop/RSIC-V香山/交付/build/objsoc/objw_obs_vstart4_oldvd'
+TB-INFO cases=46 VL=8 VM=1 SEW=0 LMUL=0 VUOP=0 EXPECT_EXC=0 VTA=0 VMA=0
+CASE 0 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 1 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 2 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 3 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 4 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 5 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 6 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 7 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 8 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 9 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 10 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 11 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 12 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 13 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 14 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 15 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 16 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 17 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 18 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 19 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 20 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 21 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 22 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 23 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 24 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 25 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 26 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 27 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 28 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 29 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 30 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 31 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 32 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 33 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 34 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 35 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 36 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 37 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 38 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 39 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 40 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 41 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 42 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 43 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 44 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+CASE 45 FAIL got=11112222333344440000000077778888 exp=11112222333344445555666677778888
+SUMMARY file=build/cases_vstart_oldvd.txt total=46 pass=0 fail=46 bad_valid=0 bad_exc=0 bad_ctrl=0 lat_expect=2 lat_min=2 lat_max=2 bad_lat=0 lat_never=0
+TB-RESULT FAIL
+- tb\tb_vdotu_soc.sv:285: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 653ns; walltime 0.002 s; speed 291.123 us/s
+- Verilator: cpu 0.000 s on 1 threads; allocated 6 MB

@@ -1,0 +1,464 @@
+
+#include <stdint.h>
+typedef uint64_t u64;
+typedef uint32_t u32;
+typedef int32_t i32;
+typedef int8_t i8;
+#define M {M}
+#define N {N}
+#define K {K}
+#define IMPL {IMPL}
+#define PACKED {PACKED}
+static const i8 A[M*K] __attribute__((aligned(16))) = {A};
+static const i8 B[K*N] __attribute__((aligned(16))) = {B};
+static const i32 REF[M*N] __attribute__((aligned(16))) = {REF};
+static i32 C[M*N] __attribute__((aligned(16)));
+#if PACKED
+static i8 BT[N*K] __attribute__((aligned(16)));
+#endif
+
+static inline u64 rdinstret(void) {{ u64 x; __asm__ volatile("rdinstret %0" : "=r"(x)); return x; }}
+__attribute__((noinline,used)) void OK(void) {{ for(;;) __asm__ volatile(""); }}
+__attribute__((noinline,used)) void BAD(void) {{ for(;;) __asm__ volatile(""); }}
+
+static void gemm_scalar(void) {{
+  for (int i = 0; i < M; i++) {{
+    for (int j = 0; j < N; j++) {{
+      i32 s = 0;
+      for (int k = 0; k < K; k++) s += (i32)A[i*K+k] * (i32)B[k*N+j];
+      C[i*N+j] = s;
+    }}
+  }}
+}}
+
+#if PACKED
+static void pack_b(void) {{
+  for (int k = 0; k < K; k++) for (int j = 0; j < N; j++) BT[j*K+k] = B[k*N+j];
+}}
+#endif
+
+
+static void gemm_vector(void) {{
+  for (int i = 0; i < M; i++) {{
+    const i8 *ar = A + i*K;
+    for (int j = 0; j < N; j++) {{
+      const i8 *bp = B + j;
+      i32 s;
+      __asm__ volatile(
+        "vsetivli t6,8,e16,m1,tu,mu\n\t"
+        "vmv.v.i v4,0\n\t"
+        "vsetivli t6,8,e8,m1,ta,ma\n\t"
+        ::: "t6","v4","memory");
+      for (int k = 0; k < K; k += 8) {{
+#if PACKED
+        const i8 *bq = BT + j*K + k;
+        __asm__ volatile(
+          "vle8.v v24,(%0)\n\t"
+          "vle8.v v25,(%1)\n\t"
+          "vwmul.vv v26,v25,v24\n\t"
+          "vsetivli t6,8,e16,m1,tu,mu\n\t"
+          "vwredsum.vs v4,v26,v4\n\t"
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          : : "r"(ar+k), "r"(bq) : "t6","v24","v25","v26","memory");
+#else
+        const i8 *bq = bp + k*N;
+        long stride = N;
+        __asm__ volatile(
+          "vle8.v v24,(%0)\n\t"
+          "vlse8.v v25,(%1),%2\n\t"
+          "vwmul.vv v26,v25,v24\n\t"
+          "vsetivli t6,8,e16,m1,tu,mu\n\t"
+          "vwredsum.vs v4,v26,v4\n\t"
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          : : "r"(ar+k), "r"(bq), "r"(stride) : "t6","v24","v25","v26","memory");
+#endif
+      }}
+      __asm__ volatile(
+        "vsetivli t6,1,e32,m1,ta,ma\n\t"
+        "vmv.x.s %0,v4\n\t"
+        : "=r"(s) :: "t6","v4","memory");
+      C[i*N+j] = s;
+    }}
+  }}
+}}
+
+
+static void gemm_vdot(void) {{
+  for (int i = 0; i < M; i++) {{
+    const i8 *ar = A + i*K;
+    for (int j = 0; j < N; j++) {{
+      const i8 *bp = B + j;
+      i32 s = 0;
+      for (int k = 0; k < K; k += 8) {{
+        volatile i32 tmp[4] __attribute__((aligned(16)));
+#if PACKED
+        const i8 *bq = BT + j*K + k;
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vle8.v v25,(%2)\n\t"
+          ".word {WORD}\n\t"
+          "vs1r.v v26,(%3)\n\t"
+          : "=m"(tmp[0])
+          : "r"(ar+k), "r"(bq), "r"(tmp)
+          : "t6","v24","v25","v26","memory");
+#else
+        const i8 *bq = bp + k*N;
+        long stride = N;
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vlse8.v v25,(%2),%3\n\t"
+          ".word {WORD}\n\t"
+          "vs1r.v v26,(%4)\n\t"
+          : "=m"(tmp[0])
+          : "r"(ar+k), "r"(bq), "r"(stride), "r"(tmp)
+          : "t6","v24","v25","v26","memory");
+#endif
+        s += tmp[0];
+      }}
+      C[i*N+j] = s;
+    }}
+  }}
+}}
+
+
+static void gemm_vdot_movx(void) {{
+  for (int i = 0; i < M; i++) {{
+    const i8 *ar = A + i*K;
+    for (int j = 0; j < N; j++) {{
+      const i8 *bp = B + j;
+      i32 s = 0;
+      for (int k = 0; k < K; k += 8) {{
+        i32 t;
+#if PACKED
+        const i8 *bq = BT + j*K + k;
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vle8.v v25,(%2)\n\t"
+          ".word {WORD}\n\t"
+          "vsetivli t6,1,e32,m1,ta,ma\n\t"
+          "vmv.x.s %0,v26\n\t"
+          : "=r"(t) : "r"(ar+k), "r"(bq) : "t6","v24","v25","v26","memory");
+#else
+        const i8 *bq = bp + k*N;
+        long stride = N;
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vlse8.v v25,(%2),%3\n\t"
+          ".word {WORD}\n\t"
+          "vsetivli t6,1,e32,m1,ta,ma\n\t"
+          "vmv.x.s %0,v26\n\t"
+          : "=r"(t) : "r"(ar+k), "r"(bq), "r"(stride) : "t6","v24","v25","v26","memory");
+#endif
+        s += t;
+      }}
+      C[i*N+j] = s;
+    }}
+  }}
+}}
+
+
+static void gemm_vdot_vecacc(void) {{
+  for (int i = 0; i < M; i++) {{
+    const i8 *ar = A + i*K;
+    for (int j = 0; j < N; j++) {{
+      i32 s = 0;
+#if PACKED
+      const i8 *bc = BT + j*K;
+#else
+      const i8 *bc = B + j;
+      long stride = N;
+#endif
+      __asm__ volatile(
+        "vsetivli t6,4,e32,m1,ta,ma\n\t"
+        "vmv.v.i v20,0\n\t"
+        "vsetivli t6,8,e8,m1,ta,ma\n\t"
+        ::: "t6","v20","memory");
+      int k = 0;
+      for (; k + 32 <= K; k += 32) {{
+#if PACKED
+        const i8 *q0 = bc + k, *q1 = bc + k + 8, *q2 = bc + k + 16, *q3 = bc + k + 24;
+#else
+        const i8 *q0 = bc + (k+0)*N, *q1 = bc + (k+8)*N;
+        const i8 *q2 = bc + (k+16)*N, *q3 = bc + (k+24)*N;
+#endif
+#if PACKED
+        __asm__ volatile(
+          "vle8.v v24,(%0)\n\t"
+          "vle8.v v25,(%4)\n\t"
+          ".word {W4}\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vle8.v v25,(%5)\n\t"
+          ".word {W5}\n\t"
+          "vle8.v v24,(%2)\n\t"
+          "vle8.v v25,(%6)\n\t"
+          ".word {W6}\n\t"
+          "vle8.v v24,(%3)\n\t"
+          "vle8.v v25,(%7)\n\t"
+          ".word {W7}\n\t"
+          : : "r"(ar+k), "r"(ar+k+8), "r"(ar+k+16), "r"(ar+k+24),
+              "r"(q0), "r"(q1), "r"(q2), "r"(q3)
+          : "v24","v25","v4","v5","v6","v7","memory");
+#else
+        __asm__ volatile(
+          "vle8.v v24,(%0)\n\t"
+          "vlse8.v v25,(%4),%8\n\t"
+          ".word {W4}\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vlse8.v v25,(%5),%8\n\t"
+          ".word {W5}\n\t"
+          "vle8.v v24,(%2)\n\t"
+          "vlse8.v v25,(%6),%8\n\t"
+          ".word {W6}\n\t"
+          "vle8.v v24,(%3)\n\t"
+          "vlse8.v v25,(%7),%8\n\t"
+          ".word {W7}\n\t"
+          : : "r"(ar+k), "r"(ar+k+8), "r"(ar+k+16), "r"(ar+k+24),
+              "r"(q0), "r"(q1), "r"(q2), "r"(q3), "r"(stride)
+          : "v24","v25","v4","v5","v6","v7","memory");
+#endif
+        __asm__ volatile(
+          "vsetivli t6,4,e32,m1,ta,ma\n\t"
+          "vadd.vv v4,v4,v5\n\t"
+          "vadd.vv v6,v6,v7\n\t"
+          "vadd.vv v4,v4,v6\n\t"
+          "vadd.vv v20,v20,v4\n\t"
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          ::: "t6","v4","v5","v6","v7","v20","memory");
+      }}
+      if (K - k >= 16) {{
+#if PACKED
+        const i8 *q0 = bc + k, *q1 = bc + k + 8;
+#else
+        const i8 *q0 = bc + (k+0)*N, *q1 = bc + (k+8)*N;
+#endif
+#if PACKED
+        __asm__ volatile(
+          "vle8.v v24,(%0)\n\t"
+          "vle8.v v25,(%2)\n\t"
+          ".word {W4}\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vle8.v v25,(%3)\n\t"
+          ".word {W5}\n\t"
+          : : "r"(ar+k), "r"(ar+k+8), "r"(q0), "r"(q1)
+          : "v24","v25","v4","v5","memory");
+#else
+        __asm__ volatile(
+          "vle8.v v24,(%0)\n\t"
+          "vlse8.v v25,(%2),%4\n\t"
+          ".word {W4}\n\t"
+          "vle8.v v24,(%1)\n\t"
+          "vlse8.v v25,(%3),%4\n\t"
+          ".word {W5}\n\t"
+          : : "r"(ar+k), "r"(ar+k+8), "r"(q0), "r"(q1), "r"(stride)
+          : "v24","v25","v4","v5","memory");
+#endif
+        __asm__ volatile(
+          "vsetivli t6,4,e32,m1,ta,ma\n\t"
+          "vadd.vv v4,v4,v5\n\t"
+          "vadd.vv v20,v20,v4\n\t"
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          ::: "t6","v4","v5","v20","memory");
+        k += 16;
+      }}
+      __asm__ volatile(
+        "vsetivli t6,1,e32,m1,ta,ma\n\t"
+        "vmv.x.s %0,v20\n\t"
+        : "=r"(s) :: "t6","v20","memory");
+      C[i*N+j] = s;
+    }}
+  }}
+}}
+
+
+static void gemm_vdot_unroll4(void) {{
+  for (int i = 0; i < M; i++) {{
+    const i8 *ar = A + i*K;
+    for (int j = 0; j < N; j += 4) {{
+      i32 s0 = 0, s1 = 0, s2 = 0, s3 = 0;
+      volatile i32 t0[4] __attribute__((aligned(16)));
+      volatile i32 t1[4] __attribute__((aligned(16)));
+      volatile i32 t2[4] __attribute__((aligned(16)));
+      volatile i32 t3[4] __attribute__((aligned(16)));
+      for (int k = 0; k < K; k += 8) {{
+#if PACKED
+        const i8 *b0 = BT + (j+0)*K + k, *b1 = BT + (j+1)*K + k;
+        const i8 *b2 = BT + (j+2)*K + k, *b3 = BT + (j+3)*K + k;
+#else
+        const i8 *b0 = B + (j+0) + k*N, *b1 = B + (j+1) + k*N;
+        const i8 *b2 = B + (j+2) + k*N, *b3 = B + (j+3) + k*N;
+        long stride = N;
+#endif
+#if PACKED
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%4)\n\t"
+          "vle8.v v25,(%5)\n\t"
+          ".word {W26}\n\t"
+          "vs1r.v v26,(%9)\n\t"
+          "vle8.v v25,(%6)\n\t"
+          ".word {W27}\n\t"
+          "vs1r.v v27,(%10)\n\t"
+          "vle8.v v25,(%7)\n\t"
+          ".word {W28}\n\t"
+          "vs1r.v v28,(%11)\n\t"
+          "vle8.v v25,(%8)\n\t"
+          ".word {W29}\n\t"
+          "vs1r.v v29,(%12)\n\t"
+          : "=m"(t0[0]), "=m"(t1[0]), "=m"(t2[0]), "=m"(t3[0])
+          : "r"(ar+k), "r"(b0), "r"(b1), "r"(b2), "r"(b3),
+            "r"(t0), "r"(t1), "r"(t2), "r"(t3)
+          : "t6","v24","v25","v26","v27","v28","v29","memory");
+#else
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%4)\n\t"
+          "vlse8.v v25,(%5),%13\n\t"
+          ".word {W26}\n\t"
+          "vs1r.v v26,(%9)\n\t"
+          "vlse8.v v25,(%6),%13\n\t"
+          ".word {W27}\n\t"
+          "vs1r.v v27,(%10)\n\t"
+          "vlse8.v v25,(%7),%13\n\t"
+          ".word {W28}\n\t"
+          "vs1r.v v28,(%11)\n\t"
+          "vlse8.v v25,(%8),%13\n\t"
+          ".word {W29}\n\t"
+          "vs1r.v v29,(%12)\n\t"
+          : "=m"(t0[0]), "=m"(t1[0]), "=m"(t2[0]), "=m"(t3[0])
+          : "r"(ar+k), "r"(b0), "r"(b1), "r"(b2), "r"(b3),
+            "r"(t0), "r"(t1), "r"(t2), "r"(t3), "r"(stride)
+          : "t6","v24","v25","v26","v27","v28","v29","memory");
+#endif
+        s0 += t0[0]; s1 += t1[0]; s2 += t2[0]; s3 += t3[0];
+      }}
+      C[i*N+j+0] = s0; C[i*N+j+1] = s1;
+      C[i*N+j+2] = s2; C[i*N+j+3] = s3;
+    }}
+  }}
+}}
+
+
+static void gemm_vdot_vecacc_unroll(void) {{
+  for (int i = 0; i < M; i++) {{
+    const i8 *ar = A + i*K;
+    for (int j = 0; j < N; j += 4) {{
+      i32 s0 = 0, s1 = 0, s2 = 0, s3 = 0;
+#if PACKED
+      const i8 *b0 = BT + (j+0)*K, *b1 = BT + (j+1)*K;
+      const i8 *b2 = BT + (j+2)*K, *b3 = BT + (j+3)*K;
+#else
+      const i8 *b0 = B + (j+0), *b1 = B + (j+1);
+      const i8 *b2 = B + (j+2), *b3 = B + (j+3);
+      long stride = N;
+#endif
+      __asm__ volatile(
+        "vsetivli t6,4,e32,m1,ta,ma\n\t"
+        "vmv.v.i v20,0\n\t"
+        "vmv.v.i v21,0\n\t"
+        "vmv.v.i v22,0\n\t"
+        "vmv.v.i v23,0\n\t"
+        ::: "t6","v20","v21","v22","v23","memory");
+      for (int k = 0; k < K; k += 8) {{
+#if PACKED
+        const i8 *q0 = b0 + k, *q1 = b1 + k, *q2 = b2 + k, *q3 = b3 + k;
+#else
+        const i8 *q0 = b0 + k*N, *q1 = b1 + k*N;
+        const i8 *q2 = b2 + k*N, *q3 = b3 + k*N;
+#endif
+#if PACKED
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%0)\n\t"
+          "vle8.v v25,(%1)\n\t"
+          ".word {W4}\n\t"
+          "vle8.v v25,(%2)\n\t"
+          ".word {W5}\n\t"
+          "vle8.v v25,(%3)\n\t"
+          ".word {W6}\n\t"
+          "vle8.v v25,(%4)\n\t"
+          ".word {W7}\n\t"
+          : : "r"(ar+k), "r"(q0), "r"(q1), "r"(q2), "r"(q3)
+          : "t6","v24","v25","v4","v5","v6","v7","memory");
+#else
+        __asm__ volatile(
+          "vsetivli t6,8,e8,m1,ta,ma\n\t"
+          "vle8.v v24,(%0)\n\t"
+          "vlse8.v v25,(%1),%5\n\t"
+          ".word {W4}\n\t"
+          "vlse8.v v25,(%2),%5\n\t"
+          ".word {W5}\n\t"
+          "vlse8.v v25,(%3),%5\n\t"
+          ".word {W6}\n\t"
+          "vlse8.v v25,(%4),%5\n\t"
+          ".word {W7}\n\t"
+          : : "r"(ar+k), "r"(q0), "r"(q1), "r"(q2), "r"(q3), "r"(stride)
+          : "t6","v24","v25","v4","v5","v6","v7","memory");
+#endif
+        __asm__ volatile(
+          "vsetivli t6,4,e32,m1,ta,ma\n\t"
+          "vadd.vv v20,v20,v4\n\t"
+          "vadd.vv v21,v21,v5\n\t"
+          "vadd.vv v22,v22,v6\n\t"
+          "vadd.vv v23,v23,v7\n\t"
+          ::: "t6","v4","v5","v6","v7","v20","v21","v22","v23","memory");
+      }}
+      __asm__ volatile(
+        "vsetivli t6,1,e32,m1,ta,ma\n\t"
+        "vmv.x.s %0,v20\n\t"
+        "vmv.x.s %1,v21\n\t"
+        "vmv.x.s %2,v22\n\t"
+        "vmv.x.s %3,v23\n\t"
+        : "=r"(s0), "=r"(s1), "=r"(s2), "=r"(s3)
+        :: "t6","v20","v21","v22","v23","memory");
+      C[i*N+j+0] = s0; C[i*N+j+1] = s1;
+      C[i*N+j+2] = s2; C[i*N+j+3] = s3;
+    }}
+  }}
+}}
+
+static void kernel(void) {{
+#if IMPL == 0
+  gemm_scalar();
+#elif IMPL == 1
+  gemm_vector();
+#elif IMPL == 2
+  gemm_vdot();
+#elif IMPL == 3
+  gemm_vdot_movx();
+#elif IMPL == 4
+  gemm_vdot_vecacc();
+#elif IMPL == 5
+  gemm_vdot_unroll4();
+#elif IMPL == 6
+  gemm_vdot_vecacc_unroll();
+#endif
+}}
+
+void run(void) {{
+  u64 t0 = rdinstret();
+#if PACKED
+  pack_b();
+#endif
+  kernel();
+  u64 t1 = rdinstret();
+  u64 chk = 0, mism = 0;
+  for (int i = 0; i < M*N; i++) {{
+    u32 v = (u32)C[i];
+    chk = chk * 31u + v;
+    if (C[i] != REF[i]) mism++;
+  }}
+  register u64 a0 __asm__("a0") = t1 - t0;
+  register u64 a1 __asm__("a1") = chk;
+  register u64 a2 __asm__("a2") = M;
+  register u64 a3 __asm__("a3") = N;
+  register u64 a4 __asm__("a4") = K;
+  register u64 a5 __asm__("a5") = (u64)M*N;
+  register u64 a6 __asm__("a6") = mism;
+  register u64 a7 __asm__("a7") = (mism == 0);
+  __asm__ volatile("" : : "r"(a0),"r"(a1),"r"(a2),"r"(a3),"r"(a4),"r"(a5),"r"(a6),"r"(a7));
+  if (mism == 0) OK(); else BAD();
+}}

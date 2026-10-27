@@ -1,0 +1,12 @@
+﻿id,original_path,package_path
+1,submission/results/xs_compile.log,recorded_operations/01_xs_compile.log
+2,submission/results/xs_soc/evidence.txt,recorded_operations/02_evidence.txt
+3,submission/results/xs_soc/tool_attempts.txt,recorded_operations/03_tool_attempts.txt
+4,submission/results/xs_soc/emu_build_linux.txt,recorded_operations/04_emu_build_linux.txt
+5,submission/results/xs_soc/difftest_run_linux.txt,recorded_operations/05_difftest_run_linux.txt
+6,submission/results/xs_soc/emu_glue_linux.txt,recorded_operations/06_emu_glue_linux.txt
+7,工作区/espresso_build.log,recorded_operations/07_espresso_build.log
+8,cluster_run_3729246/vdot-test-3729246.log,recorded_operations/08_vdot-test-3729246.log
+9,cluster_monitor_3729246.log,recorded_operations/09_cluster_monitor_3729246.log
+10,cluster_run_3730448/vdot-gemm-cycles-3730448.log,recorded_operations/10_vdot-gemm-cycles-3730448.log
+11,工作区/官网文档_1_1_20261022/完整执行输出.txt,recorded_operations/11_完整执行输出.txt

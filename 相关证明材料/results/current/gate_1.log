@@ -1,0 +1,72 @@
+=== matrix (relative paths, cwd=D:/Desktop/RSIC-V香山/submission) ===
+  tree=0 n= 8 ow=32 accw=19 pos    PASS 46/46
+  tree=0 n= 8 ow=32 accw=19 neg    PASS 48/48
+  tree=0 n= 8 ow=32 accw=19 bound  PASS 45/45
+  tree=0 n= 8 ow=32 accw=19 rand   PASS 800/800
+  tree=1 n= 8 ow=32 accw=19 pos    PASS 46/46
+  tree=1 n= 8 ow=32 accw=19 neg    PASS 48/48
+  tree=1 n= 8 ow=32 accw=19 bound  PASS 45/45
+  tree=1 n= 8 ow=32 accw=19 rand   PASS 800/800
+  tree=0 n= 8 ow= 8 accw=19 pos    PASS 46/46
+  tree=0 n= 8 ow= 8 accw=19 neg    PASS 48/48
+  tree=0 n= 8 ow= 8 accw=19 bound  PASS 45/45
+  tree=0 n= 8 ow= 8 accw=19 rand   PASS 800/800
+  tree=1 n= 8 ow= 8 accw=19 pos    PASS 46/46
+  tree=1 n= 8 ow= 8 accw=19 neg    PASS 48/48
+  tree=1 n= 8 ow= 8 accw=19 bound  PASS 45/45
+  tree=1 n= 8 ow= 8 accw=19 rand   PASS 800/800
+  tree=0 n=16 ow=32 accw=20 pos    PASS 46/46
+  tree=0 n=16 ow=32 accw=20 neg    PASS 48/48
+  tree=0 n=16 ow=32 accw=20 bound  PASS 45/45
+  tree=0 n=16 ow=32 accw=20 rand   PASS 800/800
+  tree=1 n=16 ow=32 accw=20 pos    PASS 46/46
+  tree=1 n=16 ow=32 accw=20 neg    PASS 48/48
+  tree=1 n=16 ow=32 accw=20 bound  PASS 45/45
+  tree=1 n=16 ow=32 accw=20 rand   PASS 800/800
+  tree=2 n= 8 ow=32 accw=19 pos    PASS 46/46
+  tree=2 n= 8 ow=32 accw=19 neg    PASS 48/48
+  tree=2 n= 8 ow=32 accw=19 bound  PASS 45/45
+  tree=2 n= 8 ow=32 accw=19 rand   PASS 800/800
+=== parameter-reality probe: ACCW/NLANES/OUTW must be real parameters ===
+  SEW appears 27 time(s) in the emitted RTL (1 would mean decorative)
+  30/30 elaborations succeeded across the parameter sweep
+=== width probe: identical RTL rebuilt at ACCW=18 ===
+  ACCW=18 pos    PASS   fail=0/46 cases=[]
+  ACCW=18 neg    FAIL   fail=1/48 cases=[3]
+  ACCW=18 bound  FAIL   fail=2/45 cases=[0, 8]
+  ACCW=18 rand   PASS   fail=0/800 cases=[]
+=== mutations: RTL must break exactly where the model predicts ===
+  M1_gate_vs1_only         pos    PASS   want=0    got=0    ok
+  M1_gate_vs1_only         neg    PASS   want=0    got=0    ok
+  M1_gate_vs1_only         bound  PASS   want=0    got=0    ok
+  M1_gate_vs1_only         rand   PASS   want=0    got=0    ok
+  M2_gate_vs2_only         pos    PASS   want=0    got=0    ok
+  M2_gate_vs2_only         neg    PASS   want=0    got=0    ok
+  M2_gate_vs2_only         bound  PASS   want=0    got=0    ok
+  M2_gate_vs2_only         rand   PASS   want=0    got=0    ok
+  M3_gate_both             pos    FAIL   want=1    got=1    ok
+  M3_gate_both             neg    PASS   want=0    got=0    ok
+  M3_gate_both             bound  FAIL   want=3    got=3    ok
+  M3_gate_both             rand   FAIL   want=800  got=800  ok
+  M4_zext_vs1              pos    PASS   want=0    got=0    ok
+  M4_zext_vs1              neg    FAIL   want=48   got=48   ok
+  M4_zext_vs1              bound  FAIL   want=37   got=37   ok
+  M4_zext_vs1              rand   FAIL   want=797  got=797  ok
+  M5_zext_vs2              pos    PASS   want=0    got=0    ok
+  M5_zext_vs2              neg    FAIL   want=43   got=43   ok
+  M5_zext_vs2              bound  FAIL   want=34   got=34   ok
+  M5_zext_vs2              rand   FAIL   want=797  got=797  ok
+  M6_drop_lane0            pos    FAIL   want=46   got=46   ok
+  M6_drop_lane0            neg    FAIL   want=47   got=47   ok
+  M6_drop_lane0            bound  FAIL   want=27   got=27   ok
+  M6_drop_lane0            rand   FAIL   want=795  got=795  ok
+  M7_double_lane7          pos    FAIL   want=46   got=46   ok
+  M7_double_lane7          neg    FAIL   want=46   got=46   ok
+  M7_double_lane7          bound  FAIL   want=25   got=25   ok
+  M7_double_lane7          rand   FAIL   want=796  got=796  ok
+  M8_vd_upper_not_cleared  pos    FAIL   want=46   got=46   ok
+  M8_vd_upper_not_cleared  neg    FAIL   want=47   got=47   ok
+  M8_vd_upper_not_cleared  bound  FAIL   want=41   got=41   ok
+  M8_vd_upper_not_cleared  rand   FAIL   want=800  got=800  ok
+
+MATRIX_ALL_OK=True

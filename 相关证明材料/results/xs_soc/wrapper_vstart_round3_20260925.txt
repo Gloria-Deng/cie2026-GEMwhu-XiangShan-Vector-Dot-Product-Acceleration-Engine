@@ -1,0 +1,55 @@
+# 留底：SoC 包装层 vstart 观察臂第一轮判读的那趟 sweep 归档（下一趟会覆盖
+# results/xs_soc/wrapper.txt，所以在此整份留底）。
+# 来源：sim/run_xs_soc_wrapper.py 写出的 results/xs_soc/wrapper.txt，
+#      落盘时刻 2026-09-25 09:01:40 本地 = 2026-09-25 01:01:40 UTC；被留底那份文本的 sha256 前 16 位 = 553f95f3d280e1e3
+# 这份归档里 vstart 占两个观察组：vstart4_report（报不报非法指令）与
+# vstart4_data（vd 是不是整寄存器全 0 / 整寄存器保留 oldVd）。下面的观察臂表
+# 共有 8 行，其中 vstart 的四条判决逐字抄自该表：
+#   obs_vma1_keep=NO-MATCH, obs_vma1_ones=MATCH, obs_vstart4_exc=NO-MATCH, obs_vstart4_noexc=MATCH, obs_vstart4_oldvd=NO-MATCH, obs_vstart4_zero=NO-MATCH, obs_vta1_keep=MATCH, obs_vta1_ones=NO-MATCH
+# 结论的读法：vstart4_report 恰好一侧匹配（不报异常），而 vstart4_data 两侧都
+# 不匹配 —— 那两条「整寄存器」候选是被这份归档否证的，也正是它被换掉的原因。
+# 由 sim/run_xs_soc_wrapper.py 生成：SoC 包装层 VDotU 的逐用例与语义实测。
+# 被测闭包 = rtl/xs_soc_generated/（7 个文件，跑前逐个核过 generated_rtl 指纹）。
+
+## 度量臂（逐用例与模型一致，条数进 `wrapper.json`）
+
+| 场景 | 判决 | total | fail | out_valid 实测深度 | 说明 |
+|---|---|---|---|---|---|
+| `pos_alta_mask` | PASS | 46 | 0 | 2..2 | 交替掩码：逐元素合并与独立模型一致（说明共享 Mgu 那一级真的在按元素施加掩码） |
+| `pos_lmul2_exception` | PASS | 46 | 0 | 2..2 | LMUL!=1：同上，异常由 RTL 侧拉起 |
+| `pos_sew16_exception` | PASS | 46 | 0 | 2..2 | SEW!=8：RTL 自己就把非法指令异常拉起来（不是只靠 NEMU 挡） |
+| `pos_vl0_oldvd` | PASS | 46 | 0 | 2..2 | vl=0：结果被 tail 规则整体盖掉（期望由本脚本的独立合并模型算出） |
+| `pos_vl8_vm1` | PASS | 46 | 0 | 2..2 | 全部一致：SoC 包装层原样交付数据通路结果 |
+| `rand_vl16_vm1` | PASS | 800 | 0 | 2..2 | vl 覆盖整寄存器时同样一致 |
+
+## 正对照臂（**必须**报红，且必须以指名的那种方式报红；不计入上面条数）
+
+| 场景 | 判决 | 要求它怎样失败 | 实际 | 说明 |
+|---|---|---|---|---|
+| `ctl_expect_lat3` | PROVEN | `bad_lat_eq_total` | bad_valid=46 bad_lat=46 lat_never=0 | 正对照：把期望深度钉成 3，实测必须仍报它自己量到的那个深度（而不是跟着期望变绿） |
+| `ctl_valid_pipe_zero` | PROVEN | `bad_valid_eq_total` | bad_valid=46 bad_lat=0 lat_never=46 | 正对照：把 validPipe_2 钉成 0，out_valid 必须一路为 0（bad_valid 覆盖全部用例） |
+
+## 观察臂（一问两答：RVV 允许两种做法，硬件选哪一种由这组给出；也不计入条数）
+
+| 场景 | 判决 | 这一侧的假设 | 说明 |
+|---|---|---|---|
+| `obs_vma1_keep` | NO-MATCH | 被掩元素保留旧值（vma 未生效） | 观察臂：vma=1 时被掩掉的元素是否仍保留旧值（即 vma 对这份生成物不起作用） |
+| `obs_vma1_ones` | MATCH | 被掩元素写成全 1（vma 生效） | 观察臂：vma=1 时被掩掉的元素是否被写成全 1 |
+| `obs_vstart4_exc` | NO-MATCH | 拉起非法指令指示（vstart 进了非法指令判定） | 观察臂：vstart=4 时这份生成物是否逐条拉起 exceptionVec[2] |
+| `obs_vstart4_noexc` | MATCH | 不报异常（vstart 未进非法指令判定） | 观察臂：vstart=4 时这份生成物是否完全不报异常 |
+| `obs_vstart4_oldvd` | NO-MATCH | 保留 oldVd（整寄存器被盖掉，且不报异常） | 观察臂：vstart=4 时 vd 是否整体保留 oldVd |
+| `obs_vstart4_zero` | NO-MATCH | 写成全 0（数据通路的结果被丢掉，且不报异常） | 观察臂：vstart=4 时 vd 是否被写成全 0 |
+| `obs_vta1_keep` | MATCH | 保留旧值（undisturbed） | 观察臂：vta=1 时 agnostic tail 是否保留旧值 |
+| `obs_vta1_ones` | NO-MATCH | 写成全 1（ones） | 观察臂：vta=1 时 agnostic tail 是否被写成全 1 |
+
+- `obs_vma1_ones`
+- vma_policy：被掩元素写成全 1（vma 生效）（判决 ANSWERED）
+- vstart4_data：无法判定：这一组的两侧都不成立（判决 AMBIGUOUS）
+- `obs_vstart4_noexc`
+- vstart4_report：不报异常（vstart 未进非法指令判定）（判决 ANSWERED）
+- `obs_vta1_keep`
+- vta1_policy：保留旧值（undisturbed）（判决 ANSWERED）
+
+out_valid 相对 `io_in_valid` 被捕获那一拍的深度，全部度量臂合起来只有 2 一个取值；这与 `FuConfig` 声明的 `CertainLatency(2)` 是两本账对上了。这句话本身由上面那条`-DEXPECT_LAT=3` 的正对照臂担保：它的判决必须是 PROVEN，否则这段结论一起作废。
+
+XS_SOC_WRAPPER FAIL measure=6/6 control=2/2 observe_groups=vstart4_data(0 of 2 matched) bad=vstart4_data(0 of 2 matched)

@@ -1,0 +1,27 @@
+[*] Recorded vadd execution 1
+[dumpfile] "../results/vadd_wave_stage1/vadd_exec1_window.vcd"
+[timestart] 4309
+[treeopen] recorded_vadd.
+recorded_vadd.timer
+recorded_vadd.cycleCnt
+recorded_vadd.exu2_in_valid
+recorded_vadd.exu2_in_ready
+recorded_vadd.exu2_fuop
+recorded_vadd.exu2_src0
+recorded_vadd.exu2_src1
+recorded_vadd.fu_out_valid
+recorded_vadd.fo_ready
+recorded_vadd.fu_res_data
+recorded_vadd.vrf_wen_p0w1
+recorded_vadd.wp0_1_addr
+recorded_vadd.vrf_wdata_p0w1
+recorded_vadd.vrf_rdata_p0r53
+recorded_vadd.rob_iscommit
+recorded_vadd.rob_cvalid0
+recorded_vadd.rob_pc0
+recorded_vadd.rob_instr0
+recorded_vadd.sbuf_valid
+recorded_vadd.sb_ready
+recorded_vadd.sbuf_vaddr
+recorded_vadd.sbuf_data
+recorded_vadd.sbuf_mask

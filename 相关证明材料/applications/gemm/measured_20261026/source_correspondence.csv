@@ -1,0 +1,8 @@
+source,recorded_input,current_file
+api_benchmark.py,MATCH,MATCH
+benchmark.py,MATCH,MATCH
+src/vdot_gemm.c,MATCH,MATCH
+include/vdot_gemm.h,MATCH,MATCH
+baremetal/start.S,MATCH,MATCH
+baremetal/landing.S,MATCH,MATCH
+baremetal/link_landing.ld,MATCH,MATCH

@@ -1,0 +1,13 @@
+emu compiled at Oct 17 2026, 18:16:09
+Using simulated 1048576B flash
+dump wave to /project/chensiyuan/vdot/run_20261016_m/validation/vadd.fst...
+Core  0's Commit SHA is: c8cb78cd0f, dirty: 1
+Using simulated 256MB RAM
+The image is /project/chensiyuan/vdot/run_20261016_m/programs/vadd_full_register.bin
+The reference model is /project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so
+The first instruction of core 0 has commited. Difftest enabled. 
+Core 0: [33mEXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000088
+[0m[35mCore-0 instrCnt = 25,104, cycleCnt = 30,000, IPC = 0.836800
+[0m[34mSeed=0 Guest cycle spent: 30,006 (this will be different from cycleCnt if emu loads a snapshot)
+[0m[34mHost time spent: 301,581ms
+[0m

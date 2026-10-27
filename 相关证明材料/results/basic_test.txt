@@ -1,0 +1,10 @@
+REFERENCE PASS cases=939
+RTL pos PASS cases=46
+RTL neg PASS cases=48
+RTL bound PASS cases=45
+RTL rand PASS cases=800
+CHISEL pos PASS cases=46
+CHISEL neg PASS cases=48
+CHISEL bound PASS cases=45
+CHISEL rand PASS cases=800
+BASIC_TEST_PASS

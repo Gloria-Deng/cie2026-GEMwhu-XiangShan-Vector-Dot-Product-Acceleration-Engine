@@ -1,0 +1,13 @@
+﻿mode,width,implementation,status,gross_cycles_per_dot,adjusted_cycles_per_dot,adjusted_error_bound
+independent,1,rvv,NOT_MEASURED,,,
+independent,1,vdot,NOT_MEASURED,,,
+independent,2,rvv,NOT_MEASURED,,,
+independent,2,vdot,NOT_MEASURED,,,
+independent,4,rvv,NOT_MEASURED,,,
+independent,4,vdot,NOT_MEASURED,,,
+independent,8,rvv,NOT_MEASURED,,,
+independent,8,vdot,NOT_MEASURED,,,
+independent,16,rvv,NOT_MEASURED,,,
+independent,16,vdot,NOT_MEASURED,,,
+dependent,1,rvv,NOT_MEASURED,,,
+dependent,1,vdot,NOT_MEASURED,,,

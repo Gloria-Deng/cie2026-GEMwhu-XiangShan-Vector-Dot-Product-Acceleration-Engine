@@ -1,0 +1,6 @@
+GROUP_PASS group=pos cases=46 compare_bits=128
+GROUP_PASS group=neg cases=48 compare_bits=128
+GROUP_PASS group=bound cases=45 compare_bits=128
+GROUP_PASS group=rand cases=800 compare_bits=128
+HISTORICAL_SOC_PASS program=corpus_vl8_ta1 cases=939 end=0x80000088
+MATERIALS_PASS cases=939 groups=4

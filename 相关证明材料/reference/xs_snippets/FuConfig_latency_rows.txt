@@ -1,0 +1,107 @@
+# 由 HISTORICAL latency probe 从上游树原样抄取；本文件不手写、不改写。
+# 用途：历史 `docs/06` §2 与 HISTORICAL 归档 `results/latency_chain.txt`（已移出当前发布树）的每一行都指向这里的坐标，
+#       所以复核者不需要那棵树也能读到被引用的源码行。
+# 来源树根（抄取时）: HISTORICAL_EXTERNAL（本机路径不属于发布证据）
+# sha256 src/main/scala/xiangshan/backend/fu/FuConfig.scala = 84444e861aa5c76f3f4c1aee0a0ff65a10c508626f23619901c898d45ffb19e4
+# sha256 src/main/scala/xiangshan/backend/decode/VecDecoder.scala = e8f36570791a5a58ebbb0dd86311f7f0c4725384d4762c97e1ab88a9f78d0f69
+
+## 一、被延迟表引用的 FuConfig 条目（5 条）
+
+### vialuFix  <- src/main/scala/xiangshan/backend/fu/FuConfig.scala:532-538
+```scala
+  val VialuCfg = FuConfig (
+    name = "vialuFix",
+    fuType = FuType.vialuF,
+    fuGen = (p: Parameters, cfg: FuConfig) => Module(new VIAluFix(cfg)(p).suggestName("VialuFix")),
+    srcData = Seq(
+      Seq(VecData(), VecData(), VecData(), V0Data(), VlData()),  // vs1, vs2, vd_old, v0, vtype&vl
+    ),
+```
+
+### vimac  <- src/main/scala/xiangshan/backend/fu/FuConfig.scala:551-557
+```scala
+  val VimacCfg = FuConfig (
+    name = "vimac",
+    fuType = FuType.vimac,
+    fuGen = (p: Parameters, cfg: FuConfig) => Module(new VIMacU(cfg)(p).suggestName("Vimac")),
+    srcData = Seq(
+      Seq(VecData(), VecData(), VecData(), V0Data(), VlData()), // vs1, vs2, vd_old, v0, vtype&vl
+    ),
+```
+
+### vsetriwvf  <- src/main/scala/xiangshan/backend/fu/FuConfig.scala:392-398
+```scala
+  val VSetRiWvfCfg: FuConfig = FuConfig(
+    name = "vsetriwvf",
+    fuType = FuType.vsetiwf,
+    fuGen = (p: Parameters, cfg: FuConfig) => Module(new VSetRiWvf(cfg)(p).suggestName("VSetRiWvf")),
+    srcData = Seq(
+      Seq(IntData(), IntData()),
+    ),
+```
+
+### vipu  <- src/main/scala/xiangshan/backend/fu/FuConfig.scala:620-626
+```scala
+  val VipuCfg: FuConfig = FuConfig (
+    name = "vipu",
+    fuType = FuType.vipu,
+    fuGen = (p: Parameters, cfg: FuConfig) => Module(new VIPU(cfg)(p).suggestName("Vipu")),
+    srcData = Seq(
+      Seq(VecData(), VecData(), VecData(), V0Data(), VlData()),  // vs1, vs2, vd_old, v0
+    ),
+```
+
+### vdot  <- src/main/scala/xiangshan/backend/fu/FuConfig.scala:570-576
+```scala
+  val VdotCfg = FuConfig (
+    name = "vdot",
+    fuType = FuType.vdot,
+    fuGen = (p: Parameters, cfg: FuConfig) => Module(new VDotU(cfg)(p).suggestName("Vdot")),
+    srcData = Seq(
+      Seq(VecData(), VecData(), VecData(), V0Data(), VlData()), // vs1, vs2, vd_old, v0, vtype&vl
+    ),
+```
+
+## 二、助记符到 FuType 的那几行（VecDecoder.scala）
+
+### VMV_V_I
+```scala
+// :338
+    VMV_V_I       -> OPIVI(FuType.vialuF, VialuFixType.vmv_v_v, T, F, F, src2 = SrcType.no), // vd[i] = imm, vs2 = v0
+```
+
+### VWMUL_VV
+```scala
+// :429
+    VWMUL_VV     -> OPMVV(T, FuType.vimac, VimacType.vwmul, F, T, F, UopSplitType.VEC_VVW),
+```
+
+### VSETIVLI
+```scala
+// :751
+    VSETIVLI  -> VSET(vli = T, vtypei = T, VSETOpType.uvsetvcfg_ii, flushPipe = F, blockBack = F, SelImm.IMM_VSETIVLI),
+```
+
+### VWREDSUM_VS
+```scala
+// :245
+    VWREDSUM_VS     -> OPIVV(FuType.vipu, VipuType.vwredsum_vs, T, F, F, UopSplitType.VEC_VWW),
+```
+
+### VDOT_VV
+```scala
+// :445
+    VDOT_VV      -> OPMVV(T, FuType.vdot, VdotType.vdot_vv, F, T, F, UopSplitType.VEC_VVV),
+```
+
+### VDOT_VX
+```scala
+// :459
+    VDOT_VX        -> OPMVX(T, FuType.vdot, VdotType.vdot_vv, F, T, F, UopSplitType.VEC_VXV),
+```
+
+## 三、这一份摘录能证到哪
+只证「表里引用的那些行在上游确实这么写」。不证延迟在硬件里真的是那么多拍——
+那一档的读数与边界属于 HISTORICAL（旧 SoC 归档，不进入当前发布树；生成 `VIMacU` 上的实测
+拍数）与 `docs/06` §2、§5。
+

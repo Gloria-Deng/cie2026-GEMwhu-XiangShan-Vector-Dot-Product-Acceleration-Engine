@@ -1,0 +1,2 @@
+DATAPATH cases=48 passed=48 failed=0
+build/check_datapath.sv:94: $finish called at 294000 (1ps)

@@ -1,0 +1,13 @@
+# 由 sim/reduction_tree_verdict.py 生成：判决由本步现算，正文只指回这里。
+# 尺子：arith_depth=相关加法器级数  tech_levels=techmap 后门级数  cells=post-abc 面积代理(非 um^2)  mapped_ltp=本机盲区，不作速度证据
+
+PAIR n=8  serial_acc_vs_balanced_cpa   arith=8/4  tech=65/49 cells=4077/4073  ltp=42/42 -> balanced_cpa_DOMINATES_serial_acc
+PAIR n=8  csa_wallace_vs_balanced_cpa  arith=2/4  tech=49/49 cells=4238/4073  ltp=42/42 -> PARTIAL_csa_wallace_shallower_on_arith_depth_tied_on_tech_levels_+4.05_pct_cells
+PAIR n=8  csa_wallace_vs_serial_acc    arith=2/8  tech=49/65 cells=4238/4077  ltp=42/42 -> TRADEOFF_csa_wallace_buys_depth_for_+3.95_pct_cells
+PAIR n=16 serial_acc_vs_balanced_cpa   arith=16/5  tech=83/56 cells=8229/8234  ltp=48/48 -> TRADEOFF_balanced_cpa_buys_depth_for_+0.06_pct_cells
+PAIR n=16 csa_wallace_vs_balanced_cpa  arith=2/5  tech=53/56 cells=8488/8234  ltp=51/48 -> TRADEOFF_csa_wallace_buys_depth_for_+3.08_pct_cells
+PAIR n=16 csa_wallace_vs_serial_acc    arith=2/16 tech=53/83 cells=8488/8229  ltp=51/48 -> TRADEOFF_csa_wallace_buys_depth_for_+3.15_pct_cells
+
+
+CONDITIONAL csa_wallace_vs_balanced_cpa holds_at=[16] threshold_n=16 speed_claim=none(no_sta) :: n=8 arith=+2 tech=+0 cost=+4.05% per_pct=0.00  n=16 arith=+3 tech=+3 cost=+3.08% per_pct=0.97
+PAIRS 6/6

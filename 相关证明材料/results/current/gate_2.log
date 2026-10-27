@@ -1,0 +1,27 @@
+cfg t0 n8 o32 a19 pos    cases=46 MATCH
+cfg t0 n8 o32 a19 neg    cases=48 MATCH
+cfg t0 n8 o32 a19 bound  cases=45 MATCH
+cfg t0 n8 o32 a19 rand   cases=800 MATCH
+cfg t1 n8 o32 a19 pos    cases=46 MATCH
+cfg t1 n8 o32 a19 neg    cases=48 MATCH
+cfg t1 n8 o32 a19 bound  cases=45 MATCH
+cfg t1 n8 o32 a19 rand   cases=800 MATCH
+cfg t0 n8 o8 a19 pos    cases=46 MATCH
+cfg t0 n8 o8 a19 neg    cases=48 MATCH
+cfg t0 n8 o8 a19 bound  cases=45 MATCH
+cfg t0 n8 o8 a19 rand   cases=800 MATCH
+cfg t1 n8 o8 a19 pos    cases=46 MATCH
+cfg t1 n8 o8 a19 neg    cases=48 MATCH
+cfg t1 n8 o8 a19 bound  cases=45 MATCH
+cfg t1 n8 o8 a19 rand   cases=800 MATCH
+cfg t0 n16 o32 a20 pos    cases=46 MATCH
+cfg t0 n16 o32 a20 neg    cases=48 MATCH
+cfg t0 n16 o32 a20 bound  cases=45 MATCH
+cfg t0 n16 o32 a20 rand   cases=800 MATCH
+cfg t1 n16 o32 a20 pos    cases=46 MATCH
+cfg t1 n16 o32 a20 neg    cases=48 MATCH
+cfg t1 n16 o32 a20 bound  cases=45 MATCH
+cfg t1 n16 o32 a20 rand   cases=800 MATCH
+
+FAILURES: 0
+CROSS_CHECK PASS

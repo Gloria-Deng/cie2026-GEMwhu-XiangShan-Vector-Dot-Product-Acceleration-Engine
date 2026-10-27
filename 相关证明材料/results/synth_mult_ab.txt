@@ -1,0 +1,15 @@
+SYNTH-MULT-AB v1
+question: e8 通道那次 8x8 有符号乘法，三种拓扑（原生 / Booth / Karatsuba）在同一功能门（65536 全枚举）与同一综合流（synth -noabc + abc 五种门）下各花多少？
+answer: 见 [sim]/[synth] 各行；功能门 PASS，综合三臂全部读数齐
+scope: cells 与 ltp 是这把合成门集下的代理尺子，与 sim/run_synth_ab.py 同一口径；没有 ns、没有工艺库面积，也不下「谁在真核里更快」的结论——那是带寄 STA 的活
+[src] sha256_native=139a7f5841043a45982c80ecf61ebd837ed4fbae2760dcadad035c98556584eb
+[src] sha256_booth=6d24bc8a61625c7277e673456cf3507ece7e605b8c358e7c526da32141552330
+[src] sha256_karatsuba=a2d9e554baa3c7968c25c6cbed9e2cf5122d7a62ba5df2d99012dfbe775a64a4
+[raw] results/synth_mult/ 下逐臂 .ys 与 .log 全量落盘
+[setup] abc scratch pinned: D:\vdot_synth_mult\abc_scratch
+[sim] MULT-FUNC cases=65536 arms=3 mismatch_events=0
+[sim] MULT-FUNC VERDICT PASS
+[synth] native cells=415 ltp=29
+[synth] booth cells=432 ltp=32
+[synth] karatsuba cells=546 ltp=35
+SYNTH-MULT-AB VERDICT PASS

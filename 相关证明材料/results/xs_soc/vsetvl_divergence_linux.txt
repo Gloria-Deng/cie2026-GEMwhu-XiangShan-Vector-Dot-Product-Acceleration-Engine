@@ -1,0 +1,97 @@
+VSETVL-DIVERGENCE-LINUX v1
+question: results/xs_soc/difftest_run_linux.txt 记到「difftest 机制建立并对撞过」（微基准
+          8930 条指令/20000 周期，零 mismatch）为止，并明写赛题要的那条语料（含 vdot.vv 的
+          程序）没上。本文件记的是：**上那条语料时撞到了什么。**
+answer: 撞到的不是「vdot.vv 跑不动」，而是**向量配置指令 `vsetvli`/`vsetivli` 在这份 RTL 上
+          不生效，而 NEMU 上生效** —— 一条可复现的 RTL↔参考机分歧。
+        [本文件的**原始读数是对的**，第 3/5 节对它的**读法**反了，2026-09-29 重读后更正：按
+         difftest 打出这两列的真实列序（`right` = 参考机、`wrong` = 被测），原始读数说的是
+         **参考机停在复位值、这份 RTL 拿到了请求值**。更正全文、源码出处与一条独立旁证见
+         `results/xs_soc/vsetvl_divergence_reread.txt`；`docs/05` §4.3 与 `docs/07` 的 3.1.2 行
+         同步改口径。第 3 节末「结论」段与第 5 节 `what_it_does_change`/`honest_state` 两行是那
+         处反读的原文，留着不删、就地加撤回标记。]
+scope: 这一份只回答「手写的含 vdot.vv 裸机程序为什么没跑到」。它**没有**证明 vdot.vv 在
+          硬件上是错的，也没有证明它是对的 —— 我们没能把程序执行到那一条。
+
+host_kind: Linux/glibc，x86-64
+program: 手拼机器码的裸机程序（无工具链），加载在 0x80000000（difftest 的 -i 把镜像放在
+          那里 —— 这一点由微基准那一发量到，不是假设）
+
+=== 1. 先排除掉的：SoC 本身、环境、difftest 机制 ===
+minimal_program: 一个只有 `jal x0,0`（4 字节）的镜像跑了 **15807 条指令 / 20000 周期，无 trap**
+                 ⇒ SoC 能启动、能执行，trap 不是环境性的
+microbench: 8930 条指令 / 20000 周期，跑进 qsort，**全程零 mismatch**
+vector_unit_present: `csrr vlenb`(=CSR 0xC22) 读回 **16** ⇒ VLEN=128，向量单元在且配置正确
+mstatus_vs: 写 mstatus 之后读回，VS(bits 10:9) = 3 ⇒ 两种写法都成立
+            （`csrs mstatus,x10` 与 `csrw mstatus,x10` 各一个探针，都落在「VS==3」那一格）
+decode_ok: vsetvli / vsetivli / vadd.vv / vle8.v / vdot.vv **都不 trap**
+
+=== 2. 二分定位：trap 出在哪一条 ===
+probeA 序言(lui/addi/csrs/auipc/addi) + 自旋        -> 通过（自旋 3776 条）
+probeB A + vsetivli                                -> 通过（自旋 3771 条）
+probeC B + vle8.v                                  -> 失败
+probeD C + 第二条 vle8.v                           -> 失败
+probeE D + vdot.vv                                 -> 失败
+probeF 序言 + vsetivli + vadd.vv + 自旋             -> 失败
+probeG 序言 + vsetivli(rd=x11) + vle8.v + 自旋      -> 失败
+reading: 边界不在「访存」也不在「vdot」——**任何一条在 vsetvli 之后的真实向量运算都过不去**，
+         而 vsetvli 本身不 trap。这一组也排掉了「是我程序里某条指令写错」：
+         失败探针停在同一处，与程序长度无关。
+
+=== 3. 那条分歧本身 ===
+method: 写一个探针，设完 vl 之后 `csrr x8, vl`（CSR 0xC20）、`csrr vtype`（0xC21），
+        再按读回的值跳到三个不同的自旋地址。这样**终点的 pc 就是读数**，不靠推断。
+  probeN  vsetvli  vtypei 整 11 位在 [30:20]、rs1 在 [19:15]（NEMU isa-def.h 的布局）
+  probeP  vsetivli vtypei 在 [29:20]、AVL 在 [19:15]（同上）
+  probeQ  vsetivli AVL 在 [29:25]、vtypei 拆开（第一次按规范印象写的那个）
+  probeS  vsetvli rd=x12 rs1=x0（编译器实际发射的形式，AVL=∞ -> vl=vlmax）
+
+observed (probeN / probeP / probeS 三者一致):
+  vl    different at pc=..., right = 0x0000000000000000, wrong = 0x...0010   (16)
+  vtype different at pc=..., right = 0x8000000000000000, wrong = 0x...00c0   (0xC0 = e8/m1/ta/ma)
+  Core 0: ABORT
+  ⇒ NEMU 算出 vl=16、vtype=0xC0，**与请求完全一致**；RTL 侧 vl=0、
+    vtype=0x8000000000000000 —— 在 RVV 里那是 **vill=1（非法 vtype）**，
+    也正是这两个 CSR 的复位值。
+  [撤回：上面那两行 `vl`/`vtype` 是原始读数，照抄、一个字没改；这一句解释把两列对调了。
+   列序见 `vsetvl_divergence_reread.txt` 第 1 节（`right` = 参考机、`wrong` = 被测）。按真实
+   列序，那两行说的是**参考机 = {vl 0, vtype 0x8000000000000000}、这份 RTL = {vl 16,
+   vtype 0xC0}** —— 持请求值 `0xC0` 的是 `wrong` 列，也就是这份 RTL。]
+  probeQ 两边都读到 vl=0（RTL 与 NEMU 一致地「失败」），所以不是字段位置的事：
+    换到 NEMU 的布局之后 NEMU 就对了，RTL 依旧不动。
+later probes有 pc 跑飞（如 0x1dd84938f47eb），即分歧之后 RTL 的取指也乱了。
+
+结论（**已撤回，2026-09-29 重读**）: 原文写的是「**这份 RTL 的 `vsetvl` 写 CSR 这条路没有
+生效**，而同一编码在 NEMU 上按规范生效。用词的边界：本包量到的是『两侧对同一条指令的结果
+不同』，**没有**定位到 RTL 内部是哪一级 —— 那需要读波形、追 XiangShan 的 vtype 写通路，
+不在本包做过的范围内。」
+反读在哪：`right` 列是参考机（NEMU）、`wrong` 列是被测（这份 RTL），而原始读数里持请求值
+`0xC0` 的是 `wrong` 列。改后的结论：**这份 RTL 的 `vsetvl` 是生效的；停在复位值上不动的是
+参考机向 difftest 导出的那一份镜像**。根因在 NEMU 的 `set_vtype_vl()` 直写
+`vl`/`vtype`/`vstart`、绕过了 `csr_write()` 里的 `csr_difftest_mark_dirty()`，而参考机→被测
+那一支是 `csr_prepare_if_dirty()` 守着的。出处、这条机制对原始读数的两条预言校验、以及一条
+独立的旁证（`工作区/probe_vtype.out.txt` 的 `ECHO_OF_SEED`，先前被读成探针瑕疵），都在
+`results/xs_soc/vsetvl_divergence_reread.txt`。
+
+=== 4. 这一份推不出什么 ===
+not_a_verdict_on_vdot: `vdot.vv` 的语义、RTL 实现、以及它与黄金模型的一致性，
+        由前两级（指令级协同仿真、RTL 逐用例矩阵）负责，本文件一个字都没有推翻
+not_a_verdict_on_the_soc: 微基准跑通、逐拍一致这条读数不受影响
+not_root_caused: [撤回并更正] 上面第 3 节那一版停在「RTL 侧没生效」、没有下探到具体模块。
+        更正之后这一条要说的是：**根因已经下探到 NEMU 侧的 `set_vtype_vl()` 一行**（见
+        `vsetvl_divergence_reread.txt` 第 3 节），而「这份 RTL 侧有没有问题」本文件仍然
+        没有说话 —— 它只把两列重新对上了号。
+single_host: 全部读数来自一台 Linux 宿主；换宿主能否复现不给结论
+
+=== 5. 对赛题 3.1.2 的意义 ===
+what_it_does_not_change: 「NEMU↔RTL 协同仿真」这件事本身已经建立并跑通过（微基准那一发）。
+what_it_does_change: [撤回并更正] 原文写「要让向量单元执行任何一条向量运算，就得先让
+        `vsetvl` 生效。这一环在这份 RTL 上没通」。更正：这一环在这份 RTL 上**是通的**；
+        卡点在参考机侧的导出面。所以说清楚的是同一件事换了名字 —— 本包**仍然没有**跑出
+        「整颗 SoC 执行 vdot.vv 并与 NEMU 逐拍一致」的读数，但**缺的那一项不是「修 RTL」**，
+        而是「把参考机 `.so` 按修好的补丁重建一次，再跑同一批探针」。
+honest_state: [撤回并更正] 原文写「卡点被定位到了一条具体的、可复现的分歧上」。更正：分歧
+        是真的、可复现的，但**它是参考机导出面的分歧**。从「机制有没有」看答案是**有**；
+        从「赛题那条语料跑没跑」看答案是**没有**；缺的那一项被定位到 NEMU 侧的一行
+        （修法精确到了锚点，但**没有落进补丁脚本、没有被编译、也没有重跑**，所以这一格仍然
+        是「未闭」而不是「已修」；见 `vsetvl_divergence_reread.txt` 第 5 节）。

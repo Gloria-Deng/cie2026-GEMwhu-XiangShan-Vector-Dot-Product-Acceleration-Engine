@@ -1,0 +1,13 @@
+M,N,K,method,scope,status,successful,expected,minimum,median,maximum,cycle_grid
+3,5,13,0,compute,PASS,3,3,760,760,760,8
+3,5,13,0,pack_compute,PASS,3,3,1208,1208,1208,8
+3,5,13,1,compute,PASS,3,3,984,984,984,8
+3,5,13,1,pack_compute,PASS,3,3,1416,1416,1416,8
+16,16,16,0,compute,PASS,3,3,3832,3832,3832,8
+16,16,16,0,pack_compute,PASS,3,3,4480,4480,4480,8
+16,16,16,1,compute,PASS,3,3,3704,3704,3704,8
+16,16,16,1,pack_compute,PASS,3,3,4296,4296,4296,8
+32,32,32,0,compute,PASS,3,3,30448,30448,30448,8
+32,32,32,0,pack_compute,PASS,3,3,31984,31984,31984,8
+32,32,32,1,compute,PASS,3,3,21624,21624,21624,8
+32,32,32,1,pack_compute,PASS,3,3,23032,23032,23032,8

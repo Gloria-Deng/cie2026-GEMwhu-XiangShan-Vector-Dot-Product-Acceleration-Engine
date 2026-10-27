@@ -1,0 +1,10 @@
+{
+  "kind": "XiangShan FU standalone elaboration",
+  "inputs": {
+    "rtl/xiangshan-patch/VDotU.scala": "2c96a528be443391acc85b764e6eadad6cec33ea8e423fc2a28daf3071942de0",
+    "rtl/xiangshan-patch/VDotWrapperMain.scala": "17979553a8fb4b3b8d285e15cbd973ccbc0493c00034ed0a1d9029c821133154",
+    "rtl/chisel/vdot/vdot/src/vdot/VDotUnit.scala": "8e5d2ce8a2a058ebd1693c4f49d73848dd20fa38ca55863df5c2d695475de087",
+    "rtl/xiangshan-patch/apply.sh": "4b15ed4a615172c6993e5c13b83982d309b675c59103ee07311e93c148b4ee61"
+  },
+  "sv_sha256": "ea142c9ad200f7f07ec73c49c7875ac9aa6140871eb9dbf280e0de9a0bdd2054"
+}

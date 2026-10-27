@@ -1,0 +1,3 @@
+Makefile:40: You have set CONFIG_FLASH_IMG_PATH option, but the specified path '""' does not exist!
+D:/nemu-vanilla/scripts/config.mk:20: \033[1;31mWarning: .config does not exists!\033[0m
+D:/nemu-vanilla/scripts/config.mk:21: \033[1;31mTo build the project, first run 'make menuconfig'.\033[0m

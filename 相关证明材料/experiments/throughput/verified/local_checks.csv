@@ -1,0 +1,7 @@
+﻿check,status,count,detail
+independent_reference,PASS,379,含零次、符号极值、全部目标128位及依赖递推
+invalid_output_handling,PASS,15,拒绝退出异常、错误终点、未启用比较、重复结束和非有限数
+build_and_disassemble,PASS,72,1/2/4/8/16个独立点积与依赖参照，三种实现，四档循环次数
+measurement_analysis,PASS,7,未测保持空值，控制执行失败不产生扣除结论，拒绝参考计时
+reference_execution,PASS,72,只确认功能，未产生真实处理器周期
+register_error_rejection,PASS,2,遗漏首个目标、仅最高字节错误均被程序自身拒绝

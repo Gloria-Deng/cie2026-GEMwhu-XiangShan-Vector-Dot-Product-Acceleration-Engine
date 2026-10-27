@@ -1,0 +1,8 @@
+started=2026-10-23T18:53:51.944990+08:00
+finished=2026-10-23T19:00:24.867268+08:00
+frames=393
+fps=1
+video_seconds=393
+wall_seconds=392.9210000000021
+reason=finished
+source=actual foreground desktop terminal

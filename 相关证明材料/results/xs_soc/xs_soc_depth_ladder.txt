@@ -1,0 +1,18 @@
+XS-SOC-LADDER v1
+generated_by: python sim/xs_soc_depth_ladder.py --run 240
+tree: D:/xs-vdot/build/rtl_min3 (upstream's own KunminghuV2MinimalConfig output)
+subject: dependency-CLOSED subsets taken from the instantiation graph of the generated tree itself -- the rungs are chosen by closure size at runtime, never typed into this file
+tool: Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702
+meaning of stack_overflow: the OS terminated the process with 0xC00000FD and it printed nothing; a reported_error rung is Verilator talking normally about missing or bad modules
+
+VERSION Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702
+CLOSURE declared=1902 top_closure=1902 complete=yes
+RUNG TOP=AMOALU MODULES=1 FILES=1 RC=0 UNSIGNED=0x00000000 MECHANISM=clean_exit OUTBYTES=304 ERROR_LINES=0 FREE_MB=4175
+RUNG TOP=AXIRegIMSIC_WRAP MODULES=14 FILES=14 RC=0 UNSIGNED=0x00000000 MECHANISM=clean_exit OUTBYTES=305 ERROR_LINES=0 FREE_MB=4208
+RUNG TOP=ExeUnit_15 MODULES=27 FILES=27 RC=0 UNSIGNED=0x00000000 MECHANISM=clean_exit OUTBYTES=307 ERROR_LINES=0 FREE_MB=4208
+RUNG TOP=ExeUnit_16 MODULES=42 FILES=42 RC=0 UNSIGNED=0x00000000 MECHANISM=clean_exit OUTBYTES=306 ERROR_LINES=0 FREE_MB=4209
+RUNG TOP=MemMisc MODULES=129 FILES=129 RC=3221225725 UNSIGNED=0xC00000FD MECHANISM=stack_overflow OUTBYTES=0 ERROR_LINES=0 FREE_MB=4205
+RUNG TOP=XSTop MODULES=1902 FILES=1902 RC=3221225725 UNSIGNED=0xC00000FD MECHANISM=stack_overflow OUTBYTES=0 ERROR_LINES=0 FREE_MB=4354
+FINDING boundary         largest_talking=42 modules, smallest_silent=129 modules (mechanism stack_overflow)
+FINDING rungs            6/6
+XS-SOC-LADDER PASS rungs=6 problems=0 talking=4 stack_overflow=2 other=0

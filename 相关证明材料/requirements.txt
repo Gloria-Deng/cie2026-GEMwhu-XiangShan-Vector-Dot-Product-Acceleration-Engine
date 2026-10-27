@@ -1,0 +1,4 @@
+# Direct FST reading
+cffi==2.0.0
+# Optional chart generation
+matplotlib==3.10.8

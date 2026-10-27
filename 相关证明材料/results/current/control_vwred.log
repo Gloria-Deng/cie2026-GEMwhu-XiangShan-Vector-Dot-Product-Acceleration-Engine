@@ -1,0 +1,14 @@
+library DIFFTEST_REG_SIZE=1376, header OFF_END=1376, g_nr_guest_instr=resolved
+  [0] @0x80000200 0xee20a357 readback 0xee20a357
+  [1] @0x80000204 0xc0847057 readback 0xc0847057
+  [2] @0x80000208 0x5e003257 readback 0x5e003257
+  [3] @0x8000020c 0xc6620257 readback 0xc6620257
+variant=vwred instructions=4 result=v4 seed=zero
+STEP_INSTR arm=vwred i=0 word=0xee20a357 retired=1 pc=0x80000200->0x80000204
+STEP_INSTR arm=vwred i=1 word=0xc0847057 retired=1 pc=0x80000204->0x80000208
+STEP_INSTR arm=vwred i=2 word=0x5e003257 retired=1 pc=0x80000208->0x8000020c
+STEP_INSTR arm=vwred i=3 word=0xc6620257 retired=1 pc=0x8000020c->0x80000210
+cases=939 mismatches=0 variant=vwred n_inst=4 nonzero_upper_lanes=0 low_mismatches=0 tail_mismatches=0 compare_bits=128
+ICOUNT arm=vwred declared=4 counter=g_nr_guest_instr per_seq=4 total=3756 cases=939 uniform=1
+BASELINE vwred PASS
+EXIT-CALLBACK during phase [mem_cpy readback]

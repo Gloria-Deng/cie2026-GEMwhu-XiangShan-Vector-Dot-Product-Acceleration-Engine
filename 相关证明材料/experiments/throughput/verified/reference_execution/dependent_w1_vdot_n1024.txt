@@ -1,0 +1,1 @@
+IMAGE PASS pc=0x800006dc instructions=3120

@@ -1,0 +1,76 @@
+# 由 sim/run_xs_soc_wrapper.py 生成：SoC 包装层 VDotU 的逐用例与语义实测。
+# 被测闭包 = rtl/xs_soc_generated/（7 个文件，跑前逐个核过 generated_rtl 指纹）。
+
+## 度量臂（逐用例与模型一致，条数进 `wrapper.json`）
+
+| 场景 | 判决 | total | fail | out_valid 实测深度 | 说明 |
+|---|---|---|---|---|---|
+| `pos_alta_mask` | PASS | 46 | 0 | 2..2 | 交替掩码：逐元素合并与独立模型一致（说明共享 Mgu 那一级真的在按元素施加掩码） |
+| `pos_lmul2_exception` | PASS | 46 | 0 | 2..2 | LMUL=m2：包装层拉起非法指令指示 |
+| `pos_lmul4_exception` | PASS | 46 | 0 | 2..2 | LMUL=m4：包装层拉起非法指令指示 |
+| `pos_lmul8_exception` | PASS | 46 | 0 | 2..2 | LMUL=m8：包装层拉起非法指令指示 |
+| `pos_sew16_exception` | PASS | 46 | 0 | 2..2 | SEW!=8：RTL 自己就把非法指令异常拉起来（不是只靠 NEMU 挡） |
+| `pos_vl0_oldvd` | PASS | 46 | 0 | 2..2 | vl=0：结果被 tail 规则整体盖掉（期望由本脚本的独立合并模型算出） |
+| `pos_vl8_vm1` | PASS | 46 | 0 | 2..2 | 全部一致：SoC 包装层原样交付数据通路结果 |
+| `rand_vl16_vm1` | PASS | 800 | 0 | 2..2 | vl 覆盖整寄存器时同样一致 |
+
+## 正对照臂（**必须**报红，且必须以指名的那种方式报红；不计入上面条数）
+
+| 场景 | 判决 | 要求它怎样失败 | 实际 | 说明 |
+|---|---|---|---|---|
+| `ctl_expect_lat3` | PROVEN | `bad_lat_eq_total` | bad_valid=46 bad_lat=46 lat_never=0 | 正对照：把期望深度钉成 3，实测必须仍报它自己量到的那个深度（而不是跟着期望变绿） |
+| `ctl_valid_pipe_zero` | PROVEN | `bad_valid_eq_total` | bad_valid=46 bad_lat=0 lat_never=46 | 正对照：把 validPipe_2 钉成 0，out_valid 必须一路为 0（bad_valid 覆盖全部用例） |
+
+## 观察臂（一问两答：RVV 允许两种做法，硬件选哪一种由这组给出；也不计入条数）
+
+| 场景 | 判决 | 这一侧的假设 | 说明 |
+|---|---|---|---|
+| `obs_lmul_mf2_exc` | NO-MATCH | 分数 LMUL mf2 拉异常（被拒） | 观察臂：分数 LMUL(mf2) 是否也被这份包装层拒绝 |
+| `obs_lmul_mf2_noexc` | MATCH | 分数 LMUL mf2 不报异常（被放过） | 观察臂：分数 LMUL(mf2) 是否被这份包装层放过 |
+| `obs_lmul_mf4_exc` | NO-MATCH | 分数 LMUL mf4 拉异常（被拒） | 观察臂：分数 LMUL(mf4) 是否也被这份包装层拒绝 |
+| `obs_lmul_mf4_noexc` | MATCH | 分数 LMUL mf4 不报异常（被放过） | 观察臂：分数 LMUL(mf4) 是否被这份包装层放过 |
+| `obs_lmul_mf8_exc` | NO-MATCH | 分数 LMUL mf8 拉异常（被拒） | 观察臂：分数 LMUL(mf8) 是否也被这份包装层拒绝 |
+| `obs_lmul_mf8_noexc` | MATCH | 分数 LMUL mf8 不报异常（被放过） | 观察臂：分数 LMUL(mf8) 是否被这份包装层放过 |
+| `obs_lmulres_exc` | NO-MATCH | 保留编码 0b100 拉异常（本层拒） | 观察臂：RVV 保留编码 0b100 是否也被这份包装层拒绝 |
+| `obs_lmulres_noexc` | MATCH | 保留编码 0b100 不报异常（本层放过） | 观察臂：RVV 保留编码 0b100 是否被这份包装层放过 |
+| `obs_vma1_keep` | NO-MATCH | 被掩元素保留旧值（vma 未生效） | 观察臂：vma=1 时被掩掉的元素是否仍保留旧值（即 vma 对这份生成物不起作用） |
+| `obs_vma1_ones` | MATCH | 被掩元素写成全 1（vma 生效） | 观察臂：vma=1 时被掩掉的元素是否被写成全 1 |
+| `obs_vstart4_exc` | NO-MATCH | 拉起非法指令指示（vstart 进了非法指令判定） | 观察臂：vstart=4 时这份生成物是否逐条拉起 exceptionVec[2] |
+| `obs_vstart4_noexc` | MATCH | 不报异常（vstart 未进非法指令判定） | 观察臂：vstart=4 时这份生成物是否完全不报异常 |
+| `obs_vstart4_wordsum` | NO-MATCH | vstart 那个字里落下的是点积本身（结果被搬移） | 观察臂：点积是否被搬到 vstart 那个字上写进去 |
+| `obs_vstart4_wordzero` | MATCH | 只有 vstart 起的那个 32 位字被写成 0，其余保持 oldVd | 观察臂：vstart=4 时 vd 是否只有 vstart 那一个 32 位字被写成 0 |
+| `obs_vta1_keep` | MATCH | 保留旧值（undisturbed） | 观察臂：vta=1 时 agnostic tail 是否保留旧值 |
+| `obs_vta1_ones` | NO-MATCH | 写成全 1（ones） | 观察臂：vta=1 时 agnostic tail 是否被写成全 1 |
+
+- `obs_lmul_mf2_noexc`
+- lmul_mf2_report：分数 LMUL mf2 不报异常（被放过）（判决 ANSWERED）
+- `obs_lmul_mf4_noexc`
+- lmul_mf4_report：分数 LMUL mf4 不报异常（被放过）（判决 ANSWERED）
+- `obs_lmul_mf8_noexc`
+- lmul_mf8_report：分数 LMUL mf8 不报异常（被放过）（判决 ANSWERED）
+- `obs_lmulres_noexc`
+- lmul_res_report：保留编码 0b100 不报异常（本层放过）（判决 ANSWERED）
+- `obs_vma1_ones`
+- vma_policy：被掩元素写成全 1（vma 生效）（判决 ANSWERED）
+- `obs_vstart4_noexc`
+- vstart4_report：不报异常（vstart 未进非法指令判定）（判决 ANSWERED）
+- `obs_vstart4_wordzero`
+- vstart4_word：只有 vstart 起的那个 32 位字被写成 0，其余保持 oldVd（判决 ANSWERED）
+- `obs_vta1_keep`
+- vta1_policy：保留旧值（undisturbed）（判决 ANSWERED）
+
+## 未取到读数的臂（BROKEN：既不算过也不算失败 —— 它没有读数）
+
+| 场景 | 类别 | 为什么没有读数 |
+|---|---|---|
+| （无） | - | 每一条臂都取到了读数 |
+
+## 端口面普查（现读生成物：这一级能问什么、不能问什么）
+
+CLOSURE-SURFACE file=VDotU.sv inputs=21 futype=0 fu_type=0 hittype=0 select=0 vecstfu=0 opcode_ports=io_in_bits_ctrl_fuOpType
+
+读法：`inputs` 是分母（这一版实测 21 条 input 声明），后面那几个数是选择类 token 在端口名里的命中条数——**全部为 0 才是「这一级没有承载『某个 FU 没被选中』的输入」这条结论的证据**，而分母为 0 时脚本直接判死，所以这条判决不可能从一次坏解析里蒙出来。唯一带指令身份的输入是 `io_in_bits_ctrl_fuOpType`（函数码，台架按 `VdotType.vdot_vv` 喂），而闭包里的 `validVecThisFu_1/_2` 是**由 `io_in_valid` 自己打两拍出来的内部寄存器**（`grep -n validVecThisFu rtl/xs_soc_generated/VDotU.sv` 可复核），不是调度器给进来的选通向量。⇒ 第四轮报告 §3.3 P1 那句「喂 `FuType.vdot`、断言选中该 FU」在这一级**没有可驱动的端口**，要做得换一层闭包：ExeUnit 级的**生成**可行性有实测（`results/xs_soc/xs_soc_depth_ladder.txt` 的 `RUNG TOP=ExeUnit_15 MODULES=27 ... RC=0` 与 `ExeUnit_16 MODULES=42` 两档，模块数远小于本机 Verilator 那堵静默墙），但那只是可行性读数——本包没有真把 ExeUnit 级闭包编进仿真器跑过，所以这一句不许写成「能做到」。另一处结构事实一并记在这儿：本脚本的 verilator 调用不带断言开关，所以生成物里那句按 `fuOpType` 低三位报错的检查**在今天的臂里没有执行**（复核入口 `grep -n verilator_bin sim/run_xs_soc_wrapper.py`）。
+
+out_valid 相对 `io_in_valid` 被捕获那一拍的深度，全部取到读数的度量臂合起来只有 2 一个取值；这与 `FuConfig` 声明的 `CertainLatency(2)` 是两本账对上了。这句话本身由上面那条`-DEXPECT_LAT=3` 的正对照臂担保：它的判决必须是 PROVEN，否则这段结论一起作废。
+
+XS_SOC_WRAPPER PASS measure=8/8 control=2/2 observe_groups=answered broken=0 bad=无

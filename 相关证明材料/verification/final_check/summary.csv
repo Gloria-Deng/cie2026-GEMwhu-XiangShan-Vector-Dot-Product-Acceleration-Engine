@@ -1,0 +1,7 @@
+﻿check,status,cases,passed,failed,scope
+C and Python,PASS,48,48,0,independent arithmetic
+RTL,PASS,48,48,0,128 bit datapath
+CHISEL,PASS,48,48,0,128 bit datapath
+deliberate errors,PASS,41,41,0,actual RTL changes detected
+simultaneous input swaps,PASS,28,28,0,equivalent changes accepted
+instruction reader,PASS,14,14,0,reader checks and supplied ELF

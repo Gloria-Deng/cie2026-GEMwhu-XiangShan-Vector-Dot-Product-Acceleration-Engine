@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "local_ok": true,
+  "full_soc": "PASS",
+  "gates": [
+    {
+      "name": "golden model",
+      "rc": 0,
+      "seconds": 0.05,
+      "log": "results/current/gate_0.log",
+      "log_sha256": "99b8360b4303bee3471045650bd43d29275a1e0851c575ba82318826b03f0411"
+    },
+    {
+      "name": "RTL configuration and mutation matrix",
+      "rc": 0,
+      "seconds": 23.1,
+      "log": "results/current/gate_1.log",
+      "log_sha256": "6c85e172f3402c579bdc515437e4f8e0dfc7f77a897cdfa7a5ac18def2802929"
+    },
+    {
+      "name": "Chisel datapath comparison",
+      "rc": 0,
+      "seconds": 8.63,
+      "log": "results/current/gate_2.log",
+      "log_sha256": "4c775c3cc2b31df4842128e7ca438663353cb205d2328d73d23b7ff20e92ec37"
+    },
+    {
+      "name": "current XiangShan FU wrapper",
+      "rc": 0,
+      "seconds": 11.32,
+      "log": "results/current/gate_3.log",
+      "log_sha256": "bfe9f730fac8435dd38df06bb305d495315728a76ac4611c0144ebeb2e3ddf31"
+    },
+    {
+      "name": "vadd demonstration model and waveform",
+      "rc": 0,
+      "seconds": 0.24,
+      "log": "results/current/gate_4.log",
+      "log_sha256": "ac7cd4679d3dbfd32e4232c8ba54c1fa160aee9cd0e33f3023dc0adb8143df8f"
+    },
+    {
+      "name": "software host functional checks",
+      "rc": 0,
+      "seconds": 5.57,
+      "log": "results/current/gate_5.log",
+      "log_sha256": "8e065269d1adf031d7f4b0e16f519089f74689210cf31b0cde9f7b531738a731"
+    },
+    {
+      "name": "RISC-V C inline assembly compile",
+      "rc": 0,
+      "seconds": 0.81,
+      "log": "results/current/gate_6.log",
+      "log_sha256": "490012aa8be255459151ae59174f63fa532977dfd9b5843b45f4b4243258f06d"
+    },
+    {
+      "name": "full-SoC log parser negative checks",
+      "rc": 0,
+      "seconds": 0.34,
+      "log": "results/current/gate_7.log",
+      "log_sha256": "62ba389a16095ba58abf25205d9384e86ee81f2f94ba35bb639e69cbf680406a"
+    }
+  ],
+  "captures": {
+    "results/current/fixed_wrapper.json": {
+      "sha256": "816f0e0193b39223d65262ccfc3eaa5c0196352c8776597483eb6d198b686060",
+      "scope": "Actual XiangShan VDotU FU wrapper; no full-SoC claim."
+    },
+    "results/current/instruction_cosim.json": {
+      "sha256": "78e8b5fd374bf9d4c9ac5096a5d756ee63f57f666e4b66d6a75c6deb120624d8",
+      "scope": "Instruction execution, compare_bits=128"
+    },
+    "results/current/programs_nemu.json": {
+      "sha256": "7f1392c6393a0bcd748f558f8c053c8ec68dd7275d4848b9d8304d3b5a7e73cc",
+      "scope": "NEMU-only image execution; no XiangShan timing measured"
+    },
+    "results/current/patch_export.json": {
+      "sha256": "b413516bc997c4bd6d6bca1ddfe8a626620754c65dda0bc09f53af08a2b1d285",
+      "scope": "Fresh pinned source anchors and byte-equal git apply; compilation measured separately"
+    }
+  },
+  "failures": [],
+  "note": "Historical SoC artifacts and legacy audit PASS do not certify current full SoC."
+}

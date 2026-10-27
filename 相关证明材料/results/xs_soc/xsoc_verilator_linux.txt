@@ -1,0 +1,98 @@
+XSOC-VERILATOR-LINUX v1
+question: 整颗昆明湖 SoC（顶为 XSTop）能不能交给 Verilator 编成仿真器
+answer: 能，条件写在下面第 5 节
+scope: 这一份只回答「编得成、跑得起来」；它不是 difftest，不含参考机、没跑过一条指令
+
+host_kind: Linux/glibc，x86-64，32 核，100 GB 内存的批处理节点
+host_note: 与 results/xs_soc/xs_soc_silence_bracket.txt 那台 Windows 宿主**不是同一台机器**，
+           所以两份读数不是同机对照，只有「同一棵生成树」这一点相同
+
+=== 1. 输入 ===
+generated_rtl_origin: D:/xs-vdot/build/probe_rtl_full
+transport: 该目录整体打成 tar.gz（83.3 MB）搬到 Linux 侧解开
+files: 1954 支 .sv + 22 支 .v + filelist.f
+modules: 1976（这一行是 Verilator 自己报告的模块数，不是文件数）
+verilator_reported_sources_mb: 124762.757
+top_module: XSTop
+
+=== 2. 搬迁必须先修的一处 ===
+finding: filelist.f 里有 23 行用 Windows 分隔符开头，逐字是 `.\` 加文件名
+         （1 行 `.\\ClockGate.sv`，22 行 `.\\DiffExt*.v`）
+why_it_matters: POSIX 路径里 `.\name` 不是一个可解析的路径，于是 Verilator 把整行
+         当成「要去找的模块名」，报的是
+         `%Error: Cannot find file containing module: .DiffExtInstrCommit.v`
+         而不是「文件不存在」——这一条会把人引到错误的方向上
+fix: 只去掉那 23 行行首的 `.\`，文件本身一个字节没动
+witness: 修之前 24 条 %Error，修之后 lint 干净通过（见第 3 节）
+
+=== 3. 整树 lint ===
+command: verilator_bin --lint-only -Wno-TIMESCALEMOD --top-module XSTop -f filelist.f
+verdict: rc=0，没有任何 %Error
+meaning: 1954 支 .sv 加 22 支 .v 全部解析并展开通过
+
+=== 4. 代码生成 ===
+tool: Verilator 5.026 2024-06-15 rev UNKNOWN_REV（本机从源码编出来的，见第 8 节末）
+command: verilator_bin --output-split 30000 --output-split-cfuncs 30000 --cc
+         --exe --main --timing --top-module XSTop -Wno-TIMESCALEMOD
+         --Mdir obj_dir -f filelist.f
+verilator_report: 1976 个模块 -> 925.063 MB，落在 817 支 C++ 文件里
+walltime_s: 333.146
+walltime_breakdown: elab 28.586 / cvt 273.781
+alloced_mb: 7018.555
+
+=== 5. 让这件事成立的那一条 ===
+required: ulimit -s unlimited
+measured_why: 同一棵树在同一台机上发了四次 --cc。前三次（含一次加了 --threads 32、
+              一次单线程）都在启动后立刻以 SIGSEGV 结束，退出码 139，Mdir 里 0 支 .cpp；
+              第四次加上 unlimited 栈之后一次通过（第 4 节那组读数就是第四次）。
+              所以这一格的两个候选解释都是错的：既不是 --threads（单线程照样崩），
+              也不是优化等级。
+bracket_on_the_windows_side: results/xs_soc/xs_soc_silence_bracket.txt 记的机制是
+              `stack_overflow`（状态码 0xC00000FD）。这一份在 Linux 上量到的是
+              SIGSEGV(139)——两个宿主上都是「栈」这一类信号，但**本包不主张它们是
+              同一个缺陷**：Windows 侧换掉 2 MB 栈预留之后 lint 能过、代码生成仍不落盘，
+              说明那边至少还压着一层没有定位的东西。Linux 侧能过，是实测。
+
+=== 6. 编译与链接 ===
+command: make -f VXSTop.mk -j 32（同一 shell 里先 ulimit -s unlimited）
+object_files: 819
+make_rc: 0
+precompiled_header_gotcha: 预编译头不能和多路编译一起发。第一次 32 路并行留下的两份
+              .gch 是坏的，后一次编译报 `one or more PCH files were found, but they
+              were invalid`；改成单路先把两个 PCH 目标编出来（rc=0），再 32 路编
+              .cpp，就不再出现
+note_about_the_exe_flag: 不带 --exe 时 make 只建库，日志末尾是
+              `echo "" > VXSTop__ALL.verilator_deplist.tmp`，不产可执行文件；
+              第 7 节那个产物是带 --exe --main 重新生成之后链出来的
+
+=== 7. 产物 ===
+path_in_package: 不在包内（这是集群上的路径 $HOME/xsoc/obj_dir/VXSTop）
+bytes: 75715912
+file_identity: ELF 64-bit LSB executable, x86-64, GNU/Linux, dynamically linked,
+               not stripped
+interpreter: /lib64/ld-linux-x86-64.so.2
+dependencies: libatomic / libstdc++ / libm / libgcc_s / libc / ld-linux，全部解析成功
+workdir_size: 1.7 GB（817 支 .cpp、819 个 .o）
+
+=== 8. 它真的在跑 ===
+command: timeout 5 VXSTop
+rc: 124
+rc_meaning: 被 5 秒超时杀掉时它还在执行，不是自己退出的
+ps_sample: etime 00:04，time 00:00:04，pcpu 100，stat Rl
+reading: 累计 CPU 时间等于墙钟存活时间、占用率 100%，所以求值循环确实在推进
+why_there_is_no_stdout: `--main` 生成的 main 是
+          `while (!contextp->gotFinish()) { topp->eval(); contextp->timeInc(1); }`。
+          裸 SoC 没有任何东西去拉 $finish，所以它永远空转、不打印、不退出——
+          静默是这一档的**设计行为**，不是故障
+
+=== 9. 这一份不主张什么 ===
+not_a_difftest: 没有接参考机、没有跑程序、没有退休任何一条指令。指令级与 RTL 侧的
+          一致性读数仍在 results/nemu_cosim.txt 与 §7.5，那两处的证据面不变
+top_module_gap: 这里的顶是 XSTop。difftest 自己的流程要的是 SimTop
+          （difftest/verilator.mk 里的 $(EMU_TOP)），并产出 VSimTop.h 供
+          snapshot.cpp 包含——那正是 results/xs_soc/emu_glue_probe.txt 报缺的那个头文件。
+          本包生成的这棵树里**没有 SimTop.sv**（filelist 里以 XSTop.sv 为顶），
+          所以「能编 XSTop」这一步**不能**顶替「能编出 emu」
+glue_half_unchanged: C++ 胶水那一半的读数仍以 results/xs_soc/emu_glue_probe.txt 为准，
+          本文件不重述、也不改写它
+single_host: 以上全部读数来自一台 Linux 宿主。换宿主能否复现，本文件不给结论

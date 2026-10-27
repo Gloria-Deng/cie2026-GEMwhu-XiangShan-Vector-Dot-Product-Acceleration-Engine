@@ -1,0 +1,121 @@
+DIFFTEST-RUN-LINUX v1
+question: results/xs_soc/emu_build_linux.txt 记到「emu 建成了」（174781280 B 的 ELF）
+          为止，并明写「没有运行」。这一次：接上参考机、真的跑起来了没有？
+answer: 跑起来了。判读行是 `The first instruction of core 0 has commited. Difftest enabled.`，
+        2000 个周期内参考机没有报出任何不一致。
+scope: **这一份只回答「difftest 这一层建得起来、跑得动」**。它没有执行 `vdot.vv`，
+        也没有跑完整启动；见第 5 节。
+
+host_kind: Linux/glibc，x86-64，批处理节点
+run_dir:  <difftest>（集群上）
+
+=== 1. 命令与其自己打出来的读数 ===
+command: ./build/emu -i ready-to-run/microbench.bin \
+         --diff <nemu>/build/riscv64-nemu-interpreter-so -C 2000
+stdout (逐字，[PERF] 之外的全部):
+  emu compiled at Sep 29 2026, 15:27:36
+  [INFO] init for constantin: loaded from init.
+  Using simulated 1048576B flash
+  Core  0's Commit SHA is: 68a4cdc2a9, dirty: 1
+  Using simulated 8386560MB RAM
+  The image is ready-to-run/microbench.bin
+  The reference model is <nemu>/build/riscv64-nemu-interpreter-so
+  The first instruction of core 0 has commited. Difftest enabled.
+  Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0xffffefc4e1118c3f
+  Core-0 instrCnt = 6, cycleCnt = 2,000, IPC = 0.003000
+  Host time spent: 25,804ms
+
+=== 1b. 同一发命令、把周期上限提到 20000（6 条指令只是启动序列） ===
+command: 同上，`-C 20000`
+stdout (逐字，[PERF] 与 latency 行之外的全部):
+  emu compiled at Sep 29 2026, 15:27:36
+  [INFO] init for constantin: loaded from init.
+  Using simulated 1048576B flash
+  Core  0's Commit SHA is: 68a4cdc2a9, dirty: 1
+  Using simulated 8386560MB RAM
+  The image is ready-to-run/microbench.bin
+  The reference model is <nemu>/build/riscv64-nemu-interpreter-so
+  The first instruction of core 0 has commited. Difftest enabled.
+  ======== Running MicroBench [input *test*] ========
+  [qsort] Quick sort: Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80001f10
+  Core-0 instrCnt = 8,930, cycleCnt = 20,000, IPC = 0.446500
+  Host time spent: 264,303ms
+meaning: SoC 不只是「起来了」——它**真的启动了**并跑进了 microbench 的 qsort 段
+         （`======== Running MicroBench [input *test*] ========` 是程序自己打的），
+         退休 8930 条指令，全程参考机没有报出任何不一致。
+         `pc = 0x80001f10` 说明镜像被加载到 RAM 起始（0x80000000）并在那里执行，
+         所以「自己写一条裸机程序当镜像」这条路是通的：镜像加载约定已经量到。
+host_cost: 20000 周期 264303 ms ≈ 76 周期/秒（OPT_FAST=-O0 的直接后果）
+
+=== 2. 参考机是怎么建起来的 ===
+product: <nemu>/build/riscv64-nemu-interpreter-so，695704 B，
+         ELF 64-bit LSB shared object, x86-64, dynamically linked
+source_tree: 打了 vdot 补丁的那棵（configs/riscv64-xs-vdot_defconfig）
+driver: make riscv64-xs-vdot_defconfig && make -j32
+本包把参考机库建在**目标宿主**上，而不是把 Windows 侧那份 .exe 拿过来 ——
+那一份是 PE DLL，Linux 上的 NemuProxy 要的是 .so。
+
+=== 3. 路上五处障碍（按出现顺序，全部是移植问题，没有一处是「做不到」） ===
+a) include/config/auto.conf.cmd:8: multiple target patterns.  Stop.
+   真因：Kconfig 的依赖文件在 Windows 上生成，末行是绝对路径 `D:/nemu-vdot/Kconfig`；
+         make 把 `D:` 读成目标分隔符。它在 include 阶段就炸，连 defconfig 都跑不到。
+   修法：把该绝对路径改写成相对的 `Kconfig`。
+
+b) make[1]: <softfloat>/build/Linux-x86_64-GCC: No such file or directory
+   真因：本包第一次打包 NEMU 树时用了 `tar --exclude=./build`，而 Windows 的 tar 把
+         它解释成「排除任何名为 build 的目录」，把 `resource/softfloat/repo/build`
+         一并排掉了。**这是本包打包方式的错，不是树的问题。**
+   修法：重新打包，不加排除；那个目录里有 SoftFloat 的 Makefile 与 platform.h，
+         目录本身必须存在。
+
+c) make: No rule to make target chisel_db.cpp / fatal error: sqlite3.h
+   —— 这两条属于 emu 那一侧，已记在 results/xs_soc/emu_build_linux.txt。
+
+d) /bin/sh: <nemu>/tools/fixdep/build/fixdep: No such file or directory（Error 127）
+   真因：config.mk:33 要 `tools/fixdep/build/fixdep`（无扩展名），而树里留下的是
+         Windows 版 `fixdep.exe`；`tools/kconfig/build/` 同理（conf.exe / mconf.exe）。
+         文件「在」但名字不对，make 认为不必重建，于是编译规则去调一个不存在的程序。
+   修法：删掉这两个 build 目录，就地重编。
+
+e) /usr/bin/ld: cannot find -lstdc++（"have you installed the static version..."）
+   真因：scripts/build.mk:8 在 CONFIG_SHARE=y 时加 `-static-libstdc++`。与 `-shared`
+         组合时 GCC 要的是**静态** libstdc++，本宿主不满足。
+   修法：从该行去掉这个旗标。它只买到「运行期不依赖 libstdc++.so」，而本宿主有
+         libstdc++.so.6。该文件本来就是为移植而改的：树里同时躺着 scripts/build.mk.orig，
+         与 build.mk 只差 -Werror -> -Wno-error 一处。
+
+另有一处影响运行的（不是构建）：见第 4 节。
+
+=== 4. 24 字节的状态大小不一致，及其根因 ===
+symptom: 参考机接上之后断言失败
+         src/cpu/difftest/ref.c:427: difftest_init_v2: Assertion `false' failed.
+         它前一句 printf 报的是
+         ERROR: NEMU (1376B) is configured with different states than DUT (1400B).
+         这句被 stdout 缓冲吃掉了，要用 `stdbuf -oL -eL` 才看得到。
+why_it_is_24: NEMU 的 DIFFTEST_REG_SIZE 定义为
+         offsetof(riscv64_CPU_state, difftest_state_end) - offsetof(..., gpr)。
+         按 isa-def.h 逐项累加 gpr 512 + fpr 256 + 影子 CSR 152 + CONFIG_RVH 136
+         + CONFIG_RVV 512 + CONFIG_DIFFTEST_CHECK_VCSR 56 + CONFIG_DIFFTEST_CHECK_FCSR 8
+         = 1376，与 NEMU 自己报的 1376 逐字节吻合；余下的 24 正好是
+         CONFIG_DIFFTEST_CHECK_SDTRIG 的 tselect / tdata1 / tinfo 三个 uint64。
+root_cause: Kconfig 里 `config DIFFTEST_CHECK_SDTRIG` 有 `depends on RV_SDTRIG`，
+         而这棵树的 defconfig 为了 Windows 构建把 `CONFIG_RV_SDTRIG` 关掉了 ——
+         依赖不满足时 Kconfig **静默丢弃** 那条 `CONFIG_DIFFTEST_CHECK_SDTRIG=y`，
+         不报错、不提示。于是 NEMU 的导出区比 DUT 少那 24 字节。
+fix: 树里自带 configs/riscv64-xs-vdot_defconfig.bak-sdtrig，与 defconfig 逐行相同、
+     只差 `CONFIG_RV_SDTRIG=y`。用它重建参考机，两侧都是 1400B。
+lesson: **defconfig 里写着 `=y` 不等于它生效**；Kconfig 的 depends on 会让整行消失。
+
+=== 5. 这一份不主张什么 ===
+no_vdot_executed: 退休了 6 条指令，是复位后的启动序列；**没有执行任何 vdot.vv**，
+         也没有跑完整启动（microbench 都没跑到）
+not_the_competition_claim: 赛题要的是「跑一条含 vdot.vv 的程序并逐拍比对」。
+         本文件只到「difftest 这一层建立了、能对撞」为止，**没有**跑那条程序
+cycles_tiny: 2000 个周期。就 6 条指令而言这个数只说明启动刚开始
+slow_by_choice: 2000 周期花了 25804 ms 主机时间（约 78 周期/秒），因为 emu 是以
+         OPT_FAST="-O0" 链的。要跑真实负载必须换成 -O3（上游默认那档，注意
+         `-fno-slp-vectorize` 是 LLVM 拼法，GCC 上要写成 -ftree-slp-vectorize 或省略）
+         ——这是一条**性能**结论，不影响本文件关于「能不能跑」的结论
+with_chiseldb_off: 这个 emu 是 WITH_CHISELDB=0 的裁剪配置，不是上游默认配置
+         （理由见 results/xs_soc/emu_build_linux.txt 第 2 节 d）
+single_host: 全部读数来自一台 Linux 宿主；换宿主能否复现不给结论

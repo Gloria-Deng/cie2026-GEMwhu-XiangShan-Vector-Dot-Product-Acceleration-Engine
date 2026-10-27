@@ -1,0 +1,17 @@
+SOFTWARE-HOST-SELFTEST v1
+question: software/ 的两条 C 路径、独立 Python 模型与 GEMM 双臂在宿主上是否全部一致（本机 gcc，10000 例随机 + 5 例定向 + 4 档 K）？
+answer: 一致（逐档判读行见下方 [selftest-out]/[gemm-out]，碰撞计数见 COLLIDE 行）
+scope: 只覆盖本机宿主的 C 路径；不含任何 RISC-V 执行、周期读数或汇编臂——那些是 docs/11 的待办，不在本归档的声称范围内
+[gcc] gcc (GCC) 15.3.0
+[src] sha256_selftest_c=31b01b51a7a82d748a5e9a0decc386e5bc3bba6ad684665afc8d070bc93349e0
+[src] sha256_vdot_vv_h=677e098e8a2f0bdc96f13ea405cd5347e6486696e327ea6cfa5dcd0b17b4163a
+[src] sha256_gemm_i8_c=b6f07c328f5a7cef338daa6c72d048a5cd8dce6084948b04f7a8237d75bc2680
+[src] sha256_stdin_blob=74c47d692816ca79b0102ece94e35dac78041b4c31327acaa7aa1ca2be0e2d9a
+COMPILE-OK selftest.c
+COMPILE-OK gemm_i8.c
+COLLIDE python_vs_c_ref=0 c_ref_vs_c_alt=0 of 10000
+[selftest-out] DIRECTED directed=5 mismatches=0 | STREAM cases=10000 mismatches=0 | VDOT-SELFTEST VERDICT PASS
+[gemm-out] GEMM-K k=64 cells=1024 mismatches=0 | GEMM-K k=128 cells=1024 mismatches=0 | GEMM-K k=256 cells=1024 mismatches=0 | GEMM-K k=512 cells=1024 mismatches=0 | GEMM-REF-EQUIV VERDICT PASS
+GEMM mismatch_rows=0
+SOFTWARE-HOST-SELFTEST VERDICT PASS
+

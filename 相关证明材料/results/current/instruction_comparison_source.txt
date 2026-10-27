@@ -1,0 +1,3 @@
+Complete 128-bit comparison: 939 cases.
+The custom instruction and both standard-vector comparison paths passed.
+The complete record is represented by the successful execution outputs in this directory.

@@ -1,0 +1,5 @@
+JobID           JobName      State ExitCode    Elapsed  AllocTRES 
+------------ ---------- ---------- -------- ---------- ---------- 
+3736507      vdot-gemm+    RUNNING      0:0   00:00:01 billing=1+ 
+3736507.bat+      batch    RUNNING      0:0   00:00:01 cpu=16,me+ 
+3736507.ext+     extern    RUNNING      0:0   00:00:01 billing=1+ 

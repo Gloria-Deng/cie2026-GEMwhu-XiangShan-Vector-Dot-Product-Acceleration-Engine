@@ -1,0 +1,13 @@
+name,status
+api_3x5x13_method0_compute,PASS
+api_3x5x13_method0_pack_compute,PASS
+api_3x5x13_method1_compute,PASS
+api_3x5x13_method1_pack_compute,PASS
+api_16x16x16_method0_compute,PASS
+api_16x16x16_method0_pack_compute,PASS
+api_16x16x16_method1_compute,PASS
+api_16x16x16_method1_pack_compute,PASS
+api_32x32x32_method0_compute,PASS
+api_32x32x32_method0_pack_compute,PASS
+api_32x32x32_method1_compute,PASS
+api_32x32x32_method1_pack_compute,PASS

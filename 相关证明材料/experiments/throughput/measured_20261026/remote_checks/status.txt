@@ -1,0 +1,35 @@
+北京时间 2026-10-26T08:36:48+08:00
+JobID|State|Start|End|Elapsed|AllocCPUS|CPUTimeRAW|TotalCPU|NodeList|ExitCode
+3772871|CANCELLED by 59544|None|2026-10-25T21:03:47|00:00:00|0|0|00:00:00|None assigned|0:0
+3772882|COMPLETED|2026-10-25T21:04:41|2026-10-26T06:56:29|09:51:48|16|568128|6-00:57:24|n0373|0:0
+3772882.batch|COMPLETED|2026-10-25T21:04:41|2026-10-26T06:56:29|09:51:48|16|568128|6-00:57:24|n0373|0:0
+3772882.extern|COMPLETED|2026-10-25T21:04:41|2026-10-26T06:56:29|09:51:48|16|568128|00:00:00|n0373|0:0
+/project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu: OK
+/project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so: OK
+reference_build PASS
+throughput_build PASS
+throughput_functional PASS
+api_build PASS
+api_functional PASS
+PREPARATION_COMPLETE programs=84 expected_measurements=252
+ALL_MEASUREMENTS_COMPLETE
+api_16x16x16_method1_compute 2 PASS
+api_16x16x16_method0_pack_compute 2 PASS
+api_3x5x13_method1_compute 2 PASS
+api_3x5x13_method1_pack_compute 2 PASS
+api_16x16x16_method1_pack_compute 2 PASS
+api_32x32x32_method1_pack_compute 2 PASS
+api_32x32x32_method0_compute 2 PASS
+api_32x32x32_method0_pack_compute 2 PASS
+api_32x32x32_method1_compute 2 PASS
+API_ANALYSIS_COMPLETE /project/chensiyuan/vdot/new_measurements_20261025_2100/api_measurements/analysis
+independent_w16_vdot_n64 2 PASS
+dependent_w1_rvv_n0 2 PASS
+dependent_w1_vdot_n1024 2 PASS
+dependent_w1_vdot_n256 2 PASS
+dependent_w1_vdot_n64 2 PASS
+dependent_w1_rvv_n64 2 PASS
+dependent_w1_vdot_n0 2 PASS
+dependent_w1_rvv_n1024 2 PASS
+dependent_w1_rvv_n256 2 PASS
+ANALYSIS_COMPLETE /project/chensiyuan/vdot/new_measurements_20261025_2100/throughput_measurements/analysis

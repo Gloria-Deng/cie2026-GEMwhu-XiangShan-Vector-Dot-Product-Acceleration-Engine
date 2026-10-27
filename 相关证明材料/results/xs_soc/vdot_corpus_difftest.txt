@@ -1,0 +1,179 @@
+VDOT-CORPUS-DIFFTEST v1
+question: results/xs_soc/vsetvl_divergence_reread.txt 把 3.1.2 的卡点定到「参考机导出面的
+          一行根因 + 一行修法」时，档位停在「未落盘、未编译、未重跑」。那一行修法打上
+          真树、参考机重建、探针与赛题语料逐发喂进整颗 SoC 之后：修法生效没有？赛题
+          那条含 `vdot.vv` 的语料在全系统逐拍 difftest 下到底通没通？
+answer: 通了——带一条必须写明的作用域。修法（`set_vtype_vl()` 里补一行
+        `IFDEF(CONFIG_SHARE, csr_difftest_mark_dirty());`）打上集群真树并重编参考机
+        （`.so` 指纹 c47ede4e064f598db473f08a2eddcbe616fb6ecfe31a9e08e80f78b29ea5625e，
+        705392 B）之后：修法前那发探针的 `vl`/`vtype` 分歧消失，probeS 零 mismatch、
+        稳定停在 `vl==16` 的自旋地址 `0x80000024`。赛题语料第一发（vl=8）暴露一处
+        **新分歧 `v1_high`**：点积本体（`v1` 低 64 位，含 0xFFFE0400）两侧逐位相同，
+        唯一分歧在 `v1[127:64]`——机制是集成层 `Mgu` 在 `vl<VLMAX` 时按 `vta` 填尾
+        （`VDotU.scala:177-186` 的注释原文写明这是设计行为），而包内 NEMU 模型按
+        字面无条件清零。把语料只改一个字节（`vsetivli` 的 uimm 8→16 = VLMAX，第 5 个字
+        cc047057 → cc087057，后者与 `docs/06` §1.2 那张表的汇编回产词逐位相同）再喂
+        同一发：mismatch_lines=0，程序跑进自己的 OK 环 `0x80000048`——值、存取路径、
+        程序内比较全对。⇒ 3.1.2 的 SoC 级读数成立，口径是**「vl=VLMAX（Mgu 透明）下
+        整颗 SoC 与 NEMU 逐拍一致」**；短 vl 时尾部随 vtype，**不写「任意 vl 都一致」**。
+scope: 这一份只回答 3.1.2（全系统逐拍 difftest）这一格。它不翻短 vl 那条设计差异
+        （第 4 节只登记、不改任何一侧的语义），不碰 `vstart≠0` 与同类直写清单，也不把
+        那一行修法落进 `nemu/apply_nemu_patch.py`（那个决定连带四处文档的编辑数同步，
+        仍是待决项，见 `vsetvl_divergence_reread.txt` §5 的 not_applied）。
+
+=== 1. 环境（集群 node46，2026-10-01 预检，逐字） ===
+host:   node46.prod.phadcloud.local，登录节点 login98，`srun -n4 --pty bash` 进入
+uname:  Linux node46.prod.phadcloud.local 5.14.0-427.13.1.el9_4.x86_64 #1 SMP
+        PREEMPT_DYNAMIC Wed May 1 19:11:28 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+os_release: PRETTY_NAME="Rocky Linux 8.4 (Blue Onyx)"
+nproc:  1（上一轮落在 node303/node19 时是 4——本轮不重编 RTL，无影响；重编参考机
+        时 `-j$(nproc)` 会慢一些）
+gcc:    gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-14)
+verilator: Verilator 5.026 2024-06-15 rev UNKNOWN.REV
+emu:    `ls -lL build/emu` 给 174781280 B（`build/emu` 是指向 `build/verilator-compile/emu`
+        的符号链接；`stat -c%s` 给的是链接长度 71，不是二进制大小）。RTL 本轮未动、未重编。
+预检读数（判定环境没有被重置的三条）：
+  .config:  33:CONFIG_CUSTOM_VDOT=y  43:CONFIG_RV_SDTRIG=y
+            215:CONFIG_DIFFTEST_CHECK_VCSR=y  217:CONFIG_DIFFTEST_CHECK_SDTRIG=y
+  vcommon.c: 125:  IFDEF(CONFIG_SHARE, csr_difftest_mark_dirty());
+  参考机 .so 指纹 = c47ede4e064f598db473f08a2eddcbe616fb6ecfe31a9e08e80f78b29ea5625e
+补丁的来历：改前那份 `.so` 当时只留下**指纹前 16 位 7ee1025391629923**（705392 B，
+完整指纹当时没打印、重编后取不回来），且那时的 `vcommon.c` 里没有
+`csr_difftest_mark_dirty`；原文备份在集群树
+`$HOME/nemu-vdot/src/isa/riscv64/instr/rvv/vcommon.c.bak-round7`。改前/改后字节数相同
+（那一行落进了段内对齐空隙），判据是指纹变了。
+
+=== 2. 修法之前：那一发把列序钉死的探针（j1_probeS.log，11643 B） ===
+command: cd $HOME/difftest && ulimit -s unlimited
+         stdbuf -oL -eL ./build/emu -i $HOME/probeS_e8m1.bin --diff <未打补丁的 .so> -C 8000
+stdout（判定行逐字）:
+  The first instruction of core 0 has commited. Difftest enabled.
+  vl different at pc = 0x1dd84938f47eb, right = 0x0000000000000000, wrong = 0x0000000000000010
+  vtype different at pc = 0x1dd84938f47eb, right = 0x8000000000000000, wrong = 0x00000000000000c0
+  Core 0: ABORT at pc = 0x1dd84938f47eb
+  Core-0 instrCnt = 10, cycleCnt = 4,208, IPC = 0.002376
+reading: `right` = 参考机（停在复位值 {vl 0, vtype vill}）、`wrong` = 被测（拿到请求值
+         {16, 0xC0}）⇒ **这份 RTL 的 `vsetvl` 是生效的**，卡在参考机导出镜像不刷新。
+probeS 反汇编锚点（镜像装在 0x80000000，本机 Binutils 2.47 读出）：
+  0x80000000 lui a0,0x6 / 0x80000004 addi a0,a0,0x6600 / 0x80000008 csrs mstatus,a0
+  0x8000000c .insn 4,0x0c007657   <- vsetvli x12,x0,e8,m1,ta,ma（AVL=x0 → vl=vlmax=16）
+  0x80000010 csrr s0,vl
+  0x80000018 beq s0,s1,0x80000024   <- vl==16 的自旋
+两个必须记住的坑：分歧时打的 `pc` 来自 `dut->trap.pc`，**可以是垃圾**
+（0x1dd84938f47eb），不能拿它当「程序跑到哪」的判据；
+`CONFIG_DIFFTEST_CHECK_VCSR=y` 所以这两列确实被比对。
+同一份日志 REF Regs 的向量影子段（第 128-145 行，逐字摘四行）：
+  v8 : 0x8198b5d53e99071b_6ceefaf5f888de54   v9 : 0x7ad3bf6d8e8ff0a0_a8799bad133d9f34
+  vtype: 0x00000000000000c0  vstart: 0x0000000000000000  vxsat: 0x0000000000000000
+  vxrm: 0x0000000000000002          vl: 0x0000000000000010   vcsr: 0x0000000000000004
+meaning: 参考机**自己的**影子变量拿到了请求值（vtype 0xC0、vl 16），而它导出给
+         difftest 的那一份停在复位值——第 3 节根因的正面证据。
+（本轮以上为 2026-09-30 22:46 那发的判定行提取；当时同一发由上一轮归档
+`vsetvl_divergence_reread.txt` §5 预言过：补丁生效后这类行应消失。）
+
+=== 3. 修法打上、参考机重建之后：同一发探针（j2_probeS_after.log，226 B） ===
+command: 同第 2 节，`--diff` 换成重编后的 .so（指纹 c47ede4e…，见第 1 节）
+stdout（逐字，全文件就这三行判定）:
+  The first instruction of core 0 has commited. Difftest enabled.
+  Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000024
+  Core-0 instrCnt = 3,792, cycleCnt = 8,000, IPC = 0.474000
+meaning: `0x80000024` 正是第 2 节反汇编里 `vl==16` 的自旋地址；整跑没有一行
+         `different at pc`。**参考机向量 CSR 镜像不刷新这一环，实测闭合。**
+         （instrCnt 3,792 大是自旋在数：程序本体 6 条，其余是自旋迭代。）
+         全量日志同在集群 `$HOME/j2_probeS_after_2.log`（4580196 B）。
+
+=== 4. 赛题语料第一发（vl=8）：一处新分歧，机制已查明（j4_corpus.log，12290 B） ===
+image:  $HOME/vdot_corpus.bin（192 B，sha256 c184416f82e38db851eaaecb458ba2fdb4fc96bed8bf5b8ab0c01fd13c39efe8）
+        与包外工作区 `vdot_corpus.bin`、`round7/job5_vdot.bin` 逐字节相同。
+command: 同第 3 节，`-i` 换成该镜像。
+stdout（判定行逐字）:
+  The first instruction of core 0 has commited. Difftest enabled.
+  v1_high different at pc = 0x0080000044, right = 0x0000000000000000, wrong = 0xffffffffffffffff
+  Core 0: ABORT at pc = 0x80000044
+  Core-0 instrCnt = 18, cycleCnt = 4,244, IPC = 0.004241
+field_name: 日志字段是 `v1_high`（目的寄存器 v1 的高 64 位），名字来自 difftest
+        `src/test/csrc/difftest/refproxy.h:60-67` 的 v0_low/v0_high/… 表。终端曾把
+        数字 1 渲染成字母 l 显示成 `vl_high`，以日志原文为准。
+同一份日志 REF Regs 的向量影子段（第 138-155 行，逐字摘六行）:
+  v1 : 0x0000000000000000_00000000fffe0400
+  v8 : 0xffffffffffffffff_8080808080808080   v9 : 0xffffffffffffffff_7f7f7f7f7f7f7f7f
+  vtype: 0x00000000000000d0  vstart: 0x0000000000000000  vxsat: 0x0000000000000000
+  vxrm: 0x0000000000000002          vl: 0x0000000000000001   vcsr: 0x0000000000000004
+reading_program: 语料程序（0x80000000 起）是 3 条启动 + `auipc/addi` 取数址 +
+         `vsetivli zero,8,e8,m1,ta,ma`（word[5] = 0xCC047057，vl=8、vtype=0xC0）+
+         `vle8 v8/v9` + `vdot.vv v1,v8,v9`（0x80000024，word[9] = 0xB29420D7，与
+         `docs/05` §7.1 的编码逐位相同）+ 存取与比较 + OK/BAD 两个自旋环
+         （`0x80000048`/`0x80000044`）。影子段里的 `vtype=0xd0`、`vl=1` 是 vdot 之后
+         那条 `vsetivli zero,1,e32,m1,ta,ma`（为 `vse32.v` 摆的）留下的**最终**状态，
+         与「vdot 执行时 vl=8、vtype=0xC0」不矛盾。
+三条推论（与第 5 节的机制互为印证）:
+  (a) 点积本身是对的：`v1` 低 64 位两侧逐位相同，装着 0x00000000fffe0400 = -130048。
+  (b) NEMU 与 DUT 在向量装载/尾部填充上一致：`v8/v9` 尾 8 字节全 1 是 `vta=1` 的
+      规范行为（NEMU 自己的 `vle8.v` 就这么填），两侧都没报分歧。
+  (c) 唯一分歧在 `v1[127:64]`：模型要 0，DUT 给全 1。
+mechanism（source_read + 上面的读数）:
+  单元是对的：`rtl/xs_vdot_unit.sv:321` `vd = { {(VLEN-OUTW){1'b0}}, out_field }`——
+  除低 32 位外逐位清零。集成层改写尾部：`rtl/xiangshan-patch/VDotU.scala:163-168`
+  把单元输出送进香山标准 `Mgu` 掩码/尾部合并级，`:192` `io.out.bits.res.data := mgu.io.out.vd`；
+  vl=8 只盖 8 个字节、`vta=1`，`Mgu` 把尾部 8 字节填全 1。`VDotU.scala:177-186` 的注释
+  原文写明：`vl = VLMAX` 时 `Mgu` 透明；masked 或 short-vl 时 vl 之外的通道**跟随
+  vtype**，不是字面清零。模型侧（`nemu/apply_nemu_patch.py` 的 `HELPER_NEW`
+  `def_EHelper(vdot)`）先把 VLEN/8 个字节全清再写低 32 位，是无条件清零。
+  ⇒ 不是「RTL 的 vdot 写错了」，是**既定的语义差异**在短 vl 语料上第一次被撞见。
+not_decidable_here: 这一发里程序自己的比较走没走 OK 环，**本日志判不了**——ABORT 的
+  pc 与第 2 节一样出自 `dut->trap.pc`，而 instrCnt=18 恰好数到 BAD 环第一条（0x80000044）
+  这个「暗示比较失败」的读法继承同一个不可靠性。它不需要单独闭合：第 5 节那一发
+  零 mismatch 且终点 OK 环，把「值对 + 存取路径对 + 比较通过」在交付所用的作用域里
+  一次量完。
+
+=== 5. 主发：vl=VLMAX 语料（j4_corpus_vlmax.log，4580202 B）——闭环 ===
+image:  $HOME/vdot_corpus_vlmax.bin，192 B，
+        sha256 26a0e807f26ef12626096fee6869e44ec5fb7b99b2bcc1c1c2933a68f862756b，
+        与第 4 节那枚**只差 1 字节**（byte22：0x04 → 0x08，即 `vsetivli` 的 uimm
+        8→16 = VLMAX），其余 191 字节逐字节相同；改后 word[5] = 0xCC087057，与
+        `docs/06` §1.2 那张表的汇编回产词逐位相同（本机 GNU as 2.47 复核：
+        `vsetivli zero,16,e8,m1,ta,ma` → cc087057）。语义上除了「尾部为空」什么都没变：
+        `vdot.vv` 只取低 8 条通道，DATA 区每条向量本来就有 16 字节。
+command: cd $HOME/difftest && ulimit -s unlimited
+         stdbuf -oL -eL ./build/emu -i $HOME/vdot_corpus_vlmax.bin \
+           --diff $HOME/nemu-vdot/build/riscv64-nemu-interpreter-so -C 8000
+cost:    real 1m18.522s（约 103 周期/秒），emu 返回码 0
+stdout（判定行逐字）:
+  The first instruction of core 0 has commited. Difftest enabled.
+  Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000048
+  Core-0 instrCnt = 3,703, cycleCnt = 8,000, IPC = 0.462875
+mismatch_lines: 0（全日志 4580202 B 里 `different at pc` 计数为 0；无 ABORT）
+meaning: 整颗 SoC 真的执行了 `vdot.vv`，全程与参考机逐拍一致；程序自己存出去、
+         读回来比较的 32 位等于 0xFFFE0400（终点 `0x80000048` 是 OK 环）。
+         instrCnt 3,703 大是 OK 环自旋在数：程序本体 19 条，其余是自旋迭代。
+         `EXCEEDING`（而不是陷阱行）是本树 difftest 的正常终点，
+         见工作区 `round7/REFUTE_trap_line.md`。
+verdict_of_this_section: 这就是 3.1.2 要的那发 SoC 级读数，同时把第 4 节遗留的
+         「OK 环还是 BAD 环」疑问在交付作用域内闭合——上一发的 ABORT pc 不可靠，
+         本发无分歧可比，终点即程序自己的判决。
+
+=== 6. 作用域（写进文档时的口径） ===
+scope_statement: 3.1.2 的一致性主张写成「**vl=VLMAX（Mgu 透明）下整颗 SoC 与 NEMU
+  逐拍一致**」。短 vl 时尾部按 `vtype`（`VDotU.scala:177-186`），**不写「任意 vl 都一致」**。
+  单元级的那句「vd 其余位清零」（`docs/03` §1.2/§3.4 引 `xs_vdot_unit.sv:321`）在
+  单元自身成立；整颗 SoC 且短 vl 时，尾部随 vta。
+untested_here: `vstart≠0` 的 SoC 级语料、`vm=0` 在这一层的语料、以及参考机同类直写
+  清单里其余 25 处（`vstart->val = 0` 等）本轮语料都碰不到，维持原档位。
+
+=== 7. 这一份不主张什么 ===
+not_a_semantics_change: 两侧语义都没改：RTL 没动（emu 未重编），NEMU 只打了那一行
+  标脏补丁（`vdot` 模型的无条件清零原样保留）。
+not_folding_the_fix_into_the_patch_script: ~~那一行修法**没有**进
+  `nemu/apply_nemu_patch.py`~~（2026-10-01 同日更新：**已折入**，成为脚本第 6 处锚点
+  编辑，并连带折入 `build.mk` 两条构建适配（第 7、8 处）与双臂 defconfig 产物化——
+  编辑数 6→10、文件数 6→9，`check_claims.py` 从 AST 现算全部对齐，见提交 bf34c61/
+  90e6428/ba93750 与 `results/nemu/script_rebuild_linux.txt`：from-pristine、from-script
+  的参考机在集群上重建并逐位复现本文件 §3/§5 的两发认证读数）。原文照录：集群树上的
+  修改是手打的（原文备份 .bak-round7）。
+not_the_end_of_short_vl: 短 vl 的三条路（只写作用域 / 改模型尾随 vtype / 改 RTL
+  强制字面读法）本轮只走了第一条；后两条是带代价的开放项。
+logs_live_on_the_cluster: 本文件引用的 4 份原始日志
+  （j1_probeS.log、j2_probeS_after.log、j4_corpus.log、j4_corpus_vlmax.log）都在集群
+  `$HOME`，判定行逐字摘自 2026-10-01 对它们的去转义提取；它们是读数原件，别删。
+
+VDOT-CORPUS-DIFFTEST VERDICT PASS - vlmax corpus zero mismatch, end pc 0x80000048 OK loop, 3.1.2 soc-level leg closed under vl=VLMAX scope

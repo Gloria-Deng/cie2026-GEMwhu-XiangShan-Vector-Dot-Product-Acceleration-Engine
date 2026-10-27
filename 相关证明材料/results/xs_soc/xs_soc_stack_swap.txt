@@ -1,0 +1,15 @@
+XS-SOC-STACKSWAP v1
+generated_by: python sim/xs_soc_stack_swap.py --run 900
+subject: a COPY of E:/msys64/ucrt64/bin/verilator_bin.exe -- the installed tool is only ever read
+the one changed field: SizeOfStackReserve at file offset 224 (8 bytes), 2 MB -> 512 MB
+why a copy: a header patch can produce an image the loader refuses (my first attempt used offset +0x44 and died with WinError 129); G1/G2 below are what stops that from being read as a measurement
+control arm = a 401-file dependency-closed subsystem the ladder probe saw reported about; full arm = all 1903 files with top XSTop
+
+SHA installed=8987e8fbc4c0 unpatched_copy=8987e8fbc4c0 patched_copy=2b015309b490
+FIELD differing_bytes=2 note=- versions=Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260702|Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260702
+LISTS full=D:/Desktop/RSIC-V香山/交付/build/xs_soc_stack/flist_full.txt control=D:/Desktop/RSIC-V香山/交付/build/xs_soc_stack/flist_control.txt
+ARM ctl_unpatched    RC=1 UNSIGNED=0x00000001 OUTBYTES=5435 ERROR_LINES=27 SILENT=no OUT_SHA=07a3655f195f FREE_MB=3233
+ARM ctl_patched      RC=1 UNSIGNED=0x00000001 OUTBYTES=5435 ERROR_LINES=27 SILENT=no OUT_SHA=07a3655f195f FREE_MB=3226
+ARM full_unpatched   RC=3221225725 UNSIGNED=0xC00000FD OUTBYTES=0 ERROR_LINES=0 SILENT=yes OUT_SHA=e3b0c44298fc FREE_MB=3971
+ARM full_patched     RC=0 UNSIGNED=0x00000000 OUTBYTES=322 ERROR_LINES=0 SILENT=no OUT_SHA=f9be540a57db FREE_MB=5470
+XS-SOC-STACKSWAP PASS problems=0

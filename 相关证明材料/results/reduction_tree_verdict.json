@@ -1,0 +1,186 @@
+{
+ "rulers": [
+  "arith_depth",
+  "tech_levels",
+  "cells",
+  "mapped_ltp"
+ ],
+ "rows": [
+  {
+   "nlanes": 8,
+   "pair": "serial_acc_vs_balanced_cpa",
+   "dirs": {
+    "arith_depth": "B_SHALLOWER",
+    "tech_levels": "B_SHALLOWER"
+   },
+   "cost": "B_CHEAPER",
+   "cost_pct": 0.1,
+   "readings": {
+    "A": {
+     "arith_depth": 8,
+     "tech_levels": 65,
+     "cells": 4077,
+     "mapped_ltp": 42
+    },
+    "B": {
+     "arith_depth": 4,
+     "tech_levels": 49,
+     "cells": 4073,
+     "mapped_ltp": 42
+    }
+   },
+   "verdict": "balanced_cpa_DOMINATES_serial_acc"
+  },
+  {
+   "nlanes": 8,
+   "pair": "csa_wallace_vs_balanced_cpa",
+   "dirs": {
+    "arith_depth": "A_SHALLOWER",
+    "tech_levels": "TIE"
+   },
+   "cost": "B_CHEAPER",
+   "cost_pct": 4.05,
+   "readings": {
+    "A": {
+     "arith_depth": 2,
+     "tech_levels": 49,
+     "cells": 4238,
+     "mapped_ltp": 42
+    },
+    "B": {
+     "arith_depth": 4,
+     "tech_levels": 49,
+     "cells": 4073,
+     "mapped_ltp": 42
+    }
+   },
+   "verdict": "PARTIAL_csa_wallace_shallower_on_arith_depth_tied_on_tech_levels_+4.05_pct_cells"
+  },
+  {
+   "nlanes": 8,
+   "pair": "csa_wallace_vs_serial_acc",
+   "dirs": {
+    "arith_depth": "A_SHALLOWER",
+    "tech_levels": "A_SHALLOWER"
+   },
+   "cost": "B_CHEAPER",
+   "cost_pct": 3.95,
+   "readings": {
+    "A": {
+     "arith_depth": 2,
+     "tech_levels": 49,
+     "cells": 4238,
+     "mapped_ltp": 42
+    },
+    "B": {
+     "arith_depth": 8,
+     "tech_levels": 65,
+     "cells": 4077,
+     "mapped_ltp": 42
+    }
+   },
+   "verdict": "TRADEOFF_csa_wallace_buys_depth_for_+3.95_pct_cells"
+  },
+  {
+   "nlanes": 16,
+   "pair": "serial_acc_vs_balanced_cpa",
+   "dirs": {
+    "arith_depth": "B_SHALLOWER",
+    "tech_levels": "B_SHALLOWER"
+   },
+   "cost": "A_CHEAPER",
+   "cost_pct": 0.06,
+   "readings": {
+    "A": {
+     "arith_depth": 16,
+     "tech_levels": 83,
+     "cells": 8229,
+     "mapped_ltp": 48
+    },
+    "B": {
+     "arith_depth": 5,
+     "tech_levels": 56,
+     "cells": 8234,
+     "mapped_ltp": 48
+    }
+   },
+   "verdict": "TRADEOFF_balanced_cpa_buys_depth_for_+0.06_pct_cells"
+  },
+  {
+   "nlanes": 16,
+   "pair": "csa_wallace_vs_balanced_cpa",
+   "dirs": {
+    "arith_depth": "A_SHALLOWER",
+    "tech_levels": "A_SHALLOWER"
+   },
+   "cost": "B_CHEAPER",
+   "cost_pct": 3.08,
+   "readings": {
+    "A": {
+     "arith_depth": 2,
+     "tech_levels": 53,
+     "cells": 8488,
+     "mapped_ltp": 51
+    },
+    "B": {
+     "arith_depth": 5,
+     "tech_levels": 56,
+     "cells": 8234,
+     "mapped_ltp": 48
+    }
+   },
+   "verdict": "TRADEOFF_csa_wallace_buys_depth_for_+3.08_pct_cells"
+  },
+  {
+   "nlanes": 16,
+   "pair": "csa_wallace_vs_serial_acc",
+   "dirs": {
+    "arith_depth": "A_SHALLOWER",
+    "tech_levels": "A_SHALLOWER"
+   },
+   "cost": "B_CHEAPER",
+   "cost_pct": 3.15,
+   "readings": {
+    "A": {
+     "arith_depth": 2,
+     "tech_levels": 53,
+     "cells": 8488,
+     "mapped_ltp": 51
+    },
+    "B": {
+     "arith_depth": 16,
+     "tech_levels": 83,
+     "cells": 8229,
+     "mapped_ltp": 48
+    }
+   },
+   "verdict": "TRADEOFF_csa_wallace_buys_depth_for_+3.15_pct_cells"
+  }
+ ],
+ "conditional": {
+  "holds_at": [
+   16
+  ],
+  "gains": {
+   "8": {
+    "gains": {
+     "arith_depth": 2,
+     "tech_levels": 0
+    },
+    "cost_pct": 4.05,
+    "holds": false,
+    "levels_per_pct": 0.0
+   },
+   "16": {
+    "gains": {
+     "arith_depth": 3,
+     "tech_levels": 3
+    },
+    "cost_pct": 3.08,
+    "holds": true,
+    "levels_per_pct": 0.973
+   }
+  },
+  "line": "CONDITIONAL csa_wallace_vs_balanced_cpa holds_at=[16] threshold_n=16 speed_claim=none(no_sta) :: n=8 arith=+2 tech=+0 cost=+4.05% per_pct=0.00  n=16 arith=+3 tech=+3 cost=+3.08% per_pct=0.97"
+ }
+}

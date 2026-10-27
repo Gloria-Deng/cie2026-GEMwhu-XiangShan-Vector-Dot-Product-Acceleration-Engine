@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "local_links_checked": 22,
+  "new_analysis_files_checked": 40,
+  "excluded_analysis_files": 0,
+  "original_build_inputs_unchanged": 19,
+  "fst_mode_passed": true,
+  "cache_results_equal": true,
+  "error_cases_rejected": 4
+}

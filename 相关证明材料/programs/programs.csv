@@ -1,0 +1,5 @@
+group,program,cases,OK,BAD,image
+pos,basic_pos,46,0x80000088,0x80000080,basic_pos.bin
+neg,basic_neg,48,0x80000088,0x80000080,basic_neg.bin
+bound,basic_bound,45,0x80000088,0x80000080,basic_bound.bin
+corpus,corpus_vl8_ta1,939,0x80000088,0x80000080,corpus_vl8_ta1.bin

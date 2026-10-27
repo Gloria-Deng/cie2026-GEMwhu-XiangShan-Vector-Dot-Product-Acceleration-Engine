@@ -1,0 +1,45 @@
+{
+  "analysis_date": "2026-10-22",
+  "archive_name": "vdot-evidence.tar.gz",
+  "archive_size": 50459571,
+  "archive_id": "bb0df6d85d154390dfa895c41bdc276fe568bfb201a0e3a0548d105191eb0030",
+  "member": "vdot-evidence/validation/vadd.fst",
+  "fst_bytes": 67833959,
+  "fst_id": "70628c5e6403fdf5c7bd408169da525e2ec46ddca3452430a07f20ee5b490a8f",
+  "local_original": "D:\\Desktop\\RSIC-V香山\\evidence_extract_20261019_1\\vdot-evidence\\validation\\vadd.fst",
+  "other_fst": {
+    "path": "D:\\Desktop\\RSIC-V香山\\cluster_run_3729246\\evidence\\validation\\vadd.fst",
+    "content_id": "8772a54c7544c350145c7ecc083637652d46e78a082956b6d95045e621c031d4",
+    "used": false
+  },
+  "hardware": {
+    "config": "KunminghuV2Config",
+    "cores": 1,
+    "upstream": "42f87803d10bc21bbc5df2807a2fc07db6c9dc89",
+    "difftest": "3729300ae233",
+    "utility": "2f0743f1f3ee",
+    "runtime_build_identifier": "c8cb78cd0f, dirty=1; local build identifier, not upstream revision",
+    "emu": "/project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu",
+    "emu_id": "a13197d9519a7546e4c6bcae3e4890161f6c07404b57e0288783f27bf5bb7485",
+    "reference": "/project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so",
+    "reference_id": "fcf124d533eb0459a5861717b63c2db4aea608f46cff49edf933500d0cc633ff"
+  },
+  "original_command": [
+    "/project/chensiyuan/vdot/run_20261016_m/XiangShan/build/emu",
+    "-i",
+    "/project/chensiyuan/vdot/run_20261016_m/programs/vadd_full_register.bin",
+    "--diff=/project/chensiyuan/vdot/run_20261016_m/NEMU/build/riscv64-nemu-interpreter-so",
+    "--ram-size=256MB",
+    "--no-squash",
+    "-C",
+    "30000",
+    "-b",
+    "0",
+    "-e",
+    "10000",
+    "--dump-wave",
+    "--wave-path=/project/chensiyuan/vdot/run_20261016_m/validation/vadd.fst"
+  ],
+  "new_simulation": false,
+  "new_hardware_signals": false
+}

@@ -1,0 +1,9 @@
+library DIFFTEST_REG_SIZE=1376, header OFF_END=1376, g_nr_guest_instr=resolved
+  [0] @0x80000200 0xb2b52657 readback 0xb2b52657
+variant=vdot instructions=1 result=v12 seed=zero
+custom-op encoding: table 0xb2b52657 bit-fields(vs1=v10,vs2=v11,vd=v12) 0xb2b52657 AGREE
+STEP_INSTR arm=vdot i=0 word=0xb2b52657 retired=1 pc=0x80000200->0x80000204
+cases=939 mismatches=0 variant=vdot n_inst=1 nonzero_upper_lanes=0 low_mismatches=0 tail_mismatches=0 compare_bits=128
+ICOUNT arm=vdot declared=1 counter=g_nr_guest_instr per_seq=1 total=939 cases=939 uniform=1
+BASELINE vdot PASS
+EXIT-CALLBACK during phase [mem_cpy readback]

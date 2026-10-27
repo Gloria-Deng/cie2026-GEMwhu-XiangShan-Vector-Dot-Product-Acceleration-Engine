@@ -1,0 +1,32 @@
+XS-SOC-LINT-PROBE v1
+tool: /e/msys64/ucrt64/bin/verilator_bin.exe --lint-only --timing (never reaches --cc: no code generation here)
+arm P = the generated closure rtl/xs_soc_generated/ the wrapper tier already drives (the instrument-alive control); arm L = the whole generated SoC, top module XSTop
+file lists go through -f because the SoC list does not fit one Windows argv
+every path handed to the tool is ASCII-only: verilator_bin.exe is a native Windows binary, so an MSYS-style /d/... name resolves for bash and not for it, and a non-ASCII name can be mangled without any error at all -- hence P is driven by relative paths and L by D:/... ones
+errors are counted from the HEAD of each log (%Error comes first, the noise last)
+each arm ends with DONE=yes and the child's stderr is archived as STDERR -- an arm whose shell died mid-script used to report not_reported with no reason, which reads like a result
+
+generated_by: python sim/xs_soc_lint_probe.py --run 900
+=== ARM P ===
+FILES=7
+VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702
+RC=0
+SECS=1
+TIMEOUT=no
+ERROR_LINES=0
+FIRST_ERROR=none
+DONE=yes
+STDERR_LINES=0
+STDERR=none
+
+=== ARM L ===
+FILES=1976
+VER=Verilator_5.050_2026-07-01_rev_vUNKNOWN-built20260702
+RC=127
+SECS=28
+TIMEOUT=no
+ERROR_LINES=0
+FIRST_ERROR=none
+DONE=yes
+STDERR_LINES=0
+STDERR=none

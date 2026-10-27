@@ -1,0 +1,117 @@
+{
+  "config": "KunminghuV2Config",
+  "fir_bytes": 1439172022,
+  "fir_sha256": "d773d0989c342ccf9548ea8ae0e644c16ba221953b79e58e80138f415fa1da0b",
+  "generated_rtl": {
+    "ByteMaskTailGen.sv": {
+      "bytes": 6877,
+      "module": "ByteMaskTailGen",
+      "sha256": "ef8bb3087c7977a315c43bec0c4e0292fe7cd20314054145c65ab7a8ca206be6"
+    },
+    "MaskExtractor.sv": {
+      "bytes": 3181,
+      "module": "MaskExtractor",
+      "sha256": "a2abe2e67bd042e6788dc605b55d104f1643a5d5f9b73a4aa9b297391e54e28d"
+    },
+    "Mgu.sv": {
+      "bytes": 23842,
+      "module": "Mgu",
+      "sha256": "ab310fc3da7844812300be3b173c46f489b2b1de709da6cdca2f6cb6e7c47df7"
+    },
+    "UIntToContLow0s.sv": {
+      "bytes": 18849,
+      "module": "UIntToContLow0s",
+      "sha256": "3e7eb0e30270563924354bf0675253bca997c6b0622327d8978b2d432c8cd030"
+    },
+    "UIntToContLow1s.sv": {
+      "bytes": 20245,
+      "module": "UIntToContLow1s",
+      "sha256": "cd97eadc1671c6e328887505159380e3dee5b9931aba0dd9f9bbe69b9616b160"
+    },
+    "VDotU.sv": {
+      "bytes": 6716,
+      "module": "VDotU",
+      "sha256": "16674c1b9bc12c2278daacc4548bd69f3de12066a57576435dd9a26d925f3094"
+    },
+    "VDotUnit.sv": {
+      "bytes": 6048,
+      "module": "VDotUnit",
+      "sha256": "aef7ffabe2e6a840973590d743213eb7f15e70472f39038eb350f1f0c05b985f"
+    }
+  },
+  "insts_parsed": 15494,
+  "log_hits": {
+    "commit_id": [
+      "[769] [CommitIDModule] SHA=68a4cdc2a9",
+      "[769] [CommitIDModule] dirty=0"
+    ],
+    "espresso_fallback": [],
+    "espresso_fallback_count": [
+      "0"
+    ],
+    "firtool": [
+      "=============== xiangshan.runMain top.TopMain --.../firtool-1.62.1/bin/firtool.exe ===============",
+      "[769/769] =============== xiangshan.runMain top.Top...l-1.62.1/bin/firtool.exe =============== 60s",
+      "[769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 120s",
+      "[769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 180s",
+      "[769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 240s",
+      "[769/769] =============== xiangshan.runMain top.To...l-1.62.1/bin/firtool.exe =============== 300s"
+    ],
+    "runMain_elapsed": [
+      "[769] xiangshan.runMain 51s",
+      "[769] xiangshan.runMain 111s",
+      "[769] xiangshan.runMain 171s",
+      "[769] xiangshan.runMain 231s",
+      "[769] xiangshan.runMain 291s",
+      "[769] xiangshan.runMain 351s"
+    ]
+  },
+  "modules_parsed": 15152,
+  "paths": {
+    "VDotU": "XSTop -> XSTile -> XSCore -> Backend -> BackendInlined -> ExuBlock_2 -> ExeUnit_13 -> VDotU",
+    "VDotUnit": "XSTop -> XSTile -> XSCore -> Backend -> BackendInlined -> ExuBlock_2 -> ExeUnit_13 -> VDotU -> VDotUnit"
+  },
+  "sv_bytes": 129270679,
+  "sv_files": 1954,
+  "tools": {
+    "espresso_bytes": 132433,
+    "espresso_sha256": "e248d4436a6fde43845a669422fdd0d46431994b6dc214b3dc0f3979f5e5a52e",
+    "firtool_sha256": "821bfaf33f1b0d3269611baf63e134ed9180ec2d28565bfa78c58bb0ae1367a8",
+    "firtool_version": "CIRCT firtool-1.62.1",
+    "tree_dirty_entries": 0,
+    "tree_git_head": "68a4cdc2a924d2e65e8bf31949a267cdd95ea932"
+  },
+  "tree": "D:\\xs-vdot",
+  "vdot_decls": {
+    "VDotU": "module VDotU : @[D:\\\\xs-vdot\\\\src\\\\main\\\\scala\\\\xiangshan\\\\backend\\\\fu\\\\wrapper\\\\VDotU.scala 94:7]",
+    "VDotUnit": "module VDotUnit : @[D:\\\\xs-vdot\\\\src\\\\main\\\\scala\\\\vdot\\\\VDotUnit.scala 59:7]"
+  },
+  "vdot_files": {
+    "VDotU.sv": {
+      "bytes": 6716,
+      "lines": 190,
+      "sha256": "16674c1b9bc12c2278daacc4548bd69f3de12066a57576435dd9a26d925f3094"
+    },
+    "VDotUnit.sv": {
+      "bytes": 6048,
+      "lines": 181,
+      "sha256": "aef7ffabe2e6a840973590d743213eb7f15e70472f39038eb350f1f0c05b985f"
+    }
+  },
+  "vdot_inst_lines": {
+    "VDotU": [
+      "ExeUnit_13.sv:756  VDotU Vdot ("
+    ],
+    "VDotUnit": [
+      "VDotU.sv:155  VDotUnit VDotDatapath ("
+    ]
+  },
+  "vdot_parents": {
+    "VDotU": [
+      "ExeUnit_13"
+    ],
+    "VDotUnit": [
+      "VDotU"
+    ]
+  }
+}
