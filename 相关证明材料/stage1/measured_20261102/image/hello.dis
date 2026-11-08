@@ -1,0 +1,38 @@
+
+/project/chensiyuan/vdot/performance_20261030/hello/image/hello.elf:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000080000000 <_start>:
+    80000000:	00000297          	auipc	t0,0x0
+    80000004:	04428293          	addi	t0,t0,68 # 80000044 <UNEXPECTED_TRAP>
+    80000008:	30529073          	csrw	mtvec,t0
+    8000000c:	00100417          	auipc	s0,0x100
+    80000010:	ff440413          	addi	s0,s0,-12 # 80100000 <__DATA_BEGIN__>
+    80000014:	406004b7          	lui	s1,0x40600
+
+0000000080000018 <NEXT_CHAR>:
+    80000018:	00044303          	lbu	t1,0(s0)
+    8000001c:	00030e63          	beqz	t1,80000038 <DONE>
+
+0000000080000020 <UART_WAIT>:
+    80000020:	0084c383          	lbu	t2,8(s1) # 40600008 <_start-0x3f9ffff8>
+    80000024:	0083f393          	andi	t2,t2,8
+    80000028:	fe039ce3          	bnez	t2,80000020 <UART_WAIT>
+    8000002c:	00648223          	sb	t1,4(s1)
+    80000030:	00140413          	addi	s0,s0,1
+    80000034:	fe5ff06f          	j	80000018 <NEXT_CHAR>
+
+0000000080000038 <DONE>:
+    80000038:	0ff0000f          	fence
+    8000003c:	00c0006f          	j	80000048 <OK>
+
+0000000080000040 <BAD>:
+    80000040:	0000006f          	j	80000040 <BAD>
+
+0000000080000044 <UNEXPECTED_TRAP>:
+    80000044:	ffdff06f          	j	80000040 <BAD>
+
+0000000080000048 <OK>:
+    80000048:	0000006f          	j	80000048 <OK>

@@ -104,23 +104,10 @@ def summarize(rows, out):
     print('COMPLETE %d successful measurements; tables: %s' % (len(rows),out))
 
 def replay(args):
-    pm=programs(ROOT/'programs')
-    data=json.loads((ROOT/'recorded'/'summary.json').read_text(encoding='utf-8'))
-    for name,want in data['inputs'].items():
-        if not matches_historical_source(ROOT/name,want): raise ValueError('Source differs from the saved measurement: '+name)
-    selected=[x for x in data['runs'] if x['kind']=='benchmark']
-    if len(selected)!=48 or not all(x['ok'] for x in selected): raise ValueError('Expected 48 successful saved measurements')
-    rows=[]
-    for r in selected:
-        p=recorded_file(ROOT/'recorded'/'raw'/r['log'],r['log_sha256'])
-        if digest(p)!=r['log_sha256']: raise ValueError('Saved output differs: '+p.name)
-        pc,c=decode(p.read_text(encoding='utf-8',errors='replace'),0,pm[r['name']])
-        if c!=r['cycles_lower'] or pc!=int(r['pc'],16): raise ValueError('Saved result cannot be reproduced: '+p.name)
-        rows.append(dict(name=r['name'],dependency='dependent' if r['dependent'] else 'independent',
-                         implementation=r['arm'],iterations=r['iterations'],repeat=r['repeat'],
-                         final_pc=hex(pc),cycles_lower=c,cycles_upper=c+7))
-    summarize(rows,args.out.resolve())
-    print('CURRENT_CODE_VERIFIED=false; only saved measurements were recalculated')
+    command=[sys.executable,'-B',str(ROOT/'scripts/check_measurements.py')]
+    if args.out is not None:
+        command.extend(['--out',str(args.out.resolve())])
+    subprocess.run(command,check=True)
 
 def measure(args):
     work=args.work.resolve() if args.work else None
@@ -249,8 +236,8 @@ def build(args):
 def main():
     ap=argparse.ArgumentParser(description='Recompute saved timings or build and measure the dot-product programs.')
     subs=ap.add_subparsers(dest='mode',required=True)
-    rp=subs.add_parser('replay',help='Recompute the 48 included successful measurements')
-    rp.add_argument('--out',type=Path,default=ROOT/'results/recomputed'); rp.set_defaults(action=replay)
+    rp=subs.add_parser('replay',help='Recompute the 420 included current measurements')
+    rp.add_argument('--out',type=Path); rp.set_defaults(action=replay)
     mp=subs.add_parser('measure',help='Run the timing programs with existing XiangShan and NEMU products')
     mp.add_argument('--work',type=Path); mp.add_argument('--emu',type=Path); mp.add_argument('--library',type=Path)
     mp.add_argument('--programs',type=Path)

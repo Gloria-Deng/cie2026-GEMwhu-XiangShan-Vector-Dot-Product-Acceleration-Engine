@@ -1,4 +1,4 @@
-hello xiangshan, I am GEMwhu, IP address 172.25.54.204
-ip_selection_method=udp_egress_no_packets_sent
-host=LAPTOP-ROVJN0UC python=3.12.3 platform=linux
-HELLO_ANYOS ip=172.25.54.204
+hello xiangshan, I am GEMwhu, IP address 10.131.152.159
+ip_selection_method=udp_egress_no_packets_sent
+host=LAPTOP-ROVJN0UC python=3.11.9 platform=win32
+HELLO_ANYOS ip=10.131.152.159

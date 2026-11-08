@@ -1,11 +1,4 @@
-
-
-
-
-
-
-
-
+// Standalone circuit generator for design document 2.1 and synthesis comparisons.
 package vdot
 
 import chisel3._
@@ -36,10 +29,6 @@ object VDotMain {
     val p = VDotParams(nlanes = nlanes, lanes = lanes, outw = outw, accw = accw, tree = tree)
     val name = "VDotUnit_t%d_n%d_o%d_a%d".format(tree, nlanes, outw, accw)
     java.nio.file.Files.createDirectories(java.nio.file.Paths.get(dir))
-
-
-
-
 
     val sv = ChiselStage.emitSystemVerilog(
       new VDotUnit(p),

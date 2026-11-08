@@ -1,5 +1,25 @@
+RECORDED_NEMU_PASS cases=939 compare_bits=128 mismatches=0
+RECORDED_NEMU_PROGRAMS_PASS programs=16
+RECORDED_SOURCE_CHANGE_ACCEPTED path=rtl/xiangshan-patch/VDotU.scala change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=rtl/xiangshan-patch/VDotWrapperMain.scala change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=rtl/chisel/vdot/vdot/src/vdot/VDotUnit.scala change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=rtl/xiangshan-patch/apply.sh change=comments_removed_and_tooling_adaptation
+RECORDED_SOURCE_CHANGE_ACCEPTED path=rtl/xs_wrapper_generated/VDotU.sv change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=sim/check_fixed_wrapper.py change=comments_removed_and_tooling_adaptation
+RECORDED_WRAPPER_PASS scenarios=96
 Recorded functional results PASS
-Recorded full-core executions PASS 64
+RECORDED_SOURCE_CHANGE_ACCEPTED path=nemu/apply_nemu_patch.py change=comments_removed_and_tooling_adaptation
+RECORDED_SOURCE_CHANGE_ACCEPTED path=tools/gen_cluster_programs.py change=comments_removed_and_tooling_adaptation
+HISTORICAL_SOURCE_CHANGED path=cluster/build.sbatch current_code_verified=false reason=record_actual_build_configuration
+RECORDED_SOURCE_CHANGE_ACCEPTED path=cluster/prepare_sources.py change=comments_removed
+HISTORICAL_SOURCE_CHANGED path=cluster/build_manifest.py current_code_verified=false reason=record_actual_build_configuration
+RECORDED_SOURCE_CHANGE_ACCEPTED path=cluster/run_suite.py change=comments_removed_and_tooling_adaptation
+RECORDED_SOURCE_CHANGE_ACCEPTED path=cluster/test.sbatch change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=tools/run_instruction_cosim.py change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=nemu/cosim/cosim_baseline.c change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=nemu/cosim/probe_offsets.c change=comments_removed
+RECORDED_SOURCE_CHANGE_ACCEPTED path=nemu/cosim/rtl_vectors_to_cosim.py change=comments_removed
+Recorded functional full-core executions PASS 16
 Raw FST PASS 11 executions 176 byte results
-hello xiangshan, I am GEMwhu, IP address 172.25.54.204
+hello xiangshan, I am GEMwhu, IP address 10.131.152.159
 ENVIRONMENT_PACKAGE_PASS

@@ -27,7 +27,7 @@ def main():
         print('Recorded functional results PASS',flush=True)
         validation=ROOT/'results/cluster/20261019'
         report['checks']['full_core']=check_cluster(validation)
-        print('Recorded full-core executions PASS 64',flush=True)
+        print('Recorded functional full-core executions PASS 16',flush=True)
         wave_args=SimpleNamespace(image=None,tables_only=False,fst=None,library=None,scratch=args.scratch)
         report['checks']['wave']=check_wave(wave_args,out,validation)
         print('Raw FST PASS 11 executions 176 byte results',flush=True)

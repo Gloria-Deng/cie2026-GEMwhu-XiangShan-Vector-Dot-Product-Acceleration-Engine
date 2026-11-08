@@ -1,1 +1,0 @@
-PASS: rebuilt image matches all 1049136 bytes

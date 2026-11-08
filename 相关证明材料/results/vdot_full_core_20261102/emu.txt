@@ -1,0 +1,14 @@
+emu compiled at Oct 30 2026, 08:57:32
+Using seed = 1
+Using simulated 1048576B flash
+dump wave to /project/chensiyuan/vdot/performance_20261030/materials/results/vdot_wave_20261106_231147_4127407/vdot.fst...
+Core  0's Commit SHA is: 31f5dabbb3, dirty: 1
+Using simulated 256MB RAM
+The image is /project/chensiyuan/vdot/performance_20261030/materials/results/vdot_wave_20261106_231147_4127407/vdot_wave.bin
+The reference model is /project/chensiyuan/vdot/performance_20261030/current_build/NEMU/build/riscv64-nemu-interpreter-so
+The first instruction of core 0 has commited. Difftest enabled. 
+Core 0: [33mEXCEEDING CYCLE/INSTR LIMIT at pc = 0x80000330
+[0m[35mCore-0 instrCnt = 24,835, cycleCnt = 30,000, IPC = 0.827833
+[0m[34mSeed=1 Guest cycle spent: 30,006 (this will be different from cycleCnt if emu loads a snapshot)
+[0m[34mHost time spent: 410,955ms
+[0m

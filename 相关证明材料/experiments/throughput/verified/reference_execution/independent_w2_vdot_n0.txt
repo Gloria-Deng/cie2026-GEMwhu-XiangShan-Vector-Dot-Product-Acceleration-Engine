@@ -1,1 +1,0 @@
-IMAGE PASS pc=0x80000120 instructions=62

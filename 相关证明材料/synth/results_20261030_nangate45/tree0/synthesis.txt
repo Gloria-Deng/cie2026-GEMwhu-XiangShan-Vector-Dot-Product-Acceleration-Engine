@@ -1,0 +1,966 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Executing script file `/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/tree0/synth.ys' --
+
+1. Executing Verilog-2005 frontend: /mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/tree0/converted.v
+Parsing SystemVerilog input from `/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/tree0/converted.v' to AST representation.
+Generating RTLIL representation for module `\VDotUnit'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \VDotUnit
+
+2.2. Analyzing design hierarchy..
+Top module:  \VDotUnit
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9 in module VDotUnit.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 3 redundant assignments.
+Promoted 0 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~2 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+     1/11: $0\validS1[0:0]
+     2/11: $0\red[18:0]
+     3/11: $0\fireS1[0:0]
+     4/11: $0\prod_7[18:0]
+     5/11: $0\prod_6[18:0]
+     6/11: $0\prod_5[18:0]
+     7/11: $0\prod_4[18:0]
+     8/11: $0\prod_3[18:0]
+     9/11: $0\prod_2[18:0]
+    10/11: $0\prod_1[18:0]
+    11/11: $0\prod_0[18:0]
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\VDotUnit.\prod_0' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$68' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_1' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$69' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_2' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$70' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_3' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$71' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_4' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$72' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_5' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$73' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_6' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$74' with positive edge clock.
+Creating register for signal `\VDotUnit.\prod_7' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$75' with positive edge clock.
+Creating register for signal `\VDotUnit.\fireS1' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$76' with positive edge clock.
+Creating register for signal `\VDotUnit.\red' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$77' with positive edge clock.
+Creating register for signal `\VDotUnit.\validS1' using process `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+  created $dff cell `$procdff$78' with positive edge clock.
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `\VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+Removing empty process `VDotUnit.$proc$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:36$9'.
+Cleaned up 2 empty switches.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+4. Executing FLATTEN pass (flatten design).
+
+5. Executing OPT pass (performing simple optimizations).
+
+5.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+5.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+5.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~11 debug messages>
+
+5.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+5.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+5.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$68 ($dff) from module VDotUnit (D = $procmux$63_Y, Q = \prod_0, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$79 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:28$1_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:28$1_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:28$1_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:28$1_Y }, Q = \prod_0).
+Adding SRST signal on $procdff$69 ($dff) from module VDotUnit (D = $procmux$58_Y, Q = \prod_1, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$81 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:29$2_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:29$2_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:29$2_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:29$2_Y }, Q = \prod_1).
+Adding SRST signal on $procdff$70 ($dff) from module VDotUnit (D = $procmux$53_Y, Q = \prod_2, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$83 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:30$3_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:30$3_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:30$3_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:30$3_Y }, Q = \prod_2).
+Adding SRST signal on $procdff$71 ($dff) from module VDotUnit (D = $procmux$48_Y, Q = \prod_3, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$85 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:31$4_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:31$4_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:31$4_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:31$4_Y }, Q = \prod_3).
+Adding SRST signal on $procdff$72 ($dff) from module VDotUnit (D = $procmux$43_Y, Q = \prod_4, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$87 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:32$5_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:32$5_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:32$5_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:32$5_Y }, Q = \prod_4).
+Adding SRST signal on $procdff$73 ($dff) from module VDotUnit (D = $procmux$38_Y, Q = \prod_5, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$89 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:33$6_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:33$6_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:33$6_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:33$6_Y }, Q = \prod_5).
+Adding SRST signal on $procdff$74 ($dff) from module VDotUnit (D = $procmux$33_Y, Q = \prod_6, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$91 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:34$7_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:34$7_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:34$7_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:34$7_Y }, Q = \prod_6).
+Adding SRST signal on $procdff$75 ($dff) from module VDotUnit (D = $procmux$28_Y, Q = \prod_7, rval = 19'0000000000000000000).
+Adding EN signal on $auto$ff.cc:266:slice$93 ($sdff) from module VDotUnit (D = { $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:35$8_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:35$8_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:35$8_Y [15] $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:35$8_Y }, Q = \prod_7).
+Adding SRST signal on $procdff$76 ($dff) from module VDotUnit (D = \io_fire, Q = \fireS1, rval = 1'0).
+Adding SRST signal on $procdff$77 ($dff) from module VDotUnit (D = $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16_Y, Q = \red, rval = 19'0000000000000000000).
+Adding SRST signal on $procdff$78 ($dff) from module VDotUnit (D = \fireS1, Q = \validS1, rval = 1'0).
+
+5.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+Removed 19 unused cells and 58 unused wires.
+<suppressed ~20 debug messages>
+
+5.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+5.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+5.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+5.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+5.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+5.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+5.16. Finished OPT passes. (There is nothing left to do.)
+
+6. Executing JSON backend.
+
+7. Executing SYNTH pass.
+
+7.1. Executing HIERARCHY pass (managing design hierarchy).
+
+7.1.1. Analyzing design hierarchy..
+Top module:  \VDotUnit
+
+7.1.2. Analyzing design hierarchy..
+Top module:  \VDotUnit
+Removed 0 unused modules.
+
+7.2. Executing PROC pass (convert processes to netlists).
+
+7.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+7.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+7.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+7.2.4. Executing PROC_INIT pass (extract init attributes).
+
+7.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+7.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+7.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+7.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+7.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+7.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+7.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+7.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.5. Executing CHECK pass (checking for obvious problems).
+Checking module VDotUnit...
+Found and reported 0 problems.
+
+7.6. Executing OPT pass (performing simple optimizations).
+
+7.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+7.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+7.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.6.9. Finished OPT passes. (There is nothing left to do.)
+
+7.7. Executing FSM pass (extract and optimize FSM).
+
+7.7.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+7.7.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+7.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+7.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+7.7.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+7.7.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+7.7.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+7.8. Executing OPT pass (performing simple optimizations).
+
+7.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+7.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+7.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.8.9. Finished OPT passes. (There is nothing left to do.)
+
+7.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$80 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$82 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$84 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$86 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$88 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$90 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$92 ($sdffe).
+Removed top 3 bits (of 19) from FF cell VDotUnit.$auto$ff.cc:266:slice$94 ($sdffe).
+
+7.10. Executing PEEPOPT pass (run peephole optimizers).
+
+7.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.12. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module VDotUnit:
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$10 ($add).
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$11 ($add).
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$12 ($add).
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$13 ($add).
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$14 ($add).
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$15 ($add).
+  creating $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16 ($add).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:28$1 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:29$2 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:30$3 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:31$4 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:32$5 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:33$6 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:34$7 ($mul).
+  creating $macc model for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:35$8 ($mul).
+  merging $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$15 into $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16.
+  merging $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$14 into $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16.
+  merging $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$13 into $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16.
+  merging $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$12 into $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16.
+  merging $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$11 into $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16.
+  merging $macc model for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$10 into $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16.
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:29$2: $auto$alumacc.cc:365:replace_macc$98
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:28$1: $auto$alumacc.cc:365:replace_macc$99
+  creating $macc cell for $add$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:62$16: $auto$alumacc.cc:365:replace_macc$100
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:30$3: $auto$alumacc.cc:365:replace_macc$101
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:31$4: $auto$alumacc.cc:365:replace_macc$102
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:32$5: $auto$alumacc.cc:365:replace_macc$103
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:33$6: $auto$alumacc.cc:365:replace_macc$104
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:34$7: $auto$alumacc.cc:365:replace_macc$105
+  creating $macc cell for $mul$/mnt/d/Desktop/$e5$85$a8$e5$9b$bdRISC-V$e9$ab$98$e6$b0$b4$e5$b9$b3$e5$88$9b$e6$96$b0$e5$8f$8a$e5$ba$94$e7$94$a8$e5$a4$a7$e8$b5$9b-CIE-$e9$a6$99$e5$b1$b1$e7$a4$be$e5$8c$ba-RISC-V$e5$ba$94$e7$94$a8$e5$88$9b$e6$96$b0$e8$b5$9b$e9$81$93/$e7$9b$b8$e5$85$b3$e8$af$81$e6$98$8e$e6$9d$90$e6$96$99/synth/results_20261030_nangate45/tree0/converted.v:35$8: $auto$alumacc.cc:365:replace_macc$106
+  created 0 $alu and 9 $macc cells.
+
+7.13. Executing SHARE pass (SAT-based resource sharing).
+
+7.14. Executing OPT pass (performing simple optimizations).
+
+7.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+7.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+7.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+Removed 6 unused cells and 6 unused wires.
+<suppressed ~7 debug messages>
+
+7.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.14.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.14.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+7.14.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+7.14.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.14.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.14.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.14.16. Finished OPT passes. (There is nothing left to do.)
+
+7.15. Executing MEMORY pass.
+
+7.15.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+7.15.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+7.15.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+7.15.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+7.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+7.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+7.15.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+7.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+7.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.17. Executing OPT pass (performing simple optimizations).
+
+7.17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.17.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.17.5. Finished fast OPT passes.
+
+7.18. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+7.19. Executing OPT pass (performing simple optimizations).
+
+7.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \VDotUnit..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+7.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \VDotUnit.
+Performed a total of 0 changes.
+
+7.19.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+Removed a total of 0 cells.
+
+7.19.6. Executing OPT_SHARE pass.
+
+7.19.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+
+7.19.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+
+7.19.10. Finished OPT passes. (There is nothing left to do.)
+
+7.20. Executing TECHMAP pass (map to technology primitives).
+
+7.20.1. Executing Verilog-2005 frontend: /usr/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+7.20.2. Continuing TECHMAP pass.
+Using extmapper maccmap for cells of type $macc.
+  add { \prod_0 [15] \prod_0 [15] \prod_0 [15] \prod_0 [15:0] } (19 bits, unsigned)
+  add { \prod_7 [15] \prod_7 [15] \prod_7 [15] \prod_7 [15:0] } (19 bits, unsigned)
+  add { \prod_6 [15] \prod_6 [15] \prod_6 [15] \prod_6 [15:0] } (19 bits, unsigned)
+  add { \prod_5 [15] \prod_5 [15] \prod_5 [15] \prod_5 [15:0] } (19 bits, unsigned)
+  add { \prod_4 [15] \prod_4 [15] \prod_4 [15] \prod_4 [15:0] } (19 bits, unsigned)
+  add { \prod_3 [15] \prod_3 [15] \prod_3 [15] \prod_3 [15:0] } (19 bits, unsigned)
+  add { \prod_2 [15] \prod_2 [15] \prod_2 [15] \prod_2 [15:0] } (19 bits, unsigned)
+  add { \prod_1 [15] \prod_1 [15] \prod_1 [15] \prod_1 [15:0] } (19 bits, unsigned)
+  add { \io_vs1 [7] \io_vs1 [7] \io_vs1 [7] \io_vs1 [7] \io_vs1 [7] \io_vs1 [7] \io_vs1 [7] \io_vs1 [7] \io_vs1 [7:0] } * { \io_vs2 [7] \io_vs2 [7] \io_vs2 [7] \io_vs2 [7] \io_vs2 [7] \io_vs2 [7] \io_vs2 [7] \io_vs2 [7] \io_vs2 [7:0] } (16x16 bits, unsigned)
+  add { \io_vs1 [31] \io_vs1 [31] \io_vs1 [31] \io_vs1 [31] \io_vs1 [31] \io_vs1 [31] \io_vs1 [31] \io_vs1 [31] \io_vs1 [31:24] } * { \io_vs2 [31] \io_vs2 [31] \io_vs2 [31] \io_vs2 [31] \io_vs2 [31] \io_vs2 [31] \io_vs2 [31] \io_vs2 [31] \io_vs2 [31:24] } (16x16 bits, unsigned)
+  add { \io_vs1 [39] \io_vs1 [39] \io_vs1 [39] \io_vs1 [39] \io_vs1 [39] \io_vs1 [39] \io_vs1 [39] \io_vs1 [39] \io_vs1 [39:32] } * { \io_vs2 [39] \io_vs2 [39] \io_vs2 [39] \io_vs2 [39] \io_vs2 [39] \io_vs2 [39] \io_vs2 [39] \io_vs2 [39] \io_vs2 [39:32] } (16x16 bits, unsigned)
+  add { \io_vs1 [47] \io_vs1 [47] \io_vs1 [47] \io_vs1 [47] \io_vs1 [47] \io_vs1 [47] \io_vs1 [47] \io_vs1 [47] \io_vs1 [47:40] } * { \io_vs2 [47] \io_vs2 [47] \io_vs2 [47] \io_vs2 [47] \io_vs2 [47] \io_vs2 [47] \io_vs2 [47] \io_vs2 [47] \io_vs2 [47:40] } (16x16 bits, unsigned)
+  add { \io_vs1 [55] \io_vs1 [55] \io_vs1 [55] \io_vs1 [55] \io_vs1 [55] \io_vs1 [55] \io_vs1 [55] \io_vs1 [55] \io_vs1 [55:48] } * { \io_vs2 [55] \io_vs2 [55] \io_vs2 [55] \io_vs2 [55] \io_vs2 [55] \io_vs2 [55] \io_vs2 [55] \io_vs2 [55] \io_vs2 [55:48] } (16x16 bits, unsigned)
+  add { \io_vs1 [63] \io_vs1 [63] \io_vs1 [63] \io_vs1 [63] \io_vs1 [63] \io_vs1 [63] \io_vs1 [63] \io_vs1 [63] \io_vs1 [63:56] } * { \io_vs2 [63] \io_vs2 [63] \io_vs2 [63] \io_vs2 [63] \io_vs2 [63] \io_vs2 [63] \io_vs2 [63] \io_vs2 [63] \io_vs2 [63:56] } (16x16 bits, unsigned)
+Using extmapper simplemap for cells of type $sdff.
+  add { \io_vs1 [23] \io_vs1 [23] \io_vs1 [23] \io_vs1 [23] \io_vs1 [23] \io_vs1 [23] \io_vs1 [23] \io_vs1 [23] \io_vs1 [23:16] } * { \io_vs2 [23] \io_vs2 [23] \io_vs2 [23] \io_vs2 [23] \io_vs2 [23] \io_vs2 [23] \io_vs2 [23] \io_vs2 [23] \io_vs2 [23:16] } (16x16 bits, unsigned)
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $and.
+  add { \io_vs1 [15] \io_vs1 [15] \io_vs1 [15] \io_vs1 [15] \io_vs1 [15] \io_vs1 [15] \io_vs1 [15] \io_vs1 [15] \io_vs1 [15:8] } * { \io_vs2 [15] \io_vs2 [15] \io_vs2 [15] \io_vs2 [15] \io_vs2 [15] \io_vs2 [15] \io_vs2 [15] \io_vs2 [15] \io_vs2 [15:8] } (16x16 bits, unsigned)
+Using extmapper simplemap for cells of type $sdffe.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010011 for cells of type $fa.
+Using template $paramod$4e6ee5eb737cf7428f8e246e911ae1dac9ae2979\_90_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010000 for cells of type $fa.
+Using template $paramod$6df0329addda9228fcc2546de2aaf14ad26c98e1\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000010011 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using extmapper simplemap for cells of type $mux.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000010000 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~1911 debug messages>
+
+7.21. Executing OPT pass (performing simple optimizations).
+
+7.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module VDotUnit.
+<suppressed ~6139 debug messages>
+
+7.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\VDotUnit'.
+<suppressed ~3957 debug messages>
+Removed a total of 1319 cells.
+
+7.21.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \VDotUnit..
+Removed 448 unused cells and 1788 unused wires.
+<suppressed ~449 debug messages>
+
+7.21.5. Finished fast OPT passes.
+
+7.22. Executing HIERARCHY pass (managing design hierarchy).
+
+7.22.1. Analyzing design hierarchy..
+Top module:  \VDotUnit
+
+7.22.2. Analyzing design hierarchy..
+Top module:  \VDotUnit
+Removed 0 unused modules.
+
+7.23. Printing statistics.
+
+=== VDotUnit ===
+
+   Number of wires:                837
+   Number of wire bits:          10752
+   Number of public wires:          26
+   Number of public wire bits:     689
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               5161
+     $_AND_                       2325
+     $_NOT_                          1
+     $_OR_                         796
+     $_SDFFE_PP0P_                 128
+     $_SDFF_PP0_                    21
+     $_XOR_                       1890
+
+7.24. Executing CHECK pass (checking for obvious problems).
+Checking module VDotUnit...
+Found and reported 0 problems.
+
+8. Executing LTP pass (find longest path).
+
+Longest topological path in VDotUnit (length=27):
+    0: \io_vs2 [57]
+    1: $auto$maccmap.cc:114:fulladd$630.B [6] (via $auto$simplemap.cc:75:simplemap_bitop$2335)
+    2: $auto$maccmap.cc:114:fulladd$630.t1 [6] (via $auto$simplemap.cc:75:simplemap_bitop$9964)
+    3: $auto$maccmap.cc:114:fulladd$630.t3 [6] (via $auto$simplemap.cc:75:simplemap_bitop$9932)
+    4: $auto$maccmap.cc:114:fulladd$630.X [6] (via $auto$simplemap.cc:75:simplemap_bitop$9900)
+    5: $auto$maccmap.cc:114:fulladd$645.t1 [7] (via $auto$simplemap.cc:75:simplemap_bitop$10365)
+    6: $auto$maccmap.cc:114:fulladd$645.t3 [7] (via $auto$simplemap.cc:75:simplemap_bitop$10333)
+    7: $auto$maccmap.cc:114:fulladd$645.X [7] (via $auto$simplemap.cc:75:simplemap_bitop$10301)
+    8: $auto$maccmap.cc:114:fulladd$654.t1 [8] (via $auto$simplemap.cc:75:simplemap_bitop$10606)
+    9: $auto$maccmap.cc:114:fulladd$654.t3 [8] (via $auto$simplemap.cc:75:simplemap_bitop$10574)
+   10: $auto$maccmap.cc:114:fulladd$654.X [8] (via $auto$simplemap.cc:75:simplemap_bitop$10542)
+   11: $auto$maccmap.cc:114:fulladd$660.t1 [9] (via $auto$simplemap.cc:75:simplemap_bitop$10767)
+   12: $auto$maccmap.cc:114:fulladd$660.t3 [9] (via $auto$simplemap.cc:75:simplemap_bitop$10735)
+   13: $auto$maccmap.cc:114:fulladd$660.X [9] (via $auto$simplemap.cc:75:simplemap_bitop$10703)
+   14: $auto$maccmap.cc:114:fulladd$666.t1 [10] (via $auto$simplemap.cc:75:simplemap_bitop$10928)
+   15: $auto$maccmap.cc:114:fulladd$666.t3 [10] (via $auto$simplemap.cc:75:simplemap_bitop$10896)
+   16: $auto$maccmap.cc:114:fulladd$666.X [10] (via $auto$simplemap.cc:75:simplemap_bitop$10864)
+   17: $auto$maccmap.cc:114:fulladd$669.Y [11] (via $auto$simplemap.cc:75:simplemap_bitop$11009)
+   18: $auto$maccmap.cc:240:synth$670.X [11] (via $auto$simplemap.cc:75:simplemap_bitop$11042)
+   19: $techmap$auto$maccmap.cc:240:synth$670.lcu.$and$/usr/bin/../share/yosys/techmap.v:241$4997_Y (via $auto$simplemap.cc:75:simplemap_bitop$13916)
+   20: $techmap$auto$maccmap.cc:240:synth$670.lcu.$and$/usr/bin/../share/yosys/techmap.v:241$5012_Y (via $auto$simplemap.cc:75:simplemap_bitop$13920)
+   21: $techmap$auto$maccmap.cc:240:synth$670.lcu.$and$/usr/bin/../share/yosys/techmap.v:248$5025_Y (via $auto$simplemap.cc:75:simplemap_bitop$13923)
+   22: $auto$maccmap.cc:240:synth$670.CO [11] (via $auto$simplemap.cc:75:simplemap_bitop$13950)
+   23: $techmap$auto$maccmap.cc:240:synth$670.lcu.$and$/usr/bin/../share/yosys/techmap.v:248$5034_Y (via $auto$simplemap.cc:75:simplemap_bitop$13926)
+   24: $auto$maccmap.cc:240:synth$670.CO [13] (via $auto$simplemap.cc:75:simplemap_bitop$13953)
+   25: $techmap$auto$maccmap.cc:240:synth$670.lcu.$and$/usr/bin/../share/yosys/techmap.v:248$5055_Y (via $auto$simplemap.cc:75:simplemap_bitop$13933)
+   26: $auto$maccmap.cc:240:synth$670.CO [14] (via $auto$simplemap.cc:75:simplemap_bitop$13960)
+   27: \prodComb_prod_7 [15] (via $auto$simplemap.cc:75:simplemap_bitop$11029)
+   ff: \prod_7 [15] (via $auto$ff.cc:266:slice$960)
+
+9. Executing Liberty frontend: /mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib
+Imported 135 cell types from liberty file.
+
+10. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+  cell DFF_X1 (noninv, pins=4, area=4.52) is a direct match for cell type $_DFF_P_.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+  cell DFFR_X1 (noninv, pins=5, area=5.32) is a direct match for cell type $_DFF_PN0_.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+  cell DFFS_X1 (noninv, pins=5, area=5.32) is a direct match for cell type $_DFF_PN1_.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+  cell DFFRS_X1 (noninv, pins=6, area=6.38) is a direct match for cell type $_DFFSR_PNN_.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFRS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFR_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFFS_X2' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X1' - skipping.
+Warning: Found unsupported expression 'SE*SI+D*!SE' in pin attribute of cell 'SDFF_X2' - skipping.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \DFF_X1 _DFF_P_ (.CK( C), .D( D), .Q( Q), .QN(~Q));
+    unmapped dff cell: $_DFF_NN0_
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \DFFR_X1 _DFF_PN0_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .RN( R));
+    \DFFS_X1 _DFF_PN1_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .SN( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    unmapped dff cell: $_DFFSR_NNN_
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    \DFFRS_X1 _DFFSR_PNN_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .RN( R), .SN( S));
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+10.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+Mapping DFF cells in module `\VDotUnit':
+  mapped 149 $_DFF_P_ cells to \DFF_X1 cells.
+
+11. Executing ABC pass (technology mapping using ABC).
+
+11.1. Extracting gate netlist of module `\VDotUnit' to `<abc-temp-dir>/input.blif'..
+Extracted 5289 gates and 5550 wires to a netlist network with 260 inputs and 150 outputs.
+
+11.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.08 sec
+ABC: Scl_LibertyReadGenlib() skipped cell "ANTENNA_X1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATETST_X1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATETST_X2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATETST_X4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATETST_X8" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATE_X1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATE_X2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATE_X4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "CLKGATE_X8" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFRS_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFRS_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFR_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFR_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFS_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFS_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFF_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFF_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DLH_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DLH_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DLL_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DLL_X2".
+ABC: Scl_LibertyReadGenlib() skipped cell "FILLCELL_X1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "TAPCELL_X1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "FILLCELL_X2" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "FILLCELL_X4" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "FILLCELL_X8" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "FILLCELL_X16" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "FILLCELL_X32" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "LOGIC0_X1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "LOGIC1_X1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFFRS_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFFRS_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFFR_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFFR_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFFS_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFFS_X2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFF_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "SDFF_X2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUF_X1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUF_X2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUF_X4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUF_X8".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUF_X16".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TINV_X1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "TLAT_X1".
+ABC: Library "NangateOpenCellLibrary" from "/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib" has 90 cells (35 skipped: 21 seq; 6 tri-state; 8 no func; 10 dont_use).  Time =     0.11 sec
+ABC: Memory =   11.38 MB. Time =     0.11 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FA_X1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + retime -o -D 10000 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf -D 10000 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+11.1.2. Re-integrating ABC results.
+ABC RESULTS:         AOI211_X1 cells:        1
+ABC RESULTS:          OAI22_X1 cells:        2
+ABC RESULTS:           AND4_X1 cells:       96
+ABC RESULTS:          AOI22_X1 cells:      137
+ABC RESULTS:            OR3_X1 cells:       93
+ABC RESULTS:         OAI211_X1 cells:        8
+ABC RESULTS:          NAND4_X1 cells:       38
+ABC RESULTS:          NAND3_X1 cells:      160
+ABC RESULTS:           NOR3_X1 cells:       51
+ABC RESULTS:          NAND2_X1 cells:      718
+ABC RESULTS:            OR2_X1 cells:      154
+ABC RESULTS:            INV_X1 cells:      234
+ABC RESULTS:          OAI21_X1 cells:      384
+ABC RESULTS:           AND3_X1 cells:       88
+ABC RESULTS:          AOI21_X1 cells:      503
+ABC RESULTS:           MUX2_X1 cells:       15
+ABC RESULTS:           XOR2_X1 cells:      511
+ABC RESULTS:          XNOR2_X1 cells:      923
+ABC RESULTS:           NOR2_X1 cells:      605
+ABC RESULTS:           AND2_X1 cells:      265
+ABC RESULTS:        internal signals:     5140
+ABC RESULTS:           input signals:      260
+ABC RESULTS:          output signals:      150
+Removing temp directory.
+Removed 0 unused cells and 1357 unused wires.
+
+12. Executing CHECK pass (checking for obvious problems).
+Checking module VDotUnit...
+Found and reported 0 problems.
+{
+   "creator": "Yosys 0.33 (git sha1 2584903a060)",
+   "invocation": "stat -json -liberty \"/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib\" ",
+   "modules": {
+      "\\VDotUnit": {
+         "num_wires":         5152,
+         "num_wire_bits":     5695,
+         "num_pub_wires":     18,
+         "num_pub_wire_bits": 561,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         5135,
+         "area":              6426.028000,
+         "num_cells_by_type": {
+            "AND2_X1": 265,
+            "AND3_X1": 88,
+            "AND4_X1": 96,
+            "AOI211_X1": 1,
+            "AOI21_X1": 503,
+            "AOI22_X1": 137,
+            "DFF_X1": 149,
+            "INV_X1": 234,
+            "MUX2_X1": 15,
+            "NAND2_X1": 718,
+            "NAND3_X1": 160,
+            "NAND4_X1": 38,
+            "NOR2_X1": 605,
+            "NOR3_X1": 51,
+            "OAI211_X1": 8,
+            "OAI21_X1": 384,
+            "OAI22_X1": 2,
+            "OR2_X1": 154,
+            "OR3_X1": 93,
+            "XNOR2_X1": 923,
+            "XOR2_X1": 511
+         }
+      }
+   },
+      "design": {
+         "num_wires":         5152,
+         "num_wire_bits":     5695,
+         "num_pub_wires":     18,
+         "num_pub_wire_bits": 561,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         5135,
+         "area":              6426.028000,
+         "num_cells_by_type": {
+            "AND2_X1": 265,
+            "AND3_X1": 88,
+            "AND4_X1": 96,
+            "AOI211_X1": 1,
+            "AOI21_X1": 503,
+            "AOI22_X1": 137,
+            "DFF_X1": 149,
+            "INV_X1": 234,
+            "MUX2_X1": 15,
+            "NAND2_X1": 718,
+            "NAND3_X1": 160,
+            "NAND4_X1": 38,
+            "NOR2_X1": 605,
+            "NOR3_X1": 51,
+            "OAI211_X1": 8,
+            "OAI21_X1": 384,
+            "OAI22_X1": 2,
+            "OR2_X1": 154,
+            "OR3_X1": 93,
+            "XNOR2_X1": 923,
+            "XOR2_X1": 511
+         }
+      }
+}
+
+13. Executing JSON backend.
+
+14. Executing Verilog backend.
+Dumping module `\VDotUnit'.

@@ -1,0 +1,77 @@
+{
+   "creator": "Yosys 0.33 (git sha1 2584903a060)",
+   "invocation": "stat -json -liberty \"/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib\" ",
+   "modules": {
+      "\\VDotU": {
+         "num_wires":         8131,
+         "num_wire_bits":     15379,
+         "num_pub_wires":     434,
+         "num_pub_wire_bits": 7682,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         7700,
+         "area":              14614.306000,
+         "num_cells_by_type": {
+            "AND2_X1": 272,
+            "AND3_X1": 85,
+            "AND4_X1": 96,
+            "AOI211_X1": 1,
+            "AOI21_X1": 505,
+            "AOI22_X1": 137,
+            "DFF_X1": 1431,
+            "INV_X1": 231,
+            "MUX2_X1": 1293,
+            "NAND2_X1": 720,
+            "NAND3_X1": 159,
+            "NAND4_X1": 37,
+            "NOR2_X1": 599,
+            "NOR3_X1": 54,
+            "NOR4_X1": 3,
+            "OAI211_X1": 8,
+            "OAI21_X1": 378,
+            "OAI22_X1": 1,
+            "OR2_X1": 156,
+            "OR3_X1": 92,
+            "XNOR2_X1": 921,
+            "XOR2_X1": 521
+         }
+      }
+   },
+      "design": {
+         "num_wires":         8131,
+         "num_wire_bits":     15379,
+         "num_pub_wires":     434,
+         "num_pub_wire_bits": 7682,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         7700,
+         "area":              14614.306000,
+         "num_cells_by_type": {
+            "AND2_X1": 272,
+            "AND3_X1": 85,
+            "AND4_X1": 96,
+            "AOI211_X1": 1,
+            "AOI21_X1": 505,
+            "AOI22_X1": 137,
+            "DFF_X1": 1431,
+            "INV_X1": 231,
+            "MUX2_X1": 1293,
+            "NAND2_X1": 720,
+            "NAND3_X1": 159,
+            "NAND4_X1": 37,
+            "NOR2_X1": 599,
+            "NOR3_X1": 54,
+            "NOR4_X1": 3,
+            "OAI211_X1": 8,
+            "OAI21_X1": 378,
+            "OAI22_X1": 1,
+            "OR2_X1": 156,
+            "OR3_X1": 92,
+            "XNOR2_X1": 921,
+            "XOR2_X1": 521
+         }
+      }
+}
+

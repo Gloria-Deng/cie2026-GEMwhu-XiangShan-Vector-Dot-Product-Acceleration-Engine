@@ -1,0 +1,31 @@
+{
+  "config": "KunminghuV2Config",
+  "cores": 1,
+  "JVM_XMX": "64G",
+  "compile_jobs": "4",
+  "nemu_compile_jobs": "4",
+  "emu_compile_jobs": "4",
+  "trace": "fst",
+  "opt_fast": "-O2 -fno-tree-slp-vectorize",
+  "compile_steps": [
+    {
+      "kind": "full",
+      "JVM_XMX": "64G",
+      "compile_jobs": "4",
+      "nemu_compile_jobs": "4",
+      "emu_compile_jobs": "4"
+    },
+    {
+      "kind": "resume",
+      "emu_compile_jobs": "4",
+      "opt_fast": "-O2 -fno-tree-slp-vectorize",
+      "opt_slow": "-O0"
+    },
+    {
+      "kind": "resume",
+      "emu_compile_jobs": "4",
+      "opt_fast": "-O2 -fno-tree-slp-vectorize",
+      "opt_slow": "-O0"
+    }
+  ]
+}

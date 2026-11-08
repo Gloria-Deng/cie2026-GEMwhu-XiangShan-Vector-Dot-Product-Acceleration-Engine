@@ -1,0 +1,22 @@
+# mem
+
+本目录包含随项目提供的源码或配套文件。各项用途按文件类型和名称说明，构建与使用方法以所属上游项目的原有说明为准。
+
+位置：`相关证明材料/sources/XiangShan/src/main/scala/xiangshan/mem/`。
+
+下表列出本目录中的直接子项；子目录中的文件详见对应说明。
+
+| 名称与相对位置 | 用途 |
+| --- | --- |
+| [lsqueue/](lsqueue/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [mdp/](mdp/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [pipeline/](pipeline/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [prefetch/](prefetch/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [sbuffer/](sbuffer/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [vector/](vector/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [Bundles.scala](Bundles.scala) | Scala/Chisel 源码或构建定义：Bundles |
+| [MaskedDataModule.scala](MaskedDataModule.scala) | Scala/Chisel 源码或构建定义：MaskedDataModule |
+| [MemBlock.scala](MemBlock.scala) | Scala/Chisel 源码或构建定义：MemBlock |
+| [MemCommon.scala](MemCommon.scala) | Scala/Chisel 源码或构建定义：MemCommon |
+| [MemTrace.scala](MemTrace.scala) | Scala/Chisel 源码或构建定义：MemTrace |
+| [README.md](README.md) | 本目录文件位置与用途说明 |

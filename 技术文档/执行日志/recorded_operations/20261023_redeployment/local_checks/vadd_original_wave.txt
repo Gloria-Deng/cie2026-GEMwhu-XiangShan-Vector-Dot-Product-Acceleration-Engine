@@ -1,2 +1,2 @@
-output: /root/gemwhu-stage1-20261023/checks/vadd_original_wave
+output: E:\Temp\xiangshan_submit_check_20261107\vadd_original_wave
 PASS: 11 executions; 176 byte results; original FST mode=True

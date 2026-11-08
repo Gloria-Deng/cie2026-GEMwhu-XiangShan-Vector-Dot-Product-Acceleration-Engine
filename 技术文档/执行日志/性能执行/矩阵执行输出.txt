@@ -1,0 +1,73 @@
+t4_16x16x16_vdot_movx_pack_compute 0 PASS
+t4_3x5x13_rvv_dot_pack_compute 0t4_3x5x13_vdot_movx_pack_compute 0  PASSPASS
+
+t4_16x16x16_vdot_unroll4_computet4_16x16x16_rvv_outer_pack_compute  00  PASSPASS
+
+t4_16x16x16_rvv_outer_compute 0 PASS
+t4_3x5x13_rvv_dot_compute 0 PASS
+t4_3x5x13_vdot_unroll4_computet4_16x16x16_vdot_unroll4_pack_computet4_16x16x16_rvv_dot_pack_computet4_3x5x13_rvv_outer_computet4_3x5x13_vdot_movx_compute 0   0t4_3x5x13_vdot_unroll4_pack_computet4_16x16x16_rvv_dot_compute 0   t4_16x16x16_vdot_movx_compute  0  0PASS 0PASS0 0t4_3x5x13_rvv_outer_pack_compute
+PASSPASS
+PASS 
+
+PASS
+ 
+PASS 0PASS 
+
+PASS
+t4_32x32x32_rvv_dot_pack_compute 0 PASS
+t4_32x32x32_rvv_dot_compute t4_32x32x32_rvv_outer_computet4_32x32x32_rvv_outer_pack_compute t4_32x32x32_rvv_dot_compute t4_32x32x32_rvv_dot_pack_compute t4_32x32x32_vdot_movx_computet4_32x32x32_vdot_unroll4_computet4_32x32x32_vdot_unroll4_pack_compute 0t4_32x32x32_vdot_movx_pack_compute 1 PASSt4_32x32x32_vdot_unroll4_pack_compute  100   0 111 t4_32x32x32_vdot_movx_pack_compute PASSPASS
+PASS 
+PASS
+ PASS  PASS 1
+ PASS
+
+
+
+PASS1
+ PASS
+PASS
+t4_32x32x32_rvv_outer_compute 1 PASS
+t4_32x32x32_vdot_unroll4_compute 0 PASS
+t4_32x32x32_rvv_outer_pack_compute 0t4_32x32x32_vdot_movx_compute PASS 
+0 PASS
+t4_3x5x13_rvv_dot_pack_compute 1 t4_3x5x13_rvv_outer_pack_computet4_16x16x16_vdot_unroll4_pack_compute PASS t4_3x5x13_vdot_movx_pack_compute1  t4_3x5x13_vdot_movx_compute PASS
+t4_16x16x16_rvv_dot_compute1
+  1 PASSt4_3x5x13_vdot_unroll4_pack_computet4_16x16x16_vdot_movx_pack_compute11
+   PASS 1
+PASS
+PASS1 
+ PASSPASS
+
+t4_16x16x16_vdot_movx_compute 1 PASS
+t4_3x5x13_vdot_unroll4_compute t4_3x5x13_rvv_outer_computet4_3x5x13_rvv_dot_compute 1t4_16x16x16_rvv_outer_compute 1t4_16x16x16_vdot_unroll4_compute t4_16x16x16_rvv_outer_pack_compute t4_16x16x16_rvv_dot_pack_compute1PASS  1  PASS 
+PASS
+1 11 
+PASS
+ PASSPASS
+ PASS
+
+t4_16x16x16_rvv_outer_computet4_3x5x13_rvv_outer_pack_compute  22 PASS 
+PASS
+t4_16x16x16_vdot_unroll4_pack_computet4_16x16x16_vdot_movx_pack_compute 2  2PASS 
+PASS
+t4_3x5x13_vdot_unroll4_computet4_16x16x16_rvv_dot_pack_computet4_3x5x13_rvv_dot_pack_compute 2   22PASS 
+PASS 
+PASS
+t4_3x5x13_rvv_outer_computet4_16x16x16_rvv_dot_compute 2  t4_3x5x13_rvv_dot_computePASS2
+t4_3x5x13_vdot_unroll4_pack_computet4_3x5x13_vdot_movx_computet4_16x16x16_rvv_outer_pack_compute t4_16x16x16_vdot_movx_computet4_3x5x13_vdot_movx_pack_compute  2t4_16x16x16_vdot_unroll4_compute   22  2   2  PASSPASSPASS
+2PASS
+ PASS
+2PASSPASS
+
+
+
+ PASS
+t4_32x32x32_vdot_movx_compute 2 PASS
+t4_32x32x32_rvv_dot_pack_computet4_32x32x32_rvv_dot_computet4_32x32x32_vdot_unroll4_compute   22 2 PASS PASS
+PASS
+
+t4_32x32x32_rvv_outer_pack_compute 2 PASS
+t4_32x32x32_vdot_unroll4_pack_compute 2 PASS
+t4_32x32x32_vdot_movx_pack_compute 2 PASS
+t4_32x32x32_rvv_outer_compute 2 PASS
+T4_ANALYSIS_PASS groups=24 comparisons=6

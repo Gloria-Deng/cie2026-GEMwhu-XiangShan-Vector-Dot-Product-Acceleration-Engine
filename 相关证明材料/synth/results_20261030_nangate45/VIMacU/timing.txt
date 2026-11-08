@@ -1,0 +1,347 @@
+OpenSTA 3.1.0 GITDIR-NOT Copyright (c) 2026, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+TIMING_SECTION overall
+Startpoint: reset (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$12285
+          (recovery check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 v input external delay
+   0.0000    0.0000 v reset (in)
+   0.0087    0.0087 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$149266/ZN (INV_X1)
+   0.0000    0.0087 ^ $auto$ff.cc:266:slice$12285/RN (DFFR_X1)
+             0.0087   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$12285/CK (DFFR_X1)
+   0.0532   10.0532   library recovery time
+            10.0532   data required time
+-------------------------------------------------------------
+            10.0532   data required time
+            -0.0087   data arrival time
+-------------------------------------------------------------
+            10.0445   slack (MET)
+
+
+Startpoint: reset (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$12286
+          (recovery check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 v input external delay
+   0.0000    0.0000 v reset (in)
+   0.0087    0.0087 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$200963/ZN (INV_X1)
+   0.0000    0.0087 ^ $auto$ff.cc:266:slice$12286/RN (DFFR_X1)
+             0.0087   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$12286/CK (DFFR_X1)
+   0.0532   10.0532   library recovery time
+            10.0532   data required time
+-------------------------------------------------------------
+            10.0532   data required time
+            -0.0087   data arrival time
+-------------------------------------------------------------
+            10.0445   slack (MET)
+
+
+Startpoint: reset (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$136433
+          (recovery check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 v input external delay
+   0.0000    0.0000 v reset (in)
+   0.0087    0.0087 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$200964/ZN (INV_X1)
+   0.0000    0.0087 ^ $auto$ff.cc:266:slice$136433/RN (DFFR_X1)
+             0.0087   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$136433/CK (DFFR_X1)
+   0.0532   10.0532   library recovery time
+            10.0532   data required time
+-------------------------------------------------------------
+            10.0532   data required time
+            -0.0087   data arrival time
+-------------------------------------------------------------
+            10.0445   slack (MET)
+
+
+Startpoint: reset (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$47324
+          (recovery check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 v input external delay
+   0.0000    0.0000 v reset (in)
+   0.0087    0.0087 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$200965/ZN (INV_X1)
+   0.0000    0.0087 ^ $auto$ff.cc:266:slice$47324/RN (DFFR_X1)
+             0.0087   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$47324/CK (DFFR_X1)
+   0.0532   10.0532   library recovery time
+            10.0532   data required time
+-------------------------------------------------------------
+            10.0532   data required time
+            -0.0087   data arrival time
+-------------------------------------------------------------
+            10.0445   slack (MET)
+
+
+Startpoint: io_in_bits_ctrl_vpu_vsew[1] (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$47261
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ input external delay
+   0.0000    0.0000 ^ io_in_bits_ctrl_vpu_vsew[1] (in)
+   0.2374    0.2374 v $abc$149220$auto$blifparse.cc:386:parse_blif$149721/ZN (INV_X1)
+  11.4071   11.6444 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$152118/ZN (NOR2_X1)
+  -0.1646   11.4798 v $abc$149220$auto$blifparse.cc:386:parse_blif$169926/ZN (AOI21_X1)
+   2.5261   14.0059 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$169929/ZN (NOR2_X1)
+   0.0082   14.0141 v $abc$149220$auto$blifparse.cc:386:parse_blif$175938/ZN (AOI22_X1)
+   0.0759   14.0900 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$175939/Z (MUX2_X1)
+   0.0201   14.1101 v $abc$149220$auto$blifparse.cc:386:parse_blif$175941/ZN (AOI221_X1)
+   0.3794   14.4895 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176217/ZN (NOR2_X1)
+   0.0431   14.5326 v $abc$149220$auto$blifparse.cc:386:parse_blif$176218/ZN (NAND3_X1)
+   0.6249   15.1575 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176524/ZN (AOI211_X1)
+  -0.0073   15.1502 v $abc$149220$auto$blifparse.cc:386:parse_blif$176526/ZN (NOR2_X1)
+   0.0587   15.2089 v $abc$149220$auto$blifparse.cc:386:parse_blif$176527/ZN (XNOR2_X1)
+   0.0497   15.2586 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$190863/ZN (XNOR2_X1)
+   0.0559   15.3146 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$190864/Z (XOR2_X1)
+   0.0425   15.3571 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$190865/ZN (XNOR2_X1)
+   0.0156   15.3726 v $abc$149220$auto$blifparse.cc:386:parse_blif$190866/ZN (OAI21_X1)
+   0.0000   15.3726 v $auto$ff.cc:266:slice$47261/D (DFF_X1)
+            15.3726   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$47261/CK (DFF_X1)
+  -0.1442    9.8558   library setup time
+             9.8558   data required time
+-------------------------------------------------------------
+             9.8558   data required time
+           -15.3726   data arrival time
+-------------------------------------------------------------
+            -5.5168   slack (VIOLATED)
+
+
+Startpoint: io_in_bits_ctrl_vpu_vsew[1] (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$123487
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ input external delay
+   0.0000    0.0000 ^ io_in_bits_ctrl_vpu_vsew[1] (in)
+   0.2374    0.2374 v $abc$149220$auto$blifparse.cc:386:parse_blif$149721/ZN (INV_X1)
+  11.4071   11.6444 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$152118/ZN (NOR2_X1)
+   2.3619   14.0063 v $abc$149220$auto$blifparse.cc:386:parse_blif$176239/ZN (NAND2_X1)
+   0.6344   14.6406 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$179551/ZN (OAI22_X1)
+   0.0378   14.6784 v $abc$149220$auto$blifparse.cc:386:parse_blif$179562/ZN (XNOR2_X1)
+   0.0798   14.7582 v $abc$149220$auto$blifparse.cc:386:parse_blif$179564/Z (XOR2_X1)
+   0.0936   14.8518 v $abc$149220$auto$blifparse.cc:386:parse_blif$179565/ZN (XNOR2_X1)
+   0.0743   14.9260 v $abc$149220$auto$blifparse.cc:386:parse_blif$179566/Z (XOR2_X1)
+   0.0457   14.9718 v $abc$149220$auto$blifparse.cc:386:parse_blif$179567/ZN (XNOR2_X1)
+   0.0178   14.9896 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$179569/ZN (NAND2_X1)
+   0.0191   15.0087 v $abc$149220$auto$blifparse.cc:386:parse_blif$179570/ZN (AOI21_X1)
+   0.2683   15.2770 v $abc$149220$auto$blifparse.cc:386:parse_blif$179596/ZN (OR3_X1)
+   0.0429   15.3200 v $abc$149220$auto$blifparse.cc:386:parse_blif$179597/ZN (AND2_X1)
+   0.0354   15.3554 v $abc$149220$auto$blifparse.cc:386:parse_blif$179598/ZN (XNOR2_X1)
+   0.0570   15.4123 v $abc$149220$auto$blifparse.cc:386:parse_blif$179599/Z (MUX2_X1)
+   0.0000   15.4123 v $auto$ff.cc:266:slice$123487/D (DFF_X1)
+            15.4123   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$123487/CK (DFF_X1)
+  -0.0405    9.9595   library setup time
+             9.9595   data required time
+-------------------------------------------------------------
+             9.9595   data required time
+           -15.4123   data arrival time
+-------------------------------------------------------------
+            -5.4529   slack (VIOLATED)
+
+
+Startpoint: io_in_bits_ctrl_vpu_vsew[1] (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$123473
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ input external delay
+   0.0000    0.0000 ^ io_in_bits_ctrl_vpu_vsew[1] (in)
+   0.2374    0.2374 v $abc$149220$auto$blifparse.cc:386:parse_blif$149721/ZN (INV_X1)
+  11.4071   11.6444 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$152118/ZN (NOR2_X1)
+  -0.1646   11.4798 v $abc$149220$auto$blifparse.cc:386:parse_blif$169926/ZN (AOI21_X1)
+   2.5261   14.0059 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$169929/ZN (NOR2_X1)
+   0.0082   14.0141 v $abc$149220$auto$blifparse.cc:386:parse_blif$175938/ZN (AOI22_X1)
+   0.0759   14.0900 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$175939/Z (MUX2_X1)
+   0.0201   14.1101 v $abc$149220$auto$blifparse.cc:386:parse_blif$175941/ZN (AOI221_X1)
+   0.3794   14.4895 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176217/ZN (NOR2_X1)
+   0.0431   14.5326 v $abc$149220$auto$blifparse.cc:386:parse_blif$176218/ZN (NAND3_X1)
+   0.6249   15.1575 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176524/ZN (AOI211_X1)
+  -0.0073   15.1502 v $abc$149220$auto$blifparse.cc:386:parse_blif$176526/ZN (NOR2_X1)
+   0.0529   15.2031 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176527/ZN (XNOR2_X1)
+   0.0452   15.2483 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176529/ZN (AND2_X1)
+   0.0127   15.2610 v $abc$149220$auto$blifparse.cc:386:parse_blif$176530/ZN (NOR2_X1)
+   0.0409   15.3019 v $abc$149220$auto$blifparse.cc:386:parse_blif$176533/ZN (XNOR2_X1)
+   0.0390   15.3409 v $abc$149220$auto$blifparse.cc:386:parse_blif$176534/ZN (XNOR2_X1)
+   0.0580   15.3989 v $abc$149220$auto$blifparse.cc:386:parse_blif$176535/Z (MUX2_X1)
+   0.0000   15.3989 v $auto$ff.cc:266:slice$123473/D (DFF_X1)
+            15.3989   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$123473/CK (DFF_X1)
+  -0.0405    9.9595   library setup time
+             9.9595   data required time
+-------------------------------------------------------------
+             9.9595   data required time
+           -15.3989   data arrival time
+-------------------------------------------------------------
+            -5.4394   slack (VIOLATED)
+
+
+Startpoint: io_in_bits_ctrl_vpu_vsew[1] (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$93789
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ input external delay
+   0.0000    0.0000 ^ io_in_bits_ctrl_vpu_vsew[1] (in)
+   0.2374    0.2374 v $abc$149220$auto$blifparse.cc:386:parse_blif$149721/ZN (INV_X1)
+  11.4071   11.6444 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$152118/ZN (NOR2_X1)
+  -0.1646   11.4798 v $abc$149220$auto$blifparse.cc:386:parse_blif$169926/ZN (AOI21_X1)
+   2.5261   14.0059 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$169929/ZN (NOR2_X1)
+   0.0082   14.0141 v $abc$149220$auto$blifparse.cc:386:parse_blif$175938/ZN (AOI22_X1)
+   0.0759   14.0900 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$175939/Z (MUX2_X1)
+   0.0201   14.1101 v $abc$149220$auto$blifparse.cc:386:parse_blif$175941/ZN (AOI221_X1)
+   0.3794   14.4895 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176217/ZN (NOR2_X1)
+   0.0431   14.5326 v $abc$149220$auto$blifparse.cc:386:parse_blif$176218/ZN (NAND3_X1)
+   0.6249   15.1575 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176524/ZN (AOI211_X1)
+  -0.0073   15.1502 v $abc$149220$auto$blifparse.cc:386:parse_blif$176526/ZN (NOR2_X1)
+   0.0587   15.2089 v $abc$149220$auto$blifparse.cc:386:parse_blif$176527/ZN (XNOR2_X1)
+   0.0373   15.2463 v $abc$149220$auto$blifparse.cc:386:parse_blif$176529/ZN (AND2_X1)
+   0.0486   15.2948 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176532/ZN (NOR3_X1)
+   0.0151   15.3100 v $abc$149220$auto$blifparse.cc:386:parse_blif$195933/ZN (OAI21_X1)
+   0.0585   15.3684 v $abc$149220$auto$blifparse.cc:386:parse_blif$195934/Z (MUX2_X1)
+   0.0000   15.3684 v $auto$ff.cc:266:slice$93789/D (DFF_X1)
+            15.3684   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$93789/CK (DFF_X1)
+  -0.0405    9.9595   library setup time
+             9.9595   data required time
+-------------------------------------------------------------
+             9.9595   data required time
+           -15.3684   data arrival time
+-------------------------------------------------------------
+            -5.4090   slack (VIOLATED)
+
+
+Startpoint: io_in_bits_ctrl_vpu_vsew[1] (input port clocked by core_clock)
+Endpoint: $auto$ff.cc:266:slice$123472
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock core_clock (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ input external delay
+   0.0000    0.0000 ^ io_in_bits_ctrl_vpu_vsew[1] (in)
+   0.2374    0.2374 v $abc$149220$auto$blifparse.cc:386:parse_blif$149721/ZN (INV_X1)
+  11.4071   11.6444 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$152118/ZN (NOR2_X1)
+  -0.1646   11.4798 v $abc$149220$auto$blifparse.cc:386:parse_blif$169926/ZN (AOI21_X1)
+   2.5261   14.0059 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$169929/ZN (NOR2_X1)
+   0.0082   14.0141 v $abc$149220$auto$blifparse.cc:386:parse_blif$175938/ZN (AOI22_X1)
+   0.0759   14.0900 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$175939/Z (MUX2_X1)
+   0.0201   14.1101 v $abc$149220$auto$blifparse.cc:386:parse_blif$175941/ZN (AOI221_X1)
+   0.3373   14.4474 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$175942/ZN (NOR2_X1)
+   0.0468   14.4942 v $abc$149220$auto$blifparse.cc:386:parse_blif$175943/ZN (XNOR2_X1)
+   0.0886   14.5828 v $abc$149220$auto$blifparse.cc:386:parse_blif$175946/Z (XOR2_X1)
+   0.0658   14.6486 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$175947/ZN (XNOR2_X1)
+   0.0203   14.6689 v $abc$149220$auto$blifparse.cc:386:parse_blif$176285/ZN (AOI21_X1)
+   0.0154   14.6844 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176286/ZN (INV_X1)
+   0.0379   14.7222 v $abc$149220$auto$blifparse.cc:386:parse_blif$176287/ZN (OAI211_X1)
+   0.4697   15.1919 ^ $abc$149220$auto$blifparse.cc:386:parse_blif$176298/ZN (OAI21_X1)
+   0.0299   15.2219 v $abc$149220$auto$blifparse.cc:386:parse_blif$176301/ZN (XNOR2_X1)
+   0.0691   15.2910 v $abc$149220$auto$blifparse.cc:386:parse_blif$176302/Z (XOR2_X1)
+   0.0649   15.3559 v $abc$149220$auto$blifparse.cc:386:parse_blif$176303/Z (MUX2_X1)
+   0.0000   15.3559 v $auto$ff.cc:266:slice$123472/D (DFF_X1)
+            15.3559   data arrival time
+
+  10.0000   10.0000   clock core_clock (rise edge)
+   0.0000   10.0000   clock network delay (ideal)
+   0.0000   10.0000   clock reconvergence pessimism
+            10.0000 ^ $auto$ff.cc:266:slice$123472/CK (DFF_X1)
+  -0.0405    9.9595   library setup time
+             9.9595   data required time
+-------------------------------------------------------------
+             9.9595   data required time
+           -15.3559   data arrival time
+-------------------------------------------------------------
+            -5.3964   slack (VIOLATED)
+
+
+wns max -5.52
+tns max -5447.67

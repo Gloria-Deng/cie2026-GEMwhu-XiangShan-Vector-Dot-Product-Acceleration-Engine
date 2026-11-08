@@ -1,0 +1,805 @@
+menu "ISA-dependent Options for riscv64"
+
+config HAS_CLINT
+  bool
+  default y
+  help
+    NEMU's Core Local Interrupt (CLINT) provides MMIO ports for M-mode timer.
+
+    NEMU's CLINT defines two MMIO register mapping:
+    - mtimecmp at 0x4000
+    - mtime at 0xBFF8.
+
+    NEMU does not support multicore and M-mode inter-processor interrupts. So
+    there is no register mapping for this feature.
+
+if HAS_CLINT
+
+config CLINT_MMIO
+  hex "MMIO address of CLINT"
+  default 0xa2000000
+  help
+    This option controls the base address of CLINT MMIO.
+
+endif # HAS_CLINT
+
+config CLINT_LOCAL_TIMER_INTERRUPT
+  depends on HAS_CLINT
+  bool "Enable CLINT local timer interrupt model"
+  default y if !SHARE
+  default n
+  help
+    Enable NEMU to update CLINT mtime internally and derive local timer
+    interrupt pending state from the CLINT timer registers. This is required
+    when NEMU runs as a standalone simulator. A shared difftest reference
+    usually keeps this disabled because the DUT side drives reference timer
+    interrupts explicitly.
+
+config CYCLES_PER_MTIME_TICK
+  int "The number of cycles per mtime tick"
+  depends on DETERMINISTIC && CLINT_LOCAL_TIMER_INTERRUPT
+  default 128
+  help
+    This option controls the ratio between the the main frequency and RTC
+    (mtime) frequency.
+
+    As NEMU works as a hart with CPI (cycles per instruction) of 1, this
+    describes how many instructions are executed for each increment of mtime
+    by 1.
+
+    For linux workload, mtime frequency is specified via "timebase-frequency"
+    option in device tree (dts). Ensure that "timebase-frequency" is aligned
+    with this option.
+
+config WFI_TIMEOUT_TICKS
+  int "The number of ticks for instruction wfi timeout"
+  depends on CLINT_LOCAL_TIMER_INTERRUPT
+  default 8192
+  help
+    This option controls the maximum number of ticks that WFI (Wait for
+    interrupt) instructions can wait. If set to 0, WFI acts as NOP.
+
+config MULTICORE_DIFF
+  bool "(Beta) Enable multi-core difftest APIs for RISC-V"
+  default false
+
+config RV_MBMC
+  bool "RISC-V MBMC (Memory-isolation BitMap Check) Register"
+  default n
+  help
+    This option enables the MBMC register, which is used to verify the memory
+    isolation of the Confidential Virtual Machine(CVM) using a bitmap.
+
+config RV_MPT_CHECK
+  bool "RISC-V MMPT (Memory Protection Table) Register"
+  default n
+  help
+    This option enables the MPT (Memory Protection Table) register, which is used to verify the memory
+
+config RVB
+  bool "RISC-V Bitmanip Extension v1.0"
+  default y
+
+config RV_CBO
+  bool "RISC-V Zicbom & Zicboz Extension"
+  default n
+
+config RVK
+  bool "RISC-V Cryptography Extension v1.0"
+  default y
+
+config RV_ZICOND
+  bool "RISC-V Integer Conditional (Zicond) Operations Extension v1.0"
+  default y
+
+config RV_ZICFILP
+  bool "RISC-V Landing Pad (Zicfilp) Extension v1.0"
+  default n
+  help
+    Enable forward-edge control-flow integrity using landing pads.
+
+config RV_ZFH
+  bool "RISC-V Zfh Extensions V1.0"
+  depends on RV_ZFH_MIN
+  default n
+
+config RV_ZFH_MIN
+  bool "RISC-V Zfhmin Extensions V1.0"
+  depends on !FPU_NONE
+  default y
+
+config RV_ZFA
+  bool "RISC-V Zfa Extensions V1.0"
+  depends on !FPU_NONE
+  default n
+
+config RV_ZFBF_MIN
+  bool "RISC-V Zfbfmin Extension V1.0"
+  depends on !FPU_NONE
+  default n
+
+config RVV
+  depends on !FPU_NONE
+  bool "RISC-V Vector Extension v1.0"
+  default y
+
+config CUSTOM_XVEXP2
+  bool "RISC-V Xvexp2 Custom Vector Extension"
+  depends on RVV
+  default n
+  help
+    Enable the non-standard vfexp2.v instruction for FP16 and FP32.
+
+config CUSTOM_XVEXP2_BF16
+  bool "RISC-V Xvexp2 BF16 Support"
+  depends on CUSTOM_XVEXP2
+  default n
+  help
+    Enable the non-standard vfexp2bf16.v instruction for BF16.
+
+config CUSTOM_TENSOR
+  depends on !FPU_NONE
+  bool "RISC-V Tensor Extension (Internal Spec)"
+  default n
+
+config RV_AME
+  bool "RISC-V Matrix Extension (Internal Spec)"
+  default n
+
+config RV_AME_FP4
+  bool "Raw packed FP4 matrix load/store"
+  depends on RV_AME
+  default n
+  help
+    Enable raw packed NVFP4 and MXFP4 load/store for A and B tile
+    registers, including normal, transpose, and whole-register accesses.
+    This option does not enable scaled FP4 matrix computation.
+
+config RV_AME_TLEN
+  int "Matrix TLEN (total tile size in bits)"
+  depends on RV_AME
+  default 65536
+  help
+    Total number of bits per matrix tile register (TLEN). Must be evenly divisible
+    by TRLEN so that the row count (TLEN / TRLEN) is an integer.
+
+config RV_AME_TRLEN
+  int "Matrix TRLEN (bits per tile row)"
+  depends on RV_AME
+  default 512
+  help
+    Number of bits in one row of a matrix tile (TRLEN). Must divide TLEN evenly
+    and be a multiple of 64 (so that elements align with the internal uint64_t
+    layout).
+
+config RV_AME_MLEN
+  int "Matrix MELEN (element width for ALEN/ARLEN, bits)"
+  depends on RV_AME
+  default 32
+  help
+    Matrix element width in bits used in ALEN / ARLEN (implementation macro MELEN).
+    ARLEN = (TLEN / TRLEN) * MELEN must remain a multiple of 64 for the current
+    accumulator register layout.
+
+choice
+  prompt "Matrix MSYNC (sync register count)"
+  depends on RV_AME
+  default RV_AME_MSYNC_16
+  help
+    Number of matrix sync registers exposed by msync CSR and backed by NEMU
+    state storage.
+
+config RV_AME_MSYNC_8
+  bool "8"
+
+config RV_AME_MSYNC_16
+  bool "16"
+
+config RV_AME_MSYNC_32
+  bool "32"
+endchoice
+
+config RV_AME_MSYNC
+  int
+  depends on RV_AME
+  default 8 if RV_AME_MSYNC_8
+  default 16 if RV_AME_MSYNC_16
+  default 32 if RV_AME_MSYNC_32
+
+config DIFFTEST_DIRTY_FS_VS
+  depends on RVV
+  depends on DIFFTEST_REF_SPIKE
+  bool "Sync dirty FS and VS to Spike"
+  default n
+
+config RV_ZVFH_MIN
+  bool "RISC-V Zvfhmin Extension V1.0"
+  depends on RVV
+  default y
+
+config RV_ZVFH
+  bool "RISC-V Zvfh Extension V1.0"
+  depends on RV_ZVFH_MIN
+  default y
+
+config RV_ZVFBF_MIN
+  bool "RISC-V Zvfbfmin Extension V1.0"
+  depends on RVV
+  default n
+
+config RV_ZVFBF_WMA
+  bool "RISC-V Zvfbfwma Extension V1.0"
+  depends on RVV
+  depends on RV_ZFBF_MIN
+  depends on RV_ZVFBF_MIN
+  default n
+
+config RV_DEBUG
+  bool "RISC-V Debug Extension"
+  default y
+
+config RVH
+  bool "RISC-V Hypervisor Extension v1.0"
+  default y
+
+config RV_SDEXT
+  bool "(Beta) RISC-V Sdext ISA Extension v1.0"
+  depends on RV_DEBUG
+  default n
+
+config RV_SDTRIG
+  bool "(Beta) RISC-V Sdtrig ISA Extension v1.0"
+  depends on RV_DEBUG
+  default n
+
+config TDATA1_MCONTROL
+  bool "TDATA1 Support mcontrol Type of Trigger (only affect tinfo, not implemented)"
+  depends on RV_SDTRIG
+  default n
+
+config TDATA1_MCONTROL6
+  bool "TDATA1 Support mcontrol6 Type of Trigger"
+  depends on RV_SDTRIG
+  default n
+
+config TDATA1_ICOUNT
+  bool "TDATA1 Support icount Type of Trigger"
+  depends on RV_SDTRIG
+  default n
+
+config TDATA1_ITRIGGER
+  bool "TDATA1 Support itrigger Type of Trigger"
+  depends on RV_SDTRIG
+  default n
+
+config TDATA1_ETRIGGER
+  bool "TDATA1 Support etrigger Type of Trigger"
+  depends on RV_SDTRIG
+  default n
+
+config TRIGGER_NUM
+  int "Number of supported triggers"
+  depends on RV_SDTRIG
+  default 10
+
+config RV_AIA
+  bool "(Beta) RISC-V Advanced Interrupt Architecture v1.0"
+  depends on RVH
+  depends on RV_SMCSRIND
+  default n
+
+config RV_IMSIC
+  bool "Incoming MSI Controller"
+  depends on RV_AIA
+  default n
+
+config GEILEN
+  int "Maximum guest external interrupt number"
+  depends on RV_IMSIC
+  default 0
+
+config RV_SSTC
+  bool "RISC-V Sstc Extension for Supervisor-mode Timer Interrupts"
+  default n
+
+config RV_SMRNMI
+  bool "RISC-V Resumable NonMaskable Interrupts Extension"
+  default n
+
+config RV_SMDBLTRP
+  bool "RISC-V M-mode Double Trap Extension"
+  depends on RV_SMRNMI
+  default n
+
+config MDT_INIT
+  bool "Init mstatus.mdt to 1"
+  depends on RV_SMDBLTRP
+  default n
+  help
+    This config control the init value of mstatus.mdt. As software not support
+    Smdbltrp yet, the default value of this config is set to n. After software
+    support, this config should be open.
+
+
+config RV_SSDBLTRP
+  bool "RISC-V S-Mode Double Trap Extension"
+  depends on RV_SMRNMI
+  default n
+
+config NMIE_INIT
+  bool "Init mnstatus.nmie to 1 and allow software to clear"
+  depends on RV_SMRNMI
+  default y
+  help
+    This config control the init value of mnstatus.nmie and whether allow software
+    to clear. As software not support Smrnmi yet, the default value of this config
+    is set to y. After software support, this config should be close.
+
+menuconfig RV_ZICNTR
+  bool "RISC-V Zicntr Extensions for Base Counters and Timers, v2.0"
+  default y
+  help
+    The Zicntr standard extension comprises the unprivileged Base counters and
+    timers (CYCLE, TIME, and INSTRET), which have dedicated functions (cycle
+    count, real-time clock, and instructions retired, respectively).
+
+    INFO: the CPI (cycles per instruction) of NEMU is set to 1.
+
+if RV_ZICNTR
+config RV_CSR_TIME
+  bool "Implement CSR time (0xc01)"
+  default n
+  help
+    If n, accessing to CSR time will raise illegal instruction exception.
+
+    Regardless of how this option is set, the TM bit of m/h/scounteren is
+    always writable to allow machine programs to simulate reading the time
+    register.
+
+endif # RV_ZICNTR
+
+config RV_ZIHINTPAUSE
+    bool "RISC-V Zihintpause for Pause Hint, v2.0"
+    default y
+
+config RV_ZIHPM
+  bool "RISC-V Zihpm Extensions for Hardware Performance Counters, v2.0"
+  default y
+  help
+    The Zihpm extension comprises up to 29 additional unprivileged 64-bit
+    hardware performance counters, hpmcounter3-hpmcounter31.
+
+    Because mhpmcountern and mhpmeventn are all read-only zero on NEMU,
+    hpmcountern are also read-only zero.
+
+config RV_CSR_MSECCFG
+  bool "Machine Security Configuration CSR (mseccfg)"
+  default y
+  help
+    This decides whether CSR mseccfg (0x747) is implemented.
+    If n, accessing mseccfg raises an illegal-instruction exception.
+
+    menvcfg/senvcfg stay implemented whenever U/S mode exists; this switch
+    is only for mseccfg.
+
+menuconfig RV_CSR_MCOUNTINHIBIT
+  bool "Machine Counter-Inhibit CSR (mcountinhibit)"
+  default y
+  help
+    This decides whether CSR mcountinhibit is implemented.
+
+if RV_CSR_MCOUNTINHIBIT
+config RV_CSR_MCOUNTINHIBIT_CNTR
+  bool "Support inhibit mcycle and minstret"
+  default y
+  help
+    This enables writing to CY and IR bits in the mcountinhibit and support
+    for inhibiting mcycle and minstret. Otherwise, these bits will be read-only
+    zero.
+
+config RV_CSR_MCOUNTINHIBIT_HPM
+  bool "Support inhibit mhpmcounter3 - mhpmcounter31"
+  default y
+  help
+    This enables writing to HPMn bits in the mcountinhibit. Otherwise, these
+    bits will be read-only zero.
+
+    Besides, mhpmcountern and mhpmeventn are all read-only zero on NEMU,
+    regardless of how HPMn bits are set in mcountinhibit.
+
+endif
+
+choice
+  prompt "Number of implemented PMP entries"
+  default RV_PMP_ENTRY_16
+  help
+    This config decided the number of PMP entries are implemented. An
+    attempt to access unimplemented PMP CSRs raises illegal-instruction
+    exception.
+
+    As RISC-V Privileged ISA says, up to 64 PMP entries are supported.
+    Implementations may implement zero, 16, or 64 PMP entries; the lowest-
+    numbered PMP entries must be implemented first.
+
+    Any number of PMP entries may be read-only zero. The number of active
+    PMP entries (not read-only ones) are decided in another config item.
+
+config RV_PMP_ENTRY_0
+  bool "0 PMP entry (Disabled)"
+  help
+    An attempt to access any pmpcfg or pmpaddr CSRs raises an illegal-
+    instruction exception.
+
+config RV_PMP_ENTRY_16
+  bool "16 PMP entries"
+  help
+    Only pmpcfg0, pmpcfg2, pmpaddr0 - pmpaddr15 are accessible. An attempt
+    to access pmpcfg4 - pmpcfg14, pmpaddr16 - pmpaddr63 raises an illegal-
+    instruction exception.
+
+config RV_PMP_ENTRY_64
+  bool "64 PMP entries"
+  help
+    All pmpcfg and pmpaddr CSRs are accessible.
+
+endchoice
+
+config RV_PMP_CSR
+  bool
+  default n if RV_PMP_ENTRY_0
+  default y
+
+config RV_PMP_NUM
+  int
+  default 0 if RV_PMP_ENTRY_0
+  default 16 if RV_PMP_ENTRY_16
+  default 64 if RV_PMP_ENTRY_64
+
+config RV_PMP_ACTIVE_NUM
+  depends on !RV_PMP_ENTRY_0
+  int "Number of active PMP entries"
+  range 0 64 if RV_PMP_ENTRY_64
+  default 64 if RV_PMP_ENTRY_64
+  range 0 16 if RV_PMP_ENTRY_16
+  default 16 if RV_PMP_ENTRY_16
+  help
+    This config decided the number of PMP entries are active. Implemented but
+    inactive PMP entries are read-only zero.
+
+    Any number of PMP entries may be read-only zero. NEMU assumes that the
+    lowest-numbered PMP entries are active, and the other are read-only zero.
+
+    For example, if
+      Number of implemented PMP entries = 16,
+      Number of active PMP entries = 4,
+    then
+      pmpaddr0 ~ pmpaddr3 are ready for use,
+      pmpaddr4 ~ pmpaddr16 are read-only zero,
+      pmpaddr17 ~ pmpaddr63 are illegal.
+
+config PMP_GRANULARITY
+  depends on !RV_PMP_ENTRY_0
+  int "PMP granularity"
+  default 12
+
+comment "PMP Check Disabled when enabling PERF_OPT"
+  depends on PERF_OPT
+  depends on !RV_PMP_ENTRY_0
+
+config RV_PMP_CHECK
+  # todo: pmp check still not work when enable PERF_OPT
+  depends on !PERF_OPT
+  depends on !RV_PMP_ENTRY_0
+  bool "Enable PMP Check"
+  default y
+
+choice
+  prompt "Number of implement PMA entries"
+  default RV_PMA_ENTRY_16
+  help
+    This config decided the number of PMA entries are implemented. An
+    attempt to access unimplemented PMA CSRs raises illegal-instruction
+    exception.
+
+    We supported up to 16 PMA entries.
+
+config RV_PMA_ENTRY_0
+  bool "0 PMA entry (Disabled)"
+  help
+    An attempt to access any pmacfg or pmaaddr CSRs raises an illegal-
+    instruction exception.
+
+config RV_PMA_ENTRY_16
+  bool "16 PMA entries"
+  help
+    Only pmacfg0, pmacfg2, pmaaddr0 - pmaaddr15 are accessible. An attempt
+    to access pmacfg4 - pmacfg14, pmaaddr16 - pmaaddr63 raises an illegal-
+    instruction exception.
+
+  config RV_PMA_ENTRY_32
+  bool "32 PMA entries"
+  help
+    Only pmacfg0, pmacfg2, pmacfg4, pmacfg6, pmaaddr0 - pmaaddr31 are accessible.
+    An attempt to access pmacfg8 - pmacfg14, pmaaddr32 - pmaaddr63 raises an
+    illegal instruction exception.
+
+endchoice
+
+config RV_PMA_CSR
+  bool
+  default n if RV_PMA_ENTRY_0
+  default y
+
+config RV_PMA_NUM
+  int
+  default 0 if RV_PMA_ENTRY_0
+  default 16 if RV_PMA_ENTRY_16
+  default 32 if RV_PMA_ENTRY_32
+
+config RV_PMA_ACTIVE_NUM
+  depends on !RV_PMA_ENTRY_0
+  int "Number of active PMA entries"
+  range 0 16 if RV_PMA_ENTRY_16
+  default 16 if RV_PMA_ENTRY_16
+  range 0 32 if RV_PMA_ENTRY_32
+  default 32 if RV_PMA_ENTRY_32
+  help
+    This config decided the number of PMA entries are active. Implemented but
+    inactive PMA entries are read-only zero.
+
+    Any number of PMA entries may be read-only zero. NEMU assumes that the
+    lowest-numbered PMA entries are active, and the other are read-only zero.
+
+    For example, if
+      Number of implemented PMA entries = 16,
+    then
+      pmaaddr0 ~ pmaaddr15 are ready for use.
+
+config PMA_GRANULARITY
+  depends on !RV_PMA_ENTRY_0
+  int "PMA granularity"
+  default 12
+
+comment "PMA Check Disabled when enabling PERF_OPT"
+  depends on PERF_OPT
+  depends on !RV_PMA_ENTRY_0
+
+config RV_PMA_CHECK
+  depends on !PERF_OPT
+  depends on !RV_PMA_ENTRY_0
+  bool "Enable PMA Check"
+  default y
+
+config RV_SVINVAL
+  bool "Enable VM Extension Svinval"
+  default y
+
+choice
+  prompt "Page-Based Virtual-Memory System Capability"
+  default RV_SV39
+  help
+    This config decides the capability of Page-Based Virtual-Memory System,
+    which affects the MODE field of CSR satp, vsatp and hgatp.
+
+    According to RISC-V Privileged ISA, Virtual memory systems for RV64 are
+    backward compatible. So this config specifies the highest supported
+    virtual-memory system.
+
+config RV_SV39
+  bool "Sv39"
+  help
+    Support Sv39.
+
+    The MODE field of CSR satp and vsatp could be set to Bare or Sv39, and
+    the MODE field of CSR hgatp could be set to Bare or Sv39x4.
+
+config RV_SV48
+  bool "Sv48"
+  help
+    Support Sv39 and Sv48.
+
+    The MODE field of CSR satp and vsatp could be set to Bare, Sv39 or Sv48,
+    and the MODE field of CSR hgatp could be set to Bare, Sv39x4 or Sv48x4.
+
+# config RV_SV57
+#   bool "Sv57"
+#   help
+#     Support Sv39, Sv48 and Sv57.
+
+#     The MODE field of CSR satp and vsatp could be set to Bare, Sv39, Sv48 or
+#     Sv47, and the MODE field of CSR hgatp could be set to Bare, Sv39x4, Sv48x4
+#     or Sv57x4.
+
+endchoice
+
+config RV_ASID_LEN
+  int "Number of implemented ASID bits (ASIDLEN)"
+  depends on RV_SV39 || RV_SV48
+  help
+    Number of implemented ASID bits in satp / vsatp (ASIDLEN), between 0 and 16.
+    Unimplemented bits will be read-only zero.
+  range 0 16
+  default 16
+
+config RV_VMID_LEN
+  int "Number of implemented VMID bits (VMIDLEN)"
+  depends on RVH
+  help
+    Number of implemented VMID bits in hgatp (VMIDLEN), between 0 and 14.
+    Unimplemented bits will be read-only zero.
+  range 0 14
+  default 14
+
+config RV_SSNPM
+  bool "RISC-V Ssnpm extension (part of RISC-V pointer masking extension)"
+  default n
+  help
+    A supervisor-level extension that provides pointer masking for the next
+    lower privilege mode (U-mode), and for VS- and VU-modes if the H extension
+    is present.
+
+config RV_SMNPM
+  bool "RISC-V Smnpm extension (part of RISC-V pointer masking extension)"
+  default n
+  help
+    A machine-level extension that provides pointer masking for the next lower
+    privilege mode (S/HS if S-mode is implemented, or U-mode otherwise).
+
+config RV_SMMPM
+  bool "RISC-V Smmpm extension (part of RISC-V pointer masking extension)"
+  default n
+  help
+    A machine-level extension that provides pointer masking for M-mode.
+
+config RV_SMCSRIND
+  bool "RISC-V Smcsrind/Sscsrind Indirect CSR Access, Version 1.0"
+  default n
+
+config RV_SMCDELEG
+  bool "RISC-V Smcdeleg/Ssccfg extension"
+  depends on RV_SMCSRIND
+  depends on RV_CSR_MCOUNTINHIBIT
+  depends on RV_SMCNTRPMF
+  default n
+  help
+    This enables menvcfg.CDE, delegated counter access through siselect/sireg*,
+    and the supervisor counter inhibit CSR scountinhibit.
+
+config RV_SVNAPOT
+  bool "RISC-V Svnapot extension for NAPOT Translation Contiguity (beta)"
+  default n
+  help
+    This supports RISC-V Svnapot extension.
+
+    If y, when a PTE has N=1, the PTE represents a translation that is part of
+    a range of contiguous virtual-to-physical translations with the same values
+    for PTE bits 5–0.
+
+    If n, when a PTE has N=1, Page Fault or Guest Page Fault will occur.
+
+config RV_SVPBMT
+  bool "RISC-V Svpbmt extension for Page-Based Memory Types (alpha)"
+  default n
+  help
+    This allows the PBMT bits of the leaf PTEs to be non-zero (except for the
+    value 3) without raising a page-fault exception. Beyond this, this option
+    DOES NOT SUPPORT other requirements of the Svpbmt extension.
+
+config RV_MSTATUS_FS_WRITABLE
+  depends on FPU_NONE
+  bool "make mstatus.fs writable; required for software FPU emulation"
+  default y
+
+config RV_SSCOFPMF
+  bool "(Beta)Enable Sscofpmf extension(Supervisor-level Count OverFlow and Privilege Mode Filtering)"
+  default n
+
+config RV_SMCNTRPMF
+  bool "(Beta)Enable Smcntrpmf extension(Cycle and Instret Privilege Mode Filtering)"
+  default n
+
+config RV_SHLCOFIDELEG
+  depends on RVH
+  depends on RV_SSCOFPMF
+  bool "Enable Shlcofideleg extension(make sip.LCOFIP delegable to VS mode)"
+  default n
+
+config RV_SMSTATEEN
+  bool "(Beta)Enable Smstateen extension"
+  default n
+
+config MISA_UNCHANGEABLE
+  bool "Make misa cannot be changed by CSR write instructions like XS"
+  default y
+
+config XTVEC_VECTORED_MODE
+  bool "Support Vectored MODE of mtvec/stvec"
+  default y
+
+config TVAL_EX_II
+  bool "Update m/stval on illegal instruction exceptions"
+  default n
+
+config FS_CLEAN_STATE
+  bool "XSTATUS.FS has the state of Clean"
+  default y
+
+config USE_XS_ARCH_CSRS
+  bool "Use the same arch CSRS values as the implementation of XiangShan"
+
+config MVENDORID_VALUE
+  depends on !USE_XS_ARCH_CSRS
+  hex "Value of CSR mvendorid"
+  default 0x0
+
+config MARCHID_VALUE
+  depends on !USE_XS_ARCH_CSRS
+  hex "Value of CSR marchid"
+  default 0x0
+
+config MIMPID_VALUE
+  depends on !USE_XS_ARCH_CSRS
+  hex "Value of CSR mimpid"
+  default 0x0
+
+config PMPTABLE_EXTENSION
+  # PMPTable covers PMPChecker function,
+  # close PMPChecker when using PMPTable.
+  depends on !PERF_OPT
+  depends on !RV_PMP_CHECK
+  depends on RV_PMP_CSR
+  bool "Enable PMPTable extension"
+  default n
+
+config RVV_AGNOSTIC
+  depends on RVV
+  bool "Enable RVV agnostic policy"
+  default y
+
+config EBREAK_AS_TRAP
+  depends on !RV_DEBUG
+  bool "Treat ebreak same as nemu_trap"
+  default n
+
+config RV_ZCMOP
+  bool "RISC-V Zcmop Extension for Compressed May-Be-Operations (non-functional), v1.0"
+  default n
+  help
+    This adds C.MOP.n instructions without any function. Executing C.MOP.n just
+    does nothing.
+
+config RV_ZIMOP
+  bool "RISC-V Extension for May-Be-Operations, Version 1.0"
+  default n
+  help
+    This extension adds MOP.R.n and MOP.RR.n instructions which just write rd with 0s.
+
+config RV_ZCB
+  bool "RISC-V Zcb Extension, Version 1.0.0"
+  default n
+
+config RESERVATION_SET_WIDTH
+  int "The Width of the Reservation Set Size"
+  default 0
+
+config RV_ZACAS
+  bool "RISC-V Extension for Atomic Compare-and-Swap(CAS) Instructions, Version 1.0.0"
+  default n
+
+config RV_ZABHA
+  bool "RISC-V Extension for Byte and Halfword Atomic Memory Operations, Version 1.0"
+  default n
+
+config RV_ZAWRS
+  bool "RISC-V Extension for Wait-on-Reservation-Set instructions, Version 1.01"
+  default n
+  help
+    This extension adds the WRS instruction which waits until the reservation set is empty.
+    In NEMU, WRS instruction currently acts as nop.
+
+config CUSTOM_CSR_KMHV3
+  bool "Custom CSR support for Kunminghu V3 (KMHV3)"
+  default n
+  help
+    Enables Kunminghu V3 custom csr configurations, which differ from V2.
+endmenu

@@ -1,0 +1,4 @@
+output=/project/chensiyuan/vdot/performance_20261030/materials/results/vdot_wave_20261106_231147_4127407
+VDOT_WAVE_NEMU_PASS cases=11 dependent=4 independent=4
+VDOT_WAVE_BUILD_PASS targets=19
+VDOT_WAVE_EMU_PASS pc=0x80000330 waveform_bytes=179581698

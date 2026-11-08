@@ -1,0 +1,90 @@
+# tests
+
+本目录包含随项目提供的源码或配套文件。各项用途按文件类型和名称说明，构建与使用方法以所属上游项目的原有说明为准。
+
+位置：`相关证明材料/sources/NEMU/resource/nanopb/tests/`。
+
+下表列出本目录中的直接子项；子目录中的文件详见对应说明。
+
+| 名称与相对位置 | 用途 |
+| --- | --- |
+| [alltypes/](alltypes/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [alltypes_callback/](alltypes_callback/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [alltypes_pointer/](alltypes_pointer/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [alltypes_proto3/](alltypes_proto3/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [alltypes_proto3_callback/](alltypes_proto3_callback/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [anonymous_oneof/](anonymous_oneof/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [any_type/](any_type/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [backwards_compatibility/](backwards_compatibility/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [basic_buffer/](basic_buffer/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [basic_stream/](basic_stream/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [bazel_options_support/](bazel_options_support/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [buffer_only/](buffer_only/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [callbacks/](callbacks/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [comments/](comments/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [common/](common/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [common_unittests/](common_unittests/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [cxx_callback_datatype/](cxx_callback_datatype/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [cxx_descriptor/](cxx_descriptor/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [cxx_main_program/](cxx_main_program/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [cyclic_messages/](cyclic_messages/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [decode_unittests/](decode_unittests/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [deep_structure/](deep_structure/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [descriptor_proto/](descriptor_proto/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [docker_images/](docker_images/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [editions/](editions/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [encode_arrays_unpacked/](encode_arrays_unpacked/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [encode_unittests/](encode_unittests/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [enum_mapping/](enum_mapping/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [enum_minmax/](enum_minmax/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [enum_sizes/](enum_sizes/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [enum_to_string/](enum_to_string/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [enum_validate/](enum_validate/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [extensions/](extensions/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [extra_fields/](extra_fields/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [fallback_type/](fallback_type/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [field_size_16/](field_size_16/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [field_size_16_proto3/](field_size_16_proto3/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [field_size_32/](field_size_32/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [fixed_count/](fixed_count/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [float_double_conversion/](float_double_conversion/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [fuzztest/](fuzztest/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [generator_relative_paths/](generator_relative_paths/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [infinity_nan/](infinity_nan/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [initializers/](initializers/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [inline/](inline/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [intsizes/](intsizes/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [io_errors/](io_errors/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [io_errors_pointers/](io_errors_pointers/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [map/](map/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [max_depth/](max_depth/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [mem_release/](mem_release/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [message_sizes/](message_sizes/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [missing_fields/](missing_fields/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [msgid/](msgid/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [multiple_files/](multiple_files/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [namingstyle/](namingstyle/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [namingstyle_custom/](namingstyle_custom/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [no_errmsg/](no_errmsg/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [no_messages/](no_messages/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [oneof/](oneof/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [oneof_callback/](oneof_callback/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [options/](options/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [package_name/](package_name/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [package_name_nanopb/](package_name_nanopb/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [proto3_optional/](proto3_optional/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [raw_decode/](raw_decode/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [recursive_proto/](recursive_proto/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [regression/](regression/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [reserved_keywords/](reserved_keywords/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [site_scons/](site_scons/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [sort_by_tag/](sort_by_tag/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [special_characters/](special_characters/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [splint/](splint/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [stackusage/](stackusage/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [typename_mangling/](typename_mangling/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [validate_utf8/](validate_utf8/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [without_64bit/](without_64bit/) | 子目录；用途及文件位置见目录内的说明文件 |
+| [Makefile](Makefile) | 构建配置或构建入口 |
+| [README.md](README.md) | 本目录文件位置与用途说明 |
+| [SConstruct](SConstruct) | 本目录配套文件；具体作用结合文件内容及本目录上游说明查看 |

@@ -1,0 +1,6 @@
+﻿tool,location
+as,/project/chensiyuan/vdot/tools/bin/riscv64-unknown-elf-as
+ld,/project/chensiyuan/vdot/tools/bin/riscv64-unknown-elf-ld
+objcopy,/project/chensiyuan/vdot/tools/bin/riscv64-unknown-elf-objcopy
+objdump,/project/chensiyuan/vdot/tools/bin/riscv64-unknown-elf-objdump
+nm,/project/chensiyuan/vdot/tools/bin/riscv64-unknown-elf-nm

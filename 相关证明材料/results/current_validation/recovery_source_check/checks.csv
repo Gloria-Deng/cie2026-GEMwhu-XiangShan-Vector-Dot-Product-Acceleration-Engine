@@ -1,0 +1,35 @@
+item,status,detail
+emu,PASS,/project/chensiyuan/vdot/performance_20261030/current_build/XiangShan/build/emu
+library,PASS,/project/chensiyuan/vdot/performance_20261030/current_build/NEMU/build/riscv64-nemu-interpreter-so
+saved/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala,PASS,db6385936d82ced70d530752c43368abaf315075788403cf9d81d07e19c7bd7a
+saved/XiangShan/src/main/scala/vdot/VDotUnit.scala,PASS,c35be84798898a037ea3b440bf8bd2d8eb02176d650eeca277c99d7fd4dbfd9b
+saved/XiangShan/src/main/scala/xiangshan/backend/fu/FuConfig.scala,PASS,058ebc0376762c0ea0180f531abcdcd3fbe05c7a0087e7b3d9a0043d433475c3
+saved/XiangShan/src/main/scala/xiangshan/backend/fu/FuType.scala,PASS,c9f6ed7e32b1317a9e157e020253fe373826d0909271e223f7ddb509d4cb6c2a
+saved/XiangShan/src/main/scala/xiangshan/Parameters.scala,PASS,1637bded0d9028494e5ca5423608fc558454b0c46c74534ab490edcee3d6bf30
+saved/XiangShan/src/main/scala/xiangshan/backend/decode/Instructions.scala,PASS,7fceae16c17ff766ae6f5d0997d17438e7e63c70eed551e4bbedc5b0b24e08f2
+saved/XiangShan/src/main/scala/xiangshan/backend/decode/VecDecoder.scala,PASS,c1e3df374a6f5be1fa9ed539d68b0305c858bdfb48b7abee7215132e0fcb03c7
+saved/XiangShan/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala,PASS,fd02cbb6c29885cbafdb19e3a28d7f6058262b885d6b3df90e6fc69193e8dc23
+saved/NEMU/src/isa/riscv64/instr/rvv/vcompute.h,PASS,0eb96c86018295b847dec0ac922038e4d7d148bbafc10046a63571e36b94e1b5
+saved/NEMU/src/isa/riscv64/instr/rvv/vcommon.c,PASS,d3c110f2be4fca2a202d73d29a09dd5fb8b33a9ddb8b9744c470a2be12a2c914
+saved/NEMU/.config,PASS,7ec9ff500b7548d2e9a6929d35d229a767d14fca965c57b6094613fdd607e591
+configuration,PASS,"{'config': 'KunminghuV2Config', 'cores': 1, 'JVM_XMX': '64G', 'compile_jobs': '4', 'nemu_compile_jobs': '4', 'emu_compile_jobs': '4', 'trace': 'fst', 'opt_fast': '-O2 -fno-tree-slp-vectorize', 'compile_steps': [{'kind': 'full', 'JVM_XMX': '64G', 'compile_jobs': '4', 'nemu_compile_jobs': '4', 'emu_compile_jobs': '4'}, {'kind': 'resume', 'emu_compile_jobs': '4', 'opt_fast': '-O2 -fno-tree-slp-vectorize', 'opt_slow': '-O0'}, {'kind': 'resume', 'emu_compile_jobs': '4', 'opt_fast': '-O2 -fno-tree-slp-vectorize', 'opt_slow': '-O0'}]}"
+fst_compiled,PASS,VM_TRACE_FST=1
+single_thread,PASS,VSimTop::threads() returns 1
+current/XiangShan/src/main/scala/xiangshan/backend/fu/FuType.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/fu/FuConfig.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/Parameters.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/decode/VecDecoder.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/decode/VecExceptionGen.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/decode/Instructions.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala,PASS,code tokens match the current installer output
+current/XiangShan/src/main/scala/vdot/VDotUnit.scala,PASS,code tokens match the current installer output
+current/NEMU/src/isa/riscv64/Kconfig,PASS,code tokens match the current NEMU patch output
+current/NEMU/src/isa/riscv64/include/isa-all-instr.h,PASS,code tokens match the current NEMU patch output
+current/NEMU/src/isa/riscv64/instr/rvv/decode.h,PASS,code tokens match the current NEMU patch output
+current/NEMU/src/isa/riscv64/instr/rvv/vcompute.h,PASS,code tokens match the current NEMU patch output
+current/NEMU/src/isa/riscv64/instr/rvv/vcommon.c,PASS,code tokens match the current NEMU patch output
+current/NEMU/scripts/build.mk,PASS,code tokens match the current NEMU patch output
+current/NEMU/configs/riscv64-xs-ref_defconfig,PASS,code tokens match the current NEMU patch output
+current/NEMU/configs/riscv64-xs-vdot_sdtrig_defconfig,PASS,code tokens match the current NEMU patch output

@@ -1,0 +1,7 @@
+﻿module,cells,register_bits,area_um2,combinational_levels,max_reported_arrival_ns,clock_ns,timing_status,liberty,multiply_arrival_ns,reduce_arrival_ns
+tree0,5135,173,6426.028,27,1.1951,10.0,ESTIMATED,/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib,1.0378,1.1951
+tree1,5310,173,6612.494,27,1.1275,10.0,ESTIMATED,/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib,1.0819,1.1275
+soc_datapath,5276,171,6578.712,27,1.1431,10.0,ESTIMATED,/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib,1.0817,1.1431
+VDotU,7700,1455,14614.306,27,6.44,10.0,ESTIMATED,/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib,1.0455,1.1951
+VIMacU,53412,1838,68759.936,100,15.4123,10.0,ESTIMATED,/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib,,
+VIAluFix,33388,698,41856.962,106,7.9678,10.0,ESTIMATED,/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib,,

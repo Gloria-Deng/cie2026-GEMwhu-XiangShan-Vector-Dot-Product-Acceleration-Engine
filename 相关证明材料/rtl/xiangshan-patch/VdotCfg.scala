@@ -14,3 +14,6 @@
  * See the Mulan PSL v2 for more details.
  ****************************************************************************************
  */
+
+// License companion only. FuConfig.VdotCfg is inserted by install.sh.
+// Latency and source/writeback settings live in that inserted FuConfig block.

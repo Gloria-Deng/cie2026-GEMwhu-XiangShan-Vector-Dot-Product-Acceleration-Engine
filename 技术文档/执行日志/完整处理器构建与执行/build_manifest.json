@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "inputs": {
+    "rtl/xiangshan-patch/VDotU.scala": "db6385936d82ced70d530752c43368abaf315075788403cf9d81d07e19c7bd7a",
+    "rtl/xiangshan-patch/apply.sh": "39c58598c9cc9ccf5cb46fd2c03c9c12b2a40982b1017f6cda385f221ca02c10",
+    "rtl/chisel/vdot/vdot/src/vdot/VDotUnit.scala": "c35be84798898a037ea3b440bf8bd2d8eb02176d650eeca277c99d7fd4dbfd9b",
+    "nemu/apply_nemu_patch.py": "64c2bdb7e8b4135a0f4e4116cbfcd736a5388b052debc59fc510fdffbe4c5bfd",
+    "tools/gen_cluster_programs.py": "801fde03e7657f6ea2bd3427d292dee01d71c441ab9c586c8cd71edfbecfd6b1",
+    "tests/cases_bound.txt": "9b7fea55d2a1928496d831cc78fa97089ff5efa990034b6c60a6774eb924700d",
+    "tests/cases_neg.txt": "ea21f5348fde94ba022cb33226603614840ded48a4549e587668b876bb7983de",
+    "tests/cases_pos.txt": "198f611a3a6167cbdb28e0f0754b4b025156b05259165c73a23619eb1ac2b8b9",
+    "tests/cases_rand.txt": "781d86fcf4687827727b33ab1901a4f5b65b6e89034e3f5bf5f27d16539da2a8",
+    "tests/cases_vadd.txt": "32e1191c36fd74215f7a8866698fc45dd66fef70eb9d04ef0b69acfacaf503e6",
+    "cluster/build.sbatch": "4bff15085af0975d2265d5ca580b4de5de3b5e54e9cb0e644e634545da6394cf",
+    "cluster/prepare_sources.py": "41e1f22382613f33ee1e839763bca8d0c94d8affde3e5dc683c09a18b3d078fb",
+    "cluster/build_manifest.py": "9671118b094d5a248a1ad3ce67e64f59465e3bd8c222a09c270f73dff96b55b1",
+    "cluster/build_configuration.py": "ec673af9aabb29dc08e5a3aff94a6e15420a7bc31d8ab7410a4534b465c55e74",
+    "cluster/run_suite.py": "99a4c230f15ac25d428fc537317dfb5a7a8df5fbd1a6f783c9d4055eea54445c",
+    "cluster/test.sbatch": "5c8a74110b8be88d605e3c87625502469bd183273c543e341ee3d0af5777a863",
+    "tools/run_instruction_cosim.py": "702938fb55af59a030f9531d200ce1f6f52032cf8084ea8a9acdfbe964a2390c",
+    "nemu/cosim/cosim_baseline.c": "1fa6b76d8042e086f698e5865af9bb932337a68f9435b8dfe02e1f03f904ac42",
+    "nemu/cosim/probe_offsets.c": "19dd7e8707f8c5c3c62f3e8e2b4490bb7907ef6101764a50a582f57fe619bb95",
+    "nemu/cosim/rtl_vectors_to_cosim.py": "435a210678d2b1bee9ef88ac1e21e36b273b62a5f3a42f5dbb7d2528055eb155"
+  },
+  "emu": "/project/chensiyuan/vdot/performance_20261030/current_build/XiangShan/build/emu",
+  "emu_sha256": "b57fbb47e6caa83df02e77bae81570e1d8197c775a1314735ebf886a748c56cd",
+  "library": "/project/chensiyuan/vdot/performance_20261030/current_build/NEMU/build/riscv64-nemu-interpreter-so",
+  "library_sha256": "f809be64a79323e6149bbb943972c423949296cbd02c6aeb02a5e33c9d1694dd",
+  "program_manifest_sha256": "d8e7af6d5201b1c38537e7f50fc0370361ac2f339bf0001aabb5413372a678a8",
+  "patched_sources": {
+    "XiangShan/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala": "db6385936d82ced70d530752c43368abaf315075788403cf9d81d07e19c7bd7a",
+    "XiangShan/src/main/scala/vdot/VDotUnit.scala": "c35be84798898a037ea3b440bf8bd2d8eb02176d650eeca277c99d7fd4dbfd9b",
+    "XiangShan/src/main/scala/xiangshan/backend/fu/FuConfig.scala": "058ebc0376762c0ea0180f531abcdcd3fbe05c7a0087e7b3d9a0043d433475c3",
+    "XiangShan/src/main/scala/xiangshan/backend/fu/FuType.scala": "c9f6ed7e32b1317a9e157e020253fe373826d0909271e223f7ddb509d4cb6c2a",
+    "XiangShan/src/main/scala/xiangshan/Parameters.scala": "1637bded0d9028494e5ca5423608fc558454b0c46c74534ab490edcee3d6bf30",
+    "XiangShan/src/main/scala/xiangshan/backend/decode/Instructions.scala": "7fceae16c17ff766ae6f5d0997d17438e7e63c70eed551e4bbedc5b0b24e08f2",
+    "XiangShan/src/main/scala/xiangshan/backend/decode/VecDecoder.scala": "c1e3df374a6f5be1fa9ed539d68b0305c858bdfb48b7abee7215132e0fcb03c7",
+    "XiangShan/src/main/scala/xiangshan/backend/decode/DecodeUnit.scala": "fd02cbb6c29885cbafdb19e3a28d7f6058262b885d6b3df90e6fc69193e8dc23",
+    "NEMU/src/isa/riscv64/instr/rvv/vcompute.h": "0eb96c86018295b847dec0ac922038e4d7d148bbafc10046a63571e36b94e1b5",
+    "NEMU/src/isa/riscv64/instr/rvv/vcommon.c": "d3c110f2be4fca2a202d73d29a09dd5fb8b33a9ddb8b9744c470a2be12a2c914",
+    "NEMU/.config": "7ec9ff500b7548d2e9a6929d35d229a767d14fca965c57b6094613fdd607e591"
+  },
+  "configuration": {
+    "config": "KunminghuV2Config",
+    "cores": 1,
+    "JVM_XMX": "64G",
+    "compile_jobs": "4",
+    "nemu_compile_jobs": "4",
+    "emu_compile_jobs": "4",
+    "trace": "fst",
+    "opt_fast": "-O2 -fno-tree-slp-vectorize",
+    "compile_steps": [
+      {
+        "kind": "full",
+        "JVM_XMX": "64G",
+        "compile_jobs": "4",
+        "nemu_compile_jobs": "4",
+        "emu_compile_jobs": "4"
+      },
+      {
+        "kind": "resume",
+        "emu_compile_jobs": "4",
+        "opt_fast": "-O2 -fno-tree-slp-vectorize",
+        "opt_slow": "-O0"
+      },
+      {
+        "kind": "resume",
+        "emu_compile_jobs": "4",
+        "opt_fast": "-O2 -fno-tree-slp-vectorize",
+        "opt_slow": "-O0"
+      }
+    ]
+  },
+  "tools": {
+    "verilator": [
+      "Verilator 5.052 2026-09-05 rev vUNKNOWN-built20261012"
+    ],
+    "gcc": [
+      "gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)",
+      "Copyright (C) 2021 Free Software Foundation, Inc."
+    ],
+    "riscv64-unknown-elf-as": [
+      "GNU assembler (xPack GNU RISC-V Embedded GCC x86_64) 2.43.1",
+      "Copyright (C) 2024 Free Software Foundation, Inc."
+    ]
+  }
+}

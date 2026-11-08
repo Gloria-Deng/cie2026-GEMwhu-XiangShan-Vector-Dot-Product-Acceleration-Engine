@@ -1,0 +1,16 @@
+read_verilog -sv -DSYNTHESIS "/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/VIMacU/converted.v"
+hierarchy -check -top VIMacU
+proc
+flatten
+opt
+write_json "/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/VIMacU/rtl.json"
+synth -top VIMacU -noabc
+ltp -noff
+read_liberty -lib "/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib"
+dfflibmap -liberty "/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib"
+abc -liberty "/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib" -D 10000
+clean
+check -assert
+tee -o stat.json stat -json -liberty "/mnt/c/Users/lenovo/.codex/visualizations/2026/10/29/01a18826-b447-7e43-9eb3-a9fa543a2e72/NangateOpenCellLibrary_typical.lib"
+write_json "/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/VIMacU/mapped.json"
+write_verilog -noattr -noexpr "/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/VIMacU/mapped.v"

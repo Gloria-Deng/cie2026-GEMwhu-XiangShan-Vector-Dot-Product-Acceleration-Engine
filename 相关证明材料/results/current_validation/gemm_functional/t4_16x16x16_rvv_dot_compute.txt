@@ -1,0 +1,2 @@
+IMAGE_PASS pc=0x800028f8 instructions=15755
+GPR 0 80180500 ffffffffffff98a0 ffffffffffff98a0 80001000 800028f8 31f2 10

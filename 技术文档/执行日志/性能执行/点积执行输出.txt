@@ -1,0 +1,425 @@
+程序数量：116；每个重复3次；合计348次；同时执行16个。
+单次允许最多250000个模拟周期、7200秒；全部进程用时上限696.000小时。
+按指定并发数量，等待时间上限约44.000小时。
+缺少本机完整处理器执行速度；实际用时尚不能估计。
+independent_w1_control_n256 0 PASS
+independent_w1_rvv_n64independent_w1_control_n1024 0independent_w1_vdot_n1024 0 PASS  independent_w1_control_n64independent_w1_rvv_n0
+0  PASSPASS
+ 0
+ PASS0
+ PASS
+independent_w1_vdot_n0independent_w1_rvv_n256independent_w1_rvv_opt1_n0independent_w1_control_n0    00 independent_w1_vdot_n256 00 PASS
+ independent_w1_rvv_n1024PASS 0 
+PASS PASS0 
+
+PASSPASS
+
+independent_w1_rvv_opt1_n1024 0independent_w1_vdot_n64  0 PASSPASS
+
+independent_w1_rvv_opt1_n256independent_w1_rvv_opt1_n64 0  PASS0
+ PASS
+independent_w1_rvv_opt2_n256 0independent_w1_rvv_opt2_n0  PASSindependent_w2_control_n640  0 PASSindependent_w2_rvv_n0
+
+ independent_w2_rvv_n1024 0 0 PASSindependent_w1_rvv_opt2_n1024independent_w2_control_n256 
+ 0 PASSPASSindependent_w2_vdot_n0 0 PASS
+
+PASS
+independent_w2_control_n0
+0 0  PASSPASS
+
+independent_w1_rvv_opt2_n64independent_w2_rvv_n256independent_w2_control_n1024 0 PASS
+  independent_w2_vdot_n256 independent_w2_rvv_n64000   PASS 
+PASSindependent_w2_vdot_n1024PASS
+
+ 0 PASS0independent_w2_vdot_n64
+  0PASS
+ PASS
+independent_w2_rvv_opt2_n64independent_w2_rvv_opt1_n0 0independent_w2_rvv_opt1_n1024 0   PASS
+0 PASSPASS
+independent_w4_control_n256
+independent_w4_control_n0independent_w4_control_n64 independent_w4_rvv_n2560independent_w2_rvv_opt2_n1024  PASS 0   0PASS
+ 0
+0  PASSPASSPASS
+
+
+independent_w2_rvv_opt2_n0 0 PASS
+independent_w4_rvv_n1024independent_w4_rvv_n0 0 independent_w2_rvv_opt1_n256 independent_w2_rvv_opt1_n64PASS 
+independent_w4_rvv_n64 0 PASS0 independent_w2_rvv_opt2_n256 0 PASS
+0independent_w4_control_n1024 PASS 
+0
+0  PASSPASS 
+
+PASS
+independent_w8_control_n0 independent_w8_control_n64independent_w4_rvv_opt2_n0  independent_w4_rvv_opt2_n2560 PASS0
+independent_w8_control_n1024  000  PASS PASS
+PASS PASS
+
+
+independent_w4_vdot_n1024independent_w4_rvv_opt1_n1024 0independent_w4_rvv_opt1_n256independent_w4_vdot_n256  0independent_w4_vdot_n0independent_w4_rvv_opt2_n64independent_w8_control_n256independent_w4_rvv_opt2_n1024 independent_w4_rvv_opt1_n64  0 PASS
+  0 0 000  PASS   PASS PASSPASSPASS
+
+
+0
+ 
+PASS
+PASSindependent_w4_rvv_opt1_n0 
+0independent_w4_vdot_n64PASS
+ 0 PASS
+ PASS
+independent_w8_rvv_n1024 0independent_w8_vdot_n256  PASS
+0independent_w8_rvv_opt2_n64 independent_w8_rvv_opt1_n256 independent_w8_rvv_n64  PASS
+0independent_w8_rvv_opt2_n00  0 PASSPASS 
+
+0 PASS
+PASS
+independent_w8_rvv_opt2_n1024independent_w8_rvv_n256independent_w8_rvv_opt2_n256independent_w8_vdot_n64independent_w8_vdot_n0 0   0   PASS00PASS0 
+ PASS
+
+independent_w8_rvv_opt1_n1024independent_w8_rvv_opt1_n0PASS
+  00 independent_w8_rvv_n0PASS independent_w8_rvv_opt1_n64PASS 
+independent_w8_vdot_n1024
+ PASS
+ 0 0 0 PASS 
+PASSPASS
+
+independent_w16_control_n0 independent_w16_rvv_n1024independent_w16_rvv_opt1_n640  PASS0 
+independent_w16_rvv_n0 independent_w16_vdot_n64 independent_w16_rvv_n64 00 PASS0
+  PASS
+ PASSPASS
+
+0 PASS
+independent_w16_rvv_opt1_n1024independent_w16_control_n1024 independent_w16_vdot_n1024independent_w16_rvv_opt1_n256 00 independent_w16_vdot_n256   0 0PASS
+PASS0   
+PASSPASS
+
+PASS
+independent_w16_rvv_opt1_n0independent_w16_vdot_n0 independent_w16_control_n2560 0  0 PASS
+ PASSindependent_w16_control_n64
+PASS
+independent_w16_rvv_n256 0  PASS
+0 PASS
+independent_w16_rvv_opt2_n1024 0 PASS
+independent_w16_rvv_opt2_n0dependent_w1_control_n1024 0dependent_w1_vdot_n0 PASS
+ 0  0dependent_w1_rvv_n256PASSdependent_w1_rvv_n0
+   dependent_w1_vdot_n1024 0 0 PASS
+PASS0PASS
+
+ PASS
+dependent_w1_control_n0 0 PASS
+dependent_w1_rvv_n64dependent_w1_control_n64 independent_w16_rvv_opt2_n64independent_w16_rvv_opt2_n256  0 0 dependent_w1_control_n256dependent_w1_vdot_n256dependent_w1_vdot_n64 00  PASS PASS PASS0 
+0PASS 
+ 0
+PASS PASS
+PASSdependent_w1_rvv_n1024 0
+ 
+PASS
+
+dependent_w1_rvv_opt1_n1024 1 PASS
+dependent_w1_rvv_n64 1 PASS
+dependent_w1_rvv_n256 dependent_w1_rvv_opt1_n641  PASS0dependent_w1_rvv_n1024dependent_w1_rvv_opt1_n256
+ dependent_w1_vdot_n256dependent_w1_rvv_opt1_n0 dependent_w1_rvv_opt1_n0 1dependent_w1_rvv_opt1_n64  PASS
+1 1  0 1PASS  0 PASS
+PASS 
+dependent_w1_rvv_opt1_n1024PASS
+PASSPASS
+dependent_w1_rvv_opt1_n256 
+
+ 0 PASS1 
+PASS
+dependent_w1_vdot_n0 1dependent_w1_vdot_n64dependent_w1_vdot_n1024  PASS 1 1
+PASS 
+PASS
+dependent_w1_rvv_n0 1 PASS
+independent_w16_rvv_opt2_n0 1 PASSdependent_w1_control_n1024dependent_w1_control_n0  independent_w16_vdot_n256independent_w16_rvv_opt1_n1024 1 dependent_w1_control_n641  
+1 PASS1PASS  1independent_w16_rvv_opt2_n256 independent_w16_rvv_opt1_n64 
+
+1 1PASS
+PASS 
+ PASSPASS
+PASS
+
+independent_w16_vdot_n0 dependent_w1_control_n256 independent_w16_vdot_n1024independent_w16_rvv_opt2_n10241independent_w16_rvv_opt1_n256  1 PASSindependent_w16_rvv_opt2_n641 1 PASSindependent_w16_rvv_opt1_n0    1PASS
+independent_w16_vdot_n64
+1 PASS
+  1PASS
+ PASS
+PASS
+
+1 PASS
+independent_w16_rvv_n256 independent_w8_rvv_opt2_n01 independent_w16_control_n0independent_w16_rvv_n64 independent_w8_rvv_opt1_n641 PASS1
+  PASS
+1 1 independent_w8_rvv_opt1_n1024PASSindependent_w16_control_n1024 1   independent_w16_rvv_n0 PASS 
+PASSPASS1independent_w8_rvv_opt2_n64 
+
+ 1
+PASS
+1  PASS
+PASS
+independent_w8_rvv_opt1_n0 1 independent_w8_rvv_opt2_n1024 independent_w16_rvv_n1024 1 PASSindependent_w8_rvv_opt1_n256 independent_w8_rvv_opt2_n2561PASS 
+1independent_w16_control_n256 
+ independent_w16_control_n64PASS1  
+PASS11 
+ PASS 
+PASS
+PASS
+independent_w8_vdot_n64 independent_w8_vdot_n10241 PASSindependent_w8_vdot_n256  1
+1  PASS
+independent_w4_rvv_opt2_n0 1independent_w8_control_n1024independent_w8_control_n256  PASS1 
+ PASS1 PASS
+
+PASS
+independent_w8_control_n0 independent_w8_rvv_n10241independent_w4_rvv_opt2_n64  PASS 1 independent_w4_rvv_opt2_n256 1independent_w8_rvv_n0 independent_w8_control_n64 1 independent_w8_rvv_n641  1 PASSindependent_w8_vdot_n01PASSPASS independent_w8_rvv_n256PASS
+ 
+
+PASS
+ 
+ 11
+PASS  independent_w4_rvv_opt2_n1024
+PASS PASS
+1
+ PASS
+independent_w4_vdot_n256 independent_w4_rvv_n2561  independent_w4_vdot_n1024PASS
+1independent_w4_rvv_n64independent_w4_rvv_n0  1  independent_w4_vdot_n64independent_w4_control_n1024  11independent_w4_rvv_opt1_n1024PASS
+1  1  1 PASSPASSPASS
+
+
+ PASS
+PASS 
+PASSindependent_w4_control_n0 1 PASS
+
+independent_w4_control_n64independent_w4_rvv_opt1_n256independent_w4_vdot_n0independent_w4_rvv_opt1_n64  1  1 PASSPASSindependent_w4_rvv_n1024independent_w4_rvv_opt1_n0 1 PASS
+ 1 
+independent_w4_control_n256 1 PASS
+PASS
+1 
+PASS 
+1 PASS
+independent_w2_rvv_n64independent_w2_vdot_n256independent_w2_rvv_opt2_n0independent_w2_rvv_opt2_n256 independent_w2_rvv_n0  1 1  PASS1 
+ PASS11
+ PASSPASS PASS
+
+
+independent_w2_vdot_n1024independent_w2_rvv_n1024 1  independent_w2_rvv_opt1_n01 PASS 1 
+PASSPASS
+
+independent_w2_rvv_opt1_n64independent_w2_rvv_opt1_n1024 independent_w2_rvv_n2561 independent_w2_rvv_opt2_n64  1 PASSindependent_w2_rvv_opt1_n256
+PASSindependent_w2_vdot_n64 1 1independent_w2_vdot_n0
+   PASS
+1  1 independent_w2_rvv_opt2_n10241PASSPASSPASS
+
+
+ 1 PASS PASS
+
+independent_w1_rvv_opt2_n64 independent_w1_rvv_opt1_n64independent_w1_rvv_opt1_n256  1 1PASS1 
+independent_w1_vdot_n256  independent_w1_rvv_opt1_n0 1PASSPASS
+ 1independent_w1_rvv_opt2_n0
+ PASS
+1  independent_w1_rvv_opt2_n1024PASS 
+PASS1
+ PASS
+independent_w2_control_n256independent_w2_control_n1024independent_w2_control_n0  1 1 1 PASS PASS
+PASS
+
+independent_w1_vdot_n0independent_w2_control_n64independent_w1_rvv_opt2_n256independent_w1_vdot_n64independent_w1_vdot_n1024 1    independent_w1_rvv_opt1_n1024 1 1 11PASS
+  PASS1PASS 
+PASSPASS 
+
+PASS
+
+independent_w1_rvv_n64 independent_w1_control_n0independent_w1_control_n1024independent_w1_rvv_n1024independent_w1_control_n64 independent_w1_rvv_n0  212 PASS 
+2independent_w1_rvv_n10241   1 PASSPASS
+ 2PASS   
+PASSPASS
+
+
+independent_w1_rvv_n256PASS independent_w1_rvv_n0 
+1 PASS
+1 PASSindependent_w1_control_n256
+independent_w1_control_n1024  21independent_w1_control_n0 PASS 
+PASS
+ 1 independent_w1_rvv_n256 2PASS 
+PASS
+independent_w1_rvv_n64 1independent_w1_control_n256  PASS2independent_w1_control_n64  
+PASS2
+ PASS
+independent_w1_rvv_opt2_n64 2 PASS
+independent_w1_rvv_opt1_n64independent_w1_rvv_opt2_n256independent_w1_rvv_opt1_n0  2 independent_w1_rvv_opt1_n256 22PASS  PASS
+
+ independent_w2_control_n0 2PASS PASS
+
+2 independent_w2_control_n256PASS
+independent_w1_vdot_n256  independent_w1_rvv_opt1_n1024 2independent_w2_control_n64 22  PASSPASS
+2 PASS PASS
+
+
+independent_w2_control_n1024independent_w1_vdot_n64 2independent_w1_rvv_opt2_n1024 independent_w1_vdot_n1024 2 PASS
+PASS
+  2independent_w1_rvv_opt2_n0 2 2PASS  
+PASS
+PASS
+independent_w1_vdot_n0 2 PASS
+independent_w2_rvv_n256 2independent_w2_vdot_n256 independent_w2_vdot_n0PASS
+ 2  2PASSindependent_w2_rvv_opt2_n0independent_w2_rvv_opt2_n64  2 PASS
+ 
+independent_w2_rvv_opt1_n0 2 independent_w2_rvv_opt1_n256independent_w2_rvv_opt2_n256PASS 2 PASS
+independent_w2_vdot_n64
+ PASS22 
+independent_w2_rvv_n0 2PASS  PASS
+2
+ PASS 
+PASS
+independent_w2_rvv_n1024 2 PASS
+independent_w2_rvv_opt1_n1024 2 PASS
+independent_w2_rvv_opt2_n1024independent_w2_rvv_opt1_n64 2independent_w2_rvv_n64 2 PASS
+  2independent_w2_vdot_n1024 PASS PASS
+
+2 PASS
+independent_w4_vdot_n64 independent_w4_vdot_n1024independent_w4_control_n1024 2 PASS2  PASS2
+ 
+PASSindependent_w4_rvv_n0 2independent_w4_control_n256
+ independent_w4_rvv_opt1_n256independent_w4_control_n64 2 2 PASS independent_w4_rvv_n256 2
+PASS 
+PASS2
+  PASS
+PASS
+independent_w4_rvv_opt1_n1024 independent_w4_vdot_n2562  2 PASSPASS
+
+independent_w4_control_n0independent_w4_rvv_opt1_n0 2independent_w4_rvv_opt1_n64independent_w4_rvv_n1024independent_w4_vdot_n0 independent_w4_rvv_n64  2  22PASS  2 
+  PASSPASS2PASSPASS
+
+
+
+ PASS
+independent_w4_rvv_opt2_n0 2independent_w8_rvv_n0independent_w4_rvv_opt2_n256  2  independent_w8_vdot_n256 PASS
+22 PASSPASS independent_w8_control_n0independent_w8_vdot_n64  
+independent_w8_vdot_n1024
+independent_w8_control_n256PASS2 2independent_w8_control_n64independent_w8_vdot_n0 22 2   PASS 2independent_w8_rvv_n256PASS 
+PASS
+
+ 2
+  PASSPASS
+independent_w4_rvv_opt2_n1024 
+PASS PASS
+2
+independent_w8_rvv_n1024  2PASS 
+PASSindependent_w8_rvv_n64
+ 2 PASS
+independent_w4_rvv_opt2_n64 2 PASS
+independent_w8_control_n1024 2 PASS
+independent_w8_rvv_opt2_n256independent_w16_rvv_n1024 independent_w8_rvv_opt2_n64  independent_w16_control_n256independent_w8_rvv_opt2_n02  22PASS  22  
+PASSPASSindependent_w16_rvv_n256  PASS2
+ 
+PASSindependent_w8_rvv_opt1_n256
+ independent_w8_rvv_opt1_n64 2
+2 independent_w16_rvv_n64 PASS2
+PASS  
+PASSPASS
+
+independent_w16_control_n0independent_w8_rvv_opt2_n1024independent_w16_control_n64   22 PASSindependent_w16_rvv_n0 22 PASS
+  PASSPASS
+
+
+independent_w16_control_n1024independent_w8_rvv_opt1_n0  2 PASS
+2independent_w8_rvv_opt1_n1024 PASS 2 
+PASS
+dependent_w1_control_n1024 2independent_w16_rvv_opt1_n256dependent_w1_control_n0 2  PASS independent_w16_rvv_opt2_n0
+ PASS22 
+independent_w16_rvv_opt1_n0PASSindependent_w16_rvv_opt2_n64 2independent_w16_rvv_opt2_n256 
+ 2PASS
+   dependent_w1_control_n256 PASS2independent_w16_rvv_opt2_n1024 independent_w16_vdot_n256
+2 2 2independent_w16_rvv_opt1_n64 PASS  
+PASSPASSPASS
+ PASS
+independent_w16_vdot_n02  
+
+independent_w16_vdot_n642 PASS
+ PASS
+independent_w16_vdot_n1024 independent_w16_rvv_opt1_n102422  PASS2 
+PASS
+dependent_w1_control_n64 PASS
+ 2 PASS
+dependent_w1_rvv_n1024dependent_w1_vdot_n256 2  dependent_w1_vdot_n64 PASS2
+ 2 PASSPASS
+
+dependent_w1_vdot_n0 2 PASS
+dependent_w1_rvv_n256dependent_w1_vdot_n1024 dependent_w1_rvv_n64 2 2 2 PASS PASS
+PASS
+
+dependent_w1_rvv_n0dependent_w1_rvv_opt1_n1024dependent_w1_rvv_opt1_n0 dependent_w1_rvv_opt1_n256 dependent_w1_rvv_opt1_n64  22 2 2  2PASS PASSPASS 
+PASS
+
+PASS
+
+ANALYSIS_COMPLETE /project/chensiyuan/vdot/performance_20261030/dot_measurements/analysis
+ANALYSIS_COMPLETE /project/chensiyuan/vdot/performance_20261030/dot_measurements/reviewed
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 29420 (\N{CJK UNIFIED IDEOGRAPH-72EC}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 31435 (\N{CJK UNIFIED IDEOGRAPH-7ACB}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 28857 (\N{CJK UNIFIED IDEOGRAPH-70B9}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 31215 (\N{CJK UNIFIED IDEOGRAPH-79EF}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 25968 (\N{CJK UNIFIED IDEOGRAPH-6570}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 37327 (\N{CJK UNIFIED IDEOGRAPH-91CF}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 21608 (\N{CJK UNIFIED IDEOGRAPH-5468}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 26399 (\N{CJK UNIFIED IDEOGRAPH-671F}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 65288 (\N{FULLWIDTH LEFT PARENTHESIS}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 21547 (\N{CJK UNIFIED IDEOGRAPH-542B}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 24490 (\N{CJK UNIFIED IDEOGRAPH-5FAA}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 29615 (\N{CJK UNIFIED IDEOGRAPH-73AF}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 65289 (\N{FULLWIDTH RIGHT PARENTHESIS}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 21534 (\N{CJK UNIFIED IDEOGRAPH-541E}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 21520 (\N{CJK UNIFIED IDEOGRAPH-5410}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 21407 (\N{CJK UNIFIED IDEOGRAPH-539F}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 22987 (\N{CJK UNIFIED IDEOGRAPH-59CB}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 20381 (\N{CJK UNIFIED IDEOGRAPH-4F9D}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 36182 (\N{CJK UNIFIED IDEOGRAPH-8D56}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 35745 (\N{CJK UNIFIED IDEOGRAPH-8BA1}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 31639 (\N{CJK UNIFIED IDEOGRAPH-7B97}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 65307 (\N{FULLWIDTH SEMICOLON}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 19981 (\N{CJK UNIFIED IDEOGRAPH-4E0D}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 36866 (\N{CJK UNIFIED IDEOGRAPH-9002}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 29992 (\N{CJK UNIFIED IDEOGRAPH-7528}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 20248 (\N{CJK UNIFIED IDEOGRAPH-4F18}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 21270 (\N{CJK UNIFIED IDEOGRAPH-5316}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 19982 (\N{CJK UNIFIED IDEOGRAPH-4E0E}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 65306 (\N{FULLWIDTH COLON}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 23436 (\N{CJK UNIFIED IDEOGRAPH-5B8C}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 25972 (\N{CJK UNIFIED IDEOGRAPH-6574}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 22788 (\N{CJK UNIFIED IDEOGRAPH-5904}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 29702 (\N{CJK UNIFIED IDEOGRAPH-7406}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 22120 (\N{CJK UNIFIED IDEOGRAPH-5668}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+/project/chensiyuan/vdot/performance_20261030/materials/scripts/check_measurements_opt.py:69: UserWarning: Glyph 27979 (\N{CJK UNIFIED IDEOGRAPH-6D4B}) missing from font(s) DejaVu Sans.
+  fig.savefig(out / ("optimized_rvv_comparison." + suffix), dpi=180, facecolor="white")
+OPT_MEASUREMENTS_PASS groups=23

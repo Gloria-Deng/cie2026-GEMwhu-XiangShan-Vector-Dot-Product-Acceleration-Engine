@@ -1,0 +1,1 @@
+IMAGE PASS pc=0x8000067c instructions=1382

@@ -1,0 +1,2 @@
+IMAGE_PASS pc=0x80001000 instructions=21614598
+GPR ffffffffffffffff 1 ffffffffffffffff 1 3fffffffffffffff 2 1 3

@@ -1,26 +1,9 @@
 // See LICENSE for license details.
+// Signed eight-byte arithmetic; design document 2.1, width and pipeline.
 package vdot
 
 import chisel3._
 import chisel3.util._
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 case class VDotParams(
     vlen:   Int = 128,
@@ -32,19 +15,13 @@ case class VDotParams(
     tree:   Int = 0
 )
 
+// The positive endpoint is not symmetric: +131072 cannot fit signed 18 bits.
 object VDotAccWidth {
-
-
-
-
-
-
 
   def range(nlanes: Int): (Int, Int) = {
     val per = for {a <- Seq(-128, 127); b <- Seq(-128, 127)} yield a * b
     (per.min * nlanes, per.max * nlanes)
   }
-
 
   def required(nlanes: Int): Int = {
     val (lo, hi) = range(nlanes)
@@ -69,36 +46,25 @@ class VDotUnit(val p: VDotParams = VDotParams()) extends Module {
   private val vs1L = lanesOf(io.vs1)
   private val vs2L = lanesOf(io.vs2)
 
-
-
-
   private val vs1g = VecInit(Seq.tabulate(p.lanes)(i =>
     if (i < p.nlanes) vs1L(i) else 0.U(8.W)))
   private val vs2g = VecInit(Seq.tabulate(p.lanes)(i =>
     if (i < p.nlanes) vs2L(i) else 0.U(8.W)))
-
-
-
 
   private val prodComb = VecInit(Seq.tabulate(p.lanes) { i =>
     val prod = vs1g(i).asSInt * vs2g(i).asSInt
     prod.pad(p.accw).asUInt
   })
 
+  // Stage one holds sign-extended products only when a new input is present.
   private val prod = RegInit(VecInit(Seq.fill(p.lanes)(0.U(p.accw.W))))
   private val fireS1 = RegInit(false.B)
   when(io.fire) { prod := prodComb }
   fireS1 := io.fire
 
-
-
-
-
-
   private def wrap(u: UInt): UInt = u(p.accw - 1, 0)
 
   private def cpa(a: UInt, b: UInt): UInt = wrap(a + b)
-
 
   private def csa(a: UInt, b: UInt, c: UInt): (UInt, UInt) = {
     val sum = a ^ b ^ c
@@ -106,13 +72,9 @@ class VDotUnit(val p: VDotParams = VDotParams()) extends Module {
     (sum, wrap(Cat(maj(p.accw - 2, 0), 0.U(1.W))))
   }
 
-
-
   private def balanced(ops: Seq[UInt]): UInt =
     if (ops.size == 1) ops.head
     else balanced(ops.grouped(2).map(g => if (g.size == 1) g.head else cpa(g(0), g(1))).toSeq)
-
-
 
   private def wallace(ops: Seq[UInt]): Seq[UInt] = {
     if (ops.size <= 2) ops
@@ -132,13 +94,11 @@ class VDotUnit(val p: VDotParams = VDotParams()) extends Module {
   private val redCsa = { val r = wallace(prod.toSeq); wrap(r(0) + r(1)) }
   private val redComb = if (p.tree == 0) redCpa else redCsa
 
+  // Stage two reduces the registered products; valid follows the same two stages.
   private val red = RegInit(0.U(p.accw.W))
   private val validS1 = RegInit(false.B)
   red := redComb
   validS1 := fireS1
-
-
-
 
   private val outField: UInt =
     if (p.outw > p.accw)
@@ -146,6 +106,7 @@ class VDotUnit(val p: VDotParams = VDotParams()) extends Module {
     else
       red(p.outw - 1, 0)
 
+  // Sign-extend only the low result word; every other destination bit is zero.
   io.vd := Cat(0.U((p.vlen - p.outw).W), outField).asUInt
   io.valid := Mux(reset.asBool, false.B, validS1)
 }

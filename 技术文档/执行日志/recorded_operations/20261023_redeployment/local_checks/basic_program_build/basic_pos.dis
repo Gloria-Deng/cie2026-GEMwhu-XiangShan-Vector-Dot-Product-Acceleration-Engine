@@ -1,5 +1,5 @@
 
-/root/gemwhu-stage1-20261023/checks/basic_program_build/basic_pos.elf:     file format elf64-littleriscv
+E:\Temp\xiangshan_submit_check_20261107\basic_program_build\basic_pos.elf:     file format elf64-littleriscv
 
 
 Disassembly of section .text:
@@ -8,7 +8,7 @@ Disassembly of section .text:
     80000000:	60000293          	li	t0,1536
     80000004:	30029073          	csrw	mstatus,t0
     80000008:	00800293          	li	t0,8
-    8000000c:	74429073          	csrw	0x744,t0
+    8000000c:	74429073          	csrw	mnstatus,t0
     80000010:	00000297          	auipc	t0,0x0
     80000014:	07428293          	addi	t0,t0,116 # 80000084 <UNEXPECTED_TRAP>
     80000018:	30529073          	csrw	mtvec,t0

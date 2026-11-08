@@ -19,6 +19,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 WIDTHS = (1, 2, 4, 8, 16)
 ARMS = ("control", "rvv", "vdot")
+OPT_ARMS = ("rvv_opt1", "rvv_opt2")
 QUANTUM = 8
 LANDING_BYTES = 0x40000
 START = 0x80000000
@@ -91,7 +92,7 @@ def expected_registers(mode, width, implementation, n):
             for reg in range(width)]
 
 
-def assembly(mode, width, implementation, n):
+def legacy_assembly(mode, width, implementation, n):
     if mode not in ("independent", "dependent") or implementation not in ARMS:
         raise ValueError("不支持的程序种类")
     if width not in WIDTHS or (mode == "dependent" and width != 1) or n < 0:
@@ -147,6 +148,56 @@ def assembly(mode, width, implementation, n):
     return "\n".join(lines) + "\n"
 
 
+def assembly(mode, width, implementation, n):
+    if implementation not in OPT_ARMS:
+        return legacy_assembly(mode, width, implementation, n)
+    if mode == "dependent" and implementation == "rvv_opt2":
+        raise ValueError("依赖计算必须先得到上次结果，不能批量宽乘")
+    original = legacy_assembly(mode, width, "rvv", n)
+    destinations = list(range(width)) if mode == "independent" else [30]
+    # Zero the reduction seed and destination tails before starting the timer.
+    # With n=0 the original poisoned output must remain intact.
+    setup = ["  vsetivli zero,16,e8,m1,tu,mu", "  vmv.v.i v28,0"]
+    if mode == "dependent":
+        setup.append("  vmv.v.i v24,0")
+    elif n:
+        setup.extend("  vmv.v.i v%d,0" % reg for reg in destinations)
+    setup.append("  vsetivli zero,8,e8,m1,ta,ma")
+    marker = "  vsetivli zero,8,e8,m1,ta,ma\n  li s4,"
+    original = original.replace(marker, "\n".join(setup) + "\n  li s4,", 1)
+    body = []
+    batch_size = 1 if implementation == "rvv_opt1" else 4
+    for offset in range(0, len(destinations), batch_size):
+        batch = destinations[offset:offset + batch_size]
+        for index, reg in enumerate(batch):
+            body.append("  vwmul.vv v%d,v31,v30" % (16 + index * 2))
+        body.append("  vsetivli zero,8,e16,m1,tu,mu")
+        for index, reg in enumerate(batch):
+            target = 24 if mode == "dependent" else reg
+            body.append("  vwredsum.vs v%d,v%d,v28" % (target, 16 + index * 2))
+        if mode == "dependent":
+            body.append("  vmv1r.v v30,v24")
+        body.append("  vsetivli zero,8,e8,m1,ta,ma")
+    begin = original.index("MEASURE_LOOP:\n") + len("MEASURE_LOOP:\n")
+    end = original.index("  addi s4,s4,-1", begin)
+    return original[:begin] + "\n".join(body) + "\n" + original[end:]
+
+
+def program_groups(optimized=False):
+    for mode, width in [("independent", w) for w in WIDTHS] + [("dependent", 1)]:
+        arms = ARMS + (OPT_ARMS if mode == "independent" else OPT_ARMS[:1]) if optimized else ARMS
+        for arm in arms:
+            yield mode, width, arm
+
+
+def instructions_per_iteration(mode, width, implementation):
+    if implementation == "rvv_opt1":
+        return 2 + (5 if mode == "dependent" else 4 * width)
+    if implementation == "rvv_opt2":
+        return 2 + 2 * width + 2 * math.ceil(width / 4)
+    return 2 + width * {"control": 0, "vdot": 1, "rvv": 5}[implementation]
+
+
 def find_tools(prefix=None):
     prefixes = [prefix] if prefix else [os.environ.get("RISCV_PREFIX", ""), "riscv64-unknown-elf-"]
     if os.name == "nt" and not prefix:
@@ -194,7 +245,7 @@ def build_one(out, tools, mode, width, implementation, n):
         for reg, _ in expected_registers(mode, width, implementation, n):
             if not re.search(r"\b%08x\b" % vdot_word(reg), body):
                 raise ValueError(name + " 编译结果缺少自定义点积")
-    if implementation == "rvv" and len(re.findall(r"\bvwmul\.vv\b", body)) != width:
+    if implementation in ("rvv", *OPT_ARMS) and len(re.findall(r"\bvwmul\.vv\b", body)) != width:
         raise ValueError(name + " 编译结果中的标准向量乘法数量不符")
     checked = expected_registers(mode, width, implementation, n)
     return {
@@ -205,21 +256,20 @@ def build_one(out, tools, mode, width, implementation, n):
         "checked_registers": ";".join(str(reg) for reg, _ in checked),
         "expected_registers": ";".join(data.hex() for _, data in checked),
         "operations_per_iteration": 0 if implementation == "control" else width,
-        "instructions_per_iteration": 2 + width * {"control": 0, "vdot": 1, "rvv": 5}[implementation],
+        "instructions_per_iteration": instructions_per_iteration(mode, width, implementation),
     }
 
 
-def generate(out, iterations=(0, 64, 256, 1024), prefix=None):
+def generate(out, iterations=(0, 64, 256, 1024), prefix=None, optimized=False):
     ns = sorted(set(iterations))
     if len(ns) < 3 or ns[0] != 0 or any(n < 0 for n in ns):
         raise ValueError("至少需要三个不同循环次数，并包含零次")
     tools = find_tools(prefix)
     out = fresh_directory(out)
     rows = []
-    for mode, width in [("independent", w) for w in WIDTHS] + [("dependent", 1)]:
-        for arm in ARMS:
-            for n in ns:
-                rows.append(build_one(out, tools, mode, width, arm, n))
+    for mode, width, arm in program_groups(optimized):
+        for n in ns:
+            rows.append(build_one(out, tools, mode, width, arm, n))
     write_rows(out / "programs.csv", PROGRAM_COLUMNS, rows)
     write_rows(out / "study_parameters.csv", ("setting", "value"), [
         {"setting": "iterations", "value": ";".join(map(str, ns))},
@@ -255,16 +305,19 @@ def load_programs(folder):
 
 def validate_program_grid(programs, expected_iterations=None):
     expected = set(expected_iterations) if expected_iterations is not None else None
-    for mode, width in [("independent", w) for w in WIDTHS] + [("dependent", 1)]:
-        for arm in ARMS:
-            selected = [row for row in programs if row["mode"] == mode and int(row["width"]) == width and row["implementation"] == arm]
-            ns = [int(row["iterations"]) for row in selected]
-            if len(ns) < 3 or 0 not in ns or len(set(ns)) != len(ns):
-                raise ValueError("程序清单必须包含零次及至少三个不同循环次数，且不重复")
-            if expected is None:
-                expected = set(ns)
-            if set(ns) != expected:
-                raise ValueError("各组循环次数与生成参数不一致")
+    optimized = any(row["implementation"] in OPT_ARMS for row in programs)
+    allowed = set(program_groups(optimized))
+    if any((r["mode"], int(r["width"]), r["implementation"]) not in allowed for r in programs):
+        raise ValueError("程序清单包含不支持的组合")
+    for mode, width, arm in program_groups(optimized):
+        selected = [row for row in programs if row["mode"] == mode and int(row["width"]) == width and row["implementation"] == arm]
+        ns = [int(row["iterations"]) for row in selected]
+        if len(ns) < 3 or 0 not in ns or len(set(ns)) != len(ns):
+            raise ValueError("程序清单必须包含零次及至少三个不同循环次数，且不重复")
+        if expected is None:
+            expected = set(ns)
+        if set(ns) != expected:
+            raise ValueError("各组循环次数与生成参数不一致")
     return sorted(expected)
 
 
@@ -426,43 +479,44 @@ def summarize(programs, runs, expected_repeats=3, expected_iterations=None):
     if len({(row["name"], row["repeat"]) for row in runs}) != len(runs):
         raise ValueError("存在重复测量条目")
     rows, fits = [], {}
-    for mode, width in [("independent", w) for w in WIDTHS] + [("dependent", 1)]:
-        for arm in ARMS:
-            selected = [row for row in programs if row["mode"] == mode and int(row["width"]) == width and row["implementation"] == arm]
-            if not selected:
-                raise ValueError("程序种类不完整")
-            points, repetitions = [], []
-            complete = True
-            grids = {int(row["cycle_grid"]) for row in selected}
-            if len(grids) != 1:
-                raise ValueError("同组计时精度不一致")
-            grid = next(iter(grids))
-            for program in selected:
-                measured = [row for row in runs if row["name"] == program["name"]]
-                if ({int(row["repeat"]) for row in measured} != set(range(expected_repeats)) or
-                        len(measured) != expected_repeats or
-                        any(row["status"] != "PASS" or row["cycles_lower"] in ("", None) for row in measured)):
-                    complete = False
-                    continue
-                ys = [int(row["cycles_lower"]) + (grid - 1) / 2 for row in measured]
-                points.append((int(program["iterations"]), statistics.median(ys)))
-                repetitions.append(len(ys))
-            result = {"mode": mode, "width": width, "implementation": arm,
-                      "status": "NOT_MEASURED" if not any(row["name"] in {p["name"] for p in selected} for row in runs) else "INCOMPLETE",
-                      "cycle_grid": grid, "point_count": len(points), "repeat_min": min(repetitions) if repetitions else ""}
-            if complete:
-                fitted = line_fit(sorted(points), grid)
-                if fitted["slope"] <= fitted["slope_error_bound"] or fitted["r_squared"] < 0.99:
-                    result["status"] = "UNRELIABLE"
-                else:
-                    result["status"] = "PASS"
-                result.update(fitted)
-            rows.append(result)
-            fits[(mode, width, arm)] = result
+    optimized = any(row["implementation"] in OPT_ARMS for row in programs)
+    for mode, width, arm in program_groups(optimized):
+        selected = [row for row in programs if row["mode"] == mode and int(row["width"]) == width and row["implementation"] == arm]
+        if not selected:
+            raise ValueError("程序种类不完整")
+        points, repetitions = [], []
+        complete = True
+        grids = {int(row["cycle_grid"]) for row in selected}
+        if len(grids) != 1:
+            raise ValueError("同组计时精度不一致")
+        grid = next(iter(grids))
+        for program in selected:
+            measured = [row for row in runs if row["name"] == program["name"]]
+            if ({int(row["repeat"]) for row in measured} != set(range(expected_repeats)) or
+                    len(measured) != expected_repeats or
+                    any(row["status"] != "PASS" or row["cycles_lower"] in ("", None) for row in measured)):
+                complete = False
+                continue
+            ys = [int(row["cycles_lower"]) + (grid - 1) / 2 for row in measured]
+            points.append((int(program["iterations"]), statistics.median(ys)))
+            repetitions.append(len(ys))
+        result = {"mode": mode, "width": width, "implementation": arm,
+                  "status": "NOT_MEASURED" if not any(row["name"] in {p["name"] for p in selected} for row in runs) else "INCOMPLETE",
+                  "cycle_grid": grid, "point_count": len(points), "repeat_min": min(repetitions) if repetitions else ""}
+        if complete:
+            fitted = line_fit(sorted(points), grid)
+            if fitted["slope"] <= fitted["slope_error_bound"] or fitted["r_squared"] < 0.99:
+                result["status"] = "UNRELIABLE"
+            else:
+                result["status"] = "PASS"
+            result.update(fitted)
+        rows.append(result)
+        fits[(mode, width, arm)] = result
     summaries = []
     for mode, width in [("independent", w) for w in WIDTHS] + [("dependent", 1)]:
         control = fits[(mode, width, "control")]
-        for arm in ("rvv", "vdot"):
+        arms = ("rvv", "vdot") + (OPT_ARMS if mode == "independent" else OPT_ARMS[:1]) if optimized else ("rvv", "vdot")
+        for arm in arms:
             group = fits[(mode, width, arm)]
             result = {"mode": mode, "width": width, "implementation": arm, "status": group["status"],
                       "gross_cycles_per_dot": "", "adjusted_cycles_per_dot": "", "adjusted_error_bound": ""}
@@ -554,6 +608,7 @@ def main():
     gen = sub.add_parser("generate")
     gen.add_argument("--out", type=Path, required=True)
     gen.add_argument("--prefix")
+    gen.add_argument("--optimized", action="store_true", help="加入优化RVV对照；原有程序保持不变")
     gen.add_argument("--iterations", type=int, nargs="+", default=[0, 64, 256, 1024])
     fun = sub.add_parser("functional")
     fun.add_argument("--programs", type=Path, required=True)
@@ -580,7 +635,7 @@ def main():
     args = ap.parse_args()
     try:
         if args.command == "generate":
-            generate(args.out, args.iterations, args.prefix)
+            generate(args.out, args.iterations, args.prefix, args.optimized)
         elif args.command == "functional":
             functional(args.programs, args.runner, args.library, args.out, args.seconds_limit)
         elif args.command == "execute":

@@ -1,0 +1,21 @@
+﻿operation,source,execution_latency,issue_to_commit
+vadd,existing original FST analysis,1,3
+VDOT_CASE_01,current FST,2,4
+VDOT_CASE_02,current FST,2,4
+VDOT_CASE_03,current FST,2,4
+VDOT_CASE_04,current FST,2,4
+VDOT_CASE_05,current FST,2,4
+VDOT_CASE_06,current FST,2,4
+VDOT_CASE_07,current FST,2,4
+VDOT_CASE_08,current FST,2,4
+VDOT_CASE_09,current FST,2,4
+VDOT_CASE_10,current FST,2,4
+VDOT_CASE_11,current FST,2,4
+VDOT_CHAIN_1,current FST,2,4
+VDOT_CHAIN_2,current FST,2,4
+VDOT_CHAIN_3,current FST,2,6
+VDOT_CHAIN_4,current FST,2,4
+VDOT_INDEPENDENT_1,current FST,2,4
+VDOT_INDEPENDENT_2,current FST,2,4
+VDOT_INDEPENDENT_3,current FST,2,4
+VDOT_INDEPENDENT_4,current FST,2,4

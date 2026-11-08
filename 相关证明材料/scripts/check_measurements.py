@@ -23,9 +23,15 @@ def main():
         out.mkdir(parents=True)
     rows = []
     env = dict(os.environ, PYTHONUTF8="1", PYTHONDONTWRITEBYTECODE="1")
-    for name, relative in [("api", "applications/gemm/check_measured.py"), ("throughput", "experiments/throughput/check_measured.py")]:
-        command = [sys.executable, "-B", str(ROOT / relative), "--out", str(out / name)]
-        result = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
+    jobs=[("optimized_dot", "scripts/check_measurements_opt.py",
+           ["--results", str(ROOT / "experiments/throughput/measured_20261103")]),
+          ("rvv_gemm", "applications/gemm/rvv_benchmark.py",
+           ["analyze", "--results", str(ROOT / "applications/gemm/measured_20261103"),
+            "--programs", str(ROOT / "applications/gemm/measured_20261103/programs")])]
+    records,groups=420,140
+    for name, relative, extra in jobs:
+        command = [sys.executable, "-B", str(ROOT / relative), *extra, "--out", str(out / name)]
+        result = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=1200)
         (out / f"{name}.txt").write_text(result.stdout + result.stderr, encoding="utf-8")
         rows.append({"check": name, "status": "PASS" if result.returncode == 0 else "FAIL", "return_code": result.returncode, "output": f"{name}.txt"})
         print(name, rows[-1]["status"], flush=True)
@@ -34,7 +40,7 @@ def main():
         writer.writeheader()
         writer.writerows(rows)
     failed = sum(row["status"] != "PASS" for row in rows)
-    print(f"MEASURED_RESULTS_{'PASS' if failed == 0 else 'FAIL'} records=252 groups=84 expected_repeats=3")
+    print(f"MEASURED_RESULTS_{'PASS' if failed == 0 else 'FAIL'} records={records} groups={groups} expected_repeats=3")
     print(f"OUTPUT {out}")
     return int(failed > 0)
 

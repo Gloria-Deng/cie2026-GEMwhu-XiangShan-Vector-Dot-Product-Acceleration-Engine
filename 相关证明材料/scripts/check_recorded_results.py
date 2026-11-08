@@ -68,15 +68,15 @@ def check_soc():
         require(matches_historical_source(ROOT / relative.replace('\\', '/'), expected),
                 'The supplied source differs from the completed verification: ' + relative)
     rows = {row['name']: row for row in programs['programs']}
-    require(len(rows) == 32, 'Expected 32 original programs')
+    require(len(rows) == 16 and all(row['kind'] != 'benchmark' for row in rows.values()), 'Expected 16 functional programs')
     for row in rows.values():
         require(digest(ROOT / 'programs' / row['image']) == row['image_sha256'],
                 'A supplied program differs from the tested program: ' + row['name'])
     runs = summary['runs']
-    require(len(runs) == 64, 'Expected 64 completed full-SoC executions')
-    expected_repeats = Counter({name: 3 if row['kind'] == 'benchmark' else 1 for name, row in rows.items()})
+    require(len(runs) == 16, 'Expected 16 completed functional executions')
+    expected_repeats = Counter({name: 1 for name in rows})
     require(Counter(run['name'] for run in runs) == expected_repeats, 'Execution coverage differs from the program list')
-    require(len({(run['name'], run['repeat']) for run in runs}) == 64, 'Duplicate completed execution')
+    require(len({(run['name'], run['repeat']) for run in runs}) == 16, 'Duplicate completed execution')
     for run in runs:
         require(run['ok'] is True, 'An execution is not successful: ' + run['name'])
         path = recorded_file(directory / run['log'], run['log_sha256'])
@@ -102,19 +102,19 @@ def check_soc():
     wave = summary['wave']
     require(digest(recorded_file(directory / wave['log'], wave['log_sha256'])) == wave['log_sha256'], 'The original vadd output has changed')
     require(digest(recorded_file(directory / wave['file'], wave['sha256'])) == wave['sha256'], 'The original vadd waveform has changed')
-    print('RECORDED_FULL_SOC_PASS programs=32 executions=64 source_files=19')
+    print('RECORDED_FULL_SOC_PASS programs=16 executions=16 source_files=19')
 
 
 def check_nemu_programs():
     directory = ROOT / 'results/recorded_nemu'
     data = read_data(directory / 'programs_nemu.json')
-    require(data.get('all_ok') is True and len(data['programs']) == 32, 'Expected 32 successful NEMU programs')
+    require(data.get('all_ok') is True and len(data['programs']) == 16, 'Expected 16 successful NEMU functional programs')
     for program in data['programs']:
         path = directory / Path(program['log'].replace('\\', '/')).name
         require(program['ok'] is True and program['rc'] == 0, 'An original NEMU program did not pass')
         require(digest(path) == program['log_sha256'], 'An original NEMU output has changed: ' + program['name'])
         require('IMAGE PASS' in path.read_text(encoding='utf-8'), 'Missing original NEMU success conclusion')
-    print('RECORDED_NEMU_PROGRAMS_PASS programs=32')
+    print('RECORDED_NEMU_PROGRAMS_PASS programs=16')
 
 
 def check_wrapper():

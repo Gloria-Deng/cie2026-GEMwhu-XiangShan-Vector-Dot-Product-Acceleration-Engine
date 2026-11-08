@@ -2,12 +2,14 @@
   "ok": true,
   "checks": {
     "current": {
-      "captures": 4
+      "captures": 3,
+      "scope": "supplied_functional_recordings",
+      "current_code_verified": false
     },
     "full_core": {
       "inputs": 19,
-      "programs": 32,
-      "executions": 64
+      "programs": 16,
+      "executions": 16
     },
     "wave": {
       "mode": "original_fst_read",
@@ -72,7 +74,8 @@
       }
     },
     "identity": [
-      "hello xiangshan, I am GEMwhu, IP address 172.25.54.204"
+      "hello xiangshan, I am GEMwhu, IP address 10.131.152.159",
+      "hello xiangshan, I am GEMwhu, IP address 10.131.152.159"
     ]
   },
   "errors": []

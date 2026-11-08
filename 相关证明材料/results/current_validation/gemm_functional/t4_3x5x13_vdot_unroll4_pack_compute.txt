@@ -1,0 +1,2 @@
+IMAGE_PASS pc=0x80001274 instructions=1394
+GPR 10 4ef 8018008c ffffffffffffd78b 80001000 80001274 fffffffffffffffd 11

@@ -1,0 +1,17 @@
+# prefetch
+
+本目录包含随项目提供的源码或配套文件。各项用途按文件类型和名称说明，构建与使用方法以所属上游项目的原有说明为准。
+
+位置：`相关证明材料/sources/XiangShan/huancun/src/main/scala/huancun/prefetch/`。
+
+下表列出本目录中的直接子项；子目录中的文件详见对应说明。
+
+| 名称与相对位置 | 用途 |
+| --- | --- |
+| [BestOffsetPrefetch.scala](BestOffsetPrefetch.scala) | Scala/Chisel 源码或构建定义：BestOffsetPrefetch |
+| [Prefetcher.scala](Prefetcher.scala) | Scala/Chisel 源码或构建定义：Prefetcher |
+| [PrefetchParameters.scala](PrefetchParameters.scala) | Scala/Chisel 源码或构建定义：PrefetchParameters |
+| [PrefetchReceiver.scala](PrefetchReceiver.scala) | Scala/Chisel 源码或构建定义：PrefetchReceiver |
+| [README.md](README.md) | 本目录文件位置与用途说明 |
+| [TPmeta.scala](TPmeta.scala) | Scala/Chisel 源码或构建定义：TPmeta |
+| [TPmetaParameters.scala](TPmetaParameters.scala) | Scala/Chisel 源码或构建定义：TPmetaParameters |

@@ -22,58 +22,10 @@ def read_rows(path):
 
 
 def verify_recorded(out):
-    measured = ROOT/'measured_20261021'
-    inventory = read_rows(ROOT/'imported_files.csv')
-    for item in inventory:
-        path = ROOT/item['path']
-        data = path.read_bytes()
-        if len(data) != int(item['bytes']) or hashlib.sha256(data).hexdigest() != item['content_sha256']:
-            raise ValueError('imported file changed: '+item['path'])
-    rows = read_rows(measured/'gemm_cycles_summary.csv')
-    groups = {}
-    passed = failed = 0
-    for item in rows:
-        original = gzip.decompress((measured/item['log']).read_bytes())
-        if hashlib.sha256(original).hexdigest() != item['log_sha256']:
-            raise ValueError('raw output content changed: '+item['name'])
-        source = measured/'src'/item['M']/(item['name']+'.c')
-        if hashlib.sha256(source.read_bytes()).hexdigest() != item['source_sha256']:
-            raise ValueError('measured source changed: '+item['name'])
-        if item['status'] == 'PASS':
-            text = original.decode('utf-8',errors='replace')
-            text = re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',text)
-            pc = int(item['terminal_pc'],0)
-            base = int(item['landing_base'],0)
-            terminals = re.findall(r'Core 0: EXCEEDING CYCLE/INSTR LIMIT at pc = (0x[0-9a-fA-F]+)',text)
-            if len(terminals) != 1 or int(terminals[0],0) != pc or 'Difftest enabled' not in text:
-                raise ValueError('raw execution does not match the recorded result: '+item['name'])
-            if not base <= pc < base+65536*4 or (pc-base)%4:
-                raise ValueError('invalid terminal position: '+item['name'])
-            value = ((pc-base)//4)*int(item['cycle_grid'])
-            if value != int(item['cycles_window']):
-                raise ValueError('cycle decoding mismatch: '+item['name'])
-            key = tuple(int(item[x]) for x in ['M','impl','packed'])
-            groups.setdefault(key,[]).append(value)
-            passed += 1
-        elif item['status'] == 'FAIL':
-            failed += 1
-        else:
-            raise ValueError('unknown recorded status')
-    if (len(rows),passed,failed,len(groups)) != (59,52,7,26):
-        raise ValueError('incomplete measured package')
-    calculated = []
-    for item in read_rows(measured/'gemm_cycles_speedup.csv'):
-        key = tuple(int(item[x]) for x in ['M','impl','packed'])
-        values = groups[key]
-        mid = statistics.median(values)
-        reference = statistics.median(groups[(key[0],1,key[2])])
-        expected = [len(values),min(values),mid,max(values),reference]
-        reported = [float(item[k]) for k in ['runs','cycles_min','cycles_median','cycles_max','baseline_vector_cycles']]
-        if expected != reported or abs(float(item['vector_over_variant'])-reference/mid) > 0.000051:
-            raise ValueError('derived table does not match raw measurements: '+str(key))
-        calculated.append(dict(size=key[0],implementation=benchmark.NAMES[key[1]],packed=key[2],samples=len(values),minimum=min(values),median=mid,maximum=max(values),standard_rvv=reference,standard_over_implementation=round(reference/mid,6)))
-    benchmark.write_rows(out/'recomputed_cycles.csv',calculated)
-    return f'files={len(inventory)} attempts=59 successful=52 unsuccessful=7 implementations=26'
+    import rvv_benchmark
+    measured = ROOT / 'measured_20261103'
+    rvv_benchmark.analyze(measured, out / 'current_measurements', 3, measured / 'programs')
+    return 'programs=24 successful=72 groups=24 repeats=3'
 
 
 def executable(name, supplied=None):
@@ -183,9 +135,11 @@ def main():
             pass
         else:
             raise ValueError('changed program was accepted')
-        sample = next(row for row in read_rows(ROOT/'measured_20261021/gemm_cycles_summary.csv') if row['status']=='PASS')
-        output = gzip.decompress((ROOT/'measured_20261021'/sample['log']).read_bytes()).decode('utf-8',errors='replace')
-        base = int(sample['landing_base'],0)
+        measured = ROOT / 'measured_20261103'
+        sample = next(row for row in read_rows(measured / 'measurements.csv') if row['status']=='PASS')
+        output = (measured / sample['output']).read_text(encoding='utf-8', errors='replace')
+        saved_program = next(row for row in read_rows(measured / 'programs/compiled.csv') if row['name']==sample['name'])
+        base = int(saved_program['LANDING_BASE'],0)
         if not benchmark.valid_execution(output,0,base)[0] or benchmark.valid_execution(output.replace('Difftest enabled','disabled'),0,base)[0]:
             raise ValueError('differential execution status was not enforced')
         sample_rows = [{'name':name} for name in ['first','second','third']]

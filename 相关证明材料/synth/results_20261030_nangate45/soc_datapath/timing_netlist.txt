@@ -1,0 +1,278 @@
+
+-- Running command `read_json "/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/soc_datapath/timing_input.json"; write_verilog -noattr -noexpr -norename "/mnt/d/Desktop/全国RISC-V高水平创新及应用大赛-CIE-香山社区-RISC-V应用创新赛道/相关证明材料/synth/results_20261030_nangate45/soc_datapath/timing_mapped.v"' --
+
+1. Executing JSON frontend.
+Importing module XOR2_X2 from JSON tree.
+Importing module XOR2_X1 from JSON tree.
+Importing module XNOR2_X2 from JSON tree.
+Importing module XNOR2_X1 from JSON tree.
+Importing module VDotUnit from JSON tree.
+Importing module TLAT_X1 from JSON tree.
+Importing module TINV_X1 from JSON tree.
+Importing module TBUF_X8 from JSON tree.
+Importing module TBUF_X4 from JSON tree.
+Importing module TBUF_X2 from JSON tree.
+Importing module TBUF_X16 from JSON tree.
+Importing module TBUF_X1 from JSON tree.
+Importing module TAPCELL_X1 from JSON tree.
+Importing module SDFF_X2 from JSON tree.
+Importing module SDFF_X1 from JSON tree.
+Importing module SDFFS_X2 from JSON tree.
+Importing module SDFFS_X1 from JSON tree.
+Importing module SDFFR_X2 from JSON tree.
+Importing module SDFFR_X1 from JSON tree.
+Importing module SDFFRS_X2 from JSON tree.
+Importing module SDFFRS_X1 from JSON tree.
+Importing module OR4_X4 from JSON tree.
+Importing module OR4_X2 from JSON tree.
+Importing module OR4_X1 from JSON tree.
+Importing module OR3_X4 from JSON tree.
+Importing module OR3_X2 from JSON tree.
+Importing module OR3_X1 from JSON tree.
+Importing module OR2_X4 from JSON tree.
+Importing module OR2_X2 from JSON tree.
+Importing module OR2_X1 from JSON tree.
+Importing module OAI33_X1 from JSON tree.
+Importing module OAI22_X4 from JSON tree.
+Importing module OAI22_X2 from JSON tree.
+Importing module OAI22_X1 from JSON tree.
+Importing module OAI222_X4 from JSON tree.
+Importing module OAI222_X2 from JSON tree.
+Importing module OAI222_X1 from JSON tree.
+Importing module OAI221_X4 from JSON tree.
+Importing module OAI221_X2 from JSON tree.
+Importing module OAI221_X1 from JSON tree.
+Importing module OAI21_X4 from JSON tree.
+Importing module OAI21_X2 from JSON tree.
+Importing module OAI21_X1 from JSON tree.
+Importing module OAI211_X4 from JSON tree.
+Importing module OAI211_X2 from JSON tree.
+Importing module OAI211_X1 from JSON tree.
+Importing module NOR4_X4 from JSON tree.
+Importing module NOR4_X2 from JSON tree.
+Importing module NOR4_X1 from JSON tree.
+Importing module NOR3_X4 from JSON tree.
+Importing module NOR3_X2 from JSON tree.
+Importing module NOR3_X1 from JSON tree.
+Importing module NOR2_X4 from JSON tree.
+Importing module NOR2_X2 from JSON tree.
+Importing module NOR2_X1 from JSON tree.
+Importing module NAND4_X4 from JSON tree.
+Importing module NAND4_X2 from JSON tree.
+Importing module NAND4_X1 from JSON tree.
+Importing module NAND3_X4 from JSON tree.
+Importing module NAND3_X2 from JSON tree.
+Importing module NAND3_X1 from JSON tree.
+Importing module NAND2_X4 from JSON tree.
+Importing module NAND2_X2 from JSON tree.
+Importing module NAND2_X1 from JSON tree.
+Importing module MUX2_X2 from JSON tree.
+Importing module MUX2_X1 from JSON tree.
+Importing module LOGIC1_X1 from JSON tree.
+Importing module LOGIC0_X1 from JSON tree.
+Importing module INV_X8 from JSON tree.
+Importing module INV_X4 from JSON tree.
+Importing module INV_X32 from JSON tree.
+Importing module INV_X2 from JSON tree.
+Importing module INV_X16 from JSON tree.
+Importing module INV_X1 from JSON tree.
+Importing module HA_X1 from JSON tree.
+Importing module FILLCELL_X8 from JSON tree.
+Importing module FILLCELL_X4 from JSON tree.
+Importing module FILLCELL_X32 from JSON tree.
+Importing module FILLCELL_X2 from JSON tree.
+Importing module FILLCELL_X16 from JSON tree.
+Importing module FILLCELL_X1 from JSON tree.
+Importing module FA_X1 from JSON tree.
+Importing module DLL_X2 from JSON tree.
+Importing module DLL_X1 from JSON tree.
+Importing module DLH_X2 from JSON tree.
+Importing module DLH_X1 from JSON tree.
+Importing module DFF_X2 from JSON tree.
+Importing module DFF_X1 from JSON tree.
+Importing module DFFS_X2 from JSON tree.
+Importing module DFFS_X1 from JSON tree.
+Importing module DFFR_X2 from JSON tree.
+Importing module DFFR_X1 from JSON tree.
+Importing module DFFRS_X2 from JSON tree.
+Importing module DFFRS_X1 from JSON tree.
+Importing module CLKGATE_X8 from JSON tree.
+Importing module CLKGATE_X4 from JSON tree.
+Importing module CLKGATE_X2 from JSON tree.
+Importing module CLKGATE_X1 from JSON tree.
+Importing module CLKGATETST_X8 from JSON tree.
+Importing module CLKGATETST_X4 from JSON tree.
+Importing module CLKGATETST_X2 from JSON tree.
+Importing module CLKGATETST_X1 from JSON tree.
+Importing module CLKBUF_X3 from JSON tree.
+Importing module CLKBUF_X2 from JSON tree.
+Importing module CLKBUF_X1 from JSON tree.
+Importing module BUF_X8 from JSON tree.
+Importing module BUF_X4 from JSON tree.
+Importing module BUF_X32 from JSON tree.
+Importing module BUF_X2 from JSON tree.
+Importing module BUF_X16 from JSON tree.
+Importing module BUF_X1 from JSON tree.
+Importing module AOI22_X4 from JSON tree.
+Importing module AOI22_X2 from JSON tree.
+Importing module AOI22_X1 from JSON tree.
+Importing module AOI222_X4 from JSON tree.
+Importing module AOI222_X2 from JSON tree.
+Importing module AOI222_X1 from JSON tree.
+Importing module AOI221_X4 from JSON tree.
+Importing module AOI221_X2 from JSON tree.
+Importing module AOI221_X1 from JSON tree.
+Importing module AOI21_X4 from JSON tree.
+Importing module AOI21_X2 from JSON tree.
+Importing module AOI21_X1 from JSON tree.
+Importing module AOI211_X4 from JSON tree.
+Importing module AOI211_X2 from JSON tree.
+Importing module AOI211_X1 from JSON tree.
+Importing module ANTENNA_X1 from JSON tree.
+Importing module AND4_X4 from JSON tree.
+Importing module AND4_X2 from JSON tree.
+Importing module AND4_X1 from JSON tree.
+Importing module AND3_X4 from JSON tree.
+Importing module AND3_X2 from JSON tree.
+Importing module AND3_X1 from JSON tree.
+Importing module AND2_X4 from JSON tree.
+Importing module AND2_X2 from JSON tree.
+Importing module AND2_X1 from JSON tree.
+
+2. Executing Verilog backend.
+Dumping module `\AND2_X1'.
+Dumping module `\AND2_X2'.
+Dumping module `\AND2_X4'.
+Dumping module `\AND3_X1'.
+Dumping module `\AND3_X2'.
+Dumping module `\AND3_X4'.
+Dumping module `\AND4_X1'.
+Dumping module `\AND4_X2'.
+Dumping module `\AND4_X4'.
+Dumping module `\ANTENNA_X1'.
+Dumping module `\AOI211_X1'.
+Dumping module `\AOI211_X2'.
+Dumping module `\AOI211_X4'.
+Dumping module `\AOI21_X1'.
+Dumping module `\AOI21_X2'.
+Dumping module `\AOI21_X4'.
+Dumping module `\AOI221_X1'.
+Dumping module `\AOI221_X2'.
+Dumping module `\AOI221_X4'.
+Dumping module `\AOI222_X1'.
+Dumping module `\AOI222_X2'.
+Dumping module `\AOI222_X4'.
+Dumping module `\AOI22_X1'.
+Dumping module `\AOI22_X2'.
+Dumping module `\AOI22_X4'.
+Dumping module `\BUF_X1'.
+Dumping module `\BUF_X16'.
+Dumping module `\BUF_X2'.
+Dumping module `\BUF_X32'.
+Dumping module `\BUF_X4'.
+Dumping module `\BUF_X8'.
+Dumping module `\CLKBUF_X1'.
+Dumping module `\CLKBUF_X2'.
+Dumping module `\CLKBUF_X3'.
+Dumping module `\CLKGATETST_X1'.
+Dumping module `\CLKGATETST_X2'.
+Dumping module `\CLKGATETST_X4'.
+Dumping module `\CLKGATETST_X8'.
+Dumping module `\CLKGATE_X1'.
+Dumping module `\CLKGATE_X2'.
+Dumping module `\CLKGATE_X4'.
+Dumping module `\CLKGATE_X8'.
+Dumping module `\DFFRS_X1'.
+Dumping module `\DFFRS_X2'.
+Dumping module `\DFFR_X1'.
+Dumping module `\DFFR_X2'.
+Dumping module `\DFFS_X1'.
+Dumping module `\DFFS_X2'.
+Dumping module `\DFF_X1'.
+Dumping module `\DFF_X2'.
+Dumping module `\DLH_X1'.
+Dumping module `\DLH_X2'.
+Dumping module `\DLL_X1'.
+Dumping module `\DLL_X2'.
+Dumping module `\FA_X1'.
+Dumping module `\FILLCELL_X1'.
+Dumping module `\FILLCELL_X16'.
+Dumping module `\FILLCELL_X2'.
+Dumping module `\FILLCELL_X32'.
+Dumping module `\FILLCELL_X4'.
+Dumping module `\FILLCELL_X8'.
+Dumping module `\HA_X1'.
+Dumping module `\INV_X1'.
+Dumping module `\INV_X16'.
+Dumping module `\INV_X2'.
+Dumping module `\INV_X32'.
+Dumping module `\INV_X4'.
+Dumping module `\INV_X8'.
+Dumping module `\LOGIC0_X1'.
+Dumping module `\LOGIC1_X1'.
+Dumping module `\MUX2_X1'.
+Dumping module `\MUX2_X2'.
+Dumping module `\NAND2_X1'.
+Dumping module `\NAND2_X2'.
+Dumping module `\NAND2_X4'.
+Dumping module `\NAND3_X1'.
+Dumping module `\NAND3_X2'.
+Dumping module `\NAND3_X4'.
+Dumping module `\NAND4_X1'.
+Dumping module `\NAND4_X2'.
+Dumping module `\NAND4_X4'.
+Dumping module `\NOR2_X1'.
+Dumping module `\NOR2_X2'.
+Dumping module `\NOR2_X4'.
+Dumping module `\NOR3_X1'.
+Dumping module `\NOR3_X2'.
+Dumping module `\NOR3_X4'.
+Dumping module `\NOR4_X1'.
+Dumping module `\NOR4_X2'.
+Dumping module `\NOR4_X4'.
+Dumping module `\OAI211_X1'.
+Dumping module `\OAI211_X2'.
+Dumping module `\OAI211_X4'.
+Dumping module `\OAI21_X1'.
+Dumping module `\OAI21_X2'.
+Dumping module `\OAI21_X4'.
+Dumping module `\OAI221_X1'.
+Dumping module `\OAI221_X2'.
+Dumping module `\OAI221_X4'.
+Dumping module `\OAI222_X1'.
+Dumping module `\OAI222_X2'.
+Dumping module `\OAI222_X4'.
+Dumping module `\OAI22_X1'.
+Dumping module `\OAI22_X2'.
+Dumping module `\OAI22_X4'.
+Dumping module `\OAI33_X1'.
+Dumping module `\OR2_X1'.
+Dumping module `\OR2_X2'.
+Dumping module `\OR2_X4'.
+Dumping module `\OR3_X1'.
+Dumping module `\OR3_X2'.
+Dumping module `\OR3_X4'.
+Dumping module `\OR4_X1'.
+Dumping module `\OR4_X2'.
+Dumping module `\OR4_X4'.
+Dumping module `\SDFFRS_X1'.
+Dumping module `\SDFFRS_X2'.
+Dumping module `\SDFFR_X1'.
+Dumping module `\SDFFR_X2'.
+Dumping module `\SDFFS_X1'.
+Dumping module `\SDFFS_X2'.
+Dumping module `\SDFF_X1'.
+Dumping module `\SDFF_X2'.
+Dumping module `\TAPCELL_X1'.
+Dumping module `\TBUF_X1'.
+Dumping module `\TBUF_X16'.
+Dumping module `\TBUF_X2'.
+Dumping module `\TBUF_X4'.
+Dumping module `\TBUF_X8'.
+Dumping module `\TINV_X1'.
+Dumping module `\TLAT_X1'.
+Dumping module `\VDotUnit'.
+Dumping module `\XNOR2_X1'.
+Dumping module `\XNOR2_X2'.
+Dumping module `\XOR2_X1'.
+Dumping module `\XOR2_X2'.

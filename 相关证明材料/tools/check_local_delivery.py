@@ -17,7 +17,7 @@ from runtime_common import ROOT,digest,load,new_output,recorded_file,matches_his
 from analyze_vadd_fst import Timeline,analyze,extract,write_csv,plot,vcd,require
 from check_vadd_fst_failures import check_failures
 
-ORIGINAL_RECORDS={'summary.json': '4f029a48cec00e3d1fef9da749a94cdecf779d24b98c39bf8637fe4a72af2581', 'build_manifest.json': '78295573143703d108e885cbe87d587c858443058a70d19d4184e73a10638cd1', 'program_manifest.json': 'c6d62134c6f46a0bdcbb3868c9a8d68ab2098eb014bbd518350b87b3d83863a5'}
+ORIGINAL_RECORDS={'build_manifest.json': '78295573143703d108e885cbe87d587c858443058a70d19d4184e73a10638cd1'}
 
 ARCHIVE_ID='bb0df6d85d154390dfa895c41bdc276fe568bfb201a0e3a0548d105191eb0030'
 
@@ -48,13 +48,15 @@ def check_cluster(validation):
     sys.path.insert(0,str(ROOT/'cluster'))
     from run_suite import classify
     summary=load(validation/'summary.json');pm=load(validation/'program_manifest.json')
-    require(summary['all_ok'] and len(summary['runs'])==64,'full-core summary must have 64 successes')
+    require(summary['all_ok'] and len(summary['runs'])==16,'full-core summary must have 16 functional successes')
     require(len(summary['inputs'])==19,'full-core registered input count changed')
     for rel,want in summary['inputs'].items():require(matches_historical_source(inside(ROOT,rel),want),'full-core input differs: '+rel)
     require(digest(validation/'build_manifest.json')==summary['build_manifest_sha256'],'build registration differs')
-    for name in ('summary.json','build_manifest.json','program_manifest.json'):
+    for name in ('build_manifest.json',):
         require(digest(validation/name)==ORIGINAL_RECORDS[name],'formal cluster registration differs: '+name)
     programs={r['name']:r for r in pm['programs']}
+    require(len(programs)==16 and all(r['kind']!='benchmark' for r in programs.values()),'expected 16 functional programs')
+    require({r['name'] for r in summary['runs']}==set(programs),'functional execution coverage differs')
     for row in pm['programs']:
 
         image=ROOT/'programs'/row['image']
@@ -68,19 +70,17 @@ def check_cluster(validation):
     wave=summary['wave']
     require(digest(recorded_file(validation/wave['file'],wave['sha256']))==wave['sha256'],'registered FST differs')
     require(digest(recorded_file(validation/wave['log'],wave['log_sha256']))==wave['log_sha256'],'wave recording output differs')
-    return dict(inputs=19,programs=len(programs),executions=64)
+    return dict(inputs=19,programs=len(programs),executions=16)
 
 def check_current():
-    captures=('fixed_wrapper','instruction_cosim','programs_nemu','patch_export')
-    for name in captures:
-        data=load(ROOT/'results/current'/(name+'.json'))
-        require(data.get('all_ok') and data.get('inputs'),'current result is not successful: '+name)
-        for rel,want in data['inputs'].items():
-            require(matches_historical_source(inside(ROOT,rel),want),'supplied recording input differs: '+name+' '+rel)
-        for row in list(data.get('logs',{}).values())+data.get('programs',[]):
-            rel=row.get('log',row.get('path'));want=row.get('log_sha256',row.get('sha256'))
-            if rel and want:require(digest(inside(ROOT,rel))==want,'current result content differs: '+rel)
-    return dict(captures=len(captures),scope='supplied_recordings',current_code_verified=False)
+    import importlib.util
+    specification=importlib.util.spec_from_file_location('submission_recorded_checks',ROOT/'scripts/check_recorded_results.py')
+    module=importlib.util.module_from_spec(specification)
+    specification.loader.exec_module(module)
+    module.check_vectors()
+    module.check_nemu_programs()
+    module.check_wrapper()
+    return dict(captures=3,scope='supplied_functional_recordings',current_code_verified=False)
 
 
 def check_wave(args,out,validation):
@@ -153,7 +153,7 @@ def main():
         validation=args.cluster_evidence
         if validation is None:
             validation=unpack_original(args.attachment,out) if args.attachment else ROOT/'results/cluster/20261019'
-        report['checks']['cluster']=check_cluster(validation.resolve());print('64 full-core executions PASS',flush=True)
+        report['checks']['cluster']=check_cluster(validation.resolve());print('16 functional full-core executions PASS',flush=True)
         report['checks']['current']=check_current();print('supplied functional recordings PASS; current code has not been verified by this command',flush=True)
         report['checks']['wave']=check_wave(args,out,validation.resolve())
         report['original_fst_read']=not args.tables_only

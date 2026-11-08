@@ -1,0 +1,1 @@
+T4_ANALYSIS_PASS groups=24 comparisons=6

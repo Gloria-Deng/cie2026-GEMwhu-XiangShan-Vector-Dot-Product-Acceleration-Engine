@@ -1,5 +1,4 @@
-
-
+// Standalone XiangShan wrapper elaboration for design document 2.1.
 package top
 
 import chisel3._

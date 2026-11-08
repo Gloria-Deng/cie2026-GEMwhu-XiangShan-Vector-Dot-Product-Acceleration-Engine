@@ -1,0 +1,3 @@
+﻿check,status,return_code,output
+optimized_dot,PASS,0,optimized_dot.txt
+rvv_gemm,PASS,0,rvv_gemm.txt

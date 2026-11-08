@@ -1,0 +1,2 @@
+ANALYSIS_COMPLETE E:\Temp\xiangshan_submit_check_20261107\latency_replay\optimized_dot
+OPT_MEASUREMENTS_PASS groups=23

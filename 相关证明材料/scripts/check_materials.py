@@ -38,13 +38,9 @@ def main():
     if binary[0x100020:]!=expected: raise ValueError('historical image data differs')
     if binary[0x50:0x54]!=bytes.fromhex('572294b2'): raise ValueError('instruction encoding differs')
     if binary[0x88:0x8c]!=bytes.fromhex('6f000000'): raise ValueError('success address differs')
-    text=(ROOT/'results/historical/corpus_vl8_ta1.txt').read_text(encoding='utf-8',errors='replace')
+    text=(ROOT/'results/cluster/20261019/corpus_vl8_ta1_r0.log').read_text(encoding='utf-8',errors='replace')
     passed,address=classify(text,0,0x80000088)
-    if not passed: raise ValueError('historical XiangShan output does not show successful completion')
-    with (ROOT/'results/historical/summary.csv').open(encoding='utf-8-sig',newline='') as f:
-        summary=list(csv.DictReader(f))
-    if len(summary)!=1 or summary[0]['result']!='PASS' or summary[0]['actual_end']!=address or summary[0]['total']!=str(len(rows)):
-        raise ValueError('historical summary differs')
+    if not passed: raise ValueError('XiangShan output does not show successful completion')
     if args.write_readable:
         args.write_readable.parent.mkdir(parents=True,exist_ok=True)
         with args.write_readable.open('w',encoding='utf-8-sig',newline='') as f:

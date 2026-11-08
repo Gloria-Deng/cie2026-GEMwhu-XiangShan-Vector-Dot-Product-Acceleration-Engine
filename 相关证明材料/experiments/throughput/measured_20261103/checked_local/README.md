@@ -1,0 +1,19 @@
+# checked_local
+
+本地重新计算的性能统计。
+
+位置：`相关证明材料/experiments/throughput/measured_20261103/checked_local/`。
+
+下表列出本目录中的直接子项；子目录中的文件详见对应说明。
+
+| 名称与相对位置 | 用途 |
+| --- | --- |
+| [comparison.csv](comparison.csv) | 不同实现的性能或电路结果比较表 |
+| [fits.csv](fits.csv) | 计时随工作量变化的线性拟合结果 |
+| [optimized_rvv_comparison.pdf](optimized_rvv_comparison.pdf) | 本目录结果对应的图表或说明，名称标明图表主题 |
+| [optimized_rvv_comparison.png](optimized_rvv_comparison.png) | 本目录结果对应的图表或说明，名称标明图表主题 |
+| [optimized_rvv_comparison.svg](optimized_rvv_comparison.svg) | 本目录结果对应的图表或说明，名称标明图表主题 |
+| [optimized_speedup.csv](optimized_speedup.csv) | 优化 RVV 与 vdot 的周期比统计 |
+| [README.md](README.md) | 本目录文件位置与用途说明 |
+| [report.md](report.md) | 本目录性能数据的计算说明 |
+| [speedup.csv](speedup.csv) | 点积实现之间的周期比统计 |

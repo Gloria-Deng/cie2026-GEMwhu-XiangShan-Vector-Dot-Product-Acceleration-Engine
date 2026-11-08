@@ -1,32 +1,15 @@
 diff --git a/src/main/scala/vdot/VDotUnit.scala b/src/main/scala/vdot/VDotUnit.scala
-new file mode 100644
-index 0000000..31d2768
+new file mode 100755
+index 0000000..194d4a1
 --- /dev/null
 +++ b/src/main/scala/vdot/VDotUnit.scala
-@@ -0,0 +1,151 @@
+@@ -0,0 +1,112 @@
 +// See LICENSE for license details.
++// Signed eight-byte arithmetic; design document 2.1, width and pipeline.
 +package vdot
 +
 +import chisel3._
 +import chisel3.util._
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
 +
 +case class VDotParams(
 +    vlen:   Int = 128,
@@ -38,19 +21,13 @@ index 0000000..31d2768
 +    tree:   Int = 0
 +)
 +
++// The positive endpoint is not symmetric: +131072 cannot fit signed 18 bits.
 +object VDotAccWidth {
-+
-+
-+
-+
-+
-+
 +
 +  def range(nlanes: Int): (Int, Int) = {
 +    val per = for {a <- Seq(-128, 127); b <- Seq(-128, 127)} yield a * b
 +    (per.min * nlanes, per.max * nlanes)
 +  }
-+
 +
 +  def required(nlanes: Int): Int = {
 +    val (lo, hi) = range(nlanes)
@@ -75,36 +52,25 @@ index 0000000..31d2768
 +  private val vs1L = lanesOf(io.vs1)
 +  private val vs2L = lanesOf(io.vs2)
 +
-+
-+
-+
 +  private val vs1g = VecInit(Seq.tabulate(p.lanes)(i =>
 +    if (i < p.nlanes) vs1L(i) else 0.U(8.W)))
 +  private val vs2g = VecInit(Seq.tabulate(p.lanes)(i =>
 +    if (i < p.nlanes) vs2L(i) else 0.U(8.W)))
-+
-+
-+
 +
 +  private val prodComb = VecInit(Seq.tabulate(p.lanes) { i =>
 +    val prod = vs1g(i).asSInt * vs2g(i).asSInt
 +    prod.pad(p.accw).asUInt
 +  })
 +
++  // Stage one holds sign-extended products only when a new input is present.
 +  private val prod = RegInit(VecInit(Seq.fill(p.lanes)(0.U(p.accw.W))))
 +  private val fireS1 = RegInit(false.B)
 +  when(io.fire) { prod := prodComb }
 +  fireS1 := io.fire
 +
-+
-+
-+
-+
-+
 +  private def wrap(u: UInt): UInt = u(p.accw - 1, 0)
 +
 +  private def cpa(a: UInt, b: UInt): UInt = wrap(a + b)
-+
 +
 +  private def csa(a: UInt, b: UInt, c: UInt): (UInt, UInt) = {
 +    val sum = a ^ b ^ c
@@ -112,13 +78,9 @@ index 0000000..31d2768
 +    (sum, wrap(Cat(maj(p.accw - 2, 0), 0.U(1.W))))
 +  }
 +
-+
-+
 +  private def balanced(ops: Seq[UInt]): UInt =
 +    if (ops.size == 1) ops.head
 +    else balanced(ops.grouped(2).map(g => if (g.size == 1) g.head else cpa(g(0), g(1))).toSeq)
-+
-+
 +
 +  private def wallace(ops: Seq[UInt]): Seq[UInt] = {
 +    if (ops.size <= 2) ops
@@ -138,13 +100,11 @@ index 0000000..31d2768
 +  private val redCsa = { val r = wallace(prod.toSeq); wrap(r(0) + r(1)) }
 +  private val redComb = if (p.tree == 0) redCpa else redCsa
 +
++  // Stage two reduces the registered products; valid follows the same two stages.
 +  private val red = RegInit(0.U(p.accw.W))
 +  private val validS1 = RegInit(false.B)
 +  red := redComb
 +  validS1 := fireS1
-+
-+
-+
 +
 +  private val outField: UInt =
 +    if (p.outw > p.accw)
@@ -152,6 +112,7 @@ index 0000000..31d2768
 +    else
 +      red(p.outw - 1, 0)
 +
++  // Sign-extend only the low result word; every other destination bit is zero.
 +  io.vd := Cat(0.U((p.vlen - p.outw).W), outField).asUInt
 +  io.valid := Mux(reset.asBool, false.B, validS1)
 +}
@@ -324,11 +285,11 @@ index 5172900..192ce96 100644
      vfalu -> "vfalu",
      vfma -> "vfma",
 diff --git a/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala b/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala
-new file mode 100644
-index 0000000..77d8a69
+new file mode 100755
+index 0000000..db75c27
 --- /dev/null
 +++ b/src/main/scala/xiangshan/backend/fu/wrapper/VDotU.scala
-@@ -0,0 +1,166 @@
+@@ -0,0 +1,80 @@
 +/****************************************************************************************
 + * Copyright (c) 2020-2021 Institute of Computing Technology, Chinese Academy of Sciences
 + * Copyright (c) 2020-2021 Peng Cheng Laboratory
@@ -346,28 +307,7 @@ index 0000000..77d8a69
 + ****************************************************************************************
 + */
 +
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
++// Fixed eight-byte dot product; design document 2.1, datapath and integration.
 +package xiangshan.backend.fu.wrapper
 +
 +import org.chipsalliance.cde.config.Parameters
@@ -380,114 +320,49 @@ index 0000000..77d8a69
 +import xiangshan.backend.fu.vector.VecPipedFuncUnit
 +import vdot.{VDotParams, VDotUnit}
 +
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
 +object VdotType {
 +
++  // FuOpType: vector arithmetic class with the private low-three-bit opcode 111.
 +  def vdot_vv      = "b00_110_0_111".U
 +  def getOpcode(fuOpType: UInt): UInt = fuOpType(2, 0)
 +  def vdotOpcode: UInt = "b111".U(3.W)
 +  def isVdot(fuOpType: UInt): Bool = getOpcode(fuOpType) === vdotOpcode
 +}
 +
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
 +class VDotU(cfg: FuConfig)(implicit p: Parameters) extends VecPipedFuncUnit(cfg) {
 +  XSError(io.in.valid && !VdotType.isVdot(fuOpType), "VDotU OpType not supported")
 +
-+
 +  private val dataWidth = cfg.destDataBits
 +
-+
-+
 +  require(dataWidth == VLEN, s"VDotU: destDataBits($dataWidth) must equal VLEN($VLEN)")
-+
 +
 +  private val elementBits = 8
 +  private val dotLanes    = 8
 +  require(dotLanes * elementBits == 64, s"vdot.vv consumes the low 64 bits, got ${dotLanes * elementBits}")
-+
-+
-+
-+
-+
 +
 +  private val vdotParams = VDotParams(
 +    vlen   = dataWidth,
 +    sew    = elementBits,
 +    nlanes = dotLanes,
 +    lanes  = dataWidth / elementBits,
++    // Eight (-128 * -128) products reach +131072, requiring signed width 19.
 +    accw   = 19,
 +    outw   = 32,
 +    tree   = 0
 +  )
 +
-+
 +  private val dot = Module(new VDotUnit(vdotParams).suggestName("VDotDatapath"))
 +
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
-+
++  // VecPipedFuncUnit aligns output controls through HasPipelineReg.
++  // Match its io.in.valid enable; the datapath captures products on the same edge.
 +  dot.io.fire := io.in.valid
 +  dot.io.vs1  := vs1
 +  dot.io.vs2  := vs2
 +
-+
-+
-+
-+
 +  io.out.bits.res.data := dot.io.vd
 +
-+
-+
-+
++  // Use output-stage controls so exceptions stay aligned with delayed results.
++  // DecodeUnit disables old-vd dependency: all 128 destination bits are overwritten.
 +  private val sewIllegal = outVecCtrl.vsew =/= VSew.e8
 +  private val lmulIllegal = outVecCtrl.vlmul =/= 0.U
 +  private val maskIllegal = !outVm
@@ -496,11 +371,11 @@ index 0000000..77d8a69
 +    outVecCtrl.vill || sewIllegal || lmulIllegal || maskIllegal || restartIllegal
 +}
 diff --git a/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala b/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
-new file mode 100644
-index 0000000..cf2a7ed
+new file mode 100755
+index 0000000..8b3f0c2
 --- /dev/null
 +++ b/src/main/scala/xiangshan/backend/fu/wrapper/VdotCfg.scala
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,19 @@
 +/****************************************************************************************
 + * Copyright (c) 2020-2021 Institute of Computing Technology, Chinese Academy of Sciences
 + * Copyright (c) 2020-2021 Peng Cheng Laboratory
@@ -517,3 +392,6 @@ index 0000000..cf2a7ed
 + * See the Mulan PSL v2 for more details.
 + ****************************************************************************************
 + */
++
++// License companion only. FuConfig.VdotCfg is inserted by install.sh.
++// Latency and source/writeback settings live in that inserted FuConfig block.
